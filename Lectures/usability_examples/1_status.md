@@ -11,7 +11,7 @@ The system should always keep users informed about what is going on, through app
 ### Mircea 
 Miele Dishwasher at ITU. 
 
-![](mircea-dishwasher-status.jpg)
+![](images/mircea-dishwasher-status.jpg)
 
 It is not clear when it is running or not, even if there is a digital display! In fact, when first time users are looking at the display it shows a time, and a temperature, it makes it seem like the dishwasher is actually running. But it is not - it simply shows the details of the currently selected programme.
 
