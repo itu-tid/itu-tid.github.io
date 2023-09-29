@@ -4,7 +4,7 @@ Error messages should be expressed in plain language (no codes), precisely indic
 
 In the example below, Tim Wray shows two possible error messages that could be displayed in a creation dialog for the situation when the user attempts to create an account that already exists.
 
-![](images/email-already-exists.png)
+![](images/email-exists-error.png)
 
 ## Counterexamples
 
