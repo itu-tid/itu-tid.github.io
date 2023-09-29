@@ -30,7 +30,7 @@ Published in 1994 in the book “Usability Inspection Methods” by Jakob Nielse
 7. [Flexibility and efficiency of use](usability_examples/7_flexibility_and_efficiency.md)
 8. [Aesthetic and minimalist design](./usability_examples/8_aesthetics.md)
 9. [Help users recognize, diagnose, and recover from errors](usability_examples/8_help_users_recover_from_errors.md)
-10. [Help and documentation](usability_examples/10_documentation.md)
+10. [Help and documentation](usability_examples/a_documentation.md)
 
 
 Heuristic evaluation is based _solely_ on an agreed set of recognized heuristics
