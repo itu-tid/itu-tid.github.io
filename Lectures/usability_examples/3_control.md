@@ -2,5 +2,8 @@
 
 Users often choose system functions by mistake and will need a clearly marked “emergency exit” to leave the unwanted state without having to go through an extended dialogue. Support undo and redo.
 
-## Examples
+## Mircea
 
+The DHL app does not allow me to go back after clicking on Send a Challenge by mistake. I have to kill the app and start again ^^!
+
+![300](images/lack-of-control-in-dhl-app.png)
