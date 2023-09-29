@@ -21,16 +21,16 @@ One of the most popular set of heuristics for interactive systems is the one of 
 
 Published in 1994 in the book “Usability Inspection Methods” by Jakob Nielsen and Robert L. Mack. They were a refinement of an earlier set of heuristics by Nielsen and Molich --  a dane. 
 
-1. [Visibility of system status](1_status.md)
-2. [Match between system and the real world](2_match.md)
-3. [User control and freedom](3_control.md)
-4. [Consistency and standards](4_consistency.md)
-5. [Error prevention](usability_examples/5_error_prevention.md)
+1. [Visibility of system status](usability_examples/1_status.md)
+2. [Match between system and the real world](usability_examples/2_match.md)
+3. [User control and freedom](usability_examples/3_control.md)
+4. [Consistency and standards](usability_examples/4_consistency.md)
+5. [Error prevention](usability_examples/9_error_prevention.md)
 6. [Recognition rather than recall](usability_examples/6_recognition_rather_than_recall.md)
 7. [Flexibility and efficiency of use](usability_examples/7_flexibility_and_efficiency.md)
 8. [Aesthetic and minimalist design](./usability_examples/8_aesthetics.md)
-9. [Help users recognize, diagnose, and recover from errors](usability_examples/9_help_users_recover_from_errors.md)
-10. [Help and documentation](10_documentation.md)
+9. [Help users recognize, diagnose, and recover from errors](usability_examples/8_help_users_recover_from_errors.md)
+10. [Help and documentation](usability_examples/10_documentation.md)
 
 
 Heuristic evaluation is based _solely_ on an agreed set of recognized heuristics
