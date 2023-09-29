@@ -6,4 +6,4 @@ Users often choose system functions by mistake and will need a clearly marked â€
 
 The DHL app does not allow me to go back after clicking on Send a Challenge by mistake. I have to kill the app and start again ^^!
 
-![300](images/lack-of-control-in-dhl-app.png)
+![](images/dhl-lack-of-control.png)
