@@ -6,12 +6,14 @@ The system should always keep users informed about what is going on, through app
 - rule of thumb: if longer than 0.5s, show progress feedback
 
 
-## Examples
+## Counterexamples
 
-### Mircea 
-Miele Dishwasher at ITU. 
+### Impossible to Guess Device Status
 
-![](images/mircea-dishwasher-status.jpg)
+Miele Dishwasher at ITU requires an analog sticker that employees are supposed to update to show the state! 
+
+![](images/dishwasher-status.png)
+
 
 It is not clear when it is running or not, even if there is a digital display! In fact, when first time users are looking at the display it shows a time, and a temperature, it makes it seem like the dishwasher is actually running. But it is not - it simply shows the details of the currently selected programme.
 

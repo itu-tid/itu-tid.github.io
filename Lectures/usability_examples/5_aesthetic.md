@@ -5,7 +5,7 @@ Dialogues should not contain information which is irrelevant or rarely needed. E
 The image below, designed by Tim Wray shows the difference between aesthetically and in-aesthetically designing the presentation of the ten Nielsen principles.
 ![](images/principles-as-ui-dialog.png)
 
-# Counter-Examples
+# Counterexamples
 
 ## The Least Aesthetic Website (Johan)
 

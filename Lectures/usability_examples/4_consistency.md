@@ -10,7 +10,8 @@ E.g. All the world used to know what *Save* and *Save As ..* meant. Then Apple i
 
 ![](images/apple-save-as.png)
 
-### Terminology Consistency
+# Counterexamples
+## Inconsistent Terminology
 
 Mircea: The three options on the screen of some of the printers at ITU (as of 2023, and since 2020 at least) have frustrating labels. Follow-**You**, Scan-to-**Me** ... Who is You? Who is Me? Are they the same person? Probably. Then why not unify the options. The fact that Copy does not have a pronoun seems also quite inconsistent. 
 
