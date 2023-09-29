@@ -17,7 +17,8 @@ Mircea: The three options on the screen of some of the printers at ITU (as of 20
 
 ![](images/inconsistent-printer-options.png)
 
-### Two Different Buttons -- One Single Action (vibeke)
+### Two Buttons - Same Action
 
-The add date read pop-up box on the goodreads.com website has two options of stopping the action happening, there is no indication of the difference between close and cancel. This creates a illusion that there is a difference between the two options, when in fact they result in the same action. 
-![](images/goodreads-add-date.png)
+Vibeke: The add date read pop-up box on the goodreads.com website has two options of stopping the action happening, there is no indication of the difference between close and cancel. This creates a illusion that there is a difference between the two options, when in fact they result in the same action. 
+
+![](images/goodreads-buttons.png)
