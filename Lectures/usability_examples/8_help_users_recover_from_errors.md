@@ -12,5 +12,5 @@ In the example below, Tim Wray shows two possible error messages that could be d
 
 Mircea: In the summer of 2023, I booked a scooter in Arad, my hometown in Romania using the Bolt app. After I agreed to make a payment of 1RON (approx. 0.25EUR) to prove that my card is valid, and after I saw the notification from the bank that the payment was done, the app showed probably the most useless error message in the history of error messages. 
 
-![360](images/uninformative_bolt.png)
+![](images/uninformative-and-tautological.png)
 
