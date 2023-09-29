@@ -6,7 +6,6 @@ Normally, application menus are designed with [6_recognition_rather_than_recall]
 
 ![](images/menu-shortcuts.png)
 
-# Examples
 
 
 
