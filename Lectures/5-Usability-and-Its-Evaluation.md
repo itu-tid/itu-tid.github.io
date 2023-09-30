@@ -100,11 +100,11 @@ One possible way of classifying the tasks severity is proposed by Lauesen who ar
 
 ## Bibliography
 
-*User Interface Design*, Chapter 13: *More on usability testing*. Søren Lauesen, Addison Wesley.
-*Just Enough Research*, Chapter 7: *Evaluative Research*, Erika Hall, 2013. 
-*Nielsen Heuristics with Examples*, Rolf Molich. [Web Page at Rolf Molich's Websitej](https://www.dialogdesign.dk/nielsens-heuristics-1994/) 
-*Turn User Goals into Task Scenarios for Usability Testing*, Marieke McCloskey [Web Page at nngroup](https://www.nngroup.com/articles/task-scenarios-usability-testing/)
-[The Design of Everyday Things](https://web.media.mit.edu/~ascii/papers/norman_chapter1_2013.pdf) , Don Norman.
+- *User Interface Design*, Chapter 13: *More on usability testing*. Søren Lauesen, Addison Wesley.
+- *Just Enough Research*, Chapter 7: *Evaluative Research*, Erika Hall, 2013. 
+- *Nielsen Heuristics with Examples*, Rolf Molich. [Web Page at Rolf Molich's Websitej](https://www.dialogdesign.dk/nielsens-heuristics-1994/) 
+- *Turn User Goals into Task Scenarios for Usability Testing*, Marieke McCloskey [Web Page at nngroup](https://www.nngroup.com/articles/task-scenarios-usability-testing/)
+- [The Design of Everyday Things](https://web.media.mit.edu/~ascii/papers/norman_chapter1_2013.pdf) , Don Norman.
 
 
 # Project Work 👬
