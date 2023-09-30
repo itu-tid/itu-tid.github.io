@@ -94,6 +94,10 @@ One possible way of classifying the tasks severity is proposed by Lauesen who ar
 - Medium problem: succeeds, but user is slow
 - Minor: success with a bit of hesitation
 
+Another, simpler classification is by Erika Hall (2013): she argues that three classes that are defined based on a combination of frequency and impact suffices: 
+- High-impact problems that prevent the user from completing a task. If you don’t resolve these you have a high risk to the success of your product.
+- Moderate problems with low frequency or low problems with moderate frequency
+- Low-impact problems affecting a low number of users. Obviously these don't get prioritized. 
 
 
 
