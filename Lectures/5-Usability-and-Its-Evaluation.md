@@ -51,10 +51,11 @@ Limitation of heuristic evaluation: usability is more complex than what can be c
 The golden standard of usability evaluation is usability testing. This is when you evaluate with users a prototype or an actual system.
 
 Rules of thumb: 
-- The more detailed and realistic, the more you can trust your results; the more effort it takes to make changes if you've made a wrong decision
-- The less detailed, the less you invest in creating it, the earlier you can detect problems
+- The more detailed and realistic your prototype, the more you can trust your results; the more effort it takes to make changes if you've made a wrong decision
+- Even with less detailed prototypes,  you can detect many problems
+- Don't use expensive testing to find out things you can detect with cheap tests (Hall, 2013)
 
-Sometimes you don't start from scratch: evaluating an existing prototype for usability is even easier - you don't have to create the prototype. You go straight to the next steps.
+Sometimes you don't start from scratch: evaluating an existing prototype for usability is even easier - you don't have to create the prototype. You go straight to the next steps. Sometimes, you might even learn useful stuff from usability testing the competitor's products (Hall, 2013).
 
 
 ### The Participants
@@ -99,13 +100,16 @@ One possible way of classifying the tasks severity is proposed by Lauesen who ar
 
 ## Bibliography
 
-*Nielsen Heuristics with Examples*, Rolf Molich. [Web Page at Rolf Molich's Websitej](https://www.dialogdesign.dk/nielsens-heuristics-1994/)
-*User Interface Design*, Søren Lauesen, Addison Wesley.
+*User Interface Design*, Chapter 13: *More on usability testing*. Søren Lauesen, Addison Wesley.
+*Just Enough Research*, Chapter 7: *Evaluative Research*, Erika Hall, 2013. 
+*Nielsen Heuristics with Examples*, Rolf Molich. [Web Page at Rolf Molich's Websitej](https://www.dialogdesign.dk/nielsens-heuristics-1994/) 
 *Turn User Goals into Task Scenarios for Usability Testing*, Marieke McCloskey [Web Page at nngroup](https://www.nngroup.com/articles/task-scenarios-usability-testing/)
+[The Design of Everyday Things](https://web.media.mit.edu/~ascii/papers/norman_chapter1_2013.pdf) , Don Norman.
+
 
 # Project Work 👬
 - Evaluate the usability of your Lo-Fi prototype 
 - Record brief notes of the usability test outcome 
 - Write a usability report in which you prioritize the discovered issues
-- Improve design if needed
+- Improve design
 
