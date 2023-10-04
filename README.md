@@ -17,5 +17,6 @@
 - Lecture: [5-Usability-and-Its-Evaluation](Lectures/5-Usability-and-Its-Evaluation.md)
 
 ## Week 6 - Visual Design & Design Systems
+- Tech Top-Up: [4-Layouts-and-Responsiveness](Tech-TopUps/4-Layouts-and-Responsiveness.md)
 
 ## Week 7 - Introduction to React
