@@ -50,9 +50,9 @@ Note:
 Example of [Adding Styles](https://react.dev/learn#adding-styles)
 
 
-## Displaying Data
+## Interpolating JS in JSX
 
-Curly brackets to escape JS inside JSX can be used in two ways: 
+Curly brackets to escape JS inside JSX can be used in three ways: 
 
 1. As **text inside a component**
 
