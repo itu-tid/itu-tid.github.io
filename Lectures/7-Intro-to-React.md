@@ -156,8 +156,8 @@ Pitfall: Make sure to not call the function, but rather, pass it as a parameter!
 A component might need to store local state -- that might change (unlike props!).
 
 In React, state is: 
-- defined with `useState` that is a function defined in the `react` package
 - hidden inside each component 
+- defined with `useState` that is a function defined in the `react` package
 
 
 See the [button with counter example](https://react.dev/learn#updating-the-screen) and note:
