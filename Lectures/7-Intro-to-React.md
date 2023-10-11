@@ -146,9 +146,13 @@ Associating event handlers with events is done with the attribute in curly brack
 
 Event handlers
 - are defined inside components
-- have names starting with `handle`... 
+- have usually names starting with `handle`... 
 
-Pitfall: Make sure to not call the function, but rather, pass it as a parameter! 
+WARNING: Make sure to not call the function, but rather, pass it as a parameter! 
+
+Events propagate (*bubble up*) the DOM tree. If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
+
+Event handlers always receive an event as argument, detailing info about what just happened. Sometimes you can ignore it, sometimes you can learn from it, and sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior). 
 
 
 ## Component State
@@ -191,7 +195,7 @@ Read up from the [react.dev](react.dev) documentation site, the following:
 	- [Rendering Lists](https://react.dev/learn/rendering-lists)
 
 - Adding Interactivity
-	- [Responding to Events](https://react.dev/learn/responding-to-events)
+	- [Responding to Events](https://react.dev/learn/responding-to-events) 
 	- [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
 
 
