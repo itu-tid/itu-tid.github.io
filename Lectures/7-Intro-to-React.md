@@ -181,16 +181,22 @@ In React, the dependents are not formulas, but UIs. When a state variable or a p
 
 
 # References
-- [Describing the UI](https://react.dev/learn/describing-the-ui)
+
+Read up from the [react.dev](react.dev) documentation site, the following: 
+
+- Describing the UI
 	- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components)
 	- [Writing Markup with JSX](https://react.dev/learn/writing-markup-with-jsx)
 	- [JS in JSX](https://react.dev/learn/javascript-in-jsx-with-curly-braces)
 	- [Passing Props](https://react.dev/learn/passing-props-to-a-component)
 	- [Conditional Rendering](https://react.dev/learn/conditional-rendering)
 	- [Rendering Lists](https://react.dev/learn/rendering-lists)
+
 - Adding Interactivity
 	- [Responding to Events](https://react.dev/learn/responding-to-events)
-	- 
+	- [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
+
+
 
 
 
