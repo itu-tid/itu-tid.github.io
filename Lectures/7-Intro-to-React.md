@@ -98,13 +98,12 @@ export default function TodoList() {
 
 ## Conditional Rendering 
 
-Often components need to display differently based on some state or prop. E.g. checking done items in a list as in the [example](https://react.dev/learn/conditional-rendering#conditionally-returning-jsx) from *Describing the UI > Conditionally Rendering JSX*. 
+Often components need to display differently based on some state or prop. 
 
 Three possible ways to render conditionally: 
-
-- If statements
-- The `conditional ? operator` 
-- When only one option is possible `logical && syntax` 
+1. If statements
+1. The `conditional ? operator` 
+1. When only one option is possible `logical && syntax` 
 
 Note: 
 - you can [conditionally return null](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null) if you don't want to display a given component in some situation. 
