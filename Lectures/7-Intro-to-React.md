@@ -181,6 +181,49 @@ A bit like in Excel -- one of the classical reactive programming environments --
 In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
 
 
+## Connecting Inputs To State Via Event Handlers
+
+The strange story of how you connect a state variable to the content of an input control. 
+
+```
+import { useState } from 'react';
+
+export default function InputExample () {
+  const [answer, setAnswer] = useState('');
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    // do something with the answer 
+    // ... 
+  }
+
+  function handleTextareaChange(e) {
+    setAnswer(e.target.value);
+  }
+
+  return (
+    <>
+  
+	  <form onSubmit={handleSubmit}>
+
+		<textarea
+          value={answer}
+          onChange={handleTextareaChange}
+          disabled={status === 'submitting'}
+        />
+        <br />
+        
+        <button disabled={answer.length === 0}>
+          Submit
+        </button>
+      
+      </form>
+    </>
+  );
+}
+```
+
+
 
 # References
 
