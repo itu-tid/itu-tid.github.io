@@ -39,18 +39,17 @@ JSX converts [most HTML and CSS attributes to camelCase](https://react.dev/learn
 
 Notes: 
 - Similar approaches for other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask).
-- JSX is transpiled to Javascript ... it represents *syntactic sugar* in a way
+- JSX is transpiled to Javascript ... it represents *syntactic sugar* 
 
 
 ## Styles
 
 CSS Styles can be defined 
 - in a separate file, or 
-- as local variables
+- inline or as local variables (see example in Interpolating JS)
 
-Use `className` instead of class (e.g. `<img className="avatar" />`) because `class` is reserved in JS. 
+Warning: Use `className` instead of class (e.g. `<img className="avatar" />`) because `class` is reserved keyword in JS. 
 
-Example of [Adding Styles](https://react.dev/learn#adding-styles)
 
 
 ## Interpolating JS in JSX
@@ -81,7 +80,7 @@ return (
 
 ```
 
-3. Special case of attribute: **double curlys for objects**
+3. Special case of attributes: **[double curlies](https://react.dev/learn/javascript-in-jsx-with-curly-braces#using-double-curlies-css-and-other-objects-in-jsx) for objects**
 ```
 export default function TodoList() {
   return (
@@ -98,8 +97,6 @@ export default function TodoList() {
 
 ```
 
-Based on [Displaying Data](https://react.dev/learn#displaying-data)  and [Using double curlies](https://react.dev/learn/javascript-in-jsx-with-curly-braces#using-double-curlies-css-and-other-objects-in-jsx)
-
 
 ## Conditional Rendering 
 
@@ -111,9 +108,10 @@ Three possible ways to render conditionally:
 - The `conditional ? operator` 
 - When only one option is possible `logical && syntax` 
 
-Note: you can [conditionally return null](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null) if you don't want to display a given component in some situation. 
+Note: 
+- you can [conditionally return null](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null) if you don't want to display a given component in some situation. 
 
-Read more at: Describing the UI > [Conditional Rendering](https://react.dev/learn/conditional-rendering)
+Read and see examples at: *Describing the UI > [Conditional Rendering](https://react.dev/learn/conditional-rendering)*
 
 ## Rendering Lists
 
