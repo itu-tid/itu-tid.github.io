@@ -61,10 +61,8 @@ Curly brackets to escape JS inside JSX can be used in three ways
 ```
 return (
   <>
-	  <h1>
-	    {"Hello" + user.firstName + user.LastName}
-	  </h1>
-	  <p>{todaysDate}</p>
+	  <h1>{"Hello" + user.firstName + user.LastName}</h1>
+	  <p>Today is: {todaysDate}</p>
   </>
 );
 ```
@@ -112,6 +110,7 @@ Note:
 - you can [conditionally return null](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null) if you don't want to display a given component in some situation. 
 
 Read and see examples at: *Describing the UI > [Conditional Rendering](https://react.dev/learn/conditional-rendering)*
+
 
 ## Rendering Lists
 
