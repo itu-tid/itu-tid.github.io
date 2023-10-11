@@ -135,13 +135,25 @@ How do component with props work?
 - In the moment when the *props* are [passed to the component](https://react.dev/learn/passing-props-to-a-component#step-1-pass-props-to-the-child-component), they *look* like HTML attributes -- have the same syntax
 - In the component definition the props are accessed as a single function parameter named `props`. The props can be [destructured](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) using destructuring syntax.
 
-Fundamental React: when a prop is changed, the component is also redrawn (reactive programming). See the [clock example](https://react.dev/learn/passing-props-to-a-component#how-props-change-over-time). 
 
+## Responding to Events
+
+Interactive apps must handle events: click, type, mouse move, screen touch, etc. 
+
+Built-in components (e.g. `<button>`) support built-in events (e.g. `onClick`, etc.).
+
+Associating event handlers with events is done with the attribute in curly brackets syntax, as above. (See [onClick example](https://react.dev/learn/responding-to-events#adding-event-handlers).)
+
+Event handlers
+- are defined inside components
+- have names starting with `handle`... 
+
+Pitfall: Make sure to not call the function, but rather, pass it as a parameter! 
 
 
 ## Component State
 
-A component might need to store local state. 
+A component might need to store local state -- that might change (unlike props!).
 
 In React, state is: 
 - defined with `useState` that is a function defined in the `react` package
@@ -158,9 +170,9 @@ See the [button with counter example](https://react.dev/learn#updating-the-scree
 
 ## Reactive Programming 
 
-When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the component is triggered. 
+When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
 
-This is reactive programming. And reactive programming is why React is called so. 
+This is *reactive programming*. And reactive programming is why React is called so. 
 
 A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
 
@@ -176,6 +188,8 @@ In React, the dependents are not formulas, but UIs. When a state variable or a p
 	- [Passing Props](https://react.dev/learn/passing-props-to-a-component)
 	- [Conditional Rendering](https://react.dev/learn/conditional-rendering)
 	- [Rendering Lists](https://react.dev/learn/rendering-lists)
+- Adding Interactivity
+	- [Responding to Events](https://react.dev/learn/responding-to-events)
 	- 
 
 

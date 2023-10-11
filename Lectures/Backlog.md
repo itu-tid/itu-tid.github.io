@@ -33,3 +33,4 @@ One possible process:
 - 
 
 
+Fundamental React: when a prop is changed, the component is also redrawn (reactive programming). See the [clock example](https://react.dev/learn/passing-props-to-a-component#how-props-change-over-time). 
