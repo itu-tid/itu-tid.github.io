@@ -33,11 +33,12 @@ JSX is
 	- A component can [only ever return a single JSX tag](https://react.dev/learn/writing-markup-with-jsx#1-return-a-single-root-element) 
 	- Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) 
 
-Note: JSX converts [most HTML and CSS attributes to camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things) 
+JSX converts [most HTML and CSS attributes to camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things) 
 - `class` => `className`
+- `onclick` => 'onClick'
 - `background-color` => `backgroundColor`
 
-Note: 
+Notes: 
 - Similar approaches for other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask).
 - JSX is transpiled to Javascript ... it represents *syntactic sugar* in a way
 
