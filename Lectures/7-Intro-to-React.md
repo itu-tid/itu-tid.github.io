@@ -157,15 +157,13 @@ A component might need to store local state -- that might change (unlike props!)
 
 In React, state is: 
 - hidden inside each component 
-- defined with `useState` that is a function defined in the `react` package
+- defined with `useState` that is 
+	- a function defined in the `react` package, which
+		- takes an **initial** value
+		- returns **current value** and a **setter function**
+		- is called a *hook* -- a special class of function in React
 
-
-See the [button with counter example](https://react.dev/learn#updating-the-screen) and note:
-- `useState` 
-	- takes an initial value
-	- returns current value and setter
-- the `onClick` is the camelcase version of the event handler name from HTML (`onclick`)
-- how an event handler is linked with a JSX element
+See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
 
 
 ## Reactive Programming 
