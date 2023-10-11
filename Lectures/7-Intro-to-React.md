@@ -6,22 +6,22 @@ React is a JavaScript library for building interactive user interfaces.
 
 ## Components
 
-React is a component based UI library. 
+React is a *component-based* UI library. 
 
-Every UI element in React is a component or composed of nested components
+Every UI element in React is either a component or is composed of nested components.
 
 Components are 
-- Reusable UI elements
-- Functions that return markup
-- Nested all the way down
-	- From small, e.g. buttons, to large, e.g. full web page or mobile screen
+- reusable UI elements
+- functions that return markup
+- nested all the way down
+	- From small, e.g. buttons, to large, e.g. full web page or mobile screens
 
-Naming convention: components are named with capital letters 
+Conventions: 
+- (naming) components are named with capital letters 
+- (modularization): unless they are very small and related, components should be defined in their own files. 
+- (modularization) To import a component one can use either *default* or *named* imports.
 
-Modularization convention: unless they are very small and related, components should be defined in their own file. To import a component one can use [either default or named imports](https://react.dev/learn/importing-and-exporting-components).
-
-
-[Example](https://react.dev/learn/your-first-component#defining-a-component) of a React component from Describing the UI > [Your First Component](https://react.dev/learn/your-first-component)
+[Example](https://react.dev/learn/your-first-component#defining-a-component) of a React component 
 
 
 ## JSX
@@ -29,17 +29,17 @@ Modularization convention: unless they are very small and related, components sh
 JSX is 
 - A markup syntax used in React to ease definition of UIs
 - A combination of JS and HTML
-- Stricter than HTML
-	- A component can [only ever return a single JSX tag](https://react.dev/learn/writing-markup-with-jsx#1-return-a-single-root-element) (from Describing the UI > Writing Markup with JSX)
-	- Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) (from Describing the UI > Writing Markup with JSX)
+- A stricter syntax than HTML
+	- A component can [only ever return a single JSX tag](https://react.dev/learn/writing-markup-with-jsx#1-return-a-single-root-element) 
+	- Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) 
 
-Note: JSX converts [most HTML and CSS attributes to camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things) (from Describing the UI > Writing Markup with JSX)
-	- `class` => `className`
-	- `background-color` => `backgroundColor`
+Note: JSX converts [most HTML and CSS attributes to camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things) 
+- `class` => `className`
+- `background-color` => `backgroundColor`
 
-Note: Similar languages exist for many other front-end frameworks (e.g., [comparison between JSX and Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and also server-side rendering frameworks (e.g. Jinja for Flask).
-
-Note: JSX is transpiled to Javascript ... syntactic sugar as they say. 
+Note: 
+- Similar languages exist for many other front-end frameworks (e.g., [comparison between JSX and Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and also server-side rendering frameworks (e.g. Jinja for Flask).
+- JSX is transpiled to Javascript ... it represents *syntactic sugar* in a way
 
 
 ## Styles
@@ -47,7 +47,7 @@ Note: JSX is transpiled to Javascript ... syntactic sugar as they say.
 - `className` instead of class (e.g. `<img className="avatar" />`)
 - The styles can be defined in a separate file or can be defined as a local variable
 
-Examples of [Adding Styles](https://react.dev/learn#adding-styles)
+Example of [Adding Styles](https://react.dev/learn#adding-styles)
 
 
 ## Displaying Data
@@ -167,7 +167,9 @@ When a state variable defined with `useState` changes with the help of the sette
 - requires input... that we didn't discuss yet
 
 
-
+# References
+- Describing the UI > Writing Markup with JSX
+- 
 
 
 ## Designing with Components
