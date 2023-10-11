@@ -34,8 +34,7 @@ JSX is
 	- Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) 
 
 JSX converts [most HTML and CSS attributes to camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things) 
-- `class` => `className`
-- `onclick` => 'onClick'
+- `onclick` => `onClick`
 - `background-color` => `backgroundColor`
 
 Notes: 
@@ -45,15 +44,18 @@ Notes:
 
 ## Styles
 
-- `className` instead of class (e.g. `<img className="avatar" />`)
-- The styles can be defined in a separate file or can be defined as a local variable
+CSS Styles can be defined 
+- in a separate file, or 
+- as local variables
+
+Use `className` instead of class (e.g. `<img className="avatar" />`) because `class` is reserved in JS. 
 
 Example of [Adding Styles](https://react.dev/learn#adding-styles)
 
 
 ## Interpolating JS in JSX
 
-Curly brackets to escape JS inside JSX can be used in three ways: 
+Curly brackets to escape JS inside JSX can be used in three ways
 
 1. As **text inside a component**
 
