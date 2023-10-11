@@ -127,16 +127,16 @@ Nice examples of rendering lists and filtering at: *Describing the UI* > [Render
 
 ## Parameterizing Components
 
-- A component is a drawing function => It should be parameterizable
-- In the moment when the props are [passed to the component](https://react.dev/learn/passing-props-to-a-component#step-1-pass-props-to-the-child-component), they *look* like HTML attributes -- have the same syntax
-- In the component definition the parameters are collected in a single function parameter named `props` but one can [destructuring notation instead](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component)
+A component is a drawing function + functions can be parameterized => Components  should be parameterizable
 
-Note: A special kind of prop is the `children` prop that, when used inside of a component definition refers to the JSX contained in the component. [Read and see example](https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children)
+Component parameters are called **props** in React. 
 
-When a prop is changed, the component is also redrawn (reactive programming). See the [clock example](https://react.dev/learn/passing-props-to-a-component#how-props-change-over-time)
+How do component with props work? 
+- In the moment when the *props* are [passed to the component](https://react.dev/learn/passing-props-to-a-component#step-1-pass-props-to-the-child-component), they *look* like HTML attributes -- have the same syntax
+- In the component definition the props are accessed as a single function parameter named `props`. The props can be [destructured](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) using destructuring syntax.
 
-See the example from: [Sharing data between components](https://react.dev/learn#sharing-data-between-components)
-- moving the state up is also calling *lifting the state*
+Fundamental React: when a prop is changed, the component is also redrawn (reactive programming). See the [clock example](https://react.dev/learn/passing-props-to-a-component#how-props-change-over-time). 
+
 
 
 ## Component State
