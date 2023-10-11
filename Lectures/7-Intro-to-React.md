@@ -1,5 +1,5 @@
 
-## React
+# React
 
 React is a JavaScript library for building interactive user interfaces.
 
@@ -147,62 +147,45 @@ In React, state is:
 - defined with `useState` that is a function defined in the `react` package
 - hidden inside each component 
 
-See the [example](https://react.dev/learn#updating-the-screen) and note:
+
+See the [button with counter example](https://react.dev/learn#updating-the-screen) and note:
 - `useState` 
 	- takes an initial value
 	- returns current value and setter
-- the component 
-	- returns the definition of it's representation 
 - the `onClick` is the camelcase version of the event handler name from HTML (`onclick`)
-- observe how we link an event handler with a JSX element
-
-When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable name!), a redrawing of the component is triggered. This is reactive programming. A bit like in Excel where when you change one cell, all the others who depend on it and only those are changed automatically. Here, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
+- how an event handler is linked with a JSX element
 
 
+## Reactive Programming 
 
-## Example Application
+When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the component is triggered. 
 
-[TODO List Application with React](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_components)
-- requires input... that we didn't discuss yet
+This is reactive programming. And reactive programming is why React is called so. 
+
+A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
+
+In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
+
 
 
 # References
-- Describing the UI > Writing Markup with JSX
-- 
-
-
-## Designing with Components
-
-One possible process: 
-- Breaking the UI in a component hierarchy
-- 
-
-
-
-- Reactive programming - as opposed to declarative programming
-	- [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state) (from react.dev)
+- [Describing the UI](https://react.dev/learn/describing-the-ui)
+	- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components)
+	- [Writing Markup with JSX](https://react.dev/learn/writing-markup-with-jsx)
+	- [JS in JSX](https://react.dev/learn/javascript-in-jsx-with-curly-braces)
+	- [Passing Props](https://react.dev/learn/passing-props-to-a-component)
+	- [Conditional Rendering](https://react.dev/learn/conditional-rendering)
+	- [Rendering Lists](https://react.dev/learn/rendering-lists)
+	- 
 
 
 
 
-- [Updating Objects in State](https://react.dev/learn/updating-objects-in-state)
-- [Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
-
-- UI Patterns
-	- Rendering a list of elements 
 
 
 
 
-# To Think About
 
-- What is the relation between JSX and React? 
-- 
-
-
-# Project work 👬
-- Start converting the HTML prototype to React
-- 
 
 
 
