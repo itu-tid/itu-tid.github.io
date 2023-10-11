@@ -185,7 +185,7 @@ In React, the dependents are not formulas, but UIs. When a state variable or a p
 
 ## Connecting Inputs To State Via Event Handlers
 
-The strange story of how you connect a state variable to the content of an input control. 
+The strange story of how you connect a state variable to the content of an input control in React: 
 
 ```
 import { useState } from 'react';
