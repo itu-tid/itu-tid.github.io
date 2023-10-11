@@ -116,7 +116,7 @@ Read and see examples at: *Describing the UI > [Conditional Rendering](https://r
 Most applications sooner or later rely on lists of things that you want to process. 
 
 In React, to render lists: 
-- You rely on `for` loops and array `map()`
+- You rely on `for` loops and  `array.map()`
 - You must use a `key` attribute for every element in a list
 	- must be unique
 	- can be the database ID, UUID, or anything else unique
