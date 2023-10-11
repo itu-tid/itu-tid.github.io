@@ -61,8 +61,8 @@ Curly brackets to escape JS inside JSX can be used in three ways
 ```
 return (
   <>
-	  <h1>{"Hello" + user.firstName + user.LastName}</h1>
-	  <p>Today is: {todaysDate}</p>
+    <h1>{"Hello" + user.firstName + user.LastName}</h1>
+    <p>Today is: {todaysDate}</p>
   </>
 );
 ```
