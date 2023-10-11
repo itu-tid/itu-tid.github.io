@@ -42,16 +42,6 @@ Notes:
 - JSX is transpiled to Javascript ... it represents *syntactic sugar* 
 
 
-## Styles
-
-CSS Styles can be defined 
-- in a separate file, or 
-- inline or as local variables (see example in Interpolating JS)
-
-Warning: Use `className` instead of class (e.g. `<img className="avatar" />`) because `class` is reserved keyword in JS. 
-
-
-
 ## Interpolating JS in JSX
 
 Curly brackets to escape JS inside JSX can be used in three ways
@@ -94,6 +84,18 @@ export default function TodoList() {
 }
 
 ```
+
+
+## Styles
+
+CSS Styles can be defined 
+- in a separate file, or 
+- inline as the example above
+- as local variables, as they use in React Native (e.g. [here](https://github.com/mircealungu/zeeguu-mobile/blob/master/screens/AllArticles.js))
+- with the help of 3rd party libraries (we'll see later)
+
+Warning: Use `className` instead of class (e.g. `<img className="avatar" />`) because `class` is reserved keyword in JS. 
+
 
 
 ## Conditional Rendering 
