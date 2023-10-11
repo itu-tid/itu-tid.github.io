@@ -38,7 +38,7 @@ Note: JSX converts [most HTML and CSS attributes to camelCase](https://react.dev
 - `background-color` => `backgroundColor`
 
 Note: 
-- Similar languages exist for many other front-end frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and also server-side rendering frameworks (e.g. Jinja for Flask).
+- Similar approaches for other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask).
 - JSX is transpiled to Javascript ... it represents *syntactic sugar* in a way
 
 
