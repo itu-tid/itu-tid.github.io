@@ -11,9 +11,9 @@ React is a *component-based* UI library.
 Every UI element in React is either a component or is composed of nested components.
 
 Components are 
-- reusable UI elements
-- functions that return markup
-- nested all the way down
+- (conceptually) reusable UI elements
+- (technically) functions that return markup
+- (practically) nested all the way down
 	- From small, e.g. buttons, to large, e.g. full web page or mobile screens
 
 Conventions: 
