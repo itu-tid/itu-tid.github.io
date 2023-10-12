@@ -1,7 +1,7 @@
 
 # React
 
-React is a JavaScript library for building interactive user interfaces.
+React is a JavaScript **library** for building interactive user interfaces.
 
 
 ## Components
@@ -24,6 +24,8 @@ Conventions:
 [Example](https://react.dev/learn/your-first-component#defining-a-component) of a React component 
 
 
+
+
 ## JSX
 
 JSX is 
@@ -39,7 +41,11 @@ JSX converts [most HTML and CSS attributes to camelCase](https://react.dev/learn
 
 Notes: 
 - Similar approaches for other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask).
-- JSX is transpiled to Javascript ... it represents *syntactic sugar* 
+- JSX is transpiled to Javascript 
+
+
+
+
 
 
 ## Interpolating JS in JSX
@@ -86,7 +92,11 @@ export default function TodoList() {
 ```
 
 
-## Styles
+
+
+
+
+## Styling
 
 CSS Styles can be defined 
 - in a separate file, or 
@@ -95,6 +105,10 @@ CSS Styles can be defined
 - with the help of 3rd party libraries (we'll see later)
 
 Warning: Use `className` instead of class (e.g. `<img className="avatar" />`) because `class` is reserved keyword in JS. 
+
+
+
+
 
 
 
@@ -113,6 +127,10 @@ Note:
 Read and see examples at: *Describing the UI > [Conditional Rendering](https://react.dev/learn/conditional-rendering)*
 
 
+
+
+
+
 ## Rendering Lists
 
 Most applications sooner or later rely on lists of things that you want to process. 
@@ -127,6 +145,10 @@ In React, to render lists:
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
 
+
+
+
+
 ## Parameterizing Components
 
 A component is a drawing function + functions can be parameterized => Components  should be parameterizable
@@ -136,6 +158,10 @@ Component parameters are called **props** in React.
 How do component with props work? 
 - In the moment when the *props* are [passed to the component](https://react.dev/learn/passing-props-to-a-component#step-1-pass-props-to-the-child-component), they *look* like HTML attributes -- have the same syntax
 - In the component definition the props are accessed as a single function parameter named `props`. The props can be [destructured](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) using destructuring syntax.
+
+
+
+
 
 
 ## Responding to Events
@@ -152,9 +178,17 @@ Event handlers
 
 WARNING: Make sure to not call the function, but rather, pass it as a parameter! 
 
-Events propagate (*bubble up*) the DOM tree. If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
 
-Event handlers always receive an event as argument, detailing info about what just happened. Sometimes you can ignore it, sometimes you can learn from it, and sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior). 
+**Event handlers always receive an event as argument**, detailing info about what just happened. 
+- Sometimes you can ignore it, 
+- Sometimes you can inspect it to learn about the event (e.g. mouse position, element that was clicked, etc. )
+- Sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior). 
+
+
+Not Important: Events propagate (*bubble up*) the DOM tree. If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
+
+
+
 
 
 ## Component State
@@ -172,6 +206,10 @@ In React, state is:
 See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
 
 
+
+
+
+
 ## Reactive Programming 
 
 When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
@@ -181,6 +219,10 @@ This is *reactive programming*. And reactive programming is why React is called 
 A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
 
 In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
+
+
+
+
 
 
 ## Connecting Inputs To State Via Event Handlers
@@ -224,6 +266,10 @@ export default function InputExample () {
   );
 }
 ```
+
+
+
+
 
 
 
