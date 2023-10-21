@@ -20,4 +20,8 @@
 - Tech Top-Up: [4-Layouts-and-Responsiveness](Tech-TopUps/4-Layouts-and-Responsiveness.md)
 
 ## Week 7 - Introduction to React
-- Lecture: [7-Intro-to-React](Lectures/7-Intro-to-React.md)
+- Lecture Notes: [7-Intro-to-React](Lectures/7-Intro-to-React.md)
+
+## Week 8 - React: Continued
+- Lecture Notes: [[8-React-Continued]]
+
