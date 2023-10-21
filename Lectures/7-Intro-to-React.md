@@ -275,7 +275,7 @@ export default function InputExample () {
 
 # References
 
-Read up from the [react.dev](react.dev) documentation site, the following: 
+Read up from the [react.dev](https://react.dev) documentation site, the following: 
 
 - Describing the UI
 	- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components)
