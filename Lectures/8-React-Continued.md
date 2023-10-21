@@ -32,6 +32,6 @@ Source: [Updating Objects in State](https://react.dev/learn/updating-objects-in-
 What to understand
 - you can't modify a state object - you have to use the setter and provide a new object instead
 - modifying objects with the spread syntax
-	![[spread-syntax.png]]
+	![](./images/spread-syntax.png)
 - updating nested objects is ... a little bit ugly
-	![[nested-object-definition.png]]![[updating-nested-objects.png]]
+	![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
