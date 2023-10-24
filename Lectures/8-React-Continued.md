@@ -29,9 +29,33 @@ What to understand
 ## Updating Objects in State
 Source: [Updating Objects in State](https://react.dev/learn/updating-objects-in-state)
 
-What to understand
-- you can't modify a state object - you have to use the setter and provide a new object instead
-- modifying objects with the spread syntax
+**What to understand**
+- modifying an object is named **mutating an object**
+- you don't mutate state objects in React because react does not *see* that
+- modifying objects is *easiest* with the *spread syntax*: 
 	![](./images/spread-syntax.png)
 - updating nested objects is ... a little bit ugly
 	![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
+
+
+## Updating Arrays in State
+Source: [Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
+
+**What to understand**
+- you can use spread syntax to create a copy of an array, e.g. `[...artists]`
+- once you have a copy, you can simply add elements at the end, e.g. 
+![](images/adding-to-array.png)
+
+- removing an element from an array: `filter` or `slice` (never use `splice` -- that one mutates the object)
+
+![](images/filter-array.png)
+- replacing an element in the array: `map` (one of the most important functions in functional programming -- Google invented a whole new big data processing around it -- see MapReduce)
+![](images/map-reduce.png) 
+
+- Inserting an element 
+![](images/inserting-in-array.png)
+
+- sorting, reversing - `reverse`, `sort` -- they mutate the array. But it's ok if you copy the array first, and then mutate it the way you like
+
+
+
