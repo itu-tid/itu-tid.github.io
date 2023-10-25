@@ -46,14 +46,24 @@ Modifying an object is called **mutating an object**.
 
 ## [Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
 
+Use spread syntax to create a copy of an array, e.g. `[...artists]`.
+
+
+
 **What to understand**
-- you can use spread syntax to create a copy of an array, e.g. `[...artists]`
 - once you have a copy, you can simply add elements at the end, e.g. 
 ![](images/adding-to-array.png)
 
 - removing an element from an array: `filter` or `slice` (never use `splice` -- that one mutates the object)
 
-![](images/filter-array.png)
+```
+setArtists([  
+	{ id: nextId++, name: name },  
+	...artists // Put old items at the end  
+]);
+```
+
+
 - replacing an element in the array: `map` (one of the most important functions in functional programming -- Google invented a whole new big data processing around it -- see MapReduce)
 ![](images/map-reduce.png) 
 
