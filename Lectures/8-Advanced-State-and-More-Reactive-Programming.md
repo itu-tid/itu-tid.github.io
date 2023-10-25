@@ -52,7 +52,14 @@ Use spread syntax to create a copy of an array, e.g. `[...artists]`.
 
 **What to understand**
 - once you have a copy, you can simply add elements at the end, e.g. 
-![](images/adding-to-array.png)
+
+```
+setArtists( 
+	[ ...artists, // that contains all the old items  
+		{ id: nextId++, name: name } // and one new item at the end  	
+	]  
+);
+```
 
 - removing an element from an array: `filter` or `slice` (never use `splice` -- that one mutates the object)
 
@@ -65,10 +72,47 @@ setArtists([
 
 
 - replacing an element in the array: `map` (one of the most important functions in functional programming -- Google invented a whole new big data processing around it -- see MapReduce)
-![](images/map-reduce.png) 
 
-- Inserting an element 
-![](images/inserting-in-array.png)
+```
+  function handleClick() {
+    const nextShapes = shapes.map(shape => {
+      if (shape.type === 'square') {
+        return shape;
+      } else {
+        return {
+          ...shape,
+          y: shape.y + 50,
+        };
+      }
+    });
+    setShapes(nextShapes);
+  }
+```
+
+See [example](https://codesandbox.io/s/s4vvyz?file=%2FApp.js&utm_medium=sandpack)
+ 
+
+- Inserting an element  can be done with two uses of `slice`: 
+
+```
+  function handleClick() {
+    const insertAt = 1; // Could be any index
+    const nextArtists = [
+      
+      // Items before the insertion point:
+      ...artists.slice(0, insertAt),
+      
+      // New item:
+      { id: nextId++, name: name },
+      
+      // Items after the insertion point:
+      ...artists.slice(insertAt)
+    ];
+    setArtists(nextArtists);
+    setName('');
+  }
+
+```
 
 - sorting, reversing - `reverse`, `sort` -- they mutate the array. But it's ok if you copy the array first, and then mutate it the way you like
 
