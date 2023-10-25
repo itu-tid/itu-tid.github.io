@@ -2,8 +2,7 @@
 
 # Adding Interactivity (contd.)
 
-## Render and Commit -- More on Reactive Programming with React
-Source: Adding Interactivity > [Render and Commit](https://react.dev/learn/render-and-commit)
+## [Render and Commit](https://react.dev/learn/render-and-commit)
 - the restaurant metaphor is not very useful
 
 **What to understand**
@@ -14,9 +13,8 @@ Source: Adding Interactivity > [Render and Commit](https://react.dev/learn/rende
 	- react has a virtual DOM that it updates 
 	- then updates the real DOM only in those parts where this is necessary
 
-## State as a Snaptshot
+## [State as a Snapshot](https://react.dev/learn/state-as-a-snapshot)
 
-Source: Adding Interactivity > [State as a Snapshot](https://react.dev/learn/state-as-a-snapshot)
 - the snapshot metaphor is not find very useful
 
 **What to understand**
@@ -29,15 +27,13 @@ Source: Adding Interactivity > [State as a Snapshot](https://react.dev/learn/sta
 ![](images/state-snapshot-example1.png)
 Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-time)!
 
-## Queueing A Series of State Updates
-Source: Adding Interactivity > [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
+## [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
 
 **What to understand**
 - Updater Functions = powerful concept, seldom needed
 - Setting state does not change the variable in the existing render, but it will be changed in the  new render
 
-## Updating Objects in State
-Source: Adding Interactivity > [Updating Objects in State](https://react.dev/learn/updating-objects-in-state)
+## [Updating Objects in State](https://react.dev/learn/updating-objects-in-state)
 
 **What to understand**
 - modifying an object is named **mutating an object**
@@ -48,8 +44,7 @@ Source: Adding Interactivity > [Updating Objects in State](https://react.dev/lea
 	![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
 
 
-## Updating Arrays in State
-Source: Adding Interactivity > [Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
+## [Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
 
 **What to understand**
 - you can use spread syntax to create a copy of an array, e.g. `[...artists]`
@@ -82,12 +77,10 @@ Source: Adding Interactivity > [Updating Arrays in State](https://react.dev/lear
 		- 2. Profile Editor is a good one; everybody should be able to do this
 
 
-# Escape Hatches
 
-## Synchronizing with Effects
-Source: Escape Hatches > [https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
+# [Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
 
-- some components need to be synchronized with external systems (send a message to a server, save something in localStorage, etc.)
+Some components need to be synchronized with external systems (send a message to a server, save something in localStorage, etc.)
 
 Effects let you run some code after rendering so that you can synchronize your component with some system outside of React
 
