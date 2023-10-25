@@ -4,29 +4,36 @@
 
 ## Render and Commit -- More on Reactive Programming with React
 Source: Adding Interactivity > [Render and Commit](https://react.dev/learn/render-and-commit)
-
-Notes:
 - the restaurant metaphor is not very useful
 
 **What to understand**
-- What triggers a component re-render? Change of state in that component
+- Change of state in a component triggers a component re-render
 - Besides the re-rendered component, all it's children will also be re-rendered
-- Multiple state changes might be batched in the same re-render
-- Rendering is logical - react has a virtual DOM that it updates - then updates the real DOM only in those parts where this is necessary
 
-## State Does Not Change Inside an Event Handler
+- Rendering is logical 
+	- react has a virtual DOM that it updates 
+	- then updates the real DOM only in those parts where this is necessary
+
+## State as a Snaptshot
+
 Source: Adding Interactivity > [State as a Snapshot](https://react.dev/learn/state-as-a-snapshot)
+- the snapshot metaphor is not find very useful
 
-Notes:
-- the snapshot metaphor I don't find very useful
-- the first image that shows react updating the DOM tree is good
-- the state is not changed immediately after you call the setter, but later when React does all the state changes. Try to understand the [examples](https://react.dev/learn/state-as-a-snapshot#state-over-time)!
+**What to understand**
+- “Rendering” means that React is calling your component, which is a function. 
+	- JSX returned from function a *snapshot of the UI in time*
+	- Its props, event handlers, and local variables were all calculated using its state at the time of the render
+
+- The state is not changed immediately after you call the setter, but later when React does all the state changes. 
+
+![](images/state-snapshot-example1.png)
+Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-time)!
 
 ## Queueing A Series of State Updates
 Source: Adding Interactivity > [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
 
-What to understand
-- Updater Functions (cool concept, not needed often)
+**What to understand**
+- Updater Functions = powerful concept, seldom needed
 - Setting state does not change the variable in the existing render, but it will be changed in the  new render
 
 ## Updating Objects in State
