@@ -121,7 +121,7 @@ setArtists([
 # Managing State
 
 ## [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
-*Note: seems to me to me to be needlessly theoretical; basically*
+*Note: seems to me to me to be needlessly theoretical*
 
 To Understand
 - How to model multiple states of a component
