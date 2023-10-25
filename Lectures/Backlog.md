@@ -1,4 +1,26 @@
 
+Stack
+- react hooks
+- the full reference of `useEffect` is interesting, but quite advanced
+
+
+**From the React Tutorial**
+Managing State (subsections)
+- Choosing the State Structure (Principles for structuring state)
+- Sharing State Between Components
+- Preserving and resetting state (quite detailed about component state lifetime)
+- Extracting state logic into a reducer (command pattern)
+- Passing data deeply with context
+
+Escape Hatches (subsections)
+- useRef
+- manipulating the DOM with Refs
+- Synchronizing with Effects
+
+
+
+
+
 - [Forwarding props with the spread syntax](https://react.dev/learn/passing-props-to-a-component#forwarding-props-with-the-jsx-spread-syntax)
 - [Passing JSX as children](https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children)
 
