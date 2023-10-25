@@ -62,7 +62,7 @@ setArtists(
 );
 ```
 
-- removing an element from an array: `filter` or `slice` (never use `splice` -- that one mutates the object)
+- Removing an element from an array: `filter` or `slice` (never use `splice` -- that one mutates the object)
 
 ```
 setArtists([  
@@ -72,7 +72,7 @@ setArtists([
 ```
 
 
-- replacing an element in the array can be done with `map` 
+- Replacing an element in the array can be done with `map` 
 	- map = one of the most important functions in functional programming 
 	- Google invented a whole new big data processing around it named MapReduce
 
@@ -91,7 +91,6 @@ setArtists([
     setShapes(nextShapes);
   }
 ```
-
  ( [example](https://codesandbox.io/s/s4vvyz?file=%2FApp.js&utm_medium=sandpack))
 
 - Inserting an element  can be done with two uses of `slice`: 
@@ -116,7 +115,7 @@ setArtists([
 
 ```
 
-- sorting, reversing - `reverse`, `sort` -- they mutate the array. But it's ok if you copy the array first, and then mutate it the way you like
+- Sorting, reversing - `reverse`, `sort` -- they mutate the array. But it's ok if you copy the array first, and then mutate it the way you like
 
 
 # Managing State
