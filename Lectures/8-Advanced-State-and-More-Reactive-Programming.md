@@ -152,14 +152,6 @@ return new Promise((resolve, reject) => {
 Nice [Example](https://codesandbox.io/s/dg3sry?file=%2FApp.js&utm_medium=sandpack) of how to show all the possible states of a component at once.
 
 
-
-
-
-Live challenge: 
-		- 2. Profile Editor is a good one; everybody should be able to do this
-
-
-
 # [Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
 
 Some components need to be synchronized with external systems (send a message to a server, save something in localStorage, etc.)
@@ -229,3 +221,38 @@ Observe in the example:
 
 # To think about
 - why is reading from a server considered a side-effect in react? 
+
+# Exercises
+
+**Exercise**: Try the Live Challenge 2: Profile Editor from [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state). Everybody should be able to do this. Implement a profile editor that has two states, as seen below. 
+
+![](images/exercise-state-read-only.png)
+![](images/exercise-state-editable.png)
+
+Start from the JSX snippet. 
+
+```
+export default function EditProfile() {
+  return (
+    <form>
+      <label>
+        First name:{' '}
+        <b>Jane</b>
+        <input />
+      </label>
+      <label>
+        Last name:{' '}
+        <b>Jacobs</b>
+        <input />
+      </label>
+      <button type="submit">
+        Edit Profile
+      </button>
+      <p><i>Hello, Jane Jacobs!</i></p>
+    </form>
+  );
+}
+
+
+```
+
