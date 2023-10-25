@@ -34,8 +34,9 @@ Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-t
 
 ## [Updating Objects in State](https://react.dev/learn/updating-objects-in-state)
 
-**What to understand**
-- modifying an object is named **mutating an object**
+Modifying an object is called **mutating an object**.
+
+- **What to understand**
 - you don't mutate state objects in React because react does not *see* that
 - modifying objects is *easiest* with the *spread syntax*: 
 	![](./images/spread-syntax.png)
