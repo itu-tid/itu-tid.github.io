@@ -3,7 +3,7 @@
 # Adding Interactivity (contd.)
 
 ## [Render and Commit](https://react.dev/learn/render-and-commit)
-- the restaurant metaphor is not very useful
+*Note: the restaurant metaphor is not very useful*
 
 **What to understand**
 - Change of state in a component triggers a component re-render
@@ -14,8 +14,7 @@
 	- then updates the real DOM only in those parts where this is necessary
 
 ## [State as a Snapshot](https://react.dev/learn/state-as-a-snapshot)
-
-- the snapshot metaphor is not find very useful
+*Note: the snapshot metaphor is not find very useful*
 
 **What to understand**
 - “Rendering” means that React is calling your component, which is a function. 
