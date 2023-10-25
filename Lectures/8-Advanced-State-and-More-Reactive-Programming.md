@@ -124,15 +124,35 @@ setArtists([
 *Note: seems to me to me to be needlessly theoretical*
 
 To Understand
+- How declarative UI programming differs from imperative UI programming
 - How to model multiple states of a component
 	- have a state variable
 	- represent it with useState
 	- render different states in terms of that
 	- do not use redundant state variables (the whole discussion in Remove non-essential variables)
 
+[Example](https://codesandbox.io/s/wnphcd?file=%2FApp.js&utm_medium=sandpack) of multiple states for a component. 
+- note the Promise in the example
 
-- Promise example is nice in Step 5
-		- Once we understand the promise, we can also think about how to implement a "loading..." state
+```
+return new Promise((resolve, reject) => {
+
+	setTimeout(() => {
+		let shouldError = answer.toLowerCase() !== 'lima'
+		if (shouldError) {
+			reject(new Error('Good guess but a wrong answer. Try again!'));
+		} else {
+			resolve();
+		}
+	}, 1500);
+
+});
+```
+
+Nice [Example](https://codesandbox.io/s/dg3sry?file=%2FApp.js&utm_medium=sandpack) of how to show all the possible states of a component at once.
+
+
+
 
 
 Live challenge: 
