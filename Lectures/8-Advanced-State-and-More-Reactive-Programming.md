@@ -51,11 +51,12 @@ Use spread syntax to create a copy of an array, e.g. `[...artists]`.
 
 
 **What to understand**
-- once you have a copy, you can simply add elements at the end, e.g. 
+- Once you have a copy, you can simply add elements at the end, e.g. 
 
 ```
 setArtists( 
-	[ ...artists, // that contains all the old items  
+	[ 
+		...artists, // that contains all the old items  
 		{ id: nextId++, name: name } // and one new item at the end  	
 	]  
 );
@@ -71,7 +72,9 @@ setArtists([
 ```
 
 
-- replacing an element in the array: `map` (one of the most important functions in functional programming -- Google invented a whole new big data processing around it -- see MapReduce)
+- replacing an element in the array can be done with `map` 
+	- map = one of the most important functions in functional programming 
+	- Google invented a whole new big data processing around it named MapReduce
 
 ```
   function handleClick() {
@@ -89,8 +92,7 @@ setArtists([
   }
 ```
 
-See [example](https://codesandbox.io/s/s4vvyz?file=%2FApp.js&utm_medium=sandpack)
- 
+ ( [example](https://codesandbox.io/s/s4vvyz?file=%2FApp.js&utm_medium=sandpack))
 
 - Inserting an element  can be done with two uses of `slice`: 
 
