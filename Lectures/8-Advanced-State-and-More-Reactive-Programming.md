@@ -120,15 +120,22 @@ setArtists([
 
 # Managing State
 
-- **Reacting to Input with State**
-	- seems to me to me to be needlessly theoretical; basically
-		- have a state variable
-		- represent it with useState
-		- render different states in terms of that
-		- do not use redundant state variables (the whole discussion in Remove non-essential variables)
-	- Promise example is nice in Step 5 - question is: did we talk promises yet? 
+## [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
+*Note: seems to me to me to be needlessly theoretical; basically*
+
+To Understand
+- How to model multiple states of a component
+	- have a state variable
+	- represent it with useState
+	- render different states in terms of that
+	- do not use redundant state variables (the whole discussion in Remove non-essential variables)
+
+
+- Promise example is nice in Step 5
 		- Once we understand the promise, we can also think about how to implement a "loading..." state
-	- Challenges
+
+
+Live challenge: 
 		- 2. Profile Editor is a good one; everybody should be able to do this
 
 
