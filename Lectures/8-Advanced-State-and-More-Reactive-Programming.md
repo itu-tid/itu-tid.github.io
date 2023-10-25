@@ -132,7 +132,7 @@ To Understand
 	- do not use redundant state variables (the whole discussion in Remove non-essential variables)
 
 [Example](https://codesandbox.io/s/wnphcd?file=%2FApp.js&utm_medium=sandpack) of multiple states for a component. 
-- note the Promise in the example
+- note the Promise in the example! what does it do?
 
 ```
 return new Promise((resolve, reject) => {
