@@ -23,5 +23,5 @@
 - Lecture Notes: [7-Intro-to-React](Lectures/7-Intro-to-React.md)
 
 ## Week 8 - React: Continued
-- Lecture Notes: [8-React-Continued](Lectures/8-React-Continued.md)
+- Lecture Notes: [8-Advanced-State-and-More-Reactive-Programming](Lectures/8-Advanced-State-and-More-Reactive-Programming.md)
 
