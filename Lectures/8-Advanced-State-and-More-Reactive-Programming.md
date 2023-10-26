@@ -13,6 +13,11 @@
 	- react has a virtual DOM that it updates 
 	- then updates the real DOM only in those parts where this is necessary
 
+
+
+
+
+
 ## [State as a Snapshot](https://react.dev/learn/state-as-a-snapshot)
 *Note: the snapshot metaphor is not find very useful*
 
@@ -26,22 +31,36 @@
 ![](images/state-snapshot-example1.png)
 Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-time)!
 
+
+
+
+
 ## [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
 
 **What to understand**
 - Updater Functions = powerful concept, seldom needed
 - Setting state does not change the variable in the existing render, but it will be changed in the  new render
 
+
+
+
+
+
 ## [Updating Objects in State](https://react.dev/learn/updating-objects-in-state)
 
 Modifying an object is called **mutating an object**.
 
-- **What to understand**
+**What to understand**
 - you don't mutate state objects in React because react does not *see* that
 - modifying objects is *easiest* with the *spread syntax*: 
 	![](./images/spread-syntax.png)
 - updating nested objects is ... a little bit ugly
 	![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
+
+
+
+
+
 
 
 ## [Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
@@ -118,6 +137,9 @@ setArtists([
 - Sorting, reversing - `reverse`, `sort` -- they mutate the array. But it's ok if you copy the array first, and then mutate it the way you like
 
 
+
+
+
 # Managing State
 
 ## [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
@@ -152,33 +174,44 @@ return new Promise((resolve, reject) => {
 Nice [Example](https://codesandbox.io/s/dg3sry?file=%2FApp.js&utm_medium=sandpack) of how to show all the possible states of a component at once.
 
 
+
+
+
+
 # [Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
 
-Some components need to be synchronized with external systems (send a message to a server, save something in localStorage, etc.)
-
-Effects let you run some code after rendering so that you can synchronize your component with some system outside of React
-
 Two types of logic inside React components:
-1. Rendering code => a transformation from props & state into JSX 
-2. Event handlers => functions that do things -- change state, submit HTTP POST request, navigate to another screen, interact directly with the DOM (e.g. change page title)
+1. **Rendering code** => a transformation from props & state into JSX 
+2. **Event handlers** => functions that do things -- change state, submit HTTP POST request, navigate to another screen, interact directly with the DOM (e.g. change page title)
 
 When is this not sufficient?
-Example
+
+*Example*: 
 - when a ChatRoom component must connect to the server to download the corresponding info
-- this is considered a side-effect (with respect to the main responsibility of the component which is to render something)
+- when you want to change the title of the page based on some info that the component knows
+- you want to save something to local storage... 
+
+**Side Effects in React = actions that a functional component does besides rendering the component.**
+
+- Effects let you run some code after rendering so that you can synchronize your component with some system outside of React
+
 
 In general
 - effects in React are directly caused by the rendering
 - thus, they are called at the end of a commit, **after the screen updates**
+- after every rendering
 - why is this a good time to sync components with external systems? 
 
-How to define an effect?
-
-
+Three steps to define an effect?
 #### 1. Declare it: `import { useEffect } from 'react';`
 
-	- `useEffect` is a React Hook that lets you [synchronize a component with an external system.](https://react.dev/learn/synchronizing-with-effects) 
-	- You always put hooks at the top of your component
+- `useEffect` is a React Hook that lets you [synchronize a component with an external system.](https://react.dev/learn/synchronizing-with-effects) 
+
+Hooks
+- Special functions in React
+- Let you “hook into” React state and lifecycle features
+- You always put hooks at the beginning of your component
+
 
 ```
 function MyComponent() {  
@@ -190,7 +223,7 @@ function MyComponent() {
 }
 ```
 
-Every time the component renders, React updates the screen and then runs the code inside useEffect. 
+**Every time the component renders, React updates the screen and then runs the code inside useEffect.** 
 
 Interesting example: [controlling a video player component](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect) with an effect
 - you need to interact with the DOM
@@ -218,9 +251,92 @@ Observe in the example:
 - During development, React runs the useEffect twice on mount
 
 
+# Thinking in React
+https://react.dev/learn/thinking-in-react
 
-# To think about
-- why is reading from a server considered a side-effect in react? 
+
+
+**Step 0: Start from a mock and a data model**
+
+Imagine the following UI:
+![](images/fruit-filtering-ui.png)
+
+
+
+
+
+
+
+
+
+
+
+A possible data model for it would be: 
+
+```
+[  
+{ category: "Fruits", price: "$1", stocked: true, name: "Apple" },  
+{ category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit" },  
+{ category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },  
+{ category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },  
+{ category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },  
+{ category: "Vegetables", price: "$1", stocked: true, name: "Peas" }]
+```
+
+
+
+
+
+
+
+
+
+
+**Step 1: Break The UI Into A Component Hierarchy**
+
+![](images/step-2.png)
+
+
+
+
+
+
+
+
+
+
+
+
+**Step 2: Build A Static Version in React**
+
+- Start from the data model and renders the UI without interactivity
+- Don't worry about the state even
+- Pass the data as props
+
+
+
+**Step 3: Identify The Minimal (but complete) Representation Of UI State**
+
+- Does it remain unchanged over time? If so, it isn’t state.
+- Is it passed in from a parent via props? If so, it isn’t state.
+- Can you compute it based on existing state or props in your component? If so, it definitely isn’t state!
+
+
+**Step 4: Identify Where Your State Should Live**
+
+For each piece of state in your application:
+
+1. **Identify _every_ component that renders something based on that state**.
+2. **Find their closest common parent component**—a component above them all in the hierarchy.
+3. Decide where the state should live:
+    1. **Often, you can put the state directly into their common parent**.
+    2. You can also put the state into some component above their common parent.
+    3. If you can’t find a component where it makes sense to own the state, create a new component solely for holding the state and add it somewhere in the hierarchy above the common parent component.
+
+
+**Step 5: Add Inverse Data Flow**
+
+You will **often** have to pass state setters down the component hierarchy, and update the state from the children components
 
 # Exercises
 
