@@ -209,7 +209,108 @@ return new Promise((resolve, reject) => {
 Nice [Example](https://codesandbox.io/s/dg3sry?file=%2FApp.js&utm_medium=sandpack) of how to show all the possible states of a component at once.
 
 
+
+
+
+# Thinking in React
+
+https://react.dev/learn/thinking-in-react
+
+
+
+**Step 0: Start from a mock and a data model**
+
+Imagine the following UI:
+![](images/fruit-filtering-ui.png)
+
+
+
+
+
+
+
+
+
+
+
+A possible data model for it would be: 
+
+```
+[  
+{ category: "Fruits", price: "$1", stocked: true, name: "Apple" },  
+{ category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit" },  
+{ category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },  
+{ category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },  
+{ category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },  
+{ category: "Vegetables", price: "$1", stocked: true, name: "Peas" }]
+```
+
+
+
+
+
+
+
+
+
+
+**Step 1: Break The UI Into A Component Hierarchy**
+
+![](images/step-2.png)
+
+
+
+
+
+
+
+
+
+
+
+
+**Step 2: Build A Static Version in React**
+
+- Start from the data model and renders the UI without interactivity
+- Don't worry about the state even
+- Pass the data as props
+
+
+
+
+
 ... to continue from here
+
+
+
+
+**Step 3: Identify The Minimal (but complete) Representation Of UI State**
+
+- Does it remain unchanged over time? If so, it isn’t state.
+- Is it passed in from a parent via props? If so, it isn’t state.
+- Can you compute it based on existing state or props in your component? If so, it definitely isn’t state!
+
+
+**Step 4: Identify Where Your State Should Live**
+
+For each piece of state in your application:
+
+1. **Identify _every_ component that renders something based on that state**.
+2. **Find their closest common parent component**—a component above them all in the hierarchy.
+3. Decide where the state should live:
+    1. **Often, you can put the state directly into their common parent**.
+    2. You can also put the state into some component above their common parent.
+    3. If you can’t find a component where it makes sense to own the state, create a new component solely for holding the state and add it somewhere in the hierarchy above the common parent component.
+
+
+**Step 5: Add Inverse Data Flow**
+
+You will **often** have to pass state setters down the component hierarchy, and update the state from the children components
+
+
+
+
+
 
 # [Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
 
@@ -284,92 +385,6 @@ Observe in the example:
 - During development, React runs the useEffect twice on mount
 
 
-# Thinking in React
-https://react.dev/learn/thinking-in-react
-
-
-
-**Step 0: Start from a mock and a data model**
-
-Imagine the following UI:
-![](images/fruit-filtering-ui.png)
-
-
-
-
-
-
-
-
-
-
-
-A possible data model for it would be: 
-
-```
-[  
-{ category: "Fruits", price: "$1", stocked: true, name: "Apple" },  
-{ category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit" },  
-{ category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },  
-{ category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },  
-{ category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },  
-{ category: "Vegetables", price: "$1", stocked: true, name: "Peas" }]
-```
-
-
-
-
-
-
-
-
-
-
-**Step 1: Break The UI Into A Component Hierarchy**
-
-![](images/step-2.png)
-
-
-
-
-
-
-
-
-
-
-
-
-**Step 2: Build A Static Version in React**
-
-- Start from the data model and renders the UI without interactivity
-- Don't worry about the state even
-- Pass the data as props
-
-
-
-**Step 3: Identify The Minimal (but complete) Representation Of UI State**
-
-- Does it remain unchanged over time? If so, it isn’t state.
-- Is it passed in from a parent via props? If so, it isn’t state.
-- Can you compute it based on existing state or props in your component? If so, it definitely isn’t state!
-
-
-**Step 4: Identify Where Your State Should Live**
-
-For each piece of state in your application:
-
-1. **Identify _every_ component that renders something based on that state**.
-2. **Find their closest common parent component**—a component above them all in the hierarchy.
-3. Decide where the state should live:
-    1. **Often, you can put the state directly into their common parent**.
-    2. You can also put the state into some component above their common parent.
-    3. If you can’t find a component where it makes sense to own the state, create a new component solely for holding the state and add it somewhere in the hierarchy above the common parent component.
-
-
-**Step 5: Add Inverse Data Flow**
-
-You will **often** have to pass state setters down the component hierarchy, and update the state from the children components
 
 # Exercises
 
