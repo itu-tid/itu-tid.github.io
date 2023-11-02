@@ -1,13 +1,14 @@
 
 # [Effects](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
 
+
 Two types of logic inside React components:
 1. **Rendering code** => a transformation from props & state into JSX 
 2. **Event handlers** => functions that do things -- change state, submit HTTP POST request, navigate to another screen, interact directly with the DOM (e.g. change page title)
 
 There is a third type of logic: 
 
-3. When, as a side effect of changing state... you want to do something else than re-render
+3. When *as a side effect of changing state* you must to do something else besides re-render
 
 
 *Example*: 
@@ -151,6 +152,7 @@ Nice example: [controlling a video player component](https://react.dev/learn/syn
 
 # Third Party Libraries
 - How do you instal dependencies with `npm`?
+- Do you have to do `nmp install` for every project?
 - Why do we list dependencies in `packages.json`? 
 - What is the meaning of the version numbers in `packages.json`? [How is semantic versioning used in npm?](https://docs.npmjs.com/about-semantic-versioning)
 - Finding libraries on https://www.npmjs.com
