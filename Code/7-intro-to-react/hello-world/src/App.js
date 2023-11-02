@@ -1,4 +1,4 @@
-import {PackingList} from './PackingList.js'
+import {TopicsList} from './TopicsList.js'
 
 function App() {
 
@@ -14,7 +14,7 @@ function App() {
             <br/>
             <h3>Date: {date}</h3>
             <p>By the end of this lecture you'll be know about</p>
-            <PackingList/>
+            <TopicsList/>
         </>
     );
 }

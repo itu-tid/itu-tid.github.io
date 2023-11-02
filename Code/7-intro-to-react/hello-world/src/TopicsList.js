@@ -4,7 +4,7 @@ const CHECKBOX = "✔"
 const NOT_CHECKED = "x"
 
 
-function PackingList() {
+function TopicsList() {
 
     const [topics, setTopics] =
         useState([
@@ -90,4 +90,4 @@ function Item({name, isPacked, deleteElementFunction}) {
     )
 }
 
-export {PackingList}
+export {TopicsList}
