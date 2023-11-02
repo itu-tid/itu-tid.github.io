@@ -1,8 +1,4 @@
 
-Stack
-- react hooks
-- the full reference of `useEffect` is interesting, but quite advanced
-
 
 **From the React Tutorial**
 Managing State (subsections)
