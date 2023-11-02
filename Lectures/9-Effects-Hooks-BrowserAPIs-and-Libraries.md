@@ -127,6 +127,15 @@ export default inputRefExample
 ```
 
 
+# Browser APIs
+
+e.g. 
+- The Storage API
+- etc.
 
 
+
+
+# Third Party Libraries
+- adding a component
 
