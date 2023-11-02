@@ -5,9 +5,10 @@ Two types of logic inside React components:
 1. **Rendering code** => a transformation from props & state into JSX 
 2. **Event handlers** => functions that do things -- change state, submit HTTP POST request, navigate to another screen, interact directly with the DOM (e.g. change page title)
 
-When is this not sufficient?
+There is a third type of logic: 
 
-Every time when, as a side effect of changing state... you want to do something else than re-render. Rendering is taken care by React. The side effects, you take care of. 
+3. When, as a side effect of changing state... you want to do something else than re-render
+
 
 *Example*: 
 - When a ChatRoom component must connect to the server to download the corresponding info
@@ -17,13 +18,7 @@ Every time when, as a side effect of changing state... you want to do something 
 
 **Side Effects in React = actions that a functional component does besides rendering the component.**
 
-- Effects let you run some code after rendering so that you can synchronize your component with some system outside of React
-
-
-Summarizing the mechanics of *effects in React*: 
-- directly caused by the rendering
-- called at the end of a commit, **after the screen updates**
-- called after every rendering
+The goal: synchronize your component with some system outside of React
 
 # Three steps to define an effect
 #### 1. Declare it: `import { useEffect } from 'react';`
