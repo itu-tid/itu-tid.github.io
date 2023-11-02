@@ -9,14 +9,15 @@ function TopicsList() {
     const [topics, setTopics] =
         useState([
             {topic: "State", isDiscussed: true},
-            {topic: "Components", isDiscussed: true},
+            {topic: "Components", isDiscussed: false},
             {topic: "JSX", isDiscussed: true},
             {topic: "Conditional Rendering", isDiscussed: true},
             {topic: "Rendering Lists", isDiscussed: false},
         ]);
 
-    const [newTopic, setNewTopic] = useState("")
-    const [discussedCount, isDiscussedCount] = useState(4);
+    const [newTopic, setNewTopic] = useState("");
+    const discussedTopics = topics.filter(each => each.isDiscussed);
+    const discussedCount = discussedTopics.length;
 
     function handleSubmit(e) {
         e.preventDefault();
