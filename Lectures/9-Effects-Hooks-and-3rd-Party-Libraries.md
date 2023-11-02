@@ -172,13 +172,13 @@ Live Demo Example
 
 #### Who does the routing in Single Page Applications? 
 
+#### Why do you need a library for routing in React?
+#### What are the essential elements that a router library should cover? 
+
 
 # Project Work
 - Find out what's the difference between `react-router` and `react-router-dom`
 - Add the right dependency to your project
-- Implement basic routing 
-
-
-
+- Implement basic routing for at least two of the screens
 
 
