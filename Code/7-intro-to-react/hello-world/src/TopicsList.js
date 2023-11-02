@@ -7,8 +7,7 @@ const NOT_CHECKED = "x"
 function TopicsList({topics, setTopics}) {
 
     const [newTopic, setNewTopic] = useState("");
-
-
+    
     function handleSubmit(e) {
         e.preventDefault();
         setTopics([
