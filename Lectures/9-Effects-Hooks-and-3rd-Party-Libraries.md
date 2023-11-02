@@ -1,5 +1,4 @@
 
-
 # [Effects](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
 
 Two types of logic inside React components:
@@ -8,12 +7,12 @@ Two types of logic inside React components:
 
 When is this not sufficient?
 
+Every time when, as a side effect of changing state... you want to do something else than re-render. Rendering is taken care by React. The side effects, you take care of. 
+
 *Example*: 
 - When a ChatRoom component must connect to the server to download the corresponding info
 - When you want to change the title of the page based on some info that the component knows
-- When you want to save something to local storage... 
-
-Every time when, as a side effect of changing state... you want to do something else than re-render. 
+- When you want to save something to database based on some changes in the UI
 
 
 **Side Effects in React = actions that a functional component does besides rendering the component.**
@@ -21,17 +20,15 @@ Every time when, as a side effect of changing state... you want to do something 
 - Effects let you run some code after rendering so that you can synchronize your component with some system outside of React
 
 
-In general
-- effects in React are directly caused by the rendering
-- thus, they are called at the end of a commit, **after the screen updates**
-- after every rendering
-- why is this a good time to sync components with external systems? 
+Summarizing the mechanics of *effects in React*: 
+- directly caused by the rendering
+- called at the end of a commit, **after the screen updates**
+- called after every rendering
 
-Three steps to define an effect?
+# Three steps to define an effect
 #### 1. Declare it: `import { useEffect } from 'react';`
 
 - `useEffect` is a React Hook that lets you [synchronize a component with an external system.](https://react.dev/learn/synchronizing-with-effects) 
-
 
 ```javascript
 function MyComponent() {  
@@ -45,30 +42,54 @@ function MyComponent() {
 
 **Every time the component renders, React updates the screen and then runs the code inside useEffect.** 
 
-Interesting example: [controlling a video player component](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect) with an effect
-- you need to interact with the DOM
-- get a reference to the relevant DOM element
-- call the `start` and `stop` methods 
 
 #### 2. Specify the Effect dependencies 
 
-Observe in the example: 
-- adding the empty dependencies array `[]` as a second argument to `useEffect` results in an error
+Show coding example: 
+- update the title page with the number of items, e.g. 
 
-![](images/missing-dependency.png)
-- adding `isPlaying` as second argument fixes the problem
+What happens if you forget to mention the dependency in the dependencies array but you still refer to it? 
 
-![](images/having-added-the-dependency.png)
+**Important**: If you call an effect with no dependencies, **it is only run once, on mount!**
+
+Why would you want to run something only on mount? What kind of things would you want to do? 
+
+
+Live Coding: Saving Data in Loca Storage
+- [The JSON namespace in the browser](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
+- [localStorage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) includes: `setItem` and `getItem` which both *work on strings*
+
 
 ### 3. Add cleanup if needed 
 
 - If your effect allocates a resource that can be deallocated, do that by returning a *cleanup function*
 - Pay attention at the syntax it's **an arrow function that does the connection, and then returns another function that does the disconnect** 
-- Important: **If you call an effect with no dependencies, it is only run once, on mount!**
+
 
 ![](images/effect-with-cleanup-function.png)
 
+Another example of resource that needs to be released: a timer!
+
+```javascript
+useEffect(() => {
+  setInterval(() => {console.log("hello")},1000)
+}, [])
+```
+
+The correct way of handling it: 
+```javascript
+useEffect(() => {
+  let interval = setInterval(() => {console.log("hello")}, 1000)
+
+  return () => {
+    clearInterval(interval) // clear the interval in the returning function
+  }
+}, [])
+```
+
+
 **Note:** During development, React runs the useEffect twice on mount
+
 Why? if your code works in this situation, it means you're cleaning up nicely; and that's good!
 
 
@@ -83,9 +104,9 @@ Special React functions for "hooking into" the framework
 
 
 Most Popular
-- useState -- to allow you to define state
-- useEffect -- to allow you to handle side effects
-- useRef -- an object that can be persisted across renderings but is not state
+- `useState` -- to allow you to define state
+- `useEffect` -- to allow you to handle side effects
+- `useRef` -- an object that can be persisted across renderings but is not state
 
 
 ## [Using `useRef` for manipulating DOM elements](https://react.dev/learn/manipulating-the-dom-with-refs)
@@ -127,8 +148,37 @@ export default inputRefExample
 ```
 
 
+Nice example: [controlling a video player component](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
+- you need to interact with the video element in the DOM 
+- get a reference to the relevant DOM element
+- call the `start` and `stop` methods 
+
+
 # Third Party Libraries
-- adding dependencies to `packages.json` 
-- finding libraries
+- How do you instal dependencies with `npm`?
+- Why do we list dependencies in `packages.json`? 
+- What is the meaning of the version numbers in `packages.json`? [How is semantic versioning used in npm?](https://docs.npmjs.com/about-semantic-versioning)
+- Finding libraries on https://www.npmjs.com
+
+Live Demo Example 
+- Adding a progress-bar from [`mui`](- https://mui.com/material-ui/react-progress/)
+
+
+# Routing
+
+#### What is routing in web applications?
+
+#### What are Single Page Applications (SPAs)? Why are they useful? 
+
+#### Who does the routing in Single Page Applications? 
+
+
+# Project Work
+- Find out what's the difference between `react-router` and `react-router-dom`
+- Add the right dependency to your project
+- Implement basic routing 
+
+
+
 
 

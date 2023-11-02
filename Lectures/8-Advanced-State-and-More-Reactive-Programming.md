@@ -42,7 +42,7 @@ Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-t
 
 e.g. of updater function: `n => n + 1`
 
-```
+```javascript
 export default function Counter() {
   const [number, setNumber] = useState(0);
 
@@ -94,7 +94,7 @@ Use spread syntax to create a copy of an array, e.g. `[...artists]`.
 
 - Once you have a copy, you can simply **add elements at the end**, e.g. 
 
-```
+```javascript
 setArtists( 
 	[ 
 		...artists, // that contains all the old items  
@@ -105,7 +105,7 @@ setArtists(
 
 - or you can prepend the element to add it at the beginning
 
-```
+```javascript
 setArtists([  
 	{ id: nextId++, name: name },  
 	...artists // Put old items at the end  
@@ -114,7 +114,7 @@ setArtists([
 
 - **Removing an element from an array**: `filter` (because filter *does not mutate the object* but returns a new one)
 
-```
+```javascript
 setArtists(  
 	artists.filter(a => a.id !== artist.id)  
 );
@@ -125,7 +125,7 @@ setArtists(
 	- map = one of the most important functions in functional programming 
 	- Google invented a whole new big data processing around it named MapReduce
 
-```
+```javascript
   function handleClick() {
     const nextShapes = shapes.map(shape => {
       if (shape.type === 'square') {
@@ -144,7 +144,7 @@ setArtists(
 
 - Inserting an element  can be done with two uses of `slice`: 
 
-```
+```javascript
   function handleClick() {
     const insertAt = 1; // Could be any index
     const nextArtists = 
@@ -191,7 +191,7 @@ To Understand
 [Example](https://codesandbox.io/s/wnphcd?file=%2FApp.js&utm_medium=sandpack) of multiple states for a component. 
 - note the Promise in the example! what does it do?
 
-```
+```javascript
 return new Promise((resolve, reject) => {
 
 	setTimeout(() => {
@@ -279,16 +279,23 @@ A possible data model for it would be:
 
 
 
-... to continue from here
-
+# ... to continue from here
 
 
 
 **Step 3: Identify The Minimal (but complete) Representation Of UI State**
 
+Heuristics for deciding if something is state
 - Does it remain unchanged over time? If so, it isn’t state.
 - Is it passed in from a parent via props? If so, it isn’t state.
 - Can you compute it based on existing state or props in your component? If so, it definitely isn’t state!
+
+Discuss on our own code example. 
+
+Read up at home: the state discussion about the [shopping list example](https://react.dev/learn/thinking-in-react#step-3-find-the-minimal-but-complete-representation-of-ui-state). 
+
+
+
 
 
 **Step 4: Identify Where Your State Should Live**
@@ -303,11 +310,10 @@ For each piece of state in your application:
     3. If you can’t find a component where it makes sense to own the state, create a new component solely for holding the state and add it somewhere in the hierarchy above the common parent component.
 
 
+
 **Step 5: Add Inverse Data Flow**
 
 You will **often** have to pass state setters down the component hierarchy, and update the state from the children components
-
-
 
 
 
