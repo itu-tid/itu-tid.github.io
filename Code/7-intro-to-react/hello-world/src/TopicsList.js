@@ -8,10 +8,11 @@ function TopicsList() {
 
     const [topics, setTopics] =
         useState([
-            {topic: "Components", isPacked: true},
-            {topic: "JSX", isPacked: true},
-            {topic: "Conditional Rendering", isPacked: true},
-            {topic: "Rendering Lists", isPacked: false},
+            {topic: "State", isDiscussed: true},
+            {topic: "Components", isDiscussed: true},
+            {topic: "JSX", isDiscussed: true},
+            {topic: "Conditional Rendering", isDiscussed: true},
+            {topic: "Rendering Lists", isDiscussed: false},
         ]);
 
     const [newTopic, setNewTopic] = useState("")
@@ -19,7 +20,7 @@ function TopicsList() {
     function handleSubmit(e) {
         e.preventDefault();
         setTopics([
-            {topic: newTopic, isPacked: false},
+            {topic: newTopic, isDiscussed: false},
             ...topics
         ])
     }
@@ -43,27 +44,27 @@ function TopicsList() {
             </form>
             <ul>
                 {topics.map(each => <>
-                    <Item name={each.topic} isPacked={each.isPacked} deleteElementFunction={deleteItem}/>
+                    <Item name={each.topic} isDiscussed={each.isDiscussed} deleteElementFunction={deleteItem}/>
                 </>)}
             </ul>
         </div>
     )
 }
 
-function ItemA({name, isPacked}) {
+function ItemA({name, isDiscussed}) {
 
     return (
         <li>
-            {name} {isPacked && CHECKBOX}
+            {name} {isDiscussed && CHECKBOX}
         </li>
     )
 }
 
 
-function ItemB({name, isPacked}) {
+function ItemB({name, isDiscussed}) {
 
     let checkboxString = ""
-    if (isPacked) {
+    if (isDiscussed) {
         checkboxString = CHECKBOX
     }
 
@@ -74,7 +75,7 @@ function ItemB({name, isPacked}) {
     )
 }
 
-function Item({name, isPacked, deleteElementFunction}) {
+function Item({name, isDiscussed, deleteElementFunction}) {
 
 
     function handleDeletePress(e) {
@@ -84,7 +85,7 @@ function Item({name, isPacked, deleteElementFunction}) {
 
     return (
         <li>
-            {name} {isPacked ? CHECKBOX : NOT_CHECKED}
+            {name} {isDiscussed ? CHECKBOX : NOT_CHECKED}
             <button onClick={handleDeletePress}>Delete</button>
         </li>
     )
