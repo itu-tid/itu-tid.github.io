@@ -1,4 +1,5 @@
 import {TopicsList} from './TopicsList.js'
+import {CourseOverview} from "./CourseOverview";
 
 function App() {
 
@@ -14,7 +15,8 @@ function App() {
             <br/>
             <h3>Date: {date}</h3>
             <p>By the end of this lecture you'll be know about</p>
-            <TopicsList/>
+
+            <CourseOverview/>
         </>
     );
 }

@@ -4,20 +4,10 @@ const CHECKBOX = "✔"
 const NOT_CHECKED = "x"
 
 
-function TopicsList() {
-
-    const [topics, setTopics] =
-        useState([
-            {topic: "State", isDiscussed: true},
-            {topic: "Components", isDiscussed: false},
-            {topic: "JSX", isDiscussed: true},
-            {topic: "Conditional Rendering", isDiscussed: true},
-            {topic: "Rendering Lists", isDiscussed: false},
-        ]);
+function TopicsList({topics, setTopics}) {
 
     const [newTopic, setNewTopic] = useState("");
-    const discussedTopics = topics.filter(each => each.isDiscussed);
-    const discussedCount = discussedTopics.length;
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -50,34 +40,8 @@ function TopicsList() {
                 </>)}
             </ul>
 
-            <div>
-                Didcussed: {discussedCount}
-            </div>
+
         </div>
-    )
-}
-
-function ItemA({name, isDiscussed}) {
-
-    return (
-        <li>
-            {name} {isDiscussed && CHECKBOX}
-        </li>
-    )
-}
-
-
-function ItemB({name, isDiscussed}) {
-
-    let checkboxString = ""
-    if (isDiscussed) {
-        checkboxString = CHECKBOX
-    }
-
-    return (
-        <li>
-            {name} {checkboxString}
-        </li>
     )
 }
 
