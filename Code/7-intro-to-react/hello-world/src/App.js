@@ -1,4 +1,3 @@
-import {TopicsList} from './TopicsList.js'
 import {CourseOverview} from "./CourseOverview";
 
 function App() {
