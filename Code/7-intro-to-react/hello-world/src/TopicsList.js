@@ -16,6 +16,7 @@ function TopicsList() {
         ]);
 
     const [newTopic, setNewTopic] = useState("")
+    const [discussedCount, isDiscussedCount] = useState(4);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -47,6 +48,10 @@ function TopicsList() {
                     <Item name={each.topic} isDiscussed={each.isDiscussed} deleteElementFunction={deleteItem}/>
                 </>)}
             </ul>
+
+            <div>
+                Didcussed: {discussedCount}
+            </div>
         </div>
     )
 }
