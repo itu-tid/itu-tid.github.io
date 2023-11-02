@@ -38,7 +38,28 @@ Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-t
 ## [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
 
 **What to understand**
-- Updater Functions = powerful concept, seldom needed
+- **Updater Functions** = powerful concept, seldom needed
+
+e.g. of updater function: `n => n + 1`
+
+```
+export default function Counter() {
+  const [number, setNumber] = useState(0);
+
+  return (
+    <>
+      <h1>{number}</h1>
+      <button onClick={() => {
+        setNumber(n => n + 1);
+        setNumber(n => n + 1);
+        setNumber(n => n + 1);
+      }}>+3</button>
+    </>
+  )
+}
+
+```
+
 - Setting state does not change the variable in the existing render, but it will be changed in the  new render
 
 
@@ -52,7 +73,7 @@ Modifying an object is called **mutating an object**.
 
 **What to understand**
 - you don't mutate state objects in React because react does not *see* that
-- modifying objects is *easiest* with the *spread syntax*: 
+- **modifying objects** is *easiest* with the *spread syntax*: 
 	![](./images/spread-syntax.png)
 - updating nested objects is ... a little bit ugly
 	![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
@@ -70,7 +91,8 @@ Use spread syntax to create a copy of an array, e.g. `[...artists]`.
 
 
 **What to understand**
-- Once you have a copy, you can simply add elements at the end, e.g. 
+
+- Once you have a copy, you can simply **add elements at the end**, e.g. 
 
 ```
 setArtists( 
@@ -81,7 +103,7 @@ setArtists(
 );
 ```
 
-- Removing an element from an array: `filter` or `slice` (never use `splice` -- that one mutates the object)
+- or you can prepend the element to add it at the beginning
 
 ```
 setArtists([  
@@ -90,8 +112,16 @@ setArtists([
 ]);
 ```
 
+- **Removing an element from an array**: `filter` (because filter *does not mutate the object* but returns a new one)
 
-- Replacing an element in the array can be done with `map` 
+```
+setArtists(  
+	artists.filter(a => a.id !== artist.id)  
+);
+```
+
+
+- Replacing an element in the array can be done with `**map**` 
 	- map = one of the most important functions in functional programming 
 	- Google invented a whole new big data processing around it named MapReduce
 
@@ -117,7 +147,8 @@ setArtists([
 ```
   function handleClick() {
     const insertAt = 1; // Could be any index
-    const nextArtists = [
+    const nextArtists = 
+	[
       
       // Items before the insertion point:
       ...artists.slice(0, insertAt),
@@ -135,6 +166,10 @@ setArtists([
 ```
 
 - Sorting, reversing - `reverse`, `sort` -- they mutate the array. But it's ok if you copy the array first, and then mutate it the way you like
+
+```
+let reversedArtists = [...artists].reverse();
+```
 
 
 
@@ -177,9 +212,8 @@ Nice [Example](https://codesandbox.io/s/dg3sry?file=%2FApp.js&utm_medium=sandpac
 
 
 
-
-
 # Thinking in React
+
 https://react.dev/learn/thinking-in-react
 
 
@@ -243,6 +277,13 @@ A possible data model for it would be:
 
 
 
+
+
+... to continue from here
+
+
+
+
 **Step 3: Identify The Minimal (but complete) Representation Of UI State**
 
 - Does it remain unchanged over time? If so, it isn’t state.
@@ -265,6 +306,12 @@ For each piece of state in your application:
 **Step 5: Add Inverse Data Flow**
 
 You will **often** have to pass state setters down the component hierarchy, and update the state from the children components
+
+
+
+
+
+
 
 # Exercises
 
