@@ -26,5 +26,5 @@
 - Lecture Notes: [8-Advanced-State-and-More-Reactive-Programming](Lectures/8-Advanced-State-and-More-Reactive-Programming.md)
 
 ## Week 9 - React: The Final Essentials 
-- Lecture Notes: [9-Effects-Hooks-BrowserAPIs-and-Libraries](Lectures/9-Effects-Hooks-BrowserAPIs-and-Libraries.md)
+- Lecture Notes: [9-Effects-Hooks-and-3rd-Party-Libraries](Lectures/9-Effects-Hooks-and-3rd-Party-Libraries.md)
 
