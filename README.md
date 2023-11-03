@@ -28,3 +28,7 @@
 ## Week 9 - React: The Final Essentials 
 - Lecture Notes: [9-Effects-Hooks-and-3rd-Party-Libraries](Lectures/9-Effects-Hooks-and-3rd-Party-Libraries.md)
 
+# Week 10 - 3rd Party Libraries. Routing.  Backends
+Lecture Notes: 
+- [10-3rdParty-Libraries-and-Routing](Lectures/10-3rdParty-Libraries-and-Routing.md)
+- [10-Backends](Lectures/10-Backends.md)
