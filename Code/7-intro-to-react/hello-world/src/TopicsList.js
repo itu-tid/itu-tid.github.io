@@ -39,8 +39,11 @@ function TopicsList({topics, setTopics}) {
                 <button onClick={handleSubmit} type="submit">Add</button>
             </form>
             <ul>
-                {topics.map((each) => <Item name={each.topic} isDiscussed={each.isDiscussed}
-                                            deleteElementFunction={deleteItem}/>
+                {topics.map((each) =>
+                    <Item key={each.topic}
+                          name={each.topic}
+                          isDiscussed={each.isDiscussed}
+                          deleteElementFunction={deleteItem}/>
                 )}
             </ul>
 
@@ -52,13 +55,13 @@ function TopicsList({topics, setTopics}) {
 function Item({name, isDiscussed, deleteElementFunction}) {
 
 
-    function handleDeletePress(e) {
+    function handleDeletePress() {
         deleteElementFunction(name);
     }
 
 
     return (
-        <li key={name}>
+        <li>
             {name} {isDiscussed ? CHECKBOX : NOT_CHECKED}
             <button onClick={handleDeletePress}>Delete</button>
         </li>
