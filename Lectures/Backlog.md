@@ -1,4 +1,9 @@
 
+Git
+- what do you not commit to git?
+
+
+
 
 **From the React Tutorial**
 Managing State (subsections)

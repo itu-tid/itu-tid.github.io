@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useRef, useEffect} from 'react';
 
 const CHECKBOX = "✔"
 const NOT_CHECKED = "x"
@@ -7,7 +7,13 @@ const NOT_CHECKED = "x"
 function TopicsList({topics, setTopics}) {
 
     const [newTopic, setNewTopic] = useState("");
-    
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+        console.dir(inputRef.current);
+    }, []);
+
     function handleSubmit(e) {
         e.preventDefault();
         setTopics([
@@ -25,18 +31,17 @@ function TopicsList({topics, setTopics}) {
         setNewTopic(e.target.value);
     }
 
-    console.log("component was called");
 
     return (
         <div>
             <form>
-                <input onChange={handleNewTopicChange} value={newTopic} type="text"/>
+                <input ref={inputRef} onChange={handleNewTopicChange} value={newTopic} type="text"/>
                 <button onClick={handleSubmit} type="submit">Add</button>
             </form>
             <ul>
-                {topics.map(each => <>
-                    <Item name={each.topic} isDiscussed={each.isDiscussed} deleteElementFunction={deleteItem}/>
-                </>)}
+                {topics.map((each) => <Item name={each.topic} isDiscussed={each.isDiscussed}
+                                            deleteElementFunction={deleteItem}/>
+                )}
             </ul>
 
 
@@ -53,7 +58,7 @@ function Item({name, isDiscussed, deleteElementFunction}) {
 
 
     return (
-        <li>
+        <li key={name}>
             {name} {isDiscussed ? CHECKBOX : NOT_CHECKED}
             <button onClick={handleDeletePress}>Delete</button>
         </li>

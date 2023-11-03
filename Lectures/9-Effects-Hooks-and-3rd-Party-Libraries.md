@@ -1,7 +1,6 @@
 
 # [Effects](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
 
-
 Two types of logic inside React components:
 1. **Rendering code** => a transformation from props & state into JSX 
 2. **Event handlers** => functions that do things -- change state, submit HTTP POST request, navigate to another screen, interact directly with the DOM (e.g. change page title)
@@ -38,15 +37,15 @@ function MyComponent() {
 
 **Every time the component renders, React updates the screen and then runs the code inside useEffect.** 
 
-
-#### 2. Specify the Effect dependencies 
-
 Show coding example: 
 - update the title page with the number of items, e.g. 
 
+#### 2. Specify the Effect dependencies 
+
+
 What happens if you forget to mention the dependency in the dependencies array but you still refer to it? 
 
-**Important**: If you call an effect with no dependencies, **it is only run once, on mount!**
+**Important**: If you call an effect with an **empty dependencies list**, **it is only run once, on mount!**
 
 Why would you want to run something only on mount? What kind of things would you want to do? 
 
@@ -117,7 +116,7 @@ The `useRef` hook returns an object with one property: `current`.
 It is persisted between renders. 
 
 
-Example of automatically focusing a given element on first render: 
+Example of **automatically focusing a given element on first render**: 
 1. import `useRef`
 2. declare a ref object (i.e. `inputRef`)
 3. pass your object as the `ref` attribute to the desired DOM element
@@ -127,7 +126,7 @@ import {useRef, useEffect} from 'react'
 
 const InputRefExample = () => {
 
-  const inputRef = useRef(null);
+	  const inputRef = useRef(null);
   
   useEffect(() => {
     inputRef.current.focus()
@@ -148,6 +147,9 @@ Nice example: [controlling a video player component](https://react.dev/learn/syn
 - you need to interact with the video element in the DOM 
 - get a reference to the relevant DOM element
 - call the `start` and `stop` methods 
+
+
+
 
 
 # Third Party Libraries
