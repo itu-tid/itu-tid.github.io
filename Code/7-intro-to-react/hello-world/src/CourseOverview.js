@@ -17,7 +17,7 @@ export function CourseOverview() {
 
     // run on the first render
     useEffect(() => {
-        setTopics(JSON.parse(localStorage.getItem("topics")));
+        setTopics(JSON.parse(localStorage.getItem("topics") || "[]"));
     }, []);
 
     // run on every render
