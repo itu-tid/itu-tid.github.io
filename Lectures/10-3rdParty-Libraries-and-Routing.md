@@ -6,6 +6,7 @@
 - Do you have to do `nmp install` for every project?
 - Why do we list dependencies in `packages.json`? 
 - What is the meaning of the version numbers in `packages.json`? [How is semantic versioning used in npm?](https://docs.npmjs.com/about-semantic-versioning)
+- Why do we need package-lock.json? Do we commit it to GH? 
 - Finding libraries on https://www.npmjs.com
 
 Live Demo Example 
@@ -22,6 +23,8 @@ Live Demo Example
 
 #### Why do you need a library for routing in React?
 #### What are the essential elements that a router library should cover? 
+
+#### How to protect some routes if the user is not loggedIn? 
 
 
 # Project Work
