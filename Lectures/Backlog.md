@@ -1,6 +1,7 @@
 
 Git
 - what do you not commit to git?
+- what is a fork? 
 
 
 
