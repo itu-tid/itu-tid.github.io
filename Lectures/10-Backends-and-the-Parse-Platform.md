@@ -2,8 +2,9 @@
 
 ## Backends
 
-- Defined in opposition to the front-end
-- The server side in a ***client-server architecture***
+- What is a backend?
+	- Defined in opposition to the front-end
+	- The server side in a ***client-server architecture***
 
 
 - What are the responsibilities of the backend?
@@ -24,18 +25,18 @@
 	- logging and analytics
 	- backup system
 
-We do not have time for that in this course...
 
-**Low-code backends**
-- common solutions for common backend problems
-- Alternatives
-	- Firebase = proprietary & hosted by Google
-	- Azure = Microsoft’s version 
-	- **Parse Server** = open source & you can self host
+- **Low-code backends**
+	- Common solutions for common backend problems
+	- Alternatives
+		- Firebase = proprietary & hosted by Google
+		- Azure = Microsoft’s version 
+		- **Parse Server** = open source & you can self host
+
 
 ## Parse Platform
 
-Low-code backend
+Our preferred low-code backend
 - Implementation language
 	- Node.js based
 - History
@@ -49,12 +50,12 @@ Low-code backend
 	- Authorization
 
 
-
 ### Using Parse from Back4App
 
-- Where is the server?
-	- on your own server
-	- somewhere in the cloud; e.g., back4app 
+- Where is the Parse server?
+	- On your own hardware
+	- In your own cloud server
+	- In somebody else's cloud server => back4app.com 
 
 
 Steps to start working with the Back4App Parse deployment 
@@ -84,14 +85,15 @@ To understand in the code above:
 - `save.then( (obj) => {...})` - save returns a *promise*
 
 
-# Javascript Intermezzo: Async Programming and Promises
 
-- The single threaded programming model of Javascript 
-	- See examples of freezing UI in [Introducing Async JS](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing)
-		- What is synchronous programming? 
-		- What is asynchronous programming? 
-		- What is a callback?
-		- What is callback hell? 
+
+
+# JS Intermezzo: Async Programming and Promises
+
+- What is [asynchronous programming](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing)?
+	- Technique that enables your program to start a potentially long-running task and still be able to be responsive to other events while that task runs
+
+
 
 - [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) 
 	- Using the `then` syntax for promises
@@ -100,33 +102,37 @@ To understand in the code above:
 
 
 
-# Using Parse - Reference Readings
+# Using Parse - References
 
+Reference Reading == *read as you need* 
 
-Two alternative and complementary documentation sources
-- The Back4App [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart)
-- The Parse.js [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started
-
-Reference Reading == read as you need 
+Two *alternative documentation sources*
+- The Back4App [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart) <-- nicer we think
+- The Parse.js [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started)
 
 - [CRUD operations](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial)
-	- **Create, Read, Update, and Delete objects to/from the DB**
+	- CRUD = **Create, Read, Update, and Delete objects to/from the DB**
 - [Basic Data types](https://www.back4app.com/docs/react/data-objects/react-data-types)
 - [Relationships](https://www.back4app.com/docs/react/data-objects/relationships)
 	- **Model a relationship between two objects** (e.g, User and Topic)
 - [Basic Queries](https://www.back4app.com/docs/react/data-objects/react-query)
 	- **Query for a list of objects**
-- [User Creation / Login](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
+
 - [Query Cookbook](https://www.back4app.com/docs/react/data-objects/react-query-cookbook)
-	- Query for complex sets of interelated objects (e.g. All topics of a given user)
 	- Filters
+	- Query for complex sets of interelated objects (e.g. All topics of a given user)
 
 
-# Individual Work
+## User Management with Parse
+- [User Creation / Login](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
+
+
+
+## Individual Work
 - Solve the [Sequencing Animations](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animationshttps://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animations) problem
 - Mandatory reading:
 	- [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) 
 
 
-# Project Work
+## Project Work
 - Start saving and loading data to and from the database
