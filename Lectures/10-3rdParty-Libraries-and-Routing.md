@@ -38,7 +38,66 @@
 
 #### In class coding
 - Create an About page as a React component
-- Use `react-router-dom` to show the about page at `/about` and the main app at `/`
+- Use `react-router-dom@6` to show the about page at `/about` and the main app at `/`
+
+1. Declare the routes
+```javascript
+import {Routes , Route } from "react-router-dom" 
+import {BrowserRouter as Router} from "react-router-dom"
+import Home from "./components/Home/Home" 
+import About from "./components/About/About" 
+function App(){ 
+   return ( 
+      <div> 
+      <Router>
+	        <Routes> 
+	            <Route path="/" component={<Home/> } /> 
+	            <Route path="/about" component={<About/> } /> 
+	       </Routes> 
+       </Router>
+    </div> 
+)} 
+export default App
+```
+
+Use `Link` components 
+
+```javascript
+import React from 'react'; 
+import { Link } from 'react-router-dom';  
+const Header = () => { 
+    return ( 
+        <div className="App"> 
+             <Link to="/" >  Home  </Link> 
+             <Link to="/about" >  About </Link> 
+        </div> 
+    ); 
+};
+```
+
+Sometimes you need to programatically change the url:
+
+```javascript
+import React from "react" 
+import {useNavigate} from "react-router-dom" 
+  
+export default function Profile() { 
+   let navigate = useNavigate() 
+   return ( 
+	   <div> 
+	         <h2> This is profile </h2> 
+	         <button> onClick ={()=>{ navigate("/about")}}> Login 
+	         </button> 
+	   </div> 
+	);
+```
+
+Note:
+- Do not use anchor tags instead of `<Link>` components because using anchor tags would not allow applications to remain Single Page Application ( SPA). HTML anchor tag would trigger a page reload or page refresh when clicked. 
+
+
+
+
 - *Advanced Alternative*: Implement your own home-made basic router (see the `window` events `load` and `hashchange` and the `window.location` property)
 
 # Project Work
