@@ -1,5 +1,5 @@
 # Coding Best Practices
-based on Code Reviewing
+for React projects in TID
 
 ## CSS
 
