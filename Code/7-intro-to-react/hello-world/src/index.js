@@ -6,6 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import About from "./About"
 
+import Parse from 'parse';
+
+// Your Parse initialization configuration goes here
+const PARSE_APPLICATION_ID = 'uxIfS2Rlygsccw5OqtoPzKfXQ3xJlzxbRCodzcjZ';
+const PARSE_JAVASCRIPT_KEY = 'z0ZVz7MeFuM1Y823zVdbhjQKLmenB3MOTfFzbatM';
+const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
+Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+Parse.serverURL = PARSE_HOST_URL;
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>

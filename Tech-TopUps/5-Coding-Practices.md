@@ -1,6 +1,13 @@
 # Coding Best Practices
 for React projects in TID
 
+
+## HTML
+
+##### Associate labels with inputs explicitly with `for` 
+See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label#for
+
+
 ## CSS
 
 ##### Name your CSS classes with kebab-case 

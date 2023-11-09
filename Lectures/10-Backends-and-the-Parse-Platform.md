@@ -8,11 +8,11 @@
 
 
 - What are the responsibilities of the backend?
-	- authentication 
+	- authentication (proving that a user is who they say they are)
 	- session management
 	- business logic and DB access
 	- scheduled jobs (e.g., `cron`)
-	- authorization
+	- authorization (what can a user do)
 
 
 - Deploying and implementing a traditional backend
@@ -31,7 +31,7 @@
 	- Alternatives
 		- Firebase = proprietary & hosted by Google
 		- Azure = Microsoft’s version 
-		- **Parse Server** = open source & you can self host
+		- **Parse Server** = open source 
 
 
 ## Parse Platform
@@ -44,8 +44,8 @@ Our preferred low-code backend
 - Functionality
 	- Authentication
 	- File storage
-	- APIS (REST & GraphQL)
-	- Javascript SDK
+	- APIs (REST & GraphQL)
+	- Javascript wrapper library
 	- Cloud functions
 	- Authorization
 
@@ -66,14 +66,18 @@ Steps to start working with the Back4App Parse deployment
 Then you can write code like the one below to save data to your database:
 
 ```javascript
+
+import Parse from 'parse';
+
 const Topic = Parse.Object.extend("Topic");
 const topic = new Topic();
 
 topic.set("name", "Backends");
 topic.set("isDiscussed", false);
 
-topic.save().then((topic) => {
-	console.log("saved with id: " + topic.id);
+topic.save().then(
+	(topicObject) => {
+		console.log("saved with id: " + topicObject.id);
 }, (error) => {
 	console.log(error.message);
 })
@@ -92,7 +96,6 @@ To understand in the code above:
 
 - What is [asynchronous programming](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing)?
 	- Technique that enables your program to start a potentially long-running task and still be able to be responsive to other events while that task runs
-
 
 
 - [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) 

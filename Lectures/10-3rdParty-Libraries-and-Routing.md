@@ -32,9 +32,8 @@
 - What are the **essential elements** that a router library should cover? 
 	- **Mapping a route to a page**
 	- **Intercepting navigation to a different page** and doing the routing
-	- **Extracting parameters from a complex** route (e.g. `www.sharenow.com/cars?id=4567`)
+	- **Extracting parameters from a complex** route (e.g. `www.sharenow.com/cars?id=4567`) 
 	- Nested routes (e.g. `www.sharenow.com/cars/new-arrivals`)
-
 
 
 #### In class coding
@@ -77,7 +76,7 @@ const Header = () => { 
 };
 ```
 
-Sometimes you need to programatically change the url:
+Sometimes you need to programmatically change the url:
 
 ```javascript
 import React from "react" 
@@ -99,8 +98,9 @@ Note:
 
 
 
+https://reactrouter.com/en/main/hooks/use-params
 
-- *Advanced Alternative*: Implement your own home-made basic router (see the `window` events `load` and `hashchange` and the `window.location` property)
+
 
 # Project Work
 - Add routing to your project by using `react-router-dom`
