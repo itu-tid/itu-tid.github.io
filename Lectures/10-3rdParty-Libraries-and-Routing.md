@@ -16,12 +16,16 @@
 
 
 
-
 - Where and how is routing done in Single Page Applications? 
 	- On the client side (i.e. browser)
 	- How? 
 		- Every URL request is intercepted by the routing library
 
+
+
+- Is Routing the responsibility of React?
+	- nope. React is responsible with the rendering of components
+	- Routing has to be implemented by a 3rd party library
 
 
 
@@ -31,10 +35,11 @@
 	- Extracting parameters from a complex route (e.g. `/articles/id=4567`)
 
 
+
 #### In class coding
 - Create an About page as a React component
 - Use `react-router-dom` to show the about page at `/about` and the main app at `/`
 - *Advanced Alternative*: Implement your own home-made basic router (see the `window` events `load` and `hashchange` and the `window.location` property)
 
 # Project Work
-- Add routing to your project
+- Add routing to your project by using `react-router-dom`
