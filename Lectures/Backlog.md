@@ -1,4 +1,55 @@
 
+
+Advanced DB topics
+	- [Live Queries](https://www.back4app.com/docs/react/real-time/react-hook-real-time)
+		- how to get notified when data changes 
+
+
+### A bit about APIs
+- https://rickandmortyapi.com/ 
+- you can see by example:
+	- REST
+	- GraphQL
+- you test them with Postman
+- you also test them with the help of the `fetch` API
+
+
+## Advanced Questions / To Think About
+
+1. What happens when one sends a full url straight to the server? e.g. zeeguu.org/exercises? 
+
+
+
+# Third Party Libraries
+
+- What is the relationship between react, npm and Javascript? 
+- How do you instal dependencies with `npm`? What do you do to make sure that your colleagues also know which dependency you are using? 
+- When do you have to run `nmp install`?
+- Do you add `node_modules` to version control? What's the principle there? 
+- Why do we list dependencies in `packages.json`? 
+- What is the meaning of the version numbers in `packages.json`? [How is semantic versioning used in npm?](https://docs.npmjs.com/about-semantic-versioning)
+- Why do we need package-lock.json? Do we commit it to GH? 
+- Finding libraries on https://www.npmjs.com
+
+Live Demo Example 
+- Adding a progress-bar from [`mui`](https://mui.com/material-ui/react-progress/)
+- Also adding a toast? 
+
+# Single Page Applications
+
+#### What are Single Page Applications (SPAs)? 
+
+#### Why are they useful? 
+
+#### What's the relationship between the client-server architecture and SPAs?
+
+
+
+#### How to protect some routes if the user is not loggedIn? 
+
+
+
+
 Git
 - what do you not commit to git?
 - what is a fork? 

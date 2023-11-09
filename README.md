@@ -31,4 +31,4 @@
 # Week 10 - 3rd Party Libraries. Routing.  Backends
 Lecture Notes: 
 - [10-3rdParty-Libraries-and-Routing](Lectures/10-3rdParty-Libraries-and-Routing.md)
-- [10-Backends](Lectures/10-Backends.md)
+- [10-Backends-and-the-Parse-Platform](Lectures/10-Backends-and-the-Parse-Platform.md)
