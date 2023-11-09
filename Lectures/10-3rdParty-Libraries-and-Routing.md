@@ -31,10 +31,10 @@
 	- Extracting parameters from a complex route (e.g. `/articles/id=4567`)
 
 
-#### In class exercise
-- Add an about page 
+#### In class coding
+- Create an About page as a React component
 - Use `react-router-dom` to show the about page at `/about` and the main app at `/`
-- *Advanced*: Implement your own home-made basic router (see the `window` events `load` and `hashchange` and the `window.location` property)
+- *Advanced Alternative*: Implement your own home-made basic router (see the `window` events `load` and `hashchange` and the `window.location` property)
 
 # Project Work
 - Add routing to your project
