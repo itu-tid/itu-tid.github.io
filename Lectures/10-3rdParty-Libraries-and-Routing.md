@@ -19,7 +19,7 @@
 - Where and how is routing done in Single Page Applications? 
 	- On the client side (i.e. browser)
 	- How? 
-		- Every URL request is intercepted by the routing library
+		- Every URL request is intercepted by the *routing library*
 
 
 
@@ -29,32 +29,34 @@
 
 
 
-- What are the essential elements that a router library should cover? 
-	- Mapping a route to a page
-	- Intercepting navigation to a different page and doing the routing
-	- Extracting parameters from a complex route (e.g. `/articles/id=4567`)
+- What are the **essential elements** that a router library should cover? 
+	- **Mapping a route to a page**
+	- **Intercepting navigation to a different page** and doing the routing
+	- **Extracting parameters from a complex** route (e.g. `www.sharenow.com/cars?id=4567`)
+	- Nested routes (e.g. `www.sharenow.com/cars/new-arrivals`)
 
 
 
 #### In class coding
+
 - Create an About page as a React component
 - Use `react-router-dom@6` to show the about page at `/about` and the main app at `/`
 
 1. Declare the routes
 ```javascript
 import {Routes , Route } from "react-router-dom" 
-import {BrowserRouter as Router} from "react-router-dom"
+import {BrowserRouter} from "react-router-dom"
 import Home from "./components/Home/Home" 
 import About from "./components/About/About" 
 function App(){ 
    return ( 
       <div> 
-      <Router>
+      <BrowserRouter>
 	        <Routes> 
-	            <Route path="/" component={<Home/> } /> 
-	            <Route path="/about" component={<About/> } /> 
+	            <Route path="/" element={<Home/> } /> 
+	            <Route path="/about" element={<About/> } /> 
 	       </Routes> 
-       </Router>
+       </BrowserRouter>
     </div> 
 )} 
 export default App
