@@ -6,7 +6,7 @@
 - The server side in a ***client-server architecture***
 
 
-- Responsibilities of the backend
+- What are the responsibilities of the backend?
 	- authentication 
 	- session management
 	- business logic and DB access
@@ -14,7 +14,7 @@
 	- authorization
 
 
-- Creating a traditional backend
+- Deploying and implementing a traditional backend
 	- machine installation!
 	- operating system
 	- security & firewall
@@ -24,11 +24,11 @@
 	- logging and analytics
 	- backup system
 
-We do not have time for that in this course
+We do not have time for that in this course...
 
-Alternative: **low-code backend**
+**Low-code backends**
 - common solutions for common backend problems
-- alternatives
+- Alternatives
 	- Firebase = proprietary & hosted by Google
 	- Azure = Microsoft’s version 
 	- **Parse Server** = open source & you can self host
@@ -40,9 +40,6 @@ Low-code backend
 	- Node.js based
 - History
 	Startup => facebook => open source
-- Where is the server?
-	- on your own server
-	- on back4app
 - Functionality
 	- Authentication
 	- File storage
@@ -51,17 +48,16 @@ Low-code backend
 	- Cloud functions
 	- Authorization
 
-To understand: 
-- What is the relationships between Back4App and Parse Platform? 
-
-### Using Parse with Back4App in your Project
-
-Two alternative and complementary documentation sources
-- The Back4App [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart)
-- The Parse.js [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started)
 
 
-Steps to start working with Parse: 
+### Using Parse from Back4App
+
+- Where is the server?
+	- on your own server
+	- somewhere in the cloud; e.g., back4app 
+
+
+Steps to start working with the Back4App Parse deployment 
 1. Create an account on Back4App
 2. Install the `parse` library from npm
 3. Initialize the global Parse object (see step 4 in the [back4app guide](https://www.back4app.com/docs/react/quickstart))
@@ -106,6 +102,11 @@ To understand in the code above:
 
 # Using Parse - Reference Readings
 
+
+Two alternative and complementary documentation sources
+- The Back4App [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart)
+- The Parse.js [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started
+
 Reference Reading == read as you need 
 
 - [CRUD operations](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial)
@@ -121,12 +122,11 @@ Reference Reading == read as you need
 	- Filters
 
 
-# Project Work
-- Start saving and loading data to and from the database
-
-
 # Individual Work
 - Solve the [Sequencing Animations](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animationshttps://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animations) problem
 - Mandatory reading:
 	- [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) 
 
+
+# Project Work
+- Start saving and loading data to and from the database
