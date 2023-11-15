@@ -132,10 +132,40 @@ Two *alternative documentation sources*
 
 
 ## Individual Work
-- Solve the [Sequencing Animations](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animationshttps://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animations) problem
+- Solve the [Sequencing Animations](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animations) problem
 - Mandatory reading:
 	- [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) 
 
 
 ## Project Work
 - Start saving and loading data to and from the database
+
+
+
+## Test Your Knowledge
+
+### Can you refactor the following function into an async one?
+
+```javascript 
+function fetchMorty() {
+
+	return fetch('https://rickandmortyapi.com/api/character/2')
+		.then(response => response.json())
+		.then(data => console.log(data))
+		.catch(error => console.error(error));
+
+}
+```
+
+- Solution
+	```javascript
+	async function fetchMorty() {
+		try {
+			const response = await fetch('https://api.example.com/data');
+			const data = await response.json();
+			console.log(data);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+	```
