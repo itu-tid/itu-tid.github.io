@@ -1,5 +1,20 @@
 
 
+- Access Control - not essential? 
+
+- What do we save in LocalStorage and what do we save in the DB? 
+
+
+
+
+## Single Page Application Architecture
+
+![](images/spa-architecture.png)
+
+
+
+
+
 Advanced DB topics
 	- [Live Queries](https://www.back4app.com/docs/react/real-time/react-hook-real-time)
 		- how to get notified when data changes 
