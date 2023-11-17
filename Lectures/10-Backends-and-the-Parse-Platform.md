@@ -196,6 +196,7 @@ function ListOfChats() {
 
 Now because rendering the `objectID` of a chat is meaningless, and because our chat model has no other information besides the pointers to the participants `p1` and `p2` what we want to render is in fact, the name of the other participant to the chat. For simplicity we will assume for now that the partner is always `p2` and that the current user is always `p1`. It is left as an exercise to the reader to handle the opposite situation.
 
+### Alternative 1
 One possible way to do that is to make another query for each chat, in which we obtain the user information about `p2`, as in the reimplementation below of the `loadChatData ` function: 
 
 ```js
@@ -237,6 +238,7 @@ Note that,
 - before we can set the state variable with `setChatList` we have to make sure that all the promises in our list of promises have finished. To do that we call the `await Promise.all(...)` function as in the example
 
 
+### Alternative 2
 Another approach to the example above, is to move the getting of the information about the Chat into its own separate component. In that case, the `ListOfChats` component is simpler:  
 
 ```js
