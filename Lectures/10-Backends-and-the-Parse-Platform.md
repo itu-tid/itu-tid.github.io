@@ -349,7 +349,7 @@ In our example, this is still sub-optimal because we are sending more queries th
 
 # Using Parse - Further References
 
-Reference Reading == *read as you need* 
+*Read as needed* 
 
 Two *alternative documentation sources*
 - The Back4App [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart) <-- nicer we think
