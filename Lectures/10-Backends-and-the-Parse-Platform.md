@@ -205,8 +205,7 @@ One possible way to do that is to make another query for each chat, in which we 
 
 ```
 
-Notes
-
+Note that,
 - the lambda function inside of the call to `map` 
 	- is an anonymous `async` function, because inside it we have to do call `await` for every query for the details of every User object linked in the 
 	- uses the `first()` query function instead of the `find()` because we know for sure that we have a single  object that matches our query (there can only be one user with a given id). When we call `find()` we get an array of objects; when we call `find()` we get a single object.
