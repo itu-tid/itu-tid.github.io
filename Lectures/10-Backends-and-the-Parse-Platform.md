@@ -257,7 +257,7 @@ Notes
 	- ... uses the `first()` query function instead of the `find()` because we know for sure that we have a single  object that matches our query (there can only be one user with a given id). When we call `find()` we get an array of objects; when we call `find()` we get a single object.
 	- ... returns a list of promises!!! (because every async function always returns a promise)
 - Before we can set the state variable with `setChatList` we have to make sure that all the promises in our list of promises have finished. To do that we call the `await Promise.all(...)` function as in the example
-- This solution ends up in quite a monstrosity of `async/await`. If you understand this, then you will never be afraid of `async/await` ever again. 
+- If you understand this, then you will never be afraid of `async/await` ever again. 
 
 
 ### Alternative 2
