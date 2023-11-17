@@ -268,7 +268,8 @@ Parse has a more elegant solution to the problem above. Instead of us going to t
 	async function loadChatData() {  
 
 	    let query = new Parse.Query("Chat");  
-	    query.equalTo("p1", currentUser);  
+	    query.equalTo("p1", currentUser);
+	    query.include("p2"); #<--- the magic line
 	  
 	    let listOfChats = await query.find();  
 	  
