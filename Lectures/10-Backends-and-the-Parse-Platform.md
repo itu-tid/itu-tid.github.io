@@ -147,19 +147,7 @@ async function fetchMorty() {
 
 Take the following database model: 
 
-User (Table)
-- username: string
-- fullName: string 
-
-Chat
-- p1: Pointer(User) 
-- p2: Pointer(User)
-
-Message
-- chat: Pointer(Chat)
-- senter: Pointer(User)
-- time
-- content
+![](images/user-chat-message-model.png)
 
 Assuming that we have a component that aims to list all the chats in which the `Parse.User.current()` has  involved, one could use the following implementation:
 
