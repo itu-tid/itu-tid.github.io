@@ -142,6 +142,10 @@ async function fetchMorty() {
 ```
 
 
+## User Management with Parse
+
+To read: [User Creation / Login](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
+
 
 # Querying the Database
 
@@ -365,11 +369,8 @@ Two *alternative documentation sources*
 
 - [Query Cookbook](https://www.back4app.com/docs/react/data-objects/react-query-cookbook)
 	- Filters
-	- Query for complex sets of interelated objects (e.g. All topics of a given user)
 
 
-## User Management with Parse
-- [User Creation / Login](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
 
 
 
