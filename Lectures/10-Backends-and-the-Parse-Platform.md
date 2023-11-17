@@ -270,8 +270,6 @@ Parse has a more elegant solution to the problem above. Instead of us going to t
 	  
 	    let listOfChats = await query.find();  
 	  
-		// changing the state will re-render the component once the 
-		// data is ready
 	    setChatList(chats);  
 	};
 ```
