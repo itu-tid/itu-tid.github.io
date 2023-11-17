@@ -103,7 +103,43 @@ To understand in the code above:
 	- How to chain two promises? 
 
 
+Promises are often used when requesting something from a server, as in the following example:
 
+```javascript 
+function fetchMorty() {
+
+	return fetch('https://rickandmortyapi.com/api/character/2')
+		.then(response => response.json())
+		.then(data => console.log(data))
+		.catch(error => console.error(error));
+
+}
+```
+
+Declaring the function to be async allows us to use the `await` keyword and makes the code easier to read:
+
+```js
+async function fetchMorty() {
+
+	const response = await fetch('https://rickandmortyapi.com/api/character/2');
+	const data = await response.json();
+	console.log(data);
+}
+```
+
+Surely, one needs to also handle exceptions: 
+
+```js
+async function fetchMorty() {
+	try {
+		const response = await fetch('https://rickandmortyapi.com/api/character/2');
+		const data = await response.json();
+		console.log(data);
+	} catch (error) {
+		console.error(error);
+	}
+}
+```
 
 
 
@@ -320,32 +356,3 @@ Two *alternative documentation sources*
 ## Project Work
 - Start saving and loading data to and from the database
 
-
-
-## Test Your Knowledge
-
-### Can you refactor the following function into an async one?
-
-```javascript 
-function fetchMorty() {
-
-	return fetch('https://rickandmortyapi.com/api/character/2')
-		.then(response => response.json())
-		.then(data => console.log(data))
-		.catch(error => console.error(error));
-
-}
-```
-
-- Solution
-	```javascript
-	async function fetchMorty() {
-		try {
-			const response = await fetch('https://api.example.com/data');
-			const data = await response.json();
-			console.log(data);
-		} catch (error) {
-			console.error(error);
-		}
-	}
-	```
