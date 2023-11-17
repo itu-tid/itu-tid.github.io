@@ -149,7 +149,9 @@ Take the following database model:
 
 ![](images/user-chat-message-model.png)
 
-Assuming that we have a component that aims to list all the chats in which the `Parse.User.current()` has  involved, one could use the following implementation:
+In it, `p1` and `p2`, and `sender` are of type `Pointer` pointing to the `User` class. And `chat` is a pointer to the `Chat` class. 
+
+Let us assume that we have a component named `ListOfChats` that aims to list all the chats. Since the logged in user can be accessed with the `Parse.User.current()`, one could use the following implementation to get all the chats in which the current user is `p1`: 
 
 ```javascript
 
@@ -186,7 +188,7 @@ function ListOfChats() {
 
 	return (
 		<>
-			{chatList.map(chat => ...)}
+			{chatList.map(chat => {chat.id})}
 		</>
 	)
 	}
@@ -194,10 +196,22 @@ function ListOfChats() {
 ```
 
 
-Now because rendering the `objectID` of a chat is meaningless, and because our chat model has no other information besides the pointers to the participants `p1` and `p2` what we want to render is in fact, the name of the other participant to the chat. For simplicity we will assume for now that the partner is always `p2` and that the current user is always `p1`. It is left as an exercise to the reader to handle the opposite situation.
+Now because rendering the `id` of a chat is meaningless, and because our chat model has no other information besides the pointers to the participants `p1` and `p2` what we want to render is in fact, the name of the other participant to the chat. If we only show the chats were we are participant `p1`, then we could try to render the `fullName` of `p2`. One way to try to do this, is with the following code, that fails:  
+
+```js
+	return (
+		<>
+			{chatList.map(chat => {chat.get("p2").get("fullName")})}
+		</>
+	)
+	
+```
+
+The reason for this failure is that our query object has only retrieved from the DB info in the Chat table. Thus, we do not have access to the `fullName` info in the `User` table. To access that, there are three alternative ways: 
 
 ### Alternative 1
-One possible way to do that is to make another query for each chat, in which we obtain the user information about `p2`, as in the reimplementation below of the `loadChatData ` function: 
+
+One possible way to do that is to make another query to the Database for each chat. In this other query we request the user information about `p2`, as seen below: 
 
 ```js
 	// actual data loading from the DB 
@@ -237,8 +251,31 @@ Note that,
 	- returns a list of promises (because every async function always returns a promise)
 - before we can set the state variable with `setChatList` we have to make sure that all the promises in our list of promises have finished. To do that we call the `await Promise.all(...)` function as in the example
 
-
 ### Alternative 2
+
+Parse has a more elegant solution to the problem above. Instead of us going to the database for every chat object with a new query, we can ask the API it to retrieve also details for Pointer objects. In our case, because we only care about `p2` we ask it to include objects pointed at by `p2` in the following way: 
+
+```js
+	async function loadChatData() {  
+
+	    let query = new Parse.Query("Chat");  
+	    query.equalTo("p1", currentUser);  
+	  
+	    let listOfChats = await query.find();  
+	  
+		// changing the state will re-render the component once the 
+		// data is ready
+	    setChatList(chats);  
+	};
+```
+
+Now we can use the following line of code for getting the fullName
+
+```js
+chat.get("p2").get("fullName")
+```
+
+### Alternative 3
 Another approach to the example above, is to move the getting of the information about the Chat into its own separate component. In that case, the `ListOfChats` component is simpler:  
 
 ```js
@@ -304,11 +341,7 @@ function Chat({chat}) {
 ```
 
 and the ChatListPage would simply delegate to the `Chat` component as below:
-
-Note
-- Mircea has spent once an hour of coding trying to do something like `chat.get("p2").get("fullName")`. This is not possible when your query only the `Chat` table as above. If you query the Chat table, you only get the information from the Chat table locally. Thus, you have to do another query for the information in the Users table. 
-- Another temptation is to user `Parser.User.current().get("fullName")` to show info about the currently loggedIn user -- however, note that this information can be stale since it is cached in the localStorage of the browser. To be sure that you always have the last version of the username you should rather issue a new query to the database. 
-
+In our example, this is still sub-optimal because we are sending more queries than necessary to the DB. However, in other situations this might be a solution. 
 
 
 # Using Parse - Further References
