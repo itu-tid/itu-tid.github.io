@@ -179,8 +179,6 @@ function ListOfChats() {
 	  
 	    let listOfChats = await query.find();  
 	  
-		// changing the state will re-render the component once the 
-		// data is ready
 	    setChatList(chats);  
 	};
 
@@ -192,7 +190,7 @@ function ListOfChats() {
 
 	return (
 		<>
-			{chatList.map(chat => {chat.id})}
+		{chatList.map(chat => {chat.id})}
 		</>
 	)
 	}
@@ -205,7 +203,7 @@ Now because rendering the `id` of a chat is meaningless, and because our chat mo
 ```js
 	return (
 		<>
-			{chatList.map(chat => {chat.get("p2").get("fullName")})}
+		{chatList.map(chat => {chat.get("p2").get("fullName")})}
 		</>
 	)
 	
@@ -228,7 +226,7 @@ More precisely, for each chat object retrieved by `find` we are making a new que
 	  
 	    let listOfChats = await query.find();  
 
-		let chatUsernamePairPromises = listOfChats.map(async chat => {
+	    let chatUsernamePairPromises = listOfChats.map(async chat => {
 		
 			let userQuery = new Parse.Query("User");
 			userQuery.equalTo("objectId", chat.get("p2").id);
@@ -241,10 +239,8 @@ More precisely, for each chat object retrieved by `find` we are making a new que
 			
 		})
 
-		let chatUsernamePairs = await Promise.all(chatUsernamePairPromises);
+	    let chatUsernamePairs = await Promise.all(chatUsernamePairPromises);
 
-		// changing the state will re-render the component once the 
-		// data is ready
 	    setChatList(loadChatData);  
 	};
 
