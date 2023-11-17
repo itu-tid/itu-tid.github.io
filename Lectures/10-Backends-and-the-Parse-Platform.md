@@ -215,9 +215,9 @@ The reason for this failure is that our query object has only retrieved from the
 
 ### Alternative 1
 
-One possible way to do that is to make another query to the Database for each chat. 
+One possible way to do that is to make another query to the Database for each chat. Since queries return promises, this results in quite a challenging dance of async/awaits. 
 
-In this solution, for each chat object retrieved by `find` we are making a new query to the DB to get the `fullName` for the corresponding `p2` user: 
+More precisely, for each chat object retrieved by `find` we are making a new query to the DB to get the `fullName` for the corresponding `p2` user: 
 
 ```js
 	// actual data loading from the DB 
@@ -252,12 +252,12 @@ In this solution, for each chat object retrieved by `find` we are making a new q
 ```
 
 Notes
-- Phe lambda function inside of the call to `map` ...
+- The lambda function inside of the call to `map` ...
 	- ... is an anonymous `async` function, because inside it we have to do call `await` for every query for the details of every User object linked in the 
 	- ... uses the `first()` query function instead of the `find()` because we know for sure that we have a single  object that matches our query (there can only be one user with a given id). When we call `find()` we get an array of objects; when we call `find()` we get a single object.
 	- ... returns a list of promises!!! (because every async function always returns a promise)
 - Before we can set the state variable with `setChatList` we have to make sure that all the promises in our list of promises have finished. To do that we call the `await Promise.all(...)` function as in the example
-- Since queries are async, this solution ends up in quite a monstrosity of `async/await`. If you understand this, then you will never be afraid of `async/await` ever again. 
+- This solution ends up in quite a monstrosity of `async/await`. If you understand this, then you will never be afraid of `async/await` ever again. 
 
 
 ### Alternative 2
