@@ -211,7 +211,9 @@ The reason for this failure is that our query object has only retrieved from the
 
 ### Alternative 1
 
-One possible way to do that is to make another query to the Database for each chat. In this other query we request the user information about `p2`, as seen below: 
+One possible way to do that is to make another query to the Database for each chat. Since queries are async, this ends up in a monstrosity of `async/await` that if you can understand, then you will never be afraid of `async/await` ever again. 
+
+In this solution, for each chat object retrieved by `find` we are making a new query to the DB to get the `fullName` for the corresponding `p2` user: 
 
 ```js
 	// actual data loading from the DB 
@@ -223,6 +225,7 @@ One possible way to do that is to make another query to the Database for each ch
 	    let listOfChats = await query.find();  
 
 		let chatUsernamePairPromises = listOfChats.map(async chat => {
+		
 			let userQuery = new Parse.Query("User");
 			userQuery.equalTo("objectId", chat.get("p2").id);
 			
@@ -244,12 +247,12 @@ One possible way to do that is to make another query to the Database for each ch
 
 ```
 
-Note that,
-- the lambda function inside of the call to `map` 
-	- is an anonymous `async` function, because inside it we have to do call `await` for every query for the details of every User object linked in the 
-	- uses the `first()` query function instead of the `find()` because we know for sure that we have a single  object that matches our query (there can only be one user with a given id). When we call `find()` we get an array of objects; when we call `find()` we get a single object.
-	- returns a list of promises (because every async function always returns a promise)
-- before we can set the state variable with `setChatList` we have to make sure that all the promises in our list of promises have finished. To do that we call the `await Promise.all(...)` function as in the example
+Notes
+- Phe lambda function inside of the call to `map` ...
+	- ... is an anonymous `async` function, because inside it we have to do call `await` for every query for the details of every User object linked in the 
+	- ... uses the `first()` query function instead of the `find()` because we know for sure that we have a single  object that matches our query (there can only be one user with a given id). When we call `find()` we get an array of objects; when we call `find()` we get a single object.
+	- ... returns a list of promises!!! (because every async function always returns a promise)
+- Before we can set the state variable with `setChatList` we have to make sure that all the promises in our list of promises have finished. To do that we call the `await Promise.all(...)` function as in the example
 
 ### Alternative 2
 
@@ -276,11 +279,11 @@ chat.get("p2").get("fullName")
 ```
 
 ### Alternative 3
-Another approach to the example above, is to move the getting of the information about the Chat into its own separate component. In that case, the `ListOfChats` component is simpler:  
+Another approach to the example above, is to move the getting of the information about the Chat into its own separate component. In that case, the `ListOfChats` component becomes simpler and leaves to the individual `Chat` element the responsibility for querying the DB for the user's `fullName`:  
 
 ```js
 
-const ChatListPage = () => {  
+const ListOfChats = () => {  
   const currentUser = Parse.User.current();  
   const [chatList, setChatList] = useState();  
   
