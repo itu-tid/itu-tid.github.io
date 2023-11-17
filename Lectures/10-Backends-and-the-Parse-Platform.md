@@ -63,7 +63,9 @@ Steps to start working with the Back4App Parse deployment
 2. Install the `parse` library from npm
 3. Initialize the global Parse object (see step 4 in the [back4app guide](https://www.back4app.com/docs/react/quickstart))
  
-Then you can write code like the one below to save data to your database:
+Then you can write code like you see in the examples below.
+
+## Saving a New Object to the Database
 
 ```javascript
 
@@ -89,9 +91,6 @@ To understand in the code above:
 - `save.then( (obj) => {...})` - save returns a *promise*
 
 
-
-
-
 # JS Intermezzo: Async Programming and Promises
 
 - What is [asynchronous programming](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing)?
@@ -105,7 +104,189 @@ To understand in the code above:
 
 
 
-# Using Parse - References
+
+
+
+# Querying the Database
+
+Take the following database model: 
+
+User (Table)
+- username: string
+- fullName: string 
+
+Chat
+- p1: Pointer(User) 
+- p2: Pointer(User)
+
+Message
+- chat: Pointer(Chat)
+- senter: Pointer(User)
+- time
+- content
+
+Assuming that we have a component that aims to list all the chats in which the `Parse.User.current()` has  involved, one could use the following implementation:
+
+```javascript
+
+function ListOfChats() {
+
+	// define the state var in which we keep the chat list
+	const [chatList, setChatList] = useState(null);
+	const currentUser = Parse.User.current();
+
+	// load the chat info when component is rendered first time
+	useEffect(() => {  
+	    loadChatData();  
+	}, []);
+
+
+	// actual data loading from the DB 
+	async function loadChatData() {  
+
+	    let query = new Parse.Query("Chat");  
+	    query.equalTo("p1", currentUser);  
+	  
+	    let listOfChats = await query.find();  
+	  
+		// changing the state will re-render the component once the 
+		// data is ready
+	    setChatList(chats);  
+	};
+
+
+	if (chatList === undefined) {
+		return "Loading..."
+	}
+
+
+	return (
+		<>
+			{chatList.map(chat => ...)}
+		</>
+	)
+	}
+
+```
+
+
+Now because rendering the `objectID` of a chat is meaningless, and because our chat model has no other information besides the pointers to the participants `p1` and `p2` what we want to render is in fact, the name of the other participant to the chat, which in our case is `p2`. 
+
+One possible way to do that is to make another query for each chat, in which we obtain the user information about `p2`, as in the reimplementation below of the `loadChatData ` function: 
+
+```js
+	// actual data loading from the DB 
+	async function loadChatData() {  
+
+	    let query = new Parse.Query("Chat");  
+	    query.equalTo("p1", currentUser);  
+	  
+	    let listOfChats = await query.find();  
+
+		let chatUsernamePairPromises = listOfChats.map(async chat => {
+			let userQuery = new Parse.Query("User");
+			userQuery.equalTo("objectId", chat.get("p2").id);
+			
+			let user = await userQuery.first();
+
+			// returning a new kind of object that mixes the 
+			// and the username of the person we're chatting to
+			return {id: chat.id, name: user.get("fullName")}
+			
+		})
+
+		let chatUsernamePairs = await Promise.all(chatUsernamePairPromises);
+
+		// changing the state will re-render the component once the 
+		// data is ready
+	    setChatList(loadChatData);  
+	};
+
+
+```
+
+Notes
+
+- the lambda function inside of the call to `map` 
+	- is an anonymous `async` function, because inside it we have to do call `await` for every query for the details of every User object linked in the 
+	- uses the `first()` query function instead of the `find()` because we know for sure that we have a single  object that matches our query (there can only be one user with a given id). When we call `find()` we get an array of objects; when we call `find()` we get a single object.
+	- returns a list of promises (because every async function always returns a promise)
+- before we can set the state variable with `setChatList` we have to make sure that all the promises in our list of promises have finished. To do that we call the `await Promise.all(...)` function as in the example
+
+
+Another approach to the example above, is to move the getting of the information about the Chat into its own separate component. In that case, the `ListOfChats` component is simpler:  
+
+```js
+
+const ChatListPage = () => {  
+  const currentUser = Parse.User.current();  
+  const [chatList, setChatList] = useState();  
+  
+  useEffect(() => {  
+        loadChats();  
+    }, []);  
+  
+  async function loadChats() {  
+        let query = new Parse.Query("Chat");  
+        query.equalTo("p1", currentUser);  
+        let listOfChats = await query.find();  
+        setChatList(listOfChats);  
+    };  
+  
+  if (chatList === undefined) {  
+        return ("Loading...");  
+    }  
+  
+  return (  
+    <div>  
+        <h4>Recent chats</h4>  
+          {chatList.map(chat => <Chat chat={chat}/>)}  
+    </div>  
+  )  
+}
+```
+
+And the responsibility of getting the username for a given chat, is delayed till the first rendering of the `Chat` component as shown below: 
+
+```js
+
+function Chat({chat}) {  
+  
+    const [username, setUsername] = useState();  
+  
+    async function loadUsername () {  
+        let userQuery = new Parse.Query("User");  
+        userQuery.equalTo("objectId", chat.get("p2").id);  
+        let user = await userQuery.first();  
+        setUsername(user.get("fullName"));  
+    }  
+  
+    useEffect(() => {  
+        loadUsername();  
+    }, []);  
+  
+    if (username === undefined) {  
+        return <small>loading</small>  
+    }  
+  
+    return (  
+        <div>  
+            <a href={"/chats/"+chat.id}>{username}</a>  
+        </div>  
+    )  
+}
+
+```
+
+and the ChatListPage would simply delegate to the `Chat` component as below:
+
+Note
+- Mircea has spent once an hour of coding trying to do something like `chat.get("p2").get("fullName")`. This is not possible when your query only the `Chat` table as above. If you query the Chat table, you only get the information from the Chat table locally. Thus, you have to do another query for the information in the Users table. 
+- Another temptation is to user `Parser.User.current().get("fullName")` to show info about the currently loggedIn user -- however, note that this information can be stale since it is cached in the localStorage of the browser. To be sure that you always have the last version of the username you should rather issue a new query to the database. 
+
+
+
+# Using Parse - Further References
 
 Reference Reading == *read as you need* 
 
