@@ -1,4 +1,4 @@
-# Coding Best Practices
+![image](https://github.com/itu-tid/lecture-notes/assets/464519/0174fff9-39ac-4a51-b554-29a6549d1ef4)# Coding Best Practices
 for React projects in TID
 
 
@@ -26,5 +26,8 @@ See: [CSS naming-conventions](https://www.freecodecamp.org/news/css-naming-conve
 - parameters
 - everything else besides class names
 See: https://www.w3schools.com/js/js_conventions.asp
+
+##### Component and file in which it is defined should have the same name
+- this makes code navigation easier
 
 
