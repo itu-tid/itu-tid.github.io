@@ -1,4 +1,4 @@
-![image](https://github.com/itu-tid/lecture-notes/assets/464519/0174fff9-39ac-4a51-b554-29a6549d1ef4)# Coding Best Practices
+# Coding Best Practices
 for React projects in TID
 
 
