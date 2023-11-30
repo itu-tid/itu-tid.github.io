@@ -3,7 +3,9 @@ for React projects in TID
 
 ## Setting up your code Editor
 
-##### Install an automatic formatter
+##### Install an automatic formatter and configure it to format-on-save
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) is the most popular formatter for VSCode
+  
 
 
 ## HTML
