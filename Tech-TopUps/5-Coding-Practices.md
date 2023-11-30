@@ -1,6 +1,10 @@
 # Coding Best Practices
 for React projects in TID
 
+## Setting up your code Editor
+
+##### Install an automatic formatter
+
 
 ## HTML
 
