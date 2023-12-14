@@ -202,6 +202,7 @@ Privileges can be
 - writing 
 - even more specific column level permissions
 
+Image below shows the Parse UI for setting Class-level permissions. 
 ![](images/class-level-permissions-in-parse.png)
 
 So for your applications, you would very likely not want non-authenticated users to access your tables. 
