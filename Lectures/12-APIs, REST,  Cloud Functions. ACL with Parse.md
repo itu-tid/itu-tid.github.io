@@ -202,7 +202,7 @@ Privileges can be
 - writing 
 - even more specific column level permissions
 
-![](images/class-level-permissions.png)
+![](images/class-level-permissions-in-parse.png)
 
 So for your applications, you would very likely not want non-authenticated users to access your tables. 
 
