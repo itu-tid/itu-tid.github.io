@@ -7,17 +7,21 @@ _**“I saw the angel in the stone and I carved until I set it free.”**_ **–
 
 ## An Iterative Discovery and Creation  Process
 
-The following are two popular alternative definitions of ID:
 
-> *ID is the practice of designing interactive digital products, environments, systems, and services*. (Alan Cooper, About Face)
-
-> *Designing interactive products to support the way people communicate and interact in everyday and working lives*. (Preece et. al, Interaction Design)
 
 ID is a creative process, and like any creative process
 - has to be developed with a given set of constrains and 
 - has to be done in an iterative manner
 
 Unlike other design disciplines (logo design, visual design, etc.) interaction design it is focused as much on *behavior* as on form.
+
+The following are two popular alternative definitions of ID:
+
+> 1. *ID is the practice of designing interactive digital products, environments, systems, and services*. (Alan Cooper, About Face)
+
+
+> *2. Designing interactive products to support the way people communicate and interact in everyday and working lives*. (Preece et. al, Interaction Design)
+
 
 As you can imagine, based on these definitions, interaction design is a very broad domain. E.g. CHI -- the main international conference where researchers working in human-computer interaction meet to discuss the latest findings. At one of the last such conferences I attended the topics ranged from: smart shoes, to smart pills that you could track as they traversed your digestive tract, to "5D" games, to adaptable systems for language learning (this, the least futuristic one, was my work). 
 
