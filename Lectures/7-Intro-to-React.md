@@ -13,7 +13,8 @@ Every UI element in React is either a component or is composed of nested compone
 Components are 
 - (conceptually) reusable UI elements
 - (technically) functions that return markup
-- (practically) nested all the way down
+
+Components are nested all the way down:
 	- From small, e.g. buttons, to large, e.g. full web page or mobile screens
 
 Conventions: 
