@@ -19,8 +19,8 @@ Components are nested all the way down:
 
 Conventions: 
 - (naming) components are named with capital letters 
-- (modularization): unless they are very small and related, components should be defined in their own files. 
-- (modularization) To import a component one can use either *default* or *named* imports.
+- (modularization): components are defined in their own files
+- (modularization) To import a component one can use either *default* or *named* imports
 
 [Example](https://react.dev/learn/your-first-component#defining-a-component) of a React component 
 
