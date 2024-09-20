@@ -1,7 +1,7 @@
 
 # React
 
-React is a JavaScript **library** for building interactive user interfaces.
+React is a JavaScript **library** for building interactive **single page applications**.
 
 
 ## Components
