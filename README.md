@@ -1,6 +1,6 @@
 ## Interaction Design
 - [1-Technical-Interaction-Design](Lectures/1-Technical-Interaction-Design.pdf)
--[5-Usability-and-Its-Evaluation](Lectures/5-Usability-and-Its-Evaluation.md)
+- [5-Usability-and-Its-Evaluation](Lectures/5-Usability-and-Its-Evaluation.md)
 
 ## Coding Pre-requisites
 - Tech Top-Up: [1-Basics-of-CSS](Tech-TopUps/1-Basics-of-CSS.md)
