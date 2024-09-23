@@ -1,0 +1,4 @@
+- did not get to show 
+	- getting a list of children based on their type
+	- iterating through them -- maybe it's for the best -- would have been too much
+	- debugging in the IDE

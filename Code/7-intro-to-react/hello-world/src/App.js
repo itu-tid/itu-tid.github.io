@@ -1,25 +1,27 @@
-import {CourseOverview} from "./CourseOverview";
-import {Link} from 'react-router-dom';
+import Counter  from "./Counter";
+import {useState} from "react";
 
 function App() {
 
-    let user = "TID Hacker"
-    let date = Date();
-    let titleStyle = {
-        fontWeight: 100
-    };
+    const [color, setColor] = useState("lightBlue");
 
     return (
-        <>
-            <h1 className="fancyHeader">Hello {user}!</h1>
-            <Link to="about">About</Link> |
+        <div>
+            <h1 >
+                Hi from React
+            </h1>
 
-            <br/>
-            <h3>Date: {date}</h3>
-            <p>By the end of this lecture you'll be know about</p>
+            <br />
 
-            <CourseOverview/>
-        </>
+            <Counter color={color} size={"24pt"}/>
+
+            <Counter color={color} size={"14pt"} />
+
+            <button onClick={
+                    () => {setColor("yellow")}}
+                    type="submit">Change Color</button>
+
+        </div>
     );
 }
 
