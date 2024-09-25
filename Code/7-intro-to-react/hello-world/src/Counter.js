@@ -1,22 +1,27 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-export default function Counter({color, size}) {
+export default function Counter({name, color, size}) {
 
     const [clicks, setClicks] = useState(0);
 
+    useEffect(() => {
+            document.title = "Counter: "+ clicks;
+            localStorage.setItem(name, JSON.stringify(clicks));
+    }, [clicks]);
+
+
     function handleClick() {
-        setClicks(clicks +1)
+        setClicks(clicks + 1);
     }
 
     return (
         <div style={{backgroundColor: color}  }>
 
             <p>
-                Button has been clicked <span style={
-                        {fontSize: size}  }>{clicks}</span>
+                {name} <span style={{fontSize: size}  }>{clicks}</span>
             </p>
 
-            <button onClick={ handleClick }>Click me!</button>
+            <button onClick={ handleClick }>Increase</button>
 
         </div>
     );

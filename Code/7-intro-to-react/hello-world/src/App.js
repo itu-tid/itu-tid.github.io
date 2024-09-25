@@ -13,9 +13,9 @@ function App() {
 
             <br />
 
-            <Counter color={color} size={"24pt"}/>
+            <Counter name={"Push Ups"} color={color} size={"24pt"}/>
 
-            <Counter color={color} size={"14pt"} />
+            <Counter name={"Glasses of Water"} color={color} size={"14pt"} />
 
             <button onClick={
                     () => {setColor("yellow")}}
