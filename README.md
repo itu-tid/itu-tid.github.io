@@ -12,6 +12,6 @@
 ## Technical ID
 - [7-Intro-to-React](Lectures/7-Intro-to-React.md)
 - [8-Advanced-State-and-More-Reactive-Programming](Lectures/8-Advanced-State-and-More-Reactive-Programming.md)
-- [9-Effects-Hooks-and-3rd-Party-Libraries](Lectures/9-Effects-Hooks-and-3rd-Party-Libraries.md)
+- [9-Hooks-and-Effects](Lectures/9-Hooks-and-Effects.md)
 - [10-3rdParty-Libraries-and-Routing](Lectures/10-3rdParty-Libraries-and-Routing.md)
 - [12-Backends-and-the-Parse-Platform](Lectures/12-Backends-and-the-Parse-Platform.md)
