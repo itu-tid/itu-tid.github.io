@@ -90,11 +90,11 @@ export default function Counter({color, size}) {
 
 Note that the first argument of `useEffect` is a lambda function (arrow function). And the second argument is an array. You could run an effect when more than one state variable and then the (side-)effect would be run on any of those variables changing. 
 
-Let us assume that our counters have names. In that case we would have to think about how to save the information for a specific counter, and also save it when either the counter changes, or the name of the counter changes. Try to do this on your own by starting from here: 
+Let us assume that our counters have names. In that case we would have to think about how to save the information for a specific counter, and also save it when either the counter changes, or the name of the counter changes. Try to do this on your own. When you're done compare it with the following 
 
 ```bash
-git clone ...
-git checkout ...
+git clone git@github.com:itu-tid/code-examples.git 
+git checkout named_counter
 ```
 
 Do you have it? 
@@ -109,25 +109,30 @@ Why would you want to run something only on mount? What kind of things would you
 Let us imagine that we would want to not initialize our counters always with a zero, but rather, load that data from localStorage. It's a little database, that we should benefit from. The following code pattern solves this. Make sure you understand it. 
 
 ```js
-export default function Counter({color, size}) {  
+export default function Counter({name, color, size}) {  
   
     const [clicks, setClicks] = useState(undefined);  
-      
-    useEffect(() => {  
-        if (clicks !== undefined) {  
-            document.title = "Counter: "+ clicks;  
-            localStorage.setItem("clicks", JSON.stringify(clicks));  
-        }  
-    }, [clicks]);
   
     useEffect(()=>{  
         try {  
-            let lsc = Number(localStorage.getItem("clicks"));  
-            setClicks(lsc);  
+            let stored_counter = Number(localStorage.getItem(name));  
+            setClicks(stored_counter);  
         } catch (e) {  
             setClicks(0);  
         }  
-    }, []);
+    }, []);  
+  
+    useEffect(() => {  
+        if (clicks !== undefined) {  
+            localStorage.setItem(name, JSON.stringify(clicks));  
+        }  
+    }, [clicks]);
+```
+
+To play with the code, you can run in the repo above:
+
+```
+git checkout named_counters_from_local_storage
 ```
 
 In the upcoming lectures you will learn how to load things from the database and you will see that the patterns are going to be the same. 
