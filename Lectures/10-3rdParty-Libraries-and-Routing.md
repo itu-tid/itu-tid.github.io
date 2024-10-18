@@ -1,3 +1,21 @@
+# Third Party Libraries
+
+
+- What is the relationship between react, npm and Javascript?
+- How do you instal dependencies with `npm`? What do you do to make sure that your colleagues also know which dependency you are using?
+- When do you have to run `nmp install`?
+- Do you add `node_modules` to version control? What's the principle there?
+- Why do we list dependencies in `packages.json`?
+- What is the meaning of the version numbers in `packages.json`? [How is semantic versioning used in npm?](https://docs.npmjs.com/about-semantic-versioning)
+- Why do we need package-lock.json? Do we commit it to GH?
+- Finding libraries on [https://www.npmjs.com](https://www.npmjs.com/)
+
+Live Demo Example
+
+- Adding a progress-bar from [`mui`](https://mui.com/material-ui/react-progress/)
+- Also adding a toast?
+
+
 
 # Routing in React
 
