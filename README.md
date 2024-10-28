@@ -10,8 +10,9 @@
 
   
 ## Technical ID
-- [7-Intro-to-React](Lectures/7-Intro-to-React.md)
-- [8-Advanced-State-and-More-Reactive-Programming](Lectures/8-Advanced-State-and-More-Reactive-Programming.md)
-- [9-Hooks-and-Effects](Lectures/9-Hooks-and-Effects.md)
-- [10-Routing-In-SPAs](10-Routing-In-SPAs.md)
-- [11-Backends-and-the-Parse-Platform](Lectures/11-Backends-and-the-Parse-Platform.md)
+- [Intro-to-React](Intro-to-React.md)
+- [Advanced-State-and-More-Reactive-Programming](Advanced-State-and-More-Reactive-Programming.md)
+- [Hooks-and-Effects](Hooks-and-Effects.md)
+- [Collaboration-with-Git-Flow](Collaboration-with-Git-Flow.md)
+- [Routing-In-SPAs](Routing-In-SPAs.md)
+- [Backends-and-the-Parse-Platform](Backends-and-the-Parse-Platform.md)
