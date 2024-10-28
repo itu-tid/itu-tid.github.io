@@ -11,6 +11,7 @@
   
 ## Technical ID
 - [Intro-to-React](Intro-to-React.md)
+- [Web-App-Architectures](Lectures/Web-App-Architectures.md)
 - [Advanced-State-and-More-Reactive-Programming](Advanced-State-and-More-Reactive-Programming.md)
 - [Hooks-and-Effects](Hooks-and-Effects.md)
 - [Collaboration-with-Git-Flow](Collaboration-with-Git-Flow.md)
