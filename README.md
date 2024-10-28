@@ -13,7 +13,7 @@
 - [Intro-to-React](Lectures/Intro-to-React.md)
 - [Web-App-Architectures](Lectures/Web-App-Architectures.md)
 - [Advanced-State-and-More-Reactive-Programming](Advanced-State-and-More-Reactive-Programming.md)
-- [Hooks-and-Effects](Hooks-and-Effects.md)
+- [Hooks-and-Effects](Lectures/Hooks-and-Effects.md)
 - [Collaboration-with-Git-Flow](Collaboration-with-Git-Flow.md)
 - [Routing-In-SPAs](Routing-In-SPAs.md)
 - [Backends-and-the-Parse-Platform](Backends-and-the-Parse-Platform.md)
