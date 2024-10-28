@@ -13,7 +13,7 @@
 				- server sends the response forward to the client
 
 
-- However, when you have a single page application? 
+- However, when you have a single page application (SPA)? 
 	- The whole point is that you don't want to go to the server for the pages, but generate them locally
 	- The easiest way is to serve the whole application at a static url (e.g. mirceastodoapp) and do not use routing and pages anymore
 	- Why would that be bad? Discuss
@@ -58,8 +58,11 @@
 ```javascript
 import {Routes , Route } from "react-router-dom" 
 import {BrowserRouter} from "react-router-dom"
+
 import Home from "./components/Home/Home" 
 import About from "./components/About/About" 
+
+
 function App(){ 
    return ( 
       <div> 
@@ -124,8 +127,6 @@ https://reactrouter.com/en/main/hooks/use-params
 
 
 - What is the relationship between react, npm and Javascript?
-	- could be cool to get a VM; and show them how you compile, and how you host? 
-	- but that's for later
 - How do you instal dependencies with `npm`? What do you do to make sure that your colleagues also use the same dependency that you are using?
 - When do you have to run `nmp install`?
 - What is the `node_modules` folder good for? Should you add it  to version control? Why or why not? 
