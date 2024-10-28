@@ -2,7 +2,8 @@ In TID we use a collaboration model that's a modified version of a popular one n
 
 Git Flow is a way of choreographing collaboration with Git that is designed around multiple types of branches as you can see in the following image: 
 
-![[The Git Flow Model.png]]
+![The Git Flow Model](images/The%20Git%20Flow%20Model.png)
+
 
 In the course we make use of the following branches: 
 - **main** branch for releases / deliverables
