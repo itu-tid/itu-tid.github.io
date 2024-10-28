@@ -13,5 +13,5 @@
 - [7-Intro-to-React](Lectures/7-Intro-to-React.md)
 - [8-Advanced-State-and-More-Reactive-Programming](Lectures/8-Advanced-State-and-More-Reactive-Programming.md)
 - [9-Hooks-and-Effects](Lectures/9-Hooks-and-Effects.md)
-- [10-Routing-and-3rdParty-Libraries](10-Routing-and-3rdParty-Libraries.md)
-- [11-Backends-and-the-Parse-Platform](11-Backends-and-the-Parse-Platform.md)
+- [10-Routing-and-3rdParty-Libraries](Lectures/10-Routing-and-3rdParty-Libraries.md)
+- [11-Backends-and-the-Parse-Platform](Lectures/11-Backends-and-the-Parse-Platform.md)
