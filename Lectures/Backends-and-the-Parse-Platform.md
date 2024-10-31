@@ -73,11 +73,11 @@ Now you can interact with the database from within React in the following ways:
 
 import Parse from 'parse';
 
-const Task = Parse.Object.extend("Task");
-const task = new Task();
+const Counter = Parse.Object.extend("Counter");
+const counter = new Counter();
 
-task.set("name", "Backends");
-task.set("isDone", false);
+task.set("name", "PushUps");
+task.set("count", 3);
 
 task.save().then(
 	(newTaskObject) => {
@@ -93,28 +93,43 @@ Note:
 - `save.then( (obj) => {...})` - save returns a *promise*
 - The Task class was automatically created in the database if it didn't exist
 
-### Crud Operations with Parse 
-- [CRUD operations](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial) (30min read)
-	- CRUD = **Create, Read, Update, and Delete objects to/from the DB**
+### CRUD Operations with Parse 
+
+CRUD stands for **Create, Read, Update, and Delete**
+- these are the operations that your UI might want to do with a given domain object 
+
+*To DO*: [CRUD operations with Parse](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial) (30min read)
+
 
 ### Modeling Domains with Parse
 
-To be able to design a database model for your application domain you must understand: 
+To be able to design a model for your application domain you must understand: 
 - [Basic Data types](https://www.back4app.com/docs/react/data-objects/react-data-types) (read the examples; approx. 15min)
 - [Relationships](https://www.back4app.com/docs/react/data-objects/relationships) (study this; approx. 30min)
 
-From the Relationships tutorial 
+From the Relationships tutorial observe the way they designed their ER diagram. They don't show the various columns of the DB tables. In reality you would show them. But how you do that, it's up to you. 
+
+![](images/alterantive-er-diagrams.png)
+
+No matter which notation you use, the most important aspect is 
+- showing the main entities in your design
+- showing the main relationships between them 
+	- one-to-one
+	- one-to-many
+	- many-to-many
+
+
 
 ### User Management with Parse
 
-Parse helps you manage user accounts. 
+Parse Object SDK helps you manage user accounts easily. 
 
-To read: [User Creation / Login](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
-
-
+Read up on it here: [User Creation / Login](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
 
 
-# Using Parse - Further References
+
+
+### Using Parse - Further References
 
 Two *alternative documentation sources*: 
 - The Back4App [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart) <-- nicer we think
@@ -135,5 +150,6 @@ More reading:
 
 
 ## Project Work
+- Design a domain model for your project by creating an ER diagram
 - Start saving and loading data to and from the database
 
