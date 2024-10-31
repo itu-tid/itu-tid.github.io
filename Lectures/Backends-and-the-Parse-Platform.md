@@ -8,27 +8,27 @@
 
 ![](images/client-server-architecture.png)
 
-- What are the responsibilities of the backend?
+- What are the **responsibilities of the backend**?
 	- authentication (proving that a user is who they say they are)
-	- session management
+	- session management for web applications
 	- business logic and DB access
 	- authorization (what can a user do)
 	- scheduled jobs (e.g., `cron`)
 
 - Deploying and implementing a traditional backend
-	- machine setup
+	- machine setup (or create a VM with a cloud provider)
 	- operating system
 	- security & firewall
-	- DBMS
-	- web server
-	- API 
+	- install DBMS
+	- web server (e.g. nginx, apache2)
+	- develop an (REST, Web) API 
 	- logging and analytics
 	- backup system
 
 
 - **Low-code backends**
 	- Common solutions for common backend problems
-	- Alternatives
+	- Alternatives, e.g.:
 		- Firebase = proprietary & hosted by Google
 		- Azure = Microsoft’s version 
 		- **Parse Platform** = open source 
@@ -44,24 +44,25 @@ Our recommended low-code backend
 	Startup => Facebook => open source
 - Functionality
 	- Authentication
+	- Authorization
 	- File storage
 	- APIs (REST & GraphQL)
-	- Javascript wrapper library
+	- Javascript SDK in the `parse` wrapper library
 	- Cloud functions
-	- Authorization
+
 
 
 ### Using Parse from Back4App
 
 - Where is the Parse server?
 	- You can run on your own machine (with docker; setup can be complicated)
-	- In your own cloud server
+	- In your own (cloud) server
 	- On somebody else's server (cloud) => back4app.com 
 
 
 Steps to start working with the Back4App Parse deployment 
 1. Create an account on Back4App
-2. Create a database for your application in Back4App
+2. Create a backend (app) for your react application in Back4App
 4. In your own project, install the `parse` library from `npm`
 5. Initialize the (global) Parse object in your application (see step 4 in the [back4app guide](https://www.back4app.com/docs/react/quickstart))
  
@@ -76,14 +77,14 @@ import Parse from 'parse';
 const Counter = Parse.Object.extend("Counter");
 const counter = new Counter();
 
-task.set("name", "PushUps");
-task.set("count", 3);
+counter.set("name", "Push Ups");
+counter.set("count", 10);
 
-task.save().then(
-	(newTaskObject) => {
-		console.log("saved with id: " + newTaskObject.id);
+counter.save().then(
+	(newObj) => {
+		alert("saved a counter with id: " + newObj.id);
 }, (error) => {
-	console.log(error.message);
+	alert(error.message);
 })
 ```
 
@@ -91,11 +92,11 @@ Note:
 - Creating a class for the object
 - `save()` - sends the data to the server
 - `save.then( (obj) => {...})` - save returns a *promise*
-- The Task class was automatically created in the database if it didn't exist
+- The `Counter` class would have automatically been created in the database if it didn't exist
 
 ### CRUD Operations with Parse 
 
-CRUD stands for **Create, Read, Update, and Delete**
+**CRUD** stands for **Create, Read, Update, and Delete**
 - these are the operations that your UI might want to do with a given domain object 
 
 *To DO*: [CRUD operations with Parse](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial) (30min read)
@@ -104,10 +105,14 @@ CRUD stands for **Create, Read, Update, and Delete**
 ### Modeling Domains with Parse
 
 To be able to design a model for your application domain you must understand: 
-- [Basic Data types](https://www.back4app.com/docs/react/data-objects/react-data-types) (read the examples; approx. 15min)
-- [Relationships](https://www.back4app.com/docs/react/data-objects/relationships) (study this; approx. 30min)
+- [Basic Data types](https://www.back4app.com/docs/react/data-objects/react-data-types) (estimated reading time:  15min)
+- [Relationships](https://www.back4app.com/docs/react/data-objects/relationships) (estimated reading time: 30min)
 
-From the Relationships tutorial observe the way they designed their ER diagram is by only showing the main entities and relationships. This is good, but normally you would also show the attributes of the various entities. There are many ways in which they can be shown, below you have two: 
+From the Relationships tutorial observe that they first designed an ER diagram before declaring the classes in the Parse UI. You should do the same about your app. 
+
+In their ER diagram they also only show the main entities and relationships. This is the most basic information. However, normally you also show the attributes of the various entities. 
+
+There are many ways in which the attributes can be shown. Below you have two: 
 1. on the left hand side is the most popular way of showing attributes
 2. on the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
 
