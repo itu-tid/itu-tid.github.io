@@ -6,14 +6,14 @@
 	- Defined in opposition to the front-end
 	- The server side in a ***client-server architecture***
 
+![](images/client-server-architecture.png)
 
 - What are the responsibilities of the backend?
 	- authentication (proving that a user is who they say they are)
 	- session management
 	- business logic and DB access
-	- scheduled jobs (e.g., `cron`)
 	- authorization (what can a user do)
-
+	- scheduled jobs (e.g., `cron`)
 
 - Deploying and implementing a traditional backend
 	- machine setup
