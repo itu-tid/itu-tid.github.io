@@ -107,16 +107,13 @@ To be able to design a model for your application domain you must understand:
 - [Basic Data types](https://www.back4app.com/docs/react/data-objects/react-data-types) (read the examples; approx. 15min)
 - [Relationships](https://www.back4app.com/docs/react/data-objects/relationships) (study this; approx. 30min)
 
-From the Relationships tutorial observe the way they designed their ER diagram. They don't show the various columns of the DB tables. In reality you would show them. But how you do that, it's up to you. 
+From the Relationships tutorial observe the way they designed their ER diagram is by only showing the main entities and relationships. This is good, but normally you would also show the attributes of the various entities. There are many ways in which they can be shown, below you have two: 
+1. on the left hand side is the most popular way of showing attributes
+2. on the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
 
 ![](images/alterantive-er-diagrams.png)
 
-No matter which notation you use, the most important aspect is 
-- showing the main entities in your design
-- showing the main relationships between them 
-	- one-to-one
-	- one-to-many
-	- many-to-many
+No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database. 
 
 
 
@@ -150,6 +147,7 @@ More reading:
 
 
 ## Project Work
-- Design a domain model for your project by creating an ER diagram
-- Start saving and loading data to and from the database
+- Design a domain model for your project by creating an ER diagram. The diagram will be part of your final report. Discuss your diagram with the staff. Make sure to keep it up to date as your project progresses. As you work on your implementation you will realize that you need to constantly refine it. 
+- Create the tables corresponding to your ER diagram in Back4App
+- Start connecting your React application to your own Parse backend
 
