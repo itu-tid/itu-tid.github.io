@@ -102,6 +102,16 @@ Note:
 *To DO*: [CRUD operations with Parse](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial) (30min read)
 
 
+
+### User Management with Parse
+
+Parse Object SDK helps you manage user accounts easily. 
+
+Read up on it here: 
+- [User Creation](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
+- [User Login](https://www.back4app.com/docs/react/working-with-users/react-login)
+
+
 ### Modeling Domains with Parse
 
 To be able to design a model for your application domain you must understand: 
@@ -122,15 +132,6 @@ No matter which notation you use, the most important aspect is being able to com
 
 
 
-### User Management with Parse
-
-Parse Object SDK helps you manage user accounts easily. 
-
-Read up on it here: [User Creation / Login](https://www.back4app.com/docs/react/working-with-users/sign-up-page-react)
-
-
-
-
 ### Using Parse - Further References
 
 Two *alternative documentation sources*: 
@@ -140,19 +141,21 @@ Two *alternative documentation sources*:
 More reading: 
 - [Basic Queries](https://www.back4app.com/docs/react/data-objects/react-query)
 	- **Query for a list of objects**
-
+		- Sorting
+		- Filtering
+	
 - [Query Cookbook](https://www.back4app.com/docs/react/data-objects/react-query-cookbook)
 	- Filters
 
 
-
-
-
-
-
-
 ## Project Work
-- Design a domain model for your project by creating an ER diagram. The diagram will be part of your final report. Discuss your diagram with the staff. Make sure to keep it up to date as your project progresses. As you work on your implementation you will realize that you need to constantly refine it. 
+- Design a **domain model** for your application by **creating an ER diagram**. The diagram will be part of your final report. Discuss your diagram with the staff. Make sure to keep it up to date as your project progresses. As you work on your implementation you will realize that you need to constantly refine it. Keep it up to date.
 - Create the tables corresponding to your ER diagram in Back4App
 - Start connecting your React application to your own Parse backend
+
+## Individual Work
+
+- can you implement `handleDeleteClick` in ... https://github.com/itu-tid/code-examples/releases/tag/with_basic_parse_backend 
+
+
 
