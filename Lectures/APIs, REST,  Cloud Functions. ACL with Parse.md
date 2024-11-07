@@ -27,9 +27,12 @@ fetch("<uri>")
 - What kind of object is returned by `fetch`? What about `json()`. How do you know? 
 
 
-**What is the main object exposed by the Web Storage API and how do you use it?**
+**What is the main way to interact with the Web Storage API?**
 ```js
-LocalStorage.save("UIPreference", "dark")
+LocalStorage.save("UIColorScheme", "dark")
+...
+LocalStorage.get("UIColorScheme")
+...
 ```
 
 
@@ -41,10 +44,10 @@ They goal is to enable a **client** to exchange data with a **remote server**
 
 The **client** can be
 - a web application running in the browser (on your laptop or phone)
-- a specialized application (e.g. the Spotify app)
+- a native application (e.g. the Spotify app)
 
 The **server** can be:
-- your own server (e.g. api.zeeguu.org for zeeguu.org) 
+- your own server (e.g. `api.zeeguu.org` for `zeeguu.org`) 
 - A 3rd party API (e.g. Spotify, Twitter, OMDB, Google Translate)
 
 The server exposes API endpoints following the following conventions
@@ -67,33 +70,33 @@ Parse offers as an alternative to the JavaScript API that you've been using unti
 
 ```bash
 curl -X GET \
-  -H "X-Parse-Application-Id: KLxcuhhjrb2J..." \
-  -H "X-Parse-REST-API-Key: fUH4PcMVM4LXwM..." \
-  https://parseapi.back4app.com/classes/Translation
+  -H "X-Parse-Application-Id: Al7ZSSh904iWQjRfzaz9A0EzFS7YSFLE6xdbvOgm" \
+  -H "X-Parse-REST-API-Key: f6GeVUvMTJfkrdVZ0Vkh1lWbwQ0Z9kpV7CEJdPRg" \
+  https://parseapi.back4app.com/classes/Counter
 ```
 
 To understand the command 
 - `curl` - linux based terminal-based tool used for sending HTTP requests 
 - `-X` specifies the HTTP verb to be used by `curl`
-- `-H` specifies headers (in our case, we send two headers)
+- `-H` specifies headers (in our case, we send two headers that identify us)
 
 
-A REST API can be called from the command line as above, but normally it is called from within the programming language. Below you have an example of creating a new translation object and uploading it to the above application. Since we are creating a new object, we use the `POST` HTTP verb:
+A REST API can be called from the command line as above, but normally it is called from within the programming language. Below you have an example of creating a new counter object and uploading it to the above application. Since we are creating a new object, we use the `POST` HTTP verb:
 
 ```js
 
 const postData = {
-    from: "det er lige her",
-    to: "it's right here",
+    name: "biking distance (in km)",
+    to: "10",
   };
 
   try {
 
-    const response = await fetch("https://parseapi.back4app.com/classes/Translation/", {
+    const response = await fetch("https://parseapi.back4app.com/classes/Counter/", {
       method: "POST",
       headers: {
-        "X-Parse-Application-Id": "KLxcuhhjrb2J...",
-        "X-Parse-REST-API-Key": "fUH4PcMVM4LXwM...",
+        "X-Parse-Application-Id": "Al7ZSSh904iWQjRfzaz9A0EzFS7YSFLE6xdbvOgm",
+        "X-Parse-REST-API-Key": "f6GeVUvMTJfkrdVZ0Vkh1lWbwQ0Z9kpV7CEJdPRg",
       },
 
       body: JSON.stringify(postData),
@@ -114,12 +117,16 @@ const postData = {
   }
 ```
 
+TODO - in class: Run this code with node. 
 
 
 ##### Relationship between the Parse object and the Parse REST API
-What is the relationship between the Parse object that you use in the code (e.g. `Parse.Query('Translations')`)  and the REST API?
-- The `Parse.Object` and `Parse.Query` objects communicate with the server via REST calls
-- However, they expose to you the programmer a nicer and simpler interface
+What is the relationship between 
+	1. the Parse objects that you use in the code (e.g. `Parse.Query` and `Parse.Object`)  and 
+	2. the REST API?
+Answer
+- The `Parse.Object` and `Parse.Query` objects are built *on top of* REST calls
+- They expose to you the programmer a nicer and simpler interface
 
 
 
@@ -166,6 +173,14 @@ Session secret key is generated after login on the server, stored in the cookie,
 
 
 ### Authorization with Parse
+
+**What happens if I access your repository and find your AppID and JSKey?** That's right: i can delete data from your DB, or add fake data. What can we do about that? 
+
+First order of business
+- use .env to keep variables locally and not publish them on GH
+
+Second order of business
+- introduce access control so even if somebody discovers the keys, no harm can be done 
 
 **Why can you not keep the Parse API keys not secret?** 
 The JavaScript code of your web application can be inspected by another web programmer 
@@ -239,7 +254,7 @@ Access control lists can be modified every time an object is saved.
 
 #### Restricting Class Creation
 
-Under App Settings > Server Settings > Client Class Creation you can specify if your expect users to be allowed to create new classes in your database. Probably you do not want that. 
+Under `App Settings > Server Settings > Client Class Creation` you can specify if your expect users to be allowed to create new classes in your database. Probably you do not want that. 
 
 
 ##### Combining Authorization Methods to Harden the Security of an Application
@@ -252,6 +267,8 @@ The methods above have to be combined together to strengthen the authorization o
 ## Parse Cloud Functions
 
 **Are there server functionalities that can not be covered by the api provided by the `Parse.Object`and `Parse.Query`?** 
+
+Yes.
 - complex calculations on the server side (e.g., average rating of all the movies in the database; one does not want send all that data to the client; it is good to do the calculations on the server)
 - calling 3rd party APIs (especially those that require a secret API key that can't be hardcoded in the Javascript)
 - making a check before a user writes something to the database or updating some other metadata after a write is done.
@@ -335,9 +352,14 @@ Parse. Cloud.afterSave ("Comment", (request) => {
 
 });
 ```
+What does the above code do? 
 
-To think about:
-- what does the above code do? 
+
+# For your projects
+- add access control
+- add a cloud function to your server
+
+
 
 
 
