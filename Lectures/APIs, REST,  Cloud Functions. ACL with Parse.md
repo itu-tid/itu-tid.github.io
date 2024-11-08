@@ -61,6 +61,9 @@ The server exposes API endpoints following the following conventions
 
 A special case of Web Server APIs that follow a strict convention for managing resources via CRUD operations (create, read, update, delete).
 
+proposed by Roy Fielding in his 2000 phd thesis based on the observation that http verbs can be mapped on crud actions
+
+
 Conventions
 - text based protocol (JSON, XML)
 - strict endpoint naming, see example below
