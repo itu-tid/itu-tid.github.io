@@ -12,6 +12,7 @@
 	- a web service: (e.g. [Spotify API](https://developer.spotify.com/documentation/web-api), [Twiter API](https://developer.twitter.com/en/docs/twitter-api))
 
 
+### Intermezzo: Browser APIs
 **What are some of the most important browser APIs that can be used by Javascript Applications?**
 - DOM API
 - Web Storage API
