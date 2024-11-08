@@ -1,6 +1,6 @@
-## APIs 
+# APIs 
 
-### **What is an API?** 
+## **What is an API?** 
 - *Application Programming Interface* -- a generic term referring to an interface to a system
 - the interface is usually made up of 
 	- a collection of functions
@@ -12,7 +12,7 @@
 	- a web service: (e.g. [Spotify API](https://developer.spotify.com/documentation/web-api), [Twiter API](https://developer.twitter.com/en/docs/twitter-api))
 
 
-#### Intermezzo: Browser APIs
+### Focus: Browser APIs
 
 **What are some of the most important browser APIs that can be used by Javascript Applications?**
 - Web Storage API
@@ -37,7 +37,7 @@ LocalStorage.get("UIColorScheme")
 ```
 
 
-## Web Service APIs
+### Focus: Web Service APIs
 
 **Interfaces** for interacting with **remote servers** by using **web technologies**
 
@@ -58,7 +58,7 @@ The server exposes API endpoints following the following conventions
 
 
 ![](images/spotify-endpoints.png)
-### REST APIs 
+#### REST APIs 
 
 A special case of Web Server APIs that follow a strict convention for managing resources via CRUD operations (create, read, update, delete).
 
@@ -182,7 +182,7 @@ Session secret key is generated after login on the server, stored in the cookie,
 ![](images/session-based-auth.png)
 
 
-### Authorization with Parse
+### Authorization (focusing on Parse)
 
 #### **What happens if I access your repository and find your AppID and JSKey?** 
 - I can add fake data
@@ -274,7 +274,7 @@ The methods above should be combined together to strengthen the authorization of
 
 
 
-## Parse Cloud Functions
+# Parse Cloud Functions
 
 **Are there server functionalities that can not be covered by the api provided by the `Parse.Object`and `Parse.Query`?** 
 
