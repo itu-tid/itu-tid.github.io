@@ -125,14 +125,7 @@ TODO in class:
 - Run this code with node
 - Run a GET request
 
-
-##### Q: 
-
-What is the relationship between 
-	1. the Parse objects that you use in the code (e.g. `Parse.Query` and `Parse.Object`)  and 
-	2. the REST API?
-
-##### Relationship between the Parse object and the Parse REST API
+##### Relationship between the `Parse` object and the Parse REST API
 - The `Parse.Object` and `Parse.Query` objects are built *on top of* REST calls
 - They expose to you the programmer a nicer and simpler interface
 - You could always simply use the REST API with fetch w/o the `Parse.Object` and `Parse.Query`
