@@ -1,6 +1,6 @@
 ## APIs 
 
-**What is an API?** 
+### **What is an API?** 
 - *Application Programming Interface* -- a generic term referring to an interface to a system
 - the interface is usually made up of 
 	- a collection of functions
@@ -12,14 +12,14 @@
 	- a web service: (e.g. [Spotify API](https://developer.spotify.com/documentation/web-api), [Twiter API](https://developer.twitter.com/en/docs/twitter-api))
 
 
-### Intermezzo: Browser APIs
+#### Intermezzo: Browser APIs
+
 **What are some of the most important browser APIs that can be used by Javascript Applications?**
-- DOM API
 - Web Storage API
 - Fetch API
 
 
-**How do you use the `fetch` web browser API to download a json document from a web service?**
+##### **How do you use the `fetch` web browser API to download a json document from a web service?**
 ```js
 fetch("<uri>")
   .then(response => response.json())
@@ -28,7 +28,7 @@ fetch("<uri>")
 - What kind of object is returned by `fetch`? What about `json()`. How do you know? 
 
 
-**What is the main way to interact with the Web Storage API?**
+##### **What is the main way to interact with the Web Storage API?**
 ```js
 LocalStorage.save("UIColorScheme", "dark")
 ...
