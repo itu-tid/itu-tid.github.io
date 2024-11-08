@@ -1,7 +1,7 @@
 ## APIs 
 
 **What is an API?** 
-- a generic term referring to an interface to a system
+-  application programming interface -- a generic term referring to an interface to a system
 - the interface is usually made up of 
 	- a collection of functions
 	- conventions of usage for those functions
