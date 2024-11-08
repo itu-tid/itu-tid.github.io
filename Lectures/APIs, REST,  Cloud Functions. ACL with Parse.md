@@ -184,28 +184,29 @@ Session secret key is generated after login on the server, stored in the cookie,
 
 ### Authorization with Parse
 
-**What happens if I access your repository and find your AppID and JSKey?** That's right: i can delete data from your DB, or add fake data. What can we do about that? 
+#### **What happens if I access your repository and find your AppID and JSKey?** 
+- I can add fake data
+- read info that is not meant for them
+- store their movie collection in your tables
+- delete useful information
 
+
+#### **How could this be?**
+When we created the DB we were asked about access control and we agreed to make everything public because we're working on an MVP. Now it's time to harden the security of our database
+#### How to avoid the above situations? 
 First order of business
 - use .env to keep variables locally and not publish them on GH
 
 Second order of business
 - introduce access control so even if somebody discovers the keys, no harm can be done 
 
-**Why can you not keep the Parse API keys not secret?** 
-The JavaScript code of your web application can be inspected by another web programmer 
+#### **Why can you not keep the Parse API keys perfectly secret?** 
+- Remember the architectural diagram from the beginning of the course? bundle.js is sent to the browser... 
+- The JavaScript code of your web application can be inspected by another web programmer. 
 
-**So what happens if somebody gets access to your API key?** 
-They can write JS code that uses your database in a way that you don't like
-- read info that is not meant for them
-- store their movie collection in your tables
-- delete useful information
-- etc.
 
-**How could this be?**
-When we created the DB we were asked about access control and we agreed to make everything public because we're working on an MVP. Now it's time to harden the security of our database
 
-**But what can we do if the API keys can't be made secret?** 
+#### **What can we do if the API keys can't be made secret?** 
 - Limit access to tables
 - Restrict class creation
 - Limit access to individual objects
@@ -233,7 +234,7 @@ Image below shows the Parse UI for setting Class-level permissions.
 So for your applications, you would very likely not want non-authenticated users to access your tables. 
 
 
-#### Limiting Access to Objects
+##### Limiting Access to Objects
 
 Even if now you only allow logged in users, it would still not be desirable that an unfriendly user creates an account and then starts deleting other people's data. In fact, you very likely do not want them to read other people's private data either. 
 
@@ -262,14 +263,13 @@ publicPost.save();
 
 Access control lists can be modified every time an object is saved. 
 
-#### Restricting Class Creation
+##### Restricting Class Creation
 
 Under `App Settings > Server Settings > Client Class Creation` you can specify if your expect users to be allowed to create new classes in your database. Probably you do not want that. 
 
+#### Combining Authorization Methods to Harden the Security of an Application
 
-##### Combining Authorization Methods to Harden the Security of an Application
-
-The methods above have to be combined together to strengthen the authorization of your application. 
+The methods above should be combined together to strengthen the authorization of your application. 
 
 
 
