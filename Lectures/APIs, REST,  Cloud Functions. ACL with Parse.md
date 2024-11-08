@@ -1,11 +1,11 @@
 # APIs 
 
 ## **What is an API?** 
-- *Application Programming Interface* -- a generic term referring to an interface to a system
+- *Application Programming Interface* -- a generic term referring to an *interface to a system*
 - the interface is usually made up of 
 	- a collection of functions
 	- conventions of usage for those functions
-- the *system* about whose interface we talk about can be
+- the ***system*** about whose interface we talk about can be
 	- a class (e.g. the [Array API](https://www.javascripture.com/Array) in Javascript)
 	- a package (e.g. [Java Concurrency API](https://www.datasciencecentral.com/developing-multi-threaded-applications-with-java-concurrency-api))
 	- an application (e.g., the [web browser API](https://developer.mozilla.org/en-US/docs/Web/API) implemented  by modern browsers)
@@ -22,8 +22,8 @@
 ##### **How do you use the `fetch` web browser API to download a json document from a web service?**
 ```js
 fetch("<uri>")
-  .then(response => response.json())
-  .then(data => console.log(data));
+	.then(response => response.json())
+	.then(data => console.log(data));
 ```
 - What kind of object is returned by `fetch`? What about `json()`. How do you know? 
 
@@ -39,7 +39,7 @@ LocalStorage.get("UIColorScheme")
 
 ### Focus: Web Service APIs
 
-**Interfaces** for interacting with **remote servers** by using **web technologies**
+**Interfaces** for interacting with **remote servers** by using **web technologies** (HTTP)
 
 They goal is to enable a **client** to exchange data with a **remote server**
 
@@ -51,7 +51,7 @@ The **server** can be:
 - your own server (e.g. `api.zeeguu.org` for `zeeguu.org`) 
 - A 3rd party API (e.g. Spotify, Twitter, OMDB, Google Translate)
 
-The server exposes API endpoints following the following conventions
+The server exposes API **endpoints** following the following conventions
 - communication is done via HTTP 
 - data is usually returned in JSON format
 - the version of a service is usually encoded in the URL 
@@ -62,7 +62,7 @@ The server exposes API endpoints following the following conventions
 
 A special case of Web Server APIs that follow a strict convention for managing resources via CRUD operations (create, read, update, delete).
 
-proposed by Roy Fielding in his 2000 phd thesis based on the observation that http verbs can be mapped on crud actions
+Proposed by Roy Fielding in his 2000 phd thesis based on the observation that HTTP verbs can be mapped on CRUD actions
 
 
 Conventions
@@ -133,7 +133,7 @@ TODO in class:
 
 
 
-## Challenges When Designing Web Service APIs
+## Two Challenges When Designing Web Service APIs
 
 The main two challenges are: 
 1. **Authentication** - How do you ensure that only the callers you want use your endpoints?
@@ -224,7 +224,7 @@ Privileges can be
 Image below shows the Parse UI for setting Class-level permissions. 
 ![](images/class-level-permissions-in-parse.png)
 
-So for your applications, you would very likely not want non-authenticated users to access your tables. 
+E.g.: So for your applications, you would very likely not want non-authenticated users to access your tables. 
 
 
 ##### Limiting Access to Objects
@@ -236,14 +236,15 @@ This is where the Access Control Lists concept come into play. They allow you to
 In the following example, a logged in user, creates a private note and ensures that it is only himself that can access that note: 
 
 ```js
-const Note = Parse.Object.extend("Note");
-const privateNote = new Note();
-privateNote.set("content", "I like muffins much too much");
-privateNote.setACL(new Parse.ACL(Parse.User.current()));
-privateNote.save();
+const Counter = Parse.Object.extend("Counter");
+const privateCounter = new Counter();
+privateCounter.set("name", "Times Checked Twitter");
+privateCounter.set("counte", "42");
+privateCounter.setACL(new Parse.ACL(Parse.User.current()));
+privateCounter.save();
 ```
 
-However, it is sometimes desirable that an object can be read by other users, but just can not be written by them. For such a case the `Parse.ACL` object offers the `setPublicReadAccess(true)` method call:
+However, it is sometimes desirable that an object can be **read by other users**, but just **can not be written by them**. For such a case the `Parse.ACL` object offers the `setPublicReadAccess(true)` method call:
 
 ```js
 const Post = Parse.Object.extend("Post");
@@ -359,8 +360,9 @@ What does the above code do?
 
 
 # For your projects
-- add access control
-- add a cloud function to your server
+- harden security of your app by adding access control 
+- think about whether a cloud function might be needed to your server
+
 
 
 
