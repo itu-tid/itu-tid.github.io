@@ -136,8 +136,8 @@ TODO in class:
 ## Challenges When Designing Web Service APIs
 
 The main two challenges are: 
-1. Authentication - How do you ensure that only the callers you want use your endpoints?
-2. Authorization - How do you ensure that a user does not overreach? 
+1. **Authentication** - How do you ensure that only the callers you want use your endpoints?
+2. **Authorization** - How do you ensure that a user does not overreach? 
 
 ### Authentication
 
@@ -175,7 +175,7 @@ Session secret key is generated after login on the server, stored in the cookie,
 ![](images/session-based-auth.png)
 
 
-### Authorization (focusing on Parse)
+### Authorization (in Parse)
 
 #### **What happens if I access your repository and find your AppID and JSKey?** 
 - I can add fake data
