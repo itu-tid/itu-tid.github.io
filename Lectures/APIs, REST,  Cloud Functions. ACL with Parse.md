@@ -62,7 +62,7 @@ The server exposes API **endpoints** following the following conventions
 
 A special case of Web Server APIs that follow a strict convention for managing resources via CRUD operations (create, read, update, delete).
 
-Proposed by Roy Fielding in his 2000 phd thesis based on the observation that HTTP verbs can be mapped on CRUD actions
+Proposed by Roy Fielding in his 2000 PhD thesis based on the observation that HTTP verbs can be mapped on CRUD actions
 
 
 Conventions
