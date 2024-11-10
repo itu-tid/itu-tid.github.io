@@ -265,6 +265,8 @@ Under `App Settings > Server Settings > Client Class Creation` you can specify i
 
 The methods above should be combined together to strengthen the authorization of your application. 
 
+![](images/parse-server-access-control.png)
+
 
 
 
@@ -333,10 +335,10 @@ Parse.Cloud.beforeSave ("Review", (request) => {
 To think about:
 - what does the above code do? 
 - how could a user abuse your system if you don't implement the above code?
-- if you check for comment length in the UI of your application... why would you still have to check right before saving a review also on the server?
+- if you check for comment length in JS in the UI of your application... why would you still have to check right before saving a review also on the server?
 
 
-**How can you define a function that is automatically called after a user makes a write to the database?**
+**How can you define a function that is automatically called *after* a user makes a write to the database?**
 
 ```js
 Parse. Cloud.afterSave ("Comment", (request) => {
