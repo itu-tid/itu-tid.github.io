@@ -1,10 +1,11 @@
 # Styling
 
 ## Separate the style for a component in a separate file
-Do not use inline styling
+Do not use inline styling. This promotes the separation of concerns.
+
 
 ## Do not hardcode colors ad hoc 
-Separate the definition of your colors in a colors file. 
+Separate the definition of your colors in a colors file. This allows reuse. And keeps the unity of the design if the same colors are used across the application. 
 
 
 # Javascript
