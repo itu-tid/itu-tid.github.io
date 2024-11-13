@@ -15,4 +15,6 @@ This increases the readability of the code
 # React
 
 ## Extract repetitive patterns into a separate components
-e.g. [this](https://github.com/ToryHricisakova/Technical_Interaction_Design_Group8/pull/15/files#diff-4e9ea2417b497e0752adc2577375e787a4ee2c241377c93631db7c8305f170a6R144) and [this](https://github.com/ToryHricisakova/Technical_Interaction_Design_Group8/pull/15/files#diff-4e9ea2417b497e0752adc2577375e787a4ee2c241377c93631db7c8305f170a6R167)
+e.g. the two patterns below are too repetitive; they should be factored out in a separate component
+<img width="778" alt="image" src="https://github.com/user-attachments/assets/c0417216-c537-474b-b64e-9c039a2f86e6">
+<img width="822" alt="image" src="https://github.com/user-attachments/assets/85b15686-71c7-4dcd-9203-36a6877634e4">
