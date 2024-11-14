@@ -1,6 +1,5 @@
 
-# Efficiently Communicating with the DB
-
+# Efficient Communication With the Backend
 
 ## Being Aware of Costs
 
