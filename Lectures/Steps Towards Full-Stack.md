@@ -29,7 +29,23 @@ Case Study: MathsCamp -- looking at the networking tab... why might we need to i
 
 If you have limited requests it makes sense to get as much data from the DB in one go, as opposed to run multiple queries. 
 
-the N+1 problem in queries is ...
+This is not a problem only for backends-as-a-service - this is a general problem. If you are not smart about querying your backend you will end up with a slow application. 
+
+### What is the N+1 Select Problem? 
+
+This is one of the most popular ways of using a DB wrongly. 
+You send a query, get n objects back, and then for every one of those objects, you send another query to get more information. 
+
+In general it's slow.
+In the particular case of cloud-hosted-parse, this is also stupid because you're running out of requests. 
+
+How to solve it? Get all the data at once by *joining* the corresponding tables. 
+
+And in Parse?
+
+
+
+  
 
 
 
