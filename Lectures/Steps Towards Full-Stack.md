@@ -43,9 +43,15 @@ How to solve it? Get all the data at once by *joining* the corresponding tables.
 
 And in Parse?
 
+### How to update elements ? 
 
+#### Polling: The low-tech way
+- set a timer
+- when the timer expires, request the data again from the server; redisplay if needed
 
-  
+#### Event-Driven Approaches: The Advanced Way
+- allow the server to send you events when something in your query has changed
+- update only when something has actually changed
 
 
 
