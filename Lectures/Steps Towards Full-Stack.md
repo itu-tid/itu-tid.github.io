@@ -1,5 +1,5 @@
 
-# Steps Towards Full-Stack Development: Costs, Efficiency, Code that Must Run on the Server
+# 1. **Efficiently Communicating with the DB. Running Code Server-Side**
 
 
 ## Being Aware of Costs
@@ -25,7 +25,7 @@ Case Study: MathsCamp -- looking at the networking tab... why might we need to i
 
 ![](images/maths-camp-lots-of-requests.png)
 
-## Using Queries the Smart Way
+## Querying the Backend Efficiently
 
 If you have limited requests it makes sense to get as much data from the DB in one go, as opposed to run multiple queries. 
 
@@ -43,8 +43,13 @@ How to solve it? Get all the data at once by *joining* the corresponding tables.
 
 And in Parse?
 
-### How to update elements ? 
+### How to update elements on the screen when they change in the DB? 
 
+For most of the situations, we don't have to update our UIs when the data in the DB changes, because most of the times, a user is editing their own data and nobody else is changing it in the background. 
+
+One notable exception are the situations when a screen is showing information that's created by other users that needs to appear in real time (e.g. messages in a chat application, or comments in a social media platform). 
+
+How does the backend update the front-end? 
 #### Polling: The low-tech way
 - set a timer
 - when the timer expires, request the data again from the server; redisplay if needed
