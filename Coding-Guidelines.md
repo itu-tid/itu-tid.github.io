@@ -1,7 +1,25 @@
+# Clean Code
+
+To make your code more maintainable, and your life easier, here are some rules that we want you to follow in TID. This is a living document, so as we discover new rules we add them here.
+
+
+
+# General
+
+## Avoid copy-pasting code that you don't understand
+
+The code will become a big ball of mud if you just add stuff in there.
+
+As a rule of thumb, code generation is useful as a reminder of something that you knew before, something that you understand and just forgot. 
+
+
+
+
 # Styling
 
 ## Separate the style for a component in a separate file
-Do not use inline styling. This promotes the separation of concerns.
+- Do not use inline styling. 
+- This promotes the separation of concerns and reusability. 
 
 
 ## Do not hardcode colors ad hoc 
@@ -13,7 +31,12 @@ Separate the definition of your colors in a colors file. This allows reuse. And 
 ## Favor named functions to lambda expressions when possible
 This increases the readability of the code
 
+
 # React
+
+## Keep components small
+- examples 
+- counter-example
 
 ## Extract repetitive patterns into a separate components
 e.g. the two patterns below are too repetitive; they should be factored out in a separate component

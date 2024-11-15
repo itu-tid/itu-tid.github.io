@@ -1,7 +1,13 @@
 
 # Efficient Communication With the Backend
 
-The separation between front-end and back-end is new: one used to do web development, and they did everything. It is more satisfying to be a *full stack* developer than just a front-end developer. And it's not much harder. In a sense, it is harder to do front-end than back-end in fact. This is because front-end is by definition event-driven, concurrent programming. Back-end is usually simpler queries to the DB. This is why, it's worth for you, as naturally front-enders to have at least basic knowledge of backend. 
+The separation between front-end and back-end is new: one used to do web development, and they did everything. 
+
+Today we talk about being a *full stack* developer if you can do both the backend and the front-end. 
+
+It is more satisfying to be full stack. And it's not much harder. This is because front-end is by definition event-driven, concurrent programming. Back-end is usually modeling and querying the DB. 
+
+This is why, it's worth for you, as naturally front-enders to have at least basic knowledge of backend. In this chapter we'll look at how can 
 
 
 
@@ -46,11 +52,10 @@ How to solve it? Get all the data at once by *joining* the corresponding tables.
 
 How to do this in Parse? 
 
-### Retrieving Only the Necessary Fields
+### How to Retrieve Only the Necessary Data
 
-See: [Field Selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH)
-
-See also: [Querying Relations](https://www.back4app.com/docs/react/data-objects/relationships#_FtqW)
+In the Back4App React Query Cookbook look at: [Field Selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH) -- `include`, `exclude`, and `select` as a ways of retrieving only the necessary data from the server
+- Important if you only care about certain fields -- e.g. you need the name of the users so you don't want to retrieve all their profile pictures!
 
 ### How to update elements on the screen when they change in the DB? 
 
@@ -60,8 +65,9 @@ One notable exception are the situations when a screen is showing information th
 
 How does the backend update the front-end? 
 #### Polling: The low-tech way
-- set a timer
-- when the timer expires, request the data again from the server; redisplay if needed
+- Set a timer
+- When the timer expires, request the data again from the server
+- Redisplay if needed
 
 #### Event-Driven Approaches: The Advanced Way
 - allow the server to send you events when something in your query has changed

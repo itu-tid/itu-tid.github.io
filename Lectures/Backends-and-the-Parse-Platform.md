@@ -159,7 +159,7 @@ Two complementary documentation sources:
 2. The documentation on ParsePlatform.org
 	- [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) -- focuses solely on the Parse Platform aspects - disentangled from the React aspects
 		- [Users](https://docs.parseplatform.org/js/guide/#users)
-		- [Relations](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
+		- [Relationships](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
 
 
 # Meta

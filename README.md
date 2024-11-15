@@ -17,3 +17,14 @@
 - [Collaboration with Git Flow](Lectures/Collaboration-with-Git-Flow.md)
 - [Routing In SPAs](Lectures/Routing-In-SPAs.md)
 - [Backends and The Parse Platform](Lectures/Backends-and-the-Parse-Platform.md)
+- Nov 8
+	- [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md)
+- **Nov 15**
+	- Updates 
+		- added a diagram at the end of [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md) 
+		- better organization of the references at the end of [Backends-and-the-Parse-Platform](Lectures/Backends-and-the-Parse-Platform.md)
+	- Modeling relationships? Are we confident with this? Should we discuss more? 
+	- [Clean Code](Lectures/Clean%20Code.md)
+	- [Efficient Communication With the Backend](Lectures/Efficient%20Communication%20With%20the%20Backend.md)
+	- **demo**: how to test your queries outside of the react application
+	- [Running Code Server-Side](Lectures/Running%20Code%20Server-Side.md)
