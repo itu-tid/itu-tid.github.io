@@ -4,11 +4,13 @@ To make your code more maintainable, and your life easier, here are some rules t
 
 
 
+
+
 # General
 
 ## Avoid copy-pasting code that you don't understand
 
-The code will become a big ball of mud if you just add stuff in there.
+The code will become a *big ball of mud and bugs* if you just add stuff in there that was generated without you understanding it. 
 
 As a rule of thumb, code generation is useful as a reminder of something that you knew before, something that you understand and just forgot. 
 
