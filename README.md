@@ -30,8 +30,8 @@
 	- **Discussion**
 		- Modeling relationships? Are we confident with this? Should we discuss more? Start from the [parseplatform.org documentation]([Relationships](https://docs.parseplatform.org/js/guide/#relations)) 
 		- Promises - the `.then` and `async` syntax -- very high level notes with examples in [6-Async-Programming-and-Promises](Tech-TopUps/6-Async-Programming-and-Promises.md)
-	- New Topics
+	- **New Topics**
 		- [Clean Code](Lectures/Clean%20Code.md) 
+		- **Demo**: testing your queries outside of the react application
 		- [Efficient Communication With the Backend](Lectures/Efficient%20Communication%20With%20the%20Backend.md)
-		- **Demo**: how to test your queries outside of the react application
 		- [Running Code Server-Side](Lectures/Running%20Code%20Server-Side.md)
