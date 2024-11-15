@@ -27,6 +27,7 @@
 		- Better organization of the references at the end of [Backends-and-the-Parse-Platform](Lectures/Backends-and-the-Parse-Platform.md)
 	- Discussion
 		- Modeling relationships? Are we confident with this? Should we discuss more? 
+		- Promises - the `.then` and `async` syntax -- started writing some notes in [6-Async-Programming-and-Promises](Tech-TopUps/6-Async-Programming-and-Promises.md)
 	- New Topics
 		- [Clean Code](Lectures/Clean%20Code.md) 
 		- [Efficient Communication With the Backend](Lectures/Efficient%20Communication%20With%20the%20Backend.md)
