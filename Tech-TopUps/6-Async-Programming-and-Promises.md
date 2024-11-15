@@ -53,3 +53,7 @@ async function fetchMorty() {
 - Solve the [Sequencing Animations](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animations) problem
 - Mandatory reading:
 	- [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) 
+
+# References
+- [video discussion]([https://www.youtube.com/watch?v=li7FzDHYZpc&ab_channel=RobertsDevTalk](https://www.youtube.com/watch?v=li7FzDHYZpc&ab_channel=RobertsDevTalk)) about how to transform a `Promise.then()` into `async/await` call
+- [looong SO discussion]( https://stackoverflow.com/questions/54495711/async-await-vs-then-which-is-the-best-for-performance/54497100#54497100) about `async/await` vs. `Promise.then()` -- main observation is that when one has multiple calls one after the other, "*it depends on whether your operations are serial or parallel. If your tasks are serial then there will be no difference between `await` and `.then`. But if your tasks are parallel then `.then` will take less time*". 

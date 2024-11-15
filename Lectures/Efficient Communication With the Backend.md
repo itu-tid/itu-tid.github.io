@@ -1,6 +1,10 @@
 
 # Efficient Communication With the Backend
 
+The separation between front-end and back-end is new: one used to do web development, and they did everything. It is more satisfying to be a *full stack* developer than just a front-end developer. And it's not much harder. In a sense, it is harder to do front-end than back-end in fact. This is because front-end is by definition event-driven, concurrent programming. Back-end is usually simpler queries to the DB. This is why, it's worth for you, as naturally front-enders to have at least basic knowledge of backend. 
+
+
+
 ## Being Aware of Costs
 
 Back4App, the hosted service of Parse costs money. You are using a free tier, but you must realize that this is a cloud-based solution. For cloud-based solutions one has to pay. 
@@ -26,7 +30,7 @@ Case Study: MathsCamp -- looking at the networking tab... why might we need to i
 
 ## Querying the Backend Efficiently
 
-If you have limited requests it makes sense to get as much data from the DB in one go, as opposed to run multiple queries. 
+If you have *limited requests* it makes sense to get as much data from the DB in one go, as opposed to run multiple queries. 
 
 This is not a problem only for backends-as-a-service - this is a general problem. If you are not smart about querying your backend you will end up with a slow application. 
 
@@ -40,7 +44,13 @@ In the particular case of cloud-hosted-parse, this is also stupid because you're
 
 How to solve it? Get all the data at once by *joining* the corresponding tables. 
 
-And in Parse?
+How to do this in Parse? 
+
+### Retrieving Only the Necessary Fields
+
+See: [Field Selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH)
+
+See also: [Querying Relations](https://www.back4app.com/docs/react/data-objects/relationships#_FtqW)
 
 ### How to update elements on the screen when they change in the DB? 
 

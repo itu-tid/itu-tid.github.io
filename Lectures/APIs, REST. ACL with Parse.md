@@ -274,11 +274,15 @@ The methods above should be combined together to strengthen the authorization of
 # For your projects
 - harden security of your app by adding access control 
 
+# Reading
+From the ParsePlatform.org Guide:
+- [Class-level Permissions](https://docs.parseplatform.org/js/guide/#class-level-permissions)
+- [Object-level Access Control](https://docs.parseplatform.org/js/guide/#object-level-access-control)
 
 
-# To discuss further
 
-- group based access control
+# Not discussed in the course
+- role-based access control
 
 
 

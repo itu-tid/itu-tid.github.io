@@ -116,9 +116,9 @@ Read up on it here:
 
 To be able to design a model for your application domain you must understand: 
 - [Basic Data types](https://www.back4app.com/docs/react/data-objects/react-data-types) (estimated reading time:  15min)
-- [Relationships](https://www.back4app.com/docs/react/data-objects/relationships) (estimated reading time: 30min)
+- [Relationships](https://www.back4app.com/docs/react/data-objects/relationships) (on Back4App.com estimated reading time: 30min)
 
-From the Relationships tutorial observe that they first designed an ER diagram before declaring the classes in the Parse UI. You should do the same about your app. 
+In the Relationships tutorial observe that they first designed an ER diagram before declaring the classes in the Parse UI. You should do the same about your app. 
 
 In their ER diagram they also only show the main entities and relationships. This is the most basic information. However, normally you also show the attributes of the various entities. 
 
@@ -130,22 +130,9 @@ There are many ways in which the attributes can be shown. Below you have two:
 
 No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database. 
 
+Note: 
+- The [Relationships](https://docs.parseplatform.org/js/guide/#relations) section at ParsePlatform.org has a more basic documentation on relationships than the back4app one. 
 
-
-### Using Parse - Further References
-
-Two *alternative documentation sources*: 
-- The Back4App [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart) <-- nicer we think
-- The Parse.js [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started)
-
-More reading: 
-- [Basic Queries](https://www.back4app.com/docs/react/data-objects/react-query)
-	- **Query for a list of objects**
-		- Sorting
-		- Filtering
-	
-- [Query Cookbook](https://www.back4app.com/docs/react/data-objects/react-query-cookbook)
-	- Filters
 
 
 ## Project Work
@@ -156,6 +143,24 @@ More reading:
 ## Individual Work
 
 - can you implement `handleDeleteClick` in ... https://github.com/itu-tid/code-examples/releases/tag/with_basic_parse_backend 
+
+
+# References
+
+Two *alternative documentation sources*: 
+- The Back4App.com
+	- [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart) <-- example of setting up a basic react application
+	- [Method reference](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#cwx91) for the Parse.Query class:
+		- [retrievers](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#7gYWf) (e.g. find, findAll, first)
+		- [conditions](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#7tu0z) (e.g. contains, lessThan, etc.)
+		- [ordering](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#3Tc5v) (e.g. ascending, descending)
+		- [field selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH)(e.g. exclude, include)
+
+- The ParsePlatform.org
+	- [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) -- focuses solely on the Parse Platform aspects - disentangled from the React aspects
+		- [Users](https://docs.parseplatform.org/js/guide/#users)
+		- [Relations](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
+		- 
 
 
 
