@@ -147,8 +147,8 @@ Note:
 
 # References
 
-Two *alternative documentation sources*: 
-- The Back4App.com
+Two complementary documentation sources: 
+1. The documentation at Back4App.com
 	- [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart) <-- example of setting up a basic react application
 	- [Method reference](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#cwx91) for the Parse.Query class:
 		- [retrievers](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#7gYWf) (e.g. find, findAll, first)
@@ -156,13 +156,14 @@ Two *alternative documentation sources*:
 		- [ordering](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#3Tc5v) (e.g. ascending, descending)
 		- [field selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH)(e.g. exclude, include)
 
-- The ParsePlatform.org
+2. The documentation on ParsePlatform.org
 	- [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) -- focuses solely on the Parse Platform aspects - disentangled from the React aspects
 		- [Users](https://docs.parseplatform.org/js/guide/#users)
 		- [Relations](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
-		- 
 
 
-
-# To Do
-- '24 - make sure to spend more time discussing the Relationships
+# Meta
+## History
+- Nov '24 - better organized the references
+## To Do
+- make sure to spend more time discussing the Relationships
