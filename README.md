@@ -22,16 +22,20 @@
 
 - **Nov 15**
 	- **Updates** 
-		- We've covered all the PRs
+		- Did we cover all the PRs? 
+		- Next PR is due on Wednesday at midnight
 		- Some of you have started inviting me to your servers - tak!
 		- Please fill in the questionnaire I've sent yesterday
 		- New diagram at the end of [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md) 
-		- Better organization of the references at the end of [Backends-and-the-Parse-Platform](Lectures/Backends-and-the-Parse-Platform.md)
+		- Better organization of the references at the end of Backends-and-the-Parse-Platform: [relationship types](https://docs.parseplatform.org/js/guide/#relations)
 	- **Discussion**
-		- Modeling relationships? Are we confident with this? Should we discuss more? Start from the [parseplatform.org documentation]([Relationships](https://docs.parseplatform.org/js/guide/#relations)) 
-		- Promises - the `.then` and `async` syntax -- very high level notes with examples in [6-Async-Programming-and-Promises](Tech-TopUps/6-Async-Programming-and-Promises.md)
+		- Modeling relationships? Are we confident with this? Should we discuss more? Start from the [parseplatform.org documentation]([Relationships](https://docs.parseplatform.org/js/guide/#relations))
+
 	- **New Topics**
-		- [Clean Code](Lectures/Clean%20Code.md) 
+		- [Clean Code](Coding-Guidelines.md) 
 		- **Demo**: testing your queries outside of the react application
 		- [Efficient Communication With the Backend](Lectures/Efficient%20Communication%20With%20the%20Backend.md)
 		- [Running Code Server-Side](Lectures/Running%20Code%20Server-Side.md)
+	- TODO
+		- add user -- account dichotomy to lecture notes
+		- Promises - the `.then` and `async` syntax -- very high level notes with examples in [6-Async-Programming-and-Promises](Tech-TopUps/6-Async-Programming-and-Promises.md)

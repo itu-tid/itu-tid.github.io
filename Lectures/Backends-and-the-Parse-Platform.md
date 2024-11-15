@@ -150,7 +150,7 @@ Note:
 Two complementary documentation sources: 
 1. The documentation at Back4App.com
 	- [React Quickstart Guide](https://www.back4app.com/docs/react/quickstart) <-- example of setting up a basic react application
-	- [Method reference](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#cwx91) for the Parse.Query class:
+	- [Method reference](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#cwx91) for the `Parse.Query` class:
 		- [retrievers](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#7gYWf) (e.g. find, findAll, first)
 		- [conditions](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#7tu0z) (e.g. contains, lessThan, etc.)
 		- [ordering](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#3Tc5v) (e.g. ascending, descending)
@@ -158,7 +158,7 @@ Two complementary documentation sources:
 
 2. The documentation on ParsePlatform.org
 	- [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) -- focuses solely on the Parse Platform aspects - disentangled from the React aspects
-		- [Users](https://docs.parseplatform.org/js/guide/#users)
+		- [Users](https://docs.parseplatform.org/js/guide/#users) -- login, user creation
 		- [Relationships](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
 
 
