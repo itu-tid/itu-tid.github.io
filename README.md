@@ -21,13 +21,15 @@
 	- [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md)
 
 - **Nov 15**
-	- Updates 
+	- **Updates** 
 		- We've covered all the PRs
-		- Added a diagram at the end of [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md) 
+		- Some of you have started inviting me to your servers - tak
+		- Please fill in the questionnaire I've sent yesterday
+		- New diagram at the end of [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md) 
 		- Better organization of the references at the end of [Backends-and-the-Parse-Platform](Lectures/Backends-and-the-Parse-Platform.md)
-	- Discussion
+	- **Discussion**
 		- Modeling relationships? Are we confident with this? Should we discuss more? 
-		- Promises - the `.then` and `async` syntax -- started writing some notes in [6-Async-Programming-and-Promises](Tech-TopUps/6-Async-Programming-and-Promises.md)
+		- Promises - the `.then` and `async` syntax -- very high level notes with examples in [6-Async-Programming-and-Promises](Tech-TopUps/6-Async-Programming-and-Promises.md)
 	- New Topics
 		- [Clean Code](Lectures/Clean%20Code.md) 
 		- [Efficient Communication With the Backend](Lectures/Efficient%20Communication%20With%20the%20Backend.md)

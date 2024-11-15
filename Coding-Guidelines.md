@@ -25,7 +25,7 @@ How do we know that it's generated code?
 # Styling
 
 ## Separate the style for a component in a separate file
-- Do not use inline styling. 
+- Do not use inline styling
 - Separating the style in different files promotes reusability and results in smaller components which is a good thing
 
 
