@@ -164,3 +164,5 @@ Two *alternative documentation sources*:
 
 
 
+# To Do
+- '24 - make sure to spend more time discussing the Relationships
