@@ -22,14 +22,11 @@ How do we know that it's generated code?
 - your code is using unnecessary specifications -- e.g. `z-index: 1000` in a project where `z-index` is never used elsewhere
 
 
-
-
-
 # Styling
 
 ## Separate the style for a component in a separate file
 - Do not use inline styling. 
-- This promotes the separation of concerns and reusability. 
+- Separating the style in different files promotes reusability and results in smaller components which is a good thing
 
 
 ## Do not hardcode colors ad hoc 
