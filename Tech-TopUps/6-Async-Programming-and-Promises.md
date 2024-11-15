@@ -13,10 +13,11 @@
 
 Promises are often used when requesting something from a server, as in the following example:
 
-```javascript 
-function fetchMorty() {
+```js 
+const RM_API="https://rickandmortyapi.com/api";
 
-	return fetch('https://rickandmortyapi.com/api/character/2')
+function fetchMorty() {
+	return fetch(RM_API+'/character/2')
 		.then(response => response.json())
 		.then(data => console.log(data))
 		.catch(error => console.error(error));
@@ -27,9 +28,10 @@ function fetchMorty() {
 Declaring the function to be async allows us to use the `await` keyword and makes the code easier to read:
 
 ```js
-async function fetchMorty() {
+const RM_API="https://rickandmortyapi.com/api"
 
-	const response = await fetch('https://rickandmortyapi.com/api/character/2');
+async function fetchMorty() {
+	const response = await fetch(RM_API+'/character/2');
 	const data = await response.json();
 	console.log(data);
 }
@@ -40,7 +42,7 @@ Surely, one needs to also handle exceptions:
 ```js
 async function fetchMorty() {
 	try {
-		const response = await fetch('https://rickandmortyapi.com/api/character/2');
+		const response = await fetch(RM_API+'/character/2');
 		const data = await response.json();
 		console.log(data);
 	} catch (error) {

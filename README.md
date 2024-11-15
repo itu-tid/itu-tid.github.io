@@ -21,8 +21,8 @@
 	- [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md)
 - **Nov 15**
 	- Updates 
-		- added a diagram at the end of [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md) 
-		- better organization of the references at the end of [Backends-and-the-Parse-Platform](Lectures/Backends-and-the-Parse-Platform.md)
+		- Added a diagram at the end of [APIs, REST. ACL with Parse](Lectures/APIs,%20REST.%20ACL%20with%20Parse.md) 
+		- Better organization of the references at the end of [Backends-and-the-Parse-Platform](Lectures/Backends-and-the-Parse-Platform.md)
 	- Discussion
 		- Modeling relationships? Are we confident with this? Should we discuss more? 
 	- New Topics
