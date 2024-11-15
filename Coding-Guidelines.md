@@ -10,9 +10,17 @@ To make your code more maintainable, and your life easier, here are some rules t
 
 ## Avoid copy-pasting code that you don't understand
 
-The code will become a *big ball of mud and bugs* if you just add stuff in there that was generated without you understanding it. 
+Why?
+- The code will become a *big ball of mud and bugs* if you just add stuff in there that was generated without you understanding it. 
+- You upset the code reviewers...
 
 As a rule of thumb, code generation is useful as a reminder of something that you knew before, something that you understand and just forgot. 
+
+How do we know that it's generated code?
+- your code is using class components -- which is archaic
+- your code is using redundant comments -- no human would waste time to belabor the obvious
+- your code is using unnecessary specifications -- e.g. `z-index: 1000` in a project where `z-index` is never used elsewhere
+
 
 
 
@@ -28,7 +36,8 @@ As a rule of thumb, code generation is useful as a reminder of something that yo
 Separate the definition of your colors in a colors file. This allows reuse. And keeps the unity of the design if the same colors are used across the application. 
 
 
-# Javascript
+
+# Javascript - The Language
 
 ## Favor named functions to lambda expressions when possible
 This increases the readability of the code
@@ -38,7 +47,7 @@ This increases the readability of the code
 
 ## Keep components small
 - examples 
-- counter-example
+- counter-example: show 
 
 ## Extract repetitive patterns into a separate components
 e.g. the two patterns below are too repetitive; they should be factored out in a separate component
