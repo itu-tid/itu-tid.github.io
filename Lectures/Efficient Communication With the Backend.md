@@ -79,6 +79,8 @@ How does the backend update the front-end?
 - Set a timer
 - When the timer expires, request the data again from the server
 - Redisplay if needed
+	- make sure to specify the key for every of the items when rendering
+	- update the list with the new data from the server
 - Make sure to use the special syntax of `useEffect` to cleanup the timer when the component is not visible anymore
 
 #### Event-Driven Approaches: The Advanced Way
