@@ -85,6 +85,8 @@ How does the backend update the front-end?
 - allow the server to send you events when something in your query has changed
 - update only when something has actually changed
 
-In Parse, an implementation of this can be done with the `LiveQuery` [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification). 
+In Parse, an implementation of this can be done with the `LiveQuery` [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification). The Parse Platform documentation has a nice and concise example of how to use it in their online documentation: See [Client Setup](https://docs.parseplatform.org/parse-server/guide/#client-setup) 
+
+LiveQuery is based on WebSocket connections, which are the more general solution to maintaining a *stateful* connection between the front-end and the backend.  
 
 
