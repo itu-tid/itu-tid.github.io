@@ -35,7 +35,22 @@
 		- [Clean Code](Coding-Guidelines.md) 
 		- **Demo**: testing your queries outside of the react application
 		- [Efficient Communication With the Backend](Lectures/Efficient%20Communication%20With%20the%20Backend.md)
-		- [Running Code Server-Side](Lectures/Running%20Code%20Server-Side.md)
 	- TODO
 		- add user -- account dichotomy to lecture notes
 		- Promises - the `.then` and `async` syntax -- very high level notes with examples in [6-Async-Programming-and-Promises](Tech-TopUps/6-Async-Programming-and-Promises.md)
+	- Observations:
+		- some of the groups are still to start modelling 
+
+
+- **Nov 22**
+	- **Updates** 
+		- Next and last PR is two Wednesdays from today
+		- Server [invitations](https://dashboard.back4app.com/apps) 
+		- State of the project questionnaires
+	- **Discussion**
+		- Clean code discussion based on PRs
+   
+	- **New Topics**
+		- [Efficient Communication With the Backend](Lectures/Efficient%20Communication%20With%20the%20Backend.md) (contd. from last time)
+		- [Running Code Server-Side](Lectures/Running%20Code%20Server-Side.md)
+TopUps/6-Async-Programming-and-Promises.md) 
