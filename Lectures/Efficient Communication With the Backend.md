@@ -28,7 +28,7 @@ In particular for the free tier, you have limited:
 
 ### How does the fact that you are using a backend-as-a-service impact the design of the communication between your front- and your back-end? 
 
-You have to be smart about resource usage because otherwise you 
+You have to be economical about resource usage because otherwise you 
 - will spend more money
 - will have a slower application
 
@@ -56,7 +56,7 @@ How to solve it? Get all the data at once by *joining* the corresponding tables.
 
 By default, when you create a `Parse.Query` object you create it for a given table and you get back objects from that particular table. Pointers are retrieved only as the `objectID` of the actual object in the remote table. So normally, you'd have to send another query to bring also the object. To avoid that, you have to use the `include` method of the `Parse.Query` object to specify that you want to include also the objects in the table pointed at by the pointers. 
 
-See [Field Selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH) -- `include` for an example. 
+See [Field Selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH) -- **`include`** for an example. 
 
 The corresponding SQL statement is `join`.
 
@@ -66,7 +66,9 @@ Just as sending too many queries is a problem, transferring from the server too 
 
 See [Field Selecting](https://www.back4app.com/docs/react/data-objects/react-query-cookbook#88HKH) -- `exclude`, and `select` as a ways of retrieving only the necessary fields from a table. 
 
-The corresponding SQL statement is `select name from ...`. 
+The corresponding SQL statement is `select name from users` instead of saying `select * from users`.
+
+
 
 ### How to update elements on the screen when they change in the DB? 
 
@@ -76,18 +78,49 @@ One notable exception are the situations when a screen is showing information th
 
 How does the backend update the front-end? 
 #### Polling: The low-tech way
-- Set a timer
-- When the timer expires, request the data again from the server
+- Set a [interval](https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval)  (note that an interval is different than a [timeout](https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout))
+- When the interval expires, request the data again from the server
 - Redisplay if needed
 	- make sure to specify the key for every of the items when rendering
 	- update the list with the new data from the server (if the data has changed)
-- Make sure to use the special syntax of `useEffect` to cleanup the timer when the component is not visible anymore
+
+Note: Make sure to use the special syntax of `useEffect` to **cleanup** the timer when the component is not visible anymore
+
+Example of using a timer in React the **wrong** way: 
+
+```js
+useEffect(() => {  
+
+  const interval = setInterval(() => {  
+	   // check for new messages
+  }, 1000);  
+
+}, []);
+```
+
+The right way: 
+```js
+
+useEffect(() => {  
+// called with [] means on component load
+
+  const interval = setInterval(() => {  
+	   // check for new messages
+  }, 1000);  
+
+
+  // on component unload
+  return () => {  
+    clearInterval(interval);  
+  };  
+}, []);
+```
 
 #### Event-Driven Approaches: The Advanced Way
 - allow the server to send you events when something in your query has changed
 - update only when something has actually changed
 
-In Parse, an implementation of this can be done with the `LiveQuery` [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification). The Parse Platform documentation has a nice and concise example of how to use it in their online documentation: See [Client Setup](https://docs.parseplatform.org/parse-server/guide/#client-setup) 
+In Parse, an implementation of this can be done with the `LiveQuery` [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) (don't read this; too low-level!). The Parse Platform documentation has a nice and concise example of how to use it in their online documentation: See [Client Setup](https://docs.parseplatform.org/parse-server/guide/#client-setup) 
 
 LiveQuery is based on WebSocket connections, which are the more general solution to maintaining a *stateful* connection between the front-end and the backend.  
 

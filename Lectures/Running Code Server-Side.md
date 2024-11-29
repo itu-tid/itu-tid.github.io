@@ -6,12 +6,12 @@ One of the nice things is that with Parse we did not have to implement a server.
 
 All the code runs on the client side until now. `Parse.Query`, `Parse.Object` - they're APIs that run in the context of our Application. 
 
-However, for some things, we will need a server.
+However, for some kinds of code, we will need to run it on a server.
 
 ### For what kinds of computations do we need to write code that *runs on the server*?
-- complex calculations on the server side that would be too expensive to run on the client side
-- statistics that might involve the data of all the users (e.g., average rating of all the movies in the database; one does not want send all that data to the client; it is good to do the calculations on the server)
+- (statistics) that might involve the data of all the users (e.g., average rating of all the movies in the database; one does not want send all that data to the client; it is good to do the calculations on the server)
 - calling 3rd party APIs (especially those that require a secret API key that can't be hardcoded in the Javascript)
+	- e.g. your application offers Google Translate functionality
 - making a check before a user writes something to the database or updating some other metadata after a write is done.
 
 To think about: Examples of computational tasks from your own project that 
@@ -22,10 +22,10 @@ In Parse, cloud functions are
 - defined on the server that are run in the context of the server
 - called from the JS client by name with parameters
 
-Example of cloud function called from the client: 
+Example of how to call a hypothetical `averageStars` cloud function from the client: 
 ```js
-const params = {movie: "Oh Brother, Where Art Thou?"};
-const ratings = await Parse.Cloud.run("totalCounters", params);
+const p = {movie: "Oh Brother, Where Art Thou?"};
+const ratings = await Parse.Cloud.run("averageStars", p);
 ```
 
 Such a function assumes that on the server the implementation of the `averageStars` is present. A possible implementation could be: 
@@ -34,9 +34,9 @@ Such a function assumes that on the server the implementation of the `averageSta
 Parse.Cloud.define("averageStars", async (request) => {
 
 	const query = new Parse.Query("Review");	
-	query. equalTo ("movie", request.params.movie);
+	query.equalTo ("movie", request.params.movie);
 	
-	const results = await query. find();
+	const results = await query.find();
 
 	let sum = 0;
 	for (let i = 0; i < results.length; ++i) {
@@ -56,6 +56,7 @@ To declare cloud functions in Parse one has to go to the `Dashboard`> `Cloud Cod
 
 
 **How can you automatically run a function on the server before a user makes a write to the database?**
+
 - the `beforeSave` method of `Parse.Cloud`, e.g.
 
 ```js
