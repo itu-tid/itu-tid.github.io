@@ -40,7 +40,8 @@ function Home {
 
   return (
     <>
-      <PostingContainer posts={posts} setPosts={setPosts}></PostingContainer>	  
+      <PostingContainer posts={posts} setPosts={setPosts}></PostingContainer>	 
+      
       {posts.map( // ... 
       })
     </>
