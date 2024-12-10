@@ -13,19 +13,18 @@ The parent component would look something like the code below:
 ```js
 
 function Home {  
-
   const [posts, setPosts] = useState([]);  
-
+  
   return (
-	  <>
-		  <PostingContainer></PostingContainer>
-		  
-		  {posts.map((post, index) => {
-			  return (
-				  <Post postObject={post}/>
-			  )
-		  })
-	  </>
+    <>
+      <PostingContainer></PostingContainer>	  
+      
+      {posts.map((post, index) => {
+        return (
+          <Post postObject={post}/>
+        )
+      })
+    </>
   )
 ```
 
@@ -40,14 +39,13 @@ function Home {
   const [posts, setPosts] = useState([]);  
 
   return (
-	  <>
-		  <PostingContainer posts={posts} setPosts={setPosts}></PostingContainer>
-		  
-		  {posts.map((post, index) => {
-			  // ... 
-		  })
-	  </>
-  )
+    <>
+      <PostingContainer posts={posts} setPosts={setPosts}></PostingContainer>	  
+      {posts.map((post, index) => {
+         // ... 
+      })
+    </>
+)
 ```
 
 Inside of the `PostingContainer` you can then update the posts once the new post object has been added to the database, something like this: 
@@ -55,19 +53,16 @@ Inside of the `PostingContainer` you can then update the posts once the new post
 ```js
 function PostingContainer ({posts, setPosts}) {
 
-	function createPost() {  
+  function createPost() {  
   
-	  let newPost = new Parse.Object("POSTS");  
+    let newPost = new Parse.Object("POSTS");  
   
-	    newPost.set("text", text);  
-	    // ...
-	    await newPost.save();  
-    
-	    setPosts([newPost, ...setPosts]);  
-  
-		} catch (error) {  
-    alert(`Error creating post: ${error.message}`);  
-  }  
+      newPost.set("text", text);  
+      // save everything else from this post
+      // ...
+      await newPost.save();  
+
+      setPosts([newPost, ...setPosts]);
 };
 
 ```
@@ -80,23 +75,22 @@ However, this is not smart, because you're sending the whole information about t
 A smarter alternative is below: 
 ```js
 
-function Home {  
-
+function Home {
   const [posts, setPosts] = useState([]);  
 
   function addPostToList(newPost) {  
-	let newPostsList =[newPost, ...posts];  
-	setPosts(newPostsList);  
+    let newPostsList =[newPost, ...posts];  
+    setPosts(newPostsList);  
   }
 
   return (
-	  <>
-		  <PostingContainer addPostToList={addPostToList}></PostingContainer>
+    <>
+      <PostingContainer addPostToList={addPostToList}></PostingContainer>
 		  
-		  {posts.map((post, index) => {
-			  // ... 
-		  })
-	  </>
+      {posts.map((post, index) => {
+        // ... 
+      })
+    </>
   )
 ```
 
@@ -105,21 +99,18 @@ Then, in the posting container you simply call the callback method with the newl
 ```js
 function PostingContainer ({addPostToList}) {
 
-	function createPost() {  
+  function createPost() {  
   
-	  let newPost = new Parse.Object("POSTS");  
+    let newPost = new Parse.Object("POSTS");  
   
-	    newPost.set("text", text);  
-	    // ... 
-	    await newPost.save();  
+    newPost.set("text", text);  
+    // ... 
+    await newPost.save();  
     
-	    addPostToList(newPost);  
+    addPostToList(newPost);  
   
-		} catch (error) {  
-    alert(`Error creating post: ${error.message}`);  
-  }  
+  }
 };
-
 ```
 
 Why is this smarter? 
