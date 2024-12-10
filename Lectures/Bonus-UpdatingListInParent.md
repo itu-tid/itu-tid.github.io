@@ -75,7 +75,7 @@ function PostingContainer ({posts, setPosts}) {
 However, this is not smart, because you're sending the whole information about the posts to the child component. The state should really be local to a component, just as attributes are local to a class. Why is this a bad idea? 
 
 
-## Pass a function that can add a post to the child
+## Pass a callback function that can add a post to the list
 
 A smarter alternative is below: 
 ```js
@@ -121,3 +121,5 @@ function PostingContainer ({addPostToList}) {
 };
 
 ```
+
+Why is this smarter? 
