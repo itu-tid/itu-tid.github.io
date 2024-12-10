@@ -42,7 +42,7 @@ function Home {
     <>
       <PostingContainer posts={posts} setPosts={setPosts}></PostingContainer>	  
       {posts.map((post, index) => {
-         // ... 
+         <Post postObject={post}/>
       })
     </>
 )
@@ -88,7 +88,7 @@ function Home {
       <PostingContainer addPostToList={addPostToList}></PostingContainer>
 		  
       {posts.map((post, index) => {
-        // ... 
+        <Post postObject={post}/>
       })
     </>
   )
