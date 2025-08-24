@@ -13,7 +13,7 @@ We've talked about the *flow layout*, the most basic CSS layouts in the [1-Basic
 - SO [discussion](https://stackoverflow.com/questions/50094544/what-are-the-differences-between-flexbox-and-the-grid-systems) about Grid vs Flexbox
 
 
-### Media-Queries
+### Responsiveness with media-queries
 -  Media Query Basics: https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Media_queries#media_query_basics 
 
 
