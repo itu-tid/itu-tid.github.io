@@ -38,7 +38,7 @@ Vite prints a local URL like http://localhost:8000 (the port may vary). Open it 
 To stop the server, press **Ctrl + C** in the terminal.
 
 ## Step 5: Project Structure (what you get)
-A fresh Vite + React app looks roughly like this:
+A new Vite + React app looks roughly like this:
 
 ```
 my-app/
