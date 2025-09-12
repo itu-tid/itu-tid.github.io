@@ -15,6 +15,9 @@ From your terminal, navigate to the folder where you keep projects and run
 
 ```bash
 # Create a new Vite project
+
+Note: Replace my-app below with the project name you want. 
+
 npm create vite@latest my-app -- --template react
 ```
 
@@ -24,7 +27,6 @@ Then install dependencies
 cd my-app
 npm install
 ```
-You can replace my-app with any project name you like.
 
 ## Step 3: Open the project in VS Code
 Open VS Code and use **File → Open Folder…** to select your project.
