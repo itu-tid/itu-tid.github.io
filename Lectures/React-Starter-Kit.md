@@ -2,7 +2,9 @@
 
 ## Step 1: Install Node.js
 Visit the official Node.js website at https://nodejs.org/en/download/prebuilt-installer
+
 Download and install the latest LTS (Long Term Support )version for your operating system.
+
 Run the installer, following the prompts to install Node.js and npm. You can verify the installation by opening a new terminal window and running:
 
   ```bash
@@ -16,10 +18,10 @@ From your terminal, navigate to the folder where you keep projects and run
 ```bash
 # Create a new Vite project
 
-Note: Replace my-app below with the project name you want. 
-
 npm create vite@latest my-app -- --template react
 ```
+
+Note: Replace "my-app" with the project name you want. 
 
 Then install dependencies
 
@@ -36,7 +38,8 @@ Open VS Code and use **File → Open Folder…** to select your project.
 npm run dev
 ```
 
-Vite prints a local URL like http://localhost:8000 (the port may vary). Open it in your browser to see the starter app.
+Vite prints a local URL like http://localhost:5173 (the port may vary). Open it in your browser to see the starter app.
+
 To stop the server, press **Ctrl + C** in the terminal.
 
 ## Step 5: Project Structure (what you get)
@@ -64,46 +67,23 @@ Key files:
 * **`src/App.jsx`**: Starter component — edit here to start building.
 
 ## Step 6: Install Prettier for formatting
-Install Prettier
+Download the **Prettier** extenstion: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode 
+(picture)
 
-```bash
-npm i -D prettier
-```
+Go to settings, and search for "Format". Make sure you click the "Format on Save".
+(picture)
 
-```json
-{
-  "semi": true,
-  "singleQuote": true,
-  "trailingComma": "es5"
-}
-```
+If possible, choose the "Prettier - Code Formatter" in the "Default Formatter". 
+(picture)
 
-```
+If you don't see Prettier here, do this via the command:
 
-### Update `package.json` scripts
+**Cmd/Ctrl+Shift+P** → **Format Document With...** → **Configure Default Formatter** → choose **Prettier - Code Formatter**
 
-```json
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "format": "prettier --write ."
-  }
-}
-```
+Reload the window with **Cmd/Ctrl+Shift+P → Developer: Reload Window**.
 
-### Usage
 
-To format with Prettier, run:
-
-```bash
-npm run format
-```
-
-Enable **Format on Save** in VS Code to let Prettier handle formatting automatically.
-
-## Step 7: Build for production
+## Step 7: Build for production (optional)
 When you're ready to deploy your app or test it in a production-like environment, you'll need
 to build it. Building the app optimises it for performance and creates a build directory with
 all the files necessary to run the app.
@@ -122,7 +102,7 @@ resulting code is harder for humans to read, but easier for machines to read and
 which makes your app load and run faster for your users.
 
 
-### Quick Commands Recap
+## Quick Commands Recap
 
 ```bash
 # Create app
