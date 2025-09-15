@@ -207,10 +207,9 @@ useEffect(() => {
 ```
 
 
-# Another special case: no second argument to `useEffect` 
+# Second special case of `useEffect`: no second argument at all!
 
 A very special case of calling `useEffect` is with no second argument: 
-
 ```javascript
 function MyComponent() {  
 
@@ -221,6 +220,12 @@ function MyComponent() {
 }
 ```
 
-**Every time the component renders, React updates the screen and then runs the code inside useEffect.** 
+## **Every time the component renders, React updates the screen and then runs the code inside useEffect.** 
 
-This is not normally used, except for debugging in my experience. 
+## This is not normally used, except for debugging in my experience. 
+
+## This is the fastest way to run out of cloud credits when you'll connect to the DB later in the course
+
+
+
+
