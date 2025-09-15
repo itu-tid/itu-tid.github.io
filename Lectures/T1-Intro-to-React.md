@@ -155,20 +155,21 @@ See the [button with counter example](https://react.dev/learn#updating-the-scree
 
 
 
-## Responding to Events
+## Event Handling
 
 ### Interactive apps must handle events: click, type, mouse move, screen touch, etc. 
+
+This is the main job of your UI app.
+
 
 ### Built-in components (e.g. `<button>`) support built-in events (e.g. `onClick`, etc.).
 
 Associating event handlers with events is done with the attribute in curly brackets syntax, as above. (See [onClick example](https://react.dev/learn/responding-to-events#adding-event-handlers).)
 
-Event handlers
-- are defined inside components
-- have usually names starting with `handle`... 
+#### WARNING: You must know the difference between calling a function and passing a reference to it! 
+### Event handlers are defined inside components
 
-WARNING: Know the difference between calling a function and passing a reference to it
-
+### Handlers have usually names starting with `handle`... 
 
 ### **Event handlers always receive an event as argument**
 
