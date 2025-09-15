@@ -24,12 +24,7 @@ in the above case, the `LocalStorage.setItem` saves the value of the counter to 
 
 
 
-
-
-# [useEffect](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect) - The Most Important Hook to Understand
-
-
-# Side Effects in React
+# Side Effects in React with `useEffect`
 
 ### In the context of React, the main responsibility of a component function is to... render JSX.  
 
