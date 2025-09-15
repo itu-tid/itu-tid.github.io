@@ -14,3 +14,7 @@ Two types of logic inside React components:
 
 1. **Rendering code** => a transformation from props & state into JSX. This is *purely functional code*  -- for the same props and state it will always return the same JSX. 
 2. **Event handlers** => functions that do things -- change state, submit HTTP POST request, navigate to another screen, interact directly with the DOM (e.g. change page title)
+
+
+
+- What happens if you forget to mention the dependency in the dependencies array but you still refer to it inside of the effect function? 
