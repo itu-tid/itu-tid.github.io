@@ -8,7 +8,7 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 
   
 ## Technical ID
-- [[T0-React-Starter-Kit]]
+- [React Starter Kit](Lectures/T0-React-Starter-Kit.md)
 - [Intro to React](T1-Intro-to-React.md)
 
 
