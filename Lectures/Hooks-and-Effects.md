@@ -16,7 +16,7 @@ Most Popular
 
 ## Before we start
 - [The JSON namespace in the browser](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
-- [localStorage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) includes the global object `localStorage:` and the methods `setItem` and `getItem` which both *work on strings*
+- [localStorage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) includes the global object `localStorage` and the methods `setItem` and `getItem` which both *work on strings*
 
 
 
@@ -54,7 +54,10 @@ Let us look at the LocalStorage.
 Are there other values there besides our `square`? 
 
 ## Side Effect Examples in React
-In the context of React, the main responsibility of a component function is to... render JSX. Anything besides that is considered a side-effect. Examples of such side effects that you'll encounter in React are: 
+In the context of React, the main responsibility of a component function is to... render JSX. 
+Anything besides that is considered a side-effect. 
+
+Examples of such side effects that you'll encounter in React are: 
 
 - When a ChatRoom component must connect to the server to download the corresponding info
 - When you want to change the title of the page based on the state in a component 
@@ -153,7 +156,7 @@ function MyComponent() {
 
 **Every time the component renders, React updates the screen and then runs the code inside useEffect.** 
 
-This is not normally used, but for debugging in my experience. 
+This is not normally used, except for debugging in my experience. 
 
 
 ## Releasing Resources on Component Unmount
