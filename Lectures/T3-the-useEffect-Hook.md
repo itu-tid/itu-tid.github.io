@@ -1,11 +1,9 @@
-
 # Side effects in programming 
 
 ## Concept coming from functional programming
 ## Side effect = anything besides the main calculation needed for the result
 
 Refers to anything that a function does not serve the purpose of computing the result. Conceptually the following function is free of side-effects:
-
 ```js
 
 function square(i) {
