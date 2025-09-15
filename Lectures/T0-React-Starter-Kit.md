@@ -14,7 +14,6 @@ Run the installer, following the prompts to install Node.js and npm. You can ver
 
 ## Step 2: Create a new React app with Vite
 From your terminal, navigate to the folder where you keep projects and run
-
 ```bash
 # Create a new Vite project
 

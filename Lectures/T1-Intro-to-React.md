@@ -260,11 +260,37 @@ This is the least recommended
 
 e.g. [here](https://github.com/mircealungu/zeeguu-mobile/blob/master/screens/AllArticles.js)
 
-### With the help of 3rd party libraries
+### With the help of `styled-components` library
 
+#### First you install the library `npm install -s styled-components`
 
+#### Then you define styles with the `styled` function!
+```js
 
+// Create a Title component that'll render an <h1> tag with some styles
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: #BF4F74;
+`;
 
+// Create a Wrapper component that'll render a <section> tag with some styles
+const Wrapper = styled.section`
+  padding: 4em;
+  background: papayawhip;
+`;
+
+// Use Title and Wrapper like any other React component – except they're styled!
+render(
+  <Wrapper>
+    <Title>
+      Hello World!
+    </Title>
+  </Wrapper>
+);
+```
+
+#### It's nicer to move components to their own file
 
 
 

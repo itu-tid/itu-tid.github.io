@@ -14,12 +14,6 @@ Most Popular
 - `useRef` -- an object that can be persisted across renderings but is not state (see below)
 
 
-## Before we start
-- [The JSON namespace in the browser](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
-- [localStorage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) includes the global object `localStorage` and the methods `setItem` and `getItem` which both *work on strings*
-
-
-
 # [useEffect](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect) for handling Effects
 
 Two types of logic inside React components:
