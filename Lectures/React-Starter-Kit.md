@@ -100,10 +100,10 @@ npm run build
 
 This creates a build directory in your project with static files that are optimised for
 performance. These are the files you'll use to deploy your app.
-Note: The build process minifies your code (removes unnecessary characters), bundles it
+Note: The build process minifies your code (reduces the size of the code), bundles it
 (combines multiple files into one), and optimises it in other ways for production. The
-resulting code is harder for humans to read, but easier for machines to read and process,
-which makes your app load and run faster for your users.
+resulting code is harder for humans to read, but shorter, which makes your app load 
+faster for your users.
 
 
 ## Quick Commands Recap
