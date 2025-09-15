@@ -23,7 +23,6 @@ function square (i) {
 in the above case, the `LocalStorage.setItem` saves the value of the counter to `LocalStorage`, a mini key-value store that's available for every web application inside of the browser. 
 
 
-
 # Side Effects in React with `useEffect`
 
 ### In the context of React, the main responsibility of a component function is to... render JSX.  
@@ -33,6 +32,7 @@ in the above case, the `LocalStorage.setItem` saves the value of the counter to 
 - what could they be? 
 	- updating the DOM
 	- saving things to the DB
+	- we'll see a few examples later
 	
 ### Goal: synchronize your component with **some system outside of React**
 
@@ -98,9 +98,6 @@ IMO, In Mircea's Opinion: this should be called useReactive -- because defines a
 ```js
 useEffect(() => {  
   window.addEventListener("scroll", handleScroll, true);  
-  return () => {  
-    window.removeEventListener("scroll", handleScroll, true);  
-  };  
 }, [articles]);
 ```
 
@@ -126,30 +123,22 @@ useEffect(() => {
 
 - Initialization.  Sometimes there's special initializations that you want to have when a component is first time rendered. 
 
-##### If you had a counter app, you might want to load counters from the DB 
+
+
+##### If you had a TODO list app, you might want to load counters from the DB 
 
 LocalStorage is actually a little database, that we should benefit from.
 The following code pattern solves this: 
 
 ```js
-export default function Counter({name, color, size}) {  
-  
-    const [clicks, setClicks] = useState(undefined);  
-  
-    useEffect(()=>{  
-        try {  
-            let stored_counter = Number(localStorage.getItem(name));  
-            setClicks(stored_counter);  
-        } catch (e) {  
-            setClicks(0);  
-        }  
-    }, []);  
-  
-    useEffect(() => {  
-        if (clicks !== undefined) {  
-            localStorage.setItem(name, JSON.stringify(clicks));  
-        }  
-    }, [clicks]);
+function saveList(key, list) {
+	localStorage.setItem(key, JSON.stringify(list)); 
+ } 
+
+function loadList(key) { 
+	const data = localStorage.getItem(key); 
+	return data ? JSON.parse(data) : []; 
+}
 ```
 
 In the upcoming lectures you will learn how to load things from the database and you will see that the patterns are going to be the same. 
@@ -191,11 +180,13 @@ useEffect(() => {
 The correct way of handling it: 
 ```javascript
 useEffect(() => {
+
   let interval = setInterval(() => {console.log("hello")}, 1000)
 
   return () => {
     clearInterval(interval) // clear the interval in the returning function
   }
+  
 }, [])
 ```
 
@@ -209,6 +200,7 @@ function MyComponent() {
 	useEffect(() => {  
 		console.log("every render!")
 	});  
+	
 	return <div />;  
 }
 ```

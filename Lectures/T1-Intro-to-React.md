@@ -11,9 +11,11 @@ React is a JavaScript **library** for building interactive **single page applica
 
 ```js
 export default function ToDoList() {
+  const name = "Mircea";
+  
   return (
     <>
-      <h1>Remember</h1>
+      <h1>Remember {name}:</h1>
       <ul>
         <li>Buy bread</li>
         <li>Buy milk</li>
@@ -63,6 +65,7 @@ return (
   </>
 )
 ```
+this is called  = a fragment. 
 #### Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) 
 
 
@@ -106,9 +109,9 @@ return (
 export default function TodoList() {
   return (
     <ul style={{
-      backgroundColor: 'black',
-      color: 'pink'
-    }}>
+		  backgroundColor: 'black',
+	      color: 'pink'
+	    }}>
       <li>Improve the videophone</li>
       <li>Prepare aeronautics lectures</li>
       <li>Work on the alcohol-fuelled engine</li>
@@ -122,7 +125,7 @@ export default function TodoList() {
 
 ### A component is a function. Functions can be parameterized => Components  should be parameterizable
 
-### Component parameters are called **props** in React
+### Component parameters are called **`props`** in React
 - the term very likely comes from properties
 
 ### Props are passed on normally as HTML attributes
@@ -133,7 +136,7 @@ export default function TodoList() {
 - In the component definition the props are accessed as either
 	- a single function parameter named `props`
 
-### You can be more explicitit using a [destructured](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) dictionary in the component definition
+### You can be more explicit using a [destructured](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) dictionary in the component definition
 - makes code easier to read and write
 
 
@@ -161,15 +164,13 @@ See the [button with counter example](https://react.dev/learn#updating-the-scree
 
 This is the main job of your UI app.
 
-
+### Event handlers are defined inside components
+### Handlers have usually names starting with `handle`... 
 ### Built-in components (e.g. `<button>`) support built-in events (e.g. `onClick`, etc.).
 
 Associating event handlers with events is done with the attribute in curly brackets syntax, as above. (See [onClick example](https://react.dev/learn/responding-to-events#adding-event-handlers).)
 
-#### WARNING: You must know the difference between calling a function and passing a reference to it! 
-### Event handlers are defined inside components
-
-### Handlers have usually names starting with `handle`... 
+#### WARNING: You must know the difference between calling a function and passing it as a reference!
 
 ### **Event handlers always receive an event as argument**
 
@@ -177,7 +178,7 @@ The `event` argument details info about what just happened.
 - Sometimes you can ignore it, 
 - Sometimes you inspect it to learn about the event (e.g. mouse position, element that was clicked, etc. )
 
-### Events propagate (*bubble up*) the DOM tree
+### Events propagate (*bubble up*) the DOM tree (advanced)
 
 If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
 
@@ -227,7 +228,8 @@ export default function InputExample () {
 }
 ```
 
-This is called a `controlled component` because the form elements (i.e. `textarea` in our example, are controlled by the react prop). Should probably be *controlling* ...  
+### This is called a `controlled component` 
+- because the form elements (i.e. `textarea` in our example, are controlled by the react prop). Should probably be *controlling* ...  
 
 
 
@@ -291,12 +293,14 @@ render(
   </Wrapper>
 );
 ```
+#### Move components to their own file
 
-#### It's nicer to move components to their own file
-
-
-
-
+#### Benefits of `styled-components`
+##### Benefit 1: automatic CSS scoping
+- the `Wrapper` and `Title` styles only apply to our title above
+##### Benefit 2: automatic delete of CSS
+- deleting the component deletes the style
+- otherwise, in a huge CSS file you end up with a lot of dead code
 
 ## Conditional Rendering 
 
@@ -327,19 +331,6 @@ A bit like in Excel -- one of the classical reactive programming environments --
 
 In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
 
-
-### The useEffect hook ...
-
-
-
-
-
-## Coding Conventions
-
-A few conventions 
-- (naming) components are named with capital letters 
-- (modularization): components are defined in their own files
-- (modularization) To import a component one can use either *default* or *named* imports
 
 
 
