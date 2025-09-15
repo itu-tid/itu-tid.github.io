@@ -1,30 +1,28 @@
 
 # React Hooks 
 
-Special React functions for "hooking into" the framework
-- their name starts with `use`
-- called at the top of the component
-- can be called from another hook or directly from a component
-- can't be called from within a conditional expression or nested functions
+## Special React functions for "hooking into" the framework
+### Their name starts with `use`
 
-
-Most Popular
+Most popular: 
 - `useState` -- to allow you to define state
 - `useEffect` -- to allow you to handle side effects (see below)
 - `useRef` -- an object that can be persisted across renderings but is not state (see below)
+### Called at the top of the component
+### Can be called from another hook or directly from a component
+### Can NOT be called from within a conditional expression or nested functions
+
 
 
 # [useEffect](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect) for handling Effects
 
-Two types of logic inside React components:
-1. **Rendering code** => a transformation from props & state into JSX. This is *purely functional code*  -- for the same props and state it will always return the same JSX. 
-2. **Event handlers** => functions that do things -- change state, submit HTTP POST request, navigate to another screen, interact directly with the DOM (e.g. change page title)
+## When *as a side effect of changing state* you must to do something else besides re-render
 
-There is a third type of logic: 
+IMO, In Mircea's Opinion: this should be called useReactive -- because defines a reactive relationship. 
 
-3. When *as a side effect of changing state* you must to do something else besides re-render
+### Side effect in functional programming = anything besides the calculation
 
-Side effect in functional programming refers to anything that a function does not serve the purpose of computing the result. Conceptually the following function is free of side-effects:
+Refers to anything that a function does not serve the purpose of computing the result. Conceptually the following function is free of side-effects:
 
 ```js
 
@@ -44,8 +42,7 @@ function square (i) {
 
 in the above case, the `LocalStorage.setItem` saves the value of the counter to `LocalStorage`, a mini key-value store that's available for every web application inside of the browser. 
 
-Let us look at the LocalStorage. 
-Are there other values there besides our `square`? 
+
 
 ## Side Effect Examples in React
 In the context of React, the main responsibility of a component function is to... render JSX. 

@@ -235,12 +235,13 @@ This is called a `controlled component` because the form elements (i.e. `textare
 
 Most applications sooner or later rely on lists of things that you want to process. 
 
-In React, to render lists: 
-- You rely on `for` loops and  `array.map()`
-- You must use a `key` attribute for every element in a list
-	- must be unique
-	- can be the database ID, UUID, or anything else unique
-	- important internally for React's rendering
+### In React, to render lists you rely on `for` loops and  `array.map()`
+
+### You must use a `key` attribute for every element in a list
+- must be unique
+- can be the database ID, UUID, or anything else unique
+- important internally for React's rendering
+- if you don't do this, your console will be full of 
 
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
