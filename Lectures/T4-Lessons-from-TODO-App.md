@@ -18,7 +18,7 @@ setList(sorted);
 ```
 
 
-![[images/todo-list-timer-disappears.png]]
+![](images/todo-list-timer-disappears.png)
 
 ### Explanation
 
@@ -34,12 +34,12 @@ function handleCheckbox(element_id) {
 	setList(sorted);
 }
 ```
-- See: [[T5-Updating Objects and Lists in State]]
+- See: [T5-Updating Objects and Lists in State](T5-Updating%20Objects%20and%20Lists%20in%20State.md)
 
 
 # The need for useRef
 - i need to track the timer reference to clear it up when component is unmounted
-- See: [[T6-React-the-useRef-Hook]]
+- See: [T6-React-the-useRef-Hook](T6-React-the-useRef-Hook.md)
 
 
 # Updater functions for state

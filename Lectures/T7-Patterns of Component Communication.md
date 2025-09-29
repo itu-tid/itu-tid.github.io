@@ -1,21 +1,27 @@
 ## parent to child via props
 
+- parent can send information to the child via props
+
 ## child to parent via callbacks
+- child does not even know who the parent is (imagine a button, it does not know, and it should not know who uses it)
+- but the parent will give it callbacks and it can call them, effectively communicating to the parent
 
-![[../../Pasted image 20250929145919.png]]
+![](images/props-and-callbacks.png)
 
-## sibling to sibling? 
+## sibling to sibling by "*lifting the state*"
 
 Sometimes, you want the state of two components to always change together. 
 
-### Lifting the state up
-To do it, remove state from both of them, move it to their closest common parent, and then pass it down to them via props. 
+To do it, you _lift the state up_:
+- remove state from both of them
+- move it to their closest common parent, and then 
+- pass it down to them via props
 
-This is known as _lifting state up,_ and it’s one of the most common things you will do writing React code.
 
-Finally, pass the event handlers down so that the children can change the parent’s state <- example of **child-to-parent communication**!!! 
+This is a common thing you will do when writing React
 
-**Example**: in the TODO list application, ensuring that one can't start two tasks 
+
+**Example**: in the TODO list application, ensuring that one can't start two tasks in two different lists
 
 **To read for next time**: [Sharing state between components](https://react.dev/learn/sharing-state-between-components)
 - talks about lifting state with an example

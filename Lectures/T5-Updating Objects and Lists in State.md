@@ -1,11 +1,12 @@
 
-## [Updating Objects in State](https://react.dev/learn/updating-objects-in-state)
+## Updating Objects in State
+
 
 Modifying an object is called **mutating an object**.
 
 **What to understand**
 - you don't mutate state objects in React because react does not *see* that
-- **modifying objects** is *easiest* with the *spread syntax*: 
+- **modifying objects** is *easiest* with the *spread syntax*
 	![](./images/spread-syntax.png)
 - updating nested objects is ... a little bit ugly
 	![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
@@ -14,7 +15,7 @@ Modifying an object is called **mutating an object**.
 
 
 
-## [Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
+## Updating Arrays in State
 
 Use spread syntax to create a copy of an array, e.g. `[...artists]`.
 
@@ -101,3 +102,6 @@ let reversedArtists = [...artists].reverse();
 ```
 
 
+# Bibilography
+- https://react.dev/learn/updating-objects-in-state
+- https://react.dev/learn/updating-arrays-in-state
