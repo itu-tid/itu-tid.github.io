@@ -1,3 +1,6 @@
+
+# Refactoring by Extracting Components
+
 - refactoring is critical for having a codebase that is maintainable and pleasant to work with
 - extract components 
 

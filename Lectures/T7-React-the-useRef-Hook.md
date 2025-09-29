@@ -1,5 +1,4 @@
-
-# The useRef hook
+# The `useRef` hook
 
 Allows you to get hold of a DOM element and manipulate it 
 

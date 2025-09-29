@@ -1,8 +1,9 @@
-## parent to child via props
+# Patterns of Component Communication
+## parent to child = via props
 
 - parent can send information to the child via props
 
-## child to parent via callbacks
+## child to parent = via callbacks
 - child does not even know who the parent is (imagine a button, it does not know, and it should not know who uses it)
 - but the parent will give it callbacks and it can call them, effectively communicating to the parent
 
