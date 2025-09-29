@@ -144,11 +144,11 @@ export default function TodoList() {
 
 A component can refer to everything that's enclosed inside it's JSX tag with `{children}`
 
-![[../../chilren-prop-example.png]]
+![[../images/children-prop-example.png]]
 
 This is how you can use the `ToDoItem` component: 
 
-![[../../component-with-children-usage.png]]
+![[images/component-with-children-usage.png]]
 
 ## Component State
 
