@@ -34,12 +34,12 @@ function handleCheckbox(element_id) {
 	setList(sorted);
 }
 ```
-- See: [T5-Updating Objects and Lists in State](T5-Updating%20Objects%20and%20Lists%20in%20State.md)
+- See: [T6-Updating Objects and Lists in State](T6-Updating%20Objects%20and%20Lists%20in%20State.md)
 
 
 # The need for useRef
 - i need to track the timer reference to clear it up when component is unmounted
-- See: [T6-React-the-useRef-Hook](T6-React-the-useRef-Hook.md)
+- See: [T7-React-the-useRef-Hook](T7-React-the-useRef-Hook.md)
 
 
 # Updater functions for state

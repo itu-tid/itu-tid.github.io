@@ -15,10 +15,10 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 - [The useEffect Hook](Lectures/T3-the-useEffect-Hook)
 
 **Second Lecture**
-- [Updater Functions for State](Lectures/T4-Updater-Functions-for-State.md)
-- [Updating Objects and Lists in State](Lectures/T5-Updating%20Objects%20and%20Lists%20in%20State.md)
-- [the useRef Hook](Lectures/T6-React-the-useRef-Hook.md)
-- [Patterns of Component Communication](Lectures/T7-Patterns%20of%20Component%20Communication.md)
+- [Updater Functions for State](Lectures/T5-Updater-Functions-for-State.md)
+- [Updating Objects and Lists in State](Lectures/T6-Updating%20Objects%20and%20Lists%20in%20State.md)
+- [the useRef Hook](Lectures/T7-React-the-useRef-Hook.md)
+- [Patterns of Component Communication](Lectures/T8-Patterns%20of%20Component%20Communication.md)
 
 
 

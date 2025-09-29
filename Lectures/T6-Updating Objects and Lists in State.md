@@ -4,25 +4,22 @@
 
 Modifying an object is called **mutating an object**.
 
-**What to understand**
-- you don't mutate state objects in React because react does not *see* that
-- **modifying objects** is *easiest* with the *spread syntax*
-	![](./images/spread-syntax.png)
-- updating nested objects is ... a little bit ugly
-	![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
+**Remember**: you don't mutate state objects in React because react does not *see* that
 
 
+### Modifying objects is easiest with the spread syntax
 
+![](./images/spread-syntax.png)
 
+### Updating nested objects is ... a little bit ugly
+![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
 
 ## Updating Arrays in State
 
 Use spread syntax to create a copy of an array, e.g. `[...artists]`.
 
 
-**What to understand**
-
-- Once you have a copy, you can simply **add elements at the end**, e.g. 
+**What to understand**: Once you have a copy, you can simply **add elements at the end**, e.g. 
 
 ```javascript
 setArtists( 
@@ -42,8 +39,9 @@ setArtists([
 ]);
 ```
 
-- **Removing an element from an array**: `filter` (because filter *does not mutate the object* but returns a new one)
+### **Removing an element from an array**: `filter` 
 
+- because filter *does not mutate the object* but returns a new one
 ```javascript
 setArtists(  
 	artists.filter(a => a.id !== artist.id)  
@@ -51,9 +49,9 @@ setArtists(
 ```
 
 
-- Replacing an element in the array can be done with `**map**` 
-	- map = one of the most important functions in functional programming 
-	- Google invented a whole new big data processing around it named MapReduce
+### Replacing an element in the array can be done with `**map**` 
+- map = one of the most important functions in functional programming 
+- Google invented a whole new big data processing around it named MapReduce
 
 ```javascript
   function handleClick() {
@@ -72,7 +70,7 @@ setArtists(
 ```
  ( [example](https://codesandbox.io/s/s4vvyz?file=%2FApp.js&utm_medium=sandpack))
 
-- Inserting an element  can be done with two uses of `slice`: 
+### Inserting an element  can be done with two uses of `slice`: 
 
 ```javascript
   function handleClick() {
@@ -95,13 +93,15 @@ setArtists(
 
 ```
 
-- Sorting, reversing - `reverse`, `sort` -- they mutate the array. But it's ok if you copy the array first, and then mutate it the way you like
+### Sorting, reversing - `reverse`, `sort` -- they mutate the array. 
+
+- But it's ok if you copy the array first, and then mutate it the way you like
 
 ```
 let reversedArtists = [...artists].reverse();
 ```
 
 
-# Bibilography
+# Bibliography
 - https://react.dev/learn/updating-objects-in-state
 - https://react.dev/learn/updating-arrays-in-state
