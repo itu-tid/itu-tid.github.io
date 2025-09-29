@@ -4,7 +4,10 @@
 - refactoring is critical for having a codebase that is maintainable and pleasant to work with
 - extract components 
 
-### Challenge: Compare the following two code snippets from our ToDo list component that have exactly the same behavior. Which of them is easier to read? 
+### Challenge: Compare the following versions of code
+
+- They have **exactly the same behavior**: rendering items in the todo list
+- Which of them is easier to read? 
 
 #### Version 1
 
