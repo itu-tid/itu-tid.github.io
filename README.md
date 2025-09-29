@@ -9,13 +9,13 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
   
 ## Technical ID
 
-First Lecture
+**First Lecture**
 - [React Starter Kit](Lectures/T0-React-Starter-Kit.md)
 - [Intro to React](Lectures/T1-Intro-to-React.md)
 - [The useEffect Hook](Lectures/T3-the-useEffect-Hook)
 
-Second Lecture
-- [Several Lessons from the TODO App](Lectures/T4-Lessons-from-TODO-App.md)
+**Second Lecture**
+- [Updater Functions for State](Lectures/T4-Updater-Functions-for-State.md)
 - [Updating Objects and Lists in State](Lectures/T5-Updating%20Objects%20and%20Lists%20in%20State.md)
 - [the useRef Hook](Lectures/T6-React-the-useRef-Hook.md)
 - [Patterns of Component Communication](Lectures/T7-Patterns%20of%20Component%20Communication.md)
