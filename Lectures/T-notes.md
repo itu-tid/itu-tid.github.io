@@ -1,14 +1,14 @@
 Mircea TODO
-- debugging in VSCode
+- DONE - debugging in VSCode
 - talk about why not pushing package-lock
-
+- side effect - focusing the last input we used
+- task for the students: delete element from the lis
 
 
 
 
 Questions
 - can you design for mobile only? yes.
-
 - which GH are we using? the public one
 
 
