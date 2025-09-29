@@ -28,7 +28,7 @@ This is the way you can share your dependencies with your colleagues
 
 
 
-# Questions to know
+# Questions to be able to answer
 
 - How do you instal dependencies with `npm`? What do you do to make sure that your colleagues also use the same dependency that you are using?
 - When do you have to run `nmp install`?

@@ -140,6 +140,16 @@ export default function TodoList() {
 - makes code easier to read and write
 
 
+### With the `{children}` prop
+
+A component can refer to everything that's enclosed inside it's JSX tag with `{children}`
+
+![[../../chilren-prop-example.png]]
+
+This is how you can use the `ToDoItem` component: 
+
+![[../../component-with-children-usage.png]]
+
 ## Component State
 
 ### Every component can store local state 
