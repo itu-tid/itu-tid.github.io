@@ -1,5 +1,5 @@
 
-![[../../todo-list-screenshot.png]]
+![](images/todo-list-screenshot.png)
 
 ## Bug: task duration disappears when i check an item as done
 
@@ -18,7 +18,7 @@ setList(sorted);
 ```
 
 
-![[../../todo-list-timer-disappears.png]]
+![[images/todo-list-timer-disappears.png]]
 
 ### Explanation
 
