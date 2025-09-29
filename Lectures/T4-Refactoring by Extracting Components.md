@@ -27,4 +27,11 @@
 
 ### Principle: Code in a component is at the same abstraction level
 
+### Advice: iterate. iterate. iterate
+- there is no way to arrive to simple code without a lot of iteration
+
+### Advice 2: first make it work. then refactor it and make it nice
+- you never get it right from the first time
+
+
 
