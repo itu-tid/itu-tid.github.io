@@ -9,12 +9,12 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
   
 ## Technical ID
 
-**First Lecture**
+### First Lecture
 - [React Starter Kit](Lectures/T0-React-Starter-Kit.md)
 - [Intro to React](Lectures/T1-Intro-to-React.md)
 - [The useEffect Hook](Lectures/T3-the-useEffect-Hook)
 
-**Second Lecture**
+### Second Lecture
 - [Refactoring by Extracting Components](Lectures/T4-Refactoring%20by%20Extracting%20Components.md)
 - [Updater Functions for State](Lectures/T5-Updater-Functions-for-State.md)
 - [Updating Objects and Lists in State](Lectures/T6-Updating%20Objects%20and%20Lists%20in%20State.md)
