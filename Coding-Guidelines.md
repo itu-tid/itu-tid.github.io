@@ -14,7 +14,7 @@ Why?
 - The code will become a *big ball of mud and bugs* if you just add stuff in there that was generated without you understanding it. 
 - You upset the code reviewers...
 
-As a rule of thumb, code generation is useful as a reminder of something that you knew before, something that you understand and just forgot. 
+As a rule of thumb, code generation is useful as a reminder of something that you knew before, something that you understand and have written so many times that you're bored to write. Not something that you've never understood.  
 
 How do we know that it's generated code?
 - your code is using class components -- which is archaic

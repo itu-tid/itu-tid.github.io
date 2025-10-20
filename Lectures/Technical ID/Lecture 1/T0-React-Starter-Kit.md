@@ -68,16 +68,16 @@ Key files:
 ## Step 6: Install Prettier for formatting
 Download the **Prettier** extenstion: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode 
 
-![Prettier-Code-Formatter](./images/Prettier-Code-Formatter.png)
+![Prettier-Code-Formatter](../../images/Prettier-Code-Formatter.png)
 
 
 Go to settings, and search for "Format". Make sure you click the "Format on Save".
 
-![Prettier-Format-on-Save](./images/Prettier-Format-on-Save.png)
+![Prettier-Format-on-Save](../../images/Prettier-Format-on-Save.png)
 
 If possible, choose the "Prettier - Code Formatter" in the "Default Formatter". 
 
-![Prettier-Default-Formatter](./images/Prettier-Default-Formatter.png)
+![Prettier-Default-Formatter](../../images/Prettier-Default-Formatter.png)
 
 If you don't see Prettier here, open a random jsx-file and do this via the command:
 

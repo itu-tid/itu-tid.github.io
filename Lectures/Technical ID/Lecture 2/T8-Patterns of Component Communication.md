@@ -24,6 +24,14 @@ This is a common thing you will do when writing React
 
 **Example**: in the TODO list application, ensuring that one can't start two tasks in two different lists
 
+## Sending a message from one component to the other
+
+- also has to be done via the parent
+- in our case, imagine that you want to move one of the tasks, from one list to the other
+- the parent would have to know about all the lists and a given list will have to call a callback on the parent to decide to which list does one 
+
 **To read for next time**: [Sharing state between components](https://react.dev/learn/sharing-state-between-components)
 - talks about lifting state with an example
+
+
 

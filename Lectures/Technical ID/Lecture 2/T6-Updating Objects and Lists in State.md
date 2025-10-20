@@ -10,10 +10,10 @@ Modifying an object is called **mutating an object**.
 
 ### Modifying objects is easiest with the spread syntax
 
-![](./images/spread-syntax.png)
+![](../../images/spread-syntax.png)
 
 ### Updating nested objects is ... a little bit ugly
-![](./images/nested-object-definition.png)![](./images/updating-nested-objects.png)
+![](../../images/nested-object-definition.png)![](../../images/updating-nested-objects.png)
 
 ## Updating Arrays in State
 

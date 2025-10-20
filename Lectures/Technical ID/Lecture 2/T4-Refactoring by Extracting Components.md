@@ -11,7 +11,7 @@
 #### Version 1
 
 ![](images/monster-component-part-1.png)
-![](../images/monster-component-part-2.png)
+![](../../../images/monster-component-part-2.png)
 
 #### Version 2 
 ![](images/component-with-same-abstraction-level-code.png)
