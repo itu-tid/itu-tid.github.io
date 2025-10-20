@@ -22,8 +22,8 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 - [Patterns of Component Communication](Lectures/Technical%20ID/Lecture%202/T8-Patterns%20of%20Component%20Communication.md)
 
 ### Third Lecture
-- [1. Web-App-Architectures](Lectures/Technical%20ID/Lecture%203/1.%20Web-App-Architectures.md)
-- [2. Routing in React](Lectures/Technical%20ID/Lecture%203/2.%20Routing%20in%20React.md)
-- [3. Collaboration-with-Git-Flow](Lectures/Technical%20ID/Lecture%203/3.%20Collaboration-with-Git-Flow.md)
+- [Web App Architectures](Lectures/Technical%20ID/Lecture%203/1.%20Web-App-Architectures.md)
+- [Routing in React](Lectures/Technical%20ID/Lecture%203/2.%20Routing%20in%20React.md)
+- [Collaboration with Git-Flow](Lectures/Technical%20ID/Lecture%203/3.%20Collaboration-with-Git-Flow.md)
 
 
