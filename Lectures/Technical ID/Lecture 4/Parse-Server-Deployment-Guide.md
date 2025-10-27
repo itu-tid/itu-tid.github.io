@@ -72,8 +72,10 @@ npm install parse-server express
 
 Create `index.js` file with the following content (replace `YOUR_DROPLET_IP` with your actual IP):
 
-```bash
-cat > ~/parse-server/index.js << 'EOF'
+edit  `~/parse-server/index.js` and add the following: 
+
+```js
+
 const express = require('express');
 const ParseServer = require('parse-server').ParseServer;
 
@@ -97,7 +99,6 @@ async function startServer() {
 }
 
 startServer();
-EOF
 ```
 
 **Important:** Change `YOUR_DROPLET_IP` to your actual DigitalOcean droplet IP address.
