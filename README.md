@@ -27,4 +27,4 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 - [Collaboration with Git-Flow](Lectures/Technical%20ID/Lecture%203/3.%20Collaboration-with-Git-Flow.md)
 
 ### Fourth Lecture - Basics of a Backend with ParseJS
-- [[Backends with the Parse Platform](Lectures/Technical%20ID/Lecture%204/1.%20Backends-and-the-Parse-Platform.md)]
+- [Backends with the Parse Platform](Lectures/Technical%20ID/Lecture%204/1.%20Backends-and-the-Parse-Platform.md)
