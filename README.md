@@ -28,3 +28,7 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 
 ### Fourth Lecture - Basics of a Backend with ParseJS
 - [Backends with the Parse Platform](Lectures/Technical%20ID/Lecture%204/1.%20Backends-and-the-Parse-Platform.md)
+
+### Fifth Lecture - Authorization and ACL in Parse
+- [Authorization-and-ACL in Parse](Lectures/Technical%20ID/Lecture%205/Authorization-and-ACL%20in%20Parse.md)
+
