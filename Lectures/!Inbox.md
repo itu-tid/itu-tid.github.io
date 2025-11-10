@@ -1,4 +1,5 @@
-
+- talk about configuration and envvars 
+- 
 - to put this somewhere, ## It's *components all the way down*
 - Most basic components: e.g. buttons
 - Most elaborate component: full web page or mobile screen -- probably when we talk about folder structure
