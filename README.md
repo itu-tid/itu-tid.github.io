@@ -32,6 +32,6 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 ### 5. Authorization and ACL in Parse
 - [Authorization-and-ACL in Parse](Lectures/Technical%20ID/Lecture%205/Authorization-and-ACL%20in%20Parse.md)
 
-### 6. Advanced Backend
+### 6. Communication Efficiency. Server-side Code
 - [Efficient Communication With the Backend](Lectures/Technical%20ID/Lecture%206/1.%20Efficient%20Communication%20With%20the%20Backend.md)
 - [Running Code Server-Side](Lectures/Technical%20ID/Lecture%206/2.%20Running%20Code%20Server-Side.md)
