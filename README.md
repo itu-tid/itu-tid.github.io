@@ -13,6 +13,7 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 - [React Starter Kit](Lectures/Technical%20ID/Lecture%201/T0-React-Starter-Kit.md)
 - [Intro to React](Lectures/Technical%20ID/Lecture%201/T1-Intro-to-React.md)
 - [The useEffect Hook](Lectures/Technical%20ID/Lecture%201/T3-the-useEffect-Hook.md)
+- [Exam Questions](Lectures/Technical%20ID/Lecture%201/Exam-Questions.md)
 
 ### 2. Intermediate React
 - [Refactoring by Extracting Components](Lectures/Technical%20ID/Lecture%202/T4-Refactoring%20by%20Extracting%20Components.md)
@@ -20,18 +21,23 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 - [Updating Objects and Lists in State](Lectures/Technical%20ID/Lecture%202/T6-Updating%20Objects%20and%20Lists%20in%20State.md)
 - [the useRef Hook](Lectures/Technical%20ID/Lecture%202/T7-React-the-useRef-Hook.md)
 - [Patterns of Component Communication](Lectures/Technical%20ID/Lecture%202/T8-Patterns%20of%20Component%20Communication.md)
+- [Exam Questions](Lectures/Technical%20ID/Lecture%202/Exam-Questions.md)
 
 ### 3. Routing in Single Page Applications
 - [Web App Architectures](Lectures/Technical%20ID/Lecture%203/1.%20Web-App-Architectures.md)
 - [Routing in React](Lectures/Technical%20ID/Lecture%203/2.%20Routing%20in%20React.md)
 - [Collaboration with Git-Flow](Lectures/Technical%20ID/Lecture%203/3.%20Collaboration-with-Git-Flow.md)
+- [Exam Questions](Lectures/Technical%20ID/Lecture%203/Exam-Questions.md)
 
 ### 4. Basics of a Backend with ParseJS
 - [Backends with the Parse Platform](Lectures/Technical%20ID/Lecture%204/1.%20Backends-and-the-Parse-Platform.md)
+- [Exam Questions](Lectures/Technical%20ID/Lecture%204/Exam-Questions.md)
 
 ### 5. Authorization and ACL in Parse
 - [Authorization-and-ACL in Parse](Lectures/Technical%20ID/Lecture%205/Authorization-and-ACL%20in%20Parse.md)
+- [Exam Questions](Lectures/Technical%20ID/Lecture%205/Exam-Questions.md)
 
 ### 6. Communication Efficiency. Server-side Code
 - [Efficient Communication With the Backend](Lectures/Technical%20ID/Lecture%206/1.%20Efficient%20Communication%20With%20the%20Backend.md)
 - [Running Code Server-Side](Lectures/Technical%20ID/Lecture%206/2.%20Running%20Code%20Server-Side.md)
+- [Exam Questions](Lectures/Technical%20ID/Lecture%206/Exam-Questions.md)
