@@ -23,7 +23,7 @@ SRC = ROOT / "syllabus.md"
 TEMPLATE = ROOT / "syllabus.template.html"
 OUT = ROOT / "syllabus.html"
 
-REPO = "https://github.com/itu-tid/lecture-notes"
+REPO = "https://github.com/itu-tid/itu-tid.github.io"
 BADGES = {"GH": "gh", "learnIT": "lit", "New": "new"}
 
 # Which colour track a week's row gets, keyed by teacher. Filled from the
