@@ -1,0 +1,48 @@
+name: Build syllabus
+
+# syllabus.md is the source of truth; syllabus.html is generated from it.
+# Whenever the source (or the template, or the builder) changes on main, this
+# regenerates the HTML and commits it back, so GitHub Pages always serves a
+# page that matches the markdown.
+on:
+  push:
+    branches: [main]
+    paths:
+      - syllabus.md
+      - syllabus.template.html
+      - build.py
+      - .github/workflows/build-syllabus.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-syllabus
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: python3 build.py
+
+      # Nothing to do when the checked-in HTML already matches the markdown --
+      # e.g. when it was regenerated locally before the push.
+      - name: Commit syllabus.html if it changed
+        run: |
+          if git diff --quiet -- syllabus.html; then
+            echo "syllabus.html already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add syllabus.html
+          git commit -m "Rebuild syllabus.html from syllabus.md"
+          git push

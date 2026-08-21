@@ -4,6 +4,7 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 - **[Syllabus](syllabus.md)** — week by week: who teaches what, the five deliverable checkpoints, and which notes back each lecture. Styled version: [syllabus.html](syllabus.html).
 
 `syllabus.md` is the source; run `python3 build.py` to regenerate `syllabus.html` from it.
+Pushing a change to `syllabus.md` on `main` also rebuilds it automatically ([workflow](.github/workflows/build-syllabus.yml)), so the styled page never drifts from the markdown.
 
 ## Coding Pre-requisites
 - [1-Basics-of-CSS](Tech-TopUps/1-Basics-of-CSS.md)
