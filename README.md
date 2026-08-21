@@ -1,5 +1,10 @@
 Lecture notes for the ***Technical*** part of the Technical Interaction Design course at the ITU by Mircea. 
 
+## Autumn 2026
+- **[Syllabus](syllabus.md)** — week by week: who teaches what, the five deliverable checkpoints, and which notes back each lecture. Styled version: [syllabus.html](syllabus.html).
+
+`syllabus.md` is the source; run `python3 build.py` to regenerate `syllabus.html` from it.
+
 ## Coding Pre-requisites
 - [1-Basics-of-CSS](Tech-TopUps/1-Basics-of-CSS.md)
 - [2-DOM-Manipulation-with-Javascript](Tech-TopUps/2-DOM-Manipulation-with-Javascript.md)
