@@ -198,10 +198,21 @@
     color:var(--proj);font-weight:600;margin-bottom:3px}
   .m-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;
     color:var(--ink);line-height:1.18;margin-bottom:4px}
+  .m-name a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;
+    text-decoration-color:rgba(168,93,43,.5);text-underline-offset:3px}
+  .m-name a:hover{text-decoration-color:var(--proj)}
   .m-sub{font-size:11.5px;color:var(--ink-soft);line-height:1.35}
   .spine-foot{margin-top:13px;font-size:11.5px;color:var(--ink-soft);
     border-top:1px dashed #E4D3C0;padding-top:10px}
   .spine-foot b{color:var(--proj);font-weight:600}
+
+  /* learnIT hand-in link on milestone cards */
+  .assign{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--proj);background:var(--proj-bg);
+    border:1px solid #E7D2BC;border-radius:20px;padding:4px 10px;font-weight:600;
+    text-decoration:none}
+  .assign:hover{border-color:var(--proj)}
 
   /* feedback check-in chip on milestone cards */
   .checkin{display:inline-flex;align-items:center;gap:6px;margin:9px 0 2px;
@@ -285,7 +296,7 @@
     <div class="spine-track">
       <div class="milestone">
         <div class="m-wk">Week 2 · Fri</div>
-        <div class="m-name">Population chosen</div>
+        <div class="m-name"><a href="https://learnit.itu.dk/mod/assign/view.php?id=228499" target="_blank" rel="noopener" title="User Interviews &amp; Thematic Analysis">Population chosen</a></div>
         <div class="m-sub">Who you’ll build for and how you’ll reach them. Assignment 1 begins.</div>
       </div>
       <div class="milestone">
@@ -295,7 +306,7 @@
       </div>
       <div class="milestone">
         <div class="m-wk">Week 7 · Fri</div>
-        <div class="m-name">Wireframes, tested</div>
+        <div class="m-name"><a href="https://learnit.itu.dk/mod/assign/view.php?id=228506" target="_blank" rel="noopener" title="Requirements, User Flows &amp; Wireframing">Wireframes, tested</a></div>
         <div class="m-sub">Special screens wireframed and put through a light usability pass — before you build.</div>
       </div>
       <div class="milestone">
@@ -353,9 +364,10 @@
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project milestone</div>
             <div class="mile">Population chosen<span class="sub">Assignment 1 (user study) begins.</span></div>
+            <a class="assign" href="https://learnit.itu.dk/mod/assign/view.php?id=228499" target="_blank" rel="noopener">↗ Assignment · User Interviews &amp; Thematic Analysis</a>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>The ID Process (<a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228493" target="_blank" rel="noopener">slides</a> + <a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=230914" target="_blank" rel="noopener">notes</a>)</li><li><a class="rl lit" href="https://learnit.itu.dk/mod/assign/view.php?id=228499" target="_blank" rel="noopener">User Interviews &amp; Thematic Analysis</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=230965" target="_blank" rel="noopener">Braun &amp; Clarke 2019</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=231338" target="_blank" rel="noopener">personas / user stories</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/kalvidres/view.php?id=230963" target="_blank" rel="noopener">Tricia Wang talk</a></li></ul></div></div></div>
+        <div class="res"><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>The ID Process (<a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228493" target="_blank" rel="noopener">slides</a> + <a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=230914" target="_blank" rel="noopener">notes</a>)</li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=230965" target="_blank" rel="noopener">Braun &amp; Clarke 2019</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=231338" target="_blank" rel="noopener">personas / user stories</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/kalvidres/view.php?id=230963" target="_blank" rel="noopener">Tricia Wang talk</a></li></ul></div></div></div>
       </div>
     </div>
 
@@ -468,10 +480,11 @@
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project milestone</div>
             <div class="mile">Wireframes tested · extended data model designed<span class="sub">The loop turns: build → design → test → revise.</span></div>
+            <a class="assign" href="https://learnit.itu.dk/mod/assign/view.php?id=228506" target="_blank" rel="noopener">↗ Assignment · Requirements, User Flows &amp; Wireframing</a>
             <span class="checkin">◆ Check-in — is your scope &amp; data model sound?</span>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li><a class="rl lit" href="https://learnit.itu.dk/mod/assign/view.php?id=228506" target="_blank" rel="noopener">Requirements, User Flows &amp; Wireframing</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=231641" target="_blank" rel="noopener">Prototyping slides</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228522" target="_blank" rel="noopener">Lauesen ch.13</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=234019" target="_blank" rel="noopener">NN/g Heuristic Evaluation Workbook</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=228523" target="_blank" rel="noopener">Usability Report template</a></li></ul></div></div></div>
+        <div class="res"><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=231641" target="_blank" rel="noopener">Prototyping slides</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228522" target="_blank" rel="noopener">Lauesen ch.13</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=234019" target="_blank" rel="noopener">NN/g Heuristic Evaluation Workbook</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=228523" target="_blank" rel="noopener">Usability Report template</a></li></ul></div></div></div>
       </div>
     </div>
 

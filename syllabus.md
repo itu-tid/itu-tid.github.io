@@ -64,7 +64,8 @@ Interviews, thematic analysis, personas, user stories — pointed at *your* popu
 - **Solo:** React refresher (standalone): props & state reps — keep it warm before React II.
 - **Project:** Pick your population; plan the user study.
 - **Milestone:** Population chosen — *Assignment 1 (user study) begins.*
-- **learnIT:** The ID Process ([slides](https://learnit.itu.dk/mod/resource/view.php?id=228493) + [notes](https://learnit.itu.dk/mod/resource/view.php?id=230914)) · [User Interviews & Thematic Analysis](https://learnit.itu.dk/mod/assign/view.php?id=228499) · [Braun & Clarke 2019](https://learnit.itu.dk/mod/resource/view.php?id=230965) · [personas / user stories](https://learnit.itu.dk/mod/resource/view.php?id=231338) · [Tricia Wang talk](https://learnit.itu.dk/mod/kalvidres/view.php?id=230963)
+- **Assignment:** [User Interviews & Thematic Analysis](https://learnit.itu.dk/mod/assign/view.php?id=228499)
+- **learnIT:** The ID Process ([slides](https://learnit.itu.dk/mod/resource/view.php?id=228493) + [notes](https://learnit.itu.dk/mod/resource/view.php?id=230914)) · [Braun & Clarke 2019](https://learnit.itu.dk/mod/resource/view.php?id=230965) · [personas / user stories](https://learnit.itu.dk/mod/resource/view.php?id=231338) · [Tricia Wang talk](https://learnit.itu.dk/mod/kalvidres/view.php?id=230963)
 - **Status:** adapt — needs the **one-page wrapper**
 
 ### Week 03 · Sep 10 · Bjørn / TAs? *(Mircea away)*
@@ -131,8 +132,9 @@ Model your own extension and sketch your special screens as **wireframes** — t
 - **Solo:** React refresher (standalone): a small component drill — revive the frontend muscle after five backend weeks.
 - **Project:** Wireframe the special screens; run a quick usability pass on them; extend the ER diagram.
 - **Milestone:** Wireframes tested · extended data model designed — *The loop turns: build → design → test → revise.*
+- **Assignment:** [Requirements, User Flows & Wireframing](https://learnit.itu.dk/mod/assign/view.php?id=228506)
 - **Check-in:** Check-in — is your scope & data model sound?
-- **learnIT:** [Requirements, User Flows & Wireframing](https://learnit.itu.dk/mod/assign/view.php?id=228506) · [Prototyping slides](https://learnit.itu.dk/mod/resource/view.php?id=231641) · [Lauesen ch.13](https://learnit.itu.dk/mod/resource/view.php?id=228522) · [NN/g Heuristic Evaluation Workbook](https://learnit.itu.dk/mod/url/view.php?id=234019) · [Usability Report template](https://learnit.itu.dk/mod/url/view.php?id=228523)
+- **learnIT:** [Prototyping slides](https://learnit.itu.dk/mod/resource/view.php?id=231641) · [Lauesen ch.13](https://learnit.itu.dk/mod/resource/view.php?id=228522) · [NN/g Heuristic Evaluation Workbook](https://learnit.itu.dk/mod/url/view.php?id=234019) · [Usability Report template](https://learnit.itu.dk/mod/url/view.php?id=228523)
 - **Status:** adapt — needs the **one-page wrapper**
 
 ### Break · Oct 15

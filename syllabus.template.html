@@ -198,10 +198,21 @@
     color:var(--proj);font-weight:600;margin-bottom:3px}
   .m-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;
     color:var(--ink);line-height:1.18;margin-bottom:4px}
+  .m-name a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;
+    text-decoration-color:rgba(168,93,43,.5);text-underline-offset:3px}
+  .m-name a:hover{text-decoration-color:var(--proj)}
   .m-sub{font-size:11.5px;color:var(--ink-soft);line-height:1.35}
   .spine-foot{margin-top:13px;font-size:11.5px;color:var(--ink-soft);
     border-top:1px dashed #E4D3C0;padding-top:10px}
   .spine-foot b{color:var(--proj);font-weight:600}
+
+  /* learnIT hand-in link on milestone cards */
+  .assign{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--proj);background:var(--proj-bg);
+    border:1px solid #E7D2BC;border-radius:20px;padding:4px 10px;font-weight:600;
+    text-decoration:none}
+  .assign:hover{border-color:var(--proj)}
 
   /* feedback check-in chip on milestone cards */
   .checkin{display:inline-flex;align-items:center;gap:6px;margin:9px 0 2px;

@@ -142,6 +142,15 @@ def parse(text):
                                     if not ln.strip().startswith("- ")])[0]
 
     doc["weeks"] = sections(top["Weeks"], 3)
+    # the spine at the top links the same hand-ins as the week cards, keyed by
+    # week number — so each learnIT URL is still written exactly once
+    doc["assignments"] = {}
+    for head, body in doc["weeks"]:
+        num = re.match(r"Week 0*(\d+)", head)
+        value = dict(fields(body)).get("Assignment")
+        if num and value:
+            doc["assignments"][int(num.group(1))] = assignment(value, f'week "{head}"')
+
     doc["notes"] = [(h, paragraphs(b)[0]) for h, b in sections(top["How the pieces fit"], 3)]
     tail = paragraphs([ln for ln in top["How the pieces fit"] if not ln.startswith("### ")])
     doc["foot"] = tail[-1].strip("*") if tail else ""
@@ -164,6 +173,14 @@ def track_of(who, eyebrow):
     if "Design" in eyebrow:
         return "design"
     return "react" if "React" in eyebrow else "you"
+
+
+def assignment(value, where):
+    """`- **Assignment:** [name](url)` → (name, url)."""
+    m = re.match(r"\[(.+?)\]\((.+?)\)", value)
+    if not m:
+        sys.exit(f"build.py: {where} — Assignment must be a markdown link")
+    return m.group(1), m.group(2)
 
 
 def resources(items):
@@ -208,8 +225,15 @@ def week_row(heading, body, last):
     f = dict(fields(body))
 
     mile, _, sub = f.get("Milestone", "").partition(" — ")
-    checkin = (f'\n            <span class="checkin">◆ {inline(f["Check-in"])}</span>'
-               if "Check-in" in f else "")
+    # a learnIT assignment is a hand-in, so it belongs beside the milestone
+    # rather than in the reading list
+    extra = ""
+    if "Assignment" in f:
+        name, url = assignment(f["Assignment"], f'week "{heading}"')
+        extra += (f'\n            <a class="assign" href="{url}" target="_blank"'
+                  f' rel="noopener">↗ Assignment · {emphasis(esc(name))}</a>')
+    if "Check-in" in f:
+        extra += f'\n            <span class="checkin">◆ {inline(f["Check-in"])}</span>'
     cls = f'row t-{track_of(who, eyebrow)}' + (" away" if away else "") + (" last" if last else "")
 
     return f"""    <div class="{cls}">
@@ -228,12 +252,23 @@ def week_row(heading, body, last):
           </div>
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project milestone</div>
-            <div class="mile">{inline(mile)}<span class="sub">{inline(sub.strip('*'))}</span></div>{checkin}
+            <div class="mile">{inline(mile)}<span class="sub">{inline(sub.strip('*'))}</span></div>{extra}
           </div>
         </div>
         {resources(fields(body))}
       </div>
     </div>"""
+
+
+def spine_name(doc, week_label, name):
+    """Checkpoint name, linked to that week's hand-in when it has one."""
+    num = re.match(r"Week (\d+)", week_label)
+    found = doc["assignments"].get(int(num.group(1))) if num else None
+    if not found:
+        return inline(name)
+    title, url = found
+    return (f'<a href="{url}" target="_blank" rel="noopener" '
+            f'title="{html.escape(title)}">{inline(name)}</a>')
 
 
 def render(doc):
@@ -255,7 +290,7 @@ def render(doc):
         "SPINE_H": inline(doc["spine_h"]),
         "SPINE": "\n".join(
             f'{ind}<div class="milestone">\n{ind}  <div class="m-wk">{inline(w)}</div>\n'
-            f'{ind}  <div class="m-name">{inline(n)}</div>\n'
+            f'{ind}  <div class="m-name">{spine_name(doc, w, n)}</div>\n'
             f'{ind}  <div class="m-sub">{inline(s)}</div>\n{ind}</div>'
             for w, n, s in doc["spine"]),
         "SPINE_FOOT": inline(doc["spine_foot"]),
