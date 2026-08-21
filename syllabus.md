@@ -10,6 +10,8 @@
 
 Build from minute one; deepen as you go. A **fast technical track** stands up a working, shared, deployed app in the first five weeks, while a **quieter design track** runs alongside — study your users, design for them, revise. Every team builds one **group to-do app**: the same lean core, a population-driven twist of their own. Each week has a lecture, a two-hour exercise slot, and a project milestone. **Dogfood the core, design the twist for someone unlike you, and own every line at the exam.**
 
+Only one prerequisite module is required before week 1 — **JavaScript, the Language**. The other Tech-TopUps drip across the semester, each assigned the week before it first matters.
+
 In the AI era the scarce skill is **code comprehension**, not code production — owning and being able to explain code you may not have typed. So the deal with students is simple: **use AI all you want; own every line at the exam.** Everything below is built to make that deal fair.
 
 ### At a glance
@@ -52,6 +54,7 @@ Open with Zeeguu — “click a word, get a translation” — and watch it spli
 - **Project:** Form teams, fork the reference to-do repo; `npm install` and run it locally — what package.json, node_modules, and “a package” actually are.
 - **Milestone:** Teams formed, skeleton running — *Candidate populations brainstormed.*
 - **GH:** [T0-Starter-Kit](Lectures/Technical%20ID/Lecture%201/T0-React-Starter-Kit.md) · [T1-Intro-to-React](Lectures/Technical%20ID/Lecture%201/T1-Intro-to-React.md) (front half) · [T2-Hooks](Lectures/Technical%20ID/Lecture%201/T2-Hooks.md)
+- **Prereq:** [1 · Basics of CSS](Tech-TopUps/1-Basics-of-CSS.md) — read alongside this week: styling starts immediately, and it is the catch-up if you only managed the JavaScript module over the weekend.
 - **Status:** written
 
 ### Week 02 · Sep 3 · Designer
@@ -92,6 +95,7 @@ Parse, a real database, and authentication in one move — the login form is whe
 - **Project:** Stand up the backend; wire the to-do to a shared DB.
 - **Milestone:** Backend live · items persist · login works — *Dogfooding possible: localhost against a shared DB.*
 - **GH:** [L4 Backends & the Parse Platform](Lectures/Technical%20ID/Lecture%204/1.%20Backends-and-the-Parse-Platform.md) (login included) · [Parse-Config-for-Vite](Lectures/Technical%20ID/Lecture%204/Parse-Configuration-for-Vite.md) · [T3-useEffect](Lectures/Technical%20ID/Lecture%201/T3-the-useEffect-Hook.md) (revisit — now against your own backend)
+- **Prereq:** [6 · Async Programming & Promises](Tech-TopUps/6-Async-Programming-and-Promises.md) — read before this week: your first real awaits against a backend.
 - **Status:** written — reframed, lightened by week 3
 
 ### Week 05 · Sep 24 · Mircea
@@ -120,6 +124,7 @@ Start with the arc that explains everything you’ve built: three generations of
 - **Milestone:** App is live, public, shareable — *Assignment 1 due · optional PWA manifest → on their phones.*
 - **GH:** [L3 Web-App-Architectures](Lectures/Technical%20ID/Lecture%203/1.%20Web-App-Architectures.md) · [Routing in React](Lectures/Technical%20ID/Lecture%203/2.%20Routing%20in%20React.md) · [Collaboration with Git-Flow](Lectures/Technical%20ID/Lecture%203/3.%20Collaboration-with-Git-Flow.md) · [General/Code-Organization](Lectures/Technical%20ID/General/Code%20Organization.md) + [L7 cheatsheet](Lectures/Technical%20ID/Lecture%207/COMPONENT_EXTRACTION_CHEATSHEET.md) (the review checklist)
 - **New:** Frontend deploy → GitHub Pages (not in the notes yet)
+- **Prereq:** [5 · Coding Practices](Tech-TopUps/5-Coding-Practices.md) — read before this week: the vocabulary for the code-review introduction.
 - **Status:** **NEW: frontend deploy** + **NEW: review checklist**
 
 ### Week 07 · Oct 8 · Designer *(Mircea away)*
@@ -134,6 +139,7 @@ Model your own extension and sketch your special screens as **wireframes** — t
 - **Milestone:** Wireframes tested · extended data model designed — *The loop turns: build → design → test → revise.*
 - **Assignment:** [Requirements, User Flows & Wireframing](https://learnit.itu.dk/mod/assign/view.php?id=228506)
 - **Check-in:** Check-in — is your scope & data model sound?
+- **GH:** [Usability and Its Evaluation](Lectures/5-Usability-and-Its-Evaluation.md) · [10 worked heuristic counterexamples](Lectures/usability_examples)
 - **learnIT:** [Prototyping slides](https://learnit.itu.dk/mod/resource/view.php?id=231641) · [Lauesen ch.13](https://learnit.itu.dk/mod/resource/view.php?id=228522) · [NN/g Heuristic Evaluation Workbook](https://learnit.itu.dk/mod/url/view.php?id=234019) · [Usability Report template](https://learnit.itu.dk/mod/url/view.php?id=228523)
 - **Status:** adapt — needs the **one-page wrapper**
 
@@ -152,6 +158,7 @@ Extracting components, updater functions, updating objects and lists in state, u
 - **Project:** Refactor the project; build special-feature components.
 - **Milestone:** Special features taking shape — *Cleaner component structure across the app.*
 - **GH:** L2 T4–T8: [Extracting Components](Lectures/Technical%20ID/Lecture%202/T4-Refactoring%20by%20Extracting%20Components.md) · [Updater Functions](Lectures/Technical%20ID/Lecture%202/T5-Updater-Functions-for-State.md) · [Updating Objects & Lists](Lectures/Technical%20ID/Lecture%202/T6-Updating%20Objects%20and%20Lists%20in%20State.md) · [useRef](Lectures/Technical%20ID/Lecture%202/T7-React-the-useRef-Hook.md) · [Component Communication](Lectures/Technical%20ID/Lecture%202/T8-Patterns%20of%20Component%20Communication.md)
+- **Optional:** [2 · DOM Manipulation with JavaScript](Tech-TopUps/2-DOM-Manipulation-with-Javascript.md) — background only, for where `useRef` reaches a real DOM node. React handles the rest.
 - **Status:** written
 
 ### Week 09 · Oct 29 · Mircea
@@ -198,17 +205,19 @@ Do less over the wire; move work into Parse cloud functions. The one place types
 
 ### Week 12 · Nov 19 · Konstantina *(Mircea away)*
 
-**Making it feel real: MUI & mobile-first**  
-*Lecture · React IV*
+**Making it work for everyone: usability & accessibility**  
+*Lecture · Usability & a11y*
 
-A component library (MUI — fast, accessible, functional) and a mobile-first pass. Use a design system, don’t build one. This is also where packages become a *judgment*: what you take on when you add a dependency, and why blindly `npm install`-ing whatever the AI suggests is the not-owning-your-code trap. Polish that turns a working prototype into something you’d actually keep on your phone.
+Two ways of asking whether an app is any good, and they need different evidence. **Usability is empirical** — you cannot reason it out, you have to watch somebody try. **Accessibility is checkable** — keyboard-only navigation, contrast, semantic markup, labels — and it is legally live in Denmark. Week 7 tested a wireframe before anything existed; this week you test the deployed app that people can actually open. MUI is the vehicle: a component library whose parts are accessible by default, which is the strongest possible argument for *use a design system, don’t build one* — and the point where packages become a *judgment*, because blindly `npm install`-ing what the AI suggests is the not-owning-your-code trap. And a11y is where that trap bites hardest: an AI will hand you a component that looks right and cannot be operated by keyboard. Checkable is exactly what lets you catch it.
 
-- **Solo:** Rebuild one screen with MUI components.
-- **Project:** Apply MUI; do a mobile-first pass.
-- **Milestone:** Polished, mobile-first UI — *The app feels real.*
-- **GH:** [General / Libraries](Lectures/Technical%20ID/General/Libraries.md) (dependency judgment)
-- **New:** MUI + mobile-first pass — Konstantina to build
-- **Status:** **NEW: MUI + mobile-first** (Konstantina builds)
+- **Solo:** Accessibility audit of your own app — keyboard-only pass, contrast, semantics, labels. Write down what fails.
+- **Project:** Three think-alouds on the live app; triage what they surface. Apply MUI and a mobile-first pass.
+- **Milestone:** Usability tested on the real app · a11y pass done — *Findings triaged; MUI and mobile-first bring it up to standard.*
+- **GH:** [General / Libraries](Lectures/Technical%20ID/General/Libraries.md) (dependency judgment) · [Usability and Its Evaluation](Lectures/5-Usability-and-Its-Evaluation.md) · [10 worked heuristic counterexamples](Lectures/usability_examples)
+- **learnIT:** [Usability Report template](https://learnit.itu.dk/mod/url/view.php?id=228523) · [Lauesen ch.13](https://learnit.itu.dk/mod/resource/view.php?id=228522)
+- **New:** MUI + mobile-first pass — Konstantina to build · a11y audit checklist (keyboard, contrast, semantics, labels)
+- **Prereq:** [4 · Layouts & Responsiveness](Tech-TopUps/4-Layouts-and-Responsiveness.md) — read before this week: Flexbox and Grid, ahead of the mobile-first pass.
+- **Status:** **NEW: usability & a11y week** (was MUI-only; Konstantina builds)
 
 ### Week 13 · Nov 26 · Mircea
 
@@ -222,6 +231,7 @@ The skill you’ve practiced since week 6, at full strength. By now you’ve rev
 - **Milestone:** Codebase cleaned — *Every member can explain every part.*
 - **GH:** L7 code-quality set: [Case-Study ToDo](Lectures/Technical%20ID/Lecture%207/CASE_STUDY_TODO_APP.md) · [Component-Extraction Guide](Lectures/Technical%20ID/Lecture%207/COMPONENT_EXTRACTION_GUIDE.md) + [Cheatsheet](Lectures/Technical%20ID/Lecture%207/COMPONENT_EXTRACTION_CHEATSHEET.md) · [Code-Quality Sprint Plan](Lectures/Technical%20ID/Lecture%207/CODE_QUALITY_SPRINT_PLAN.md) · [Class-Discussion Guide](Lectures/Technical%20ID/Lecture%207/CLASS_DISCUSSION_GUIDE.md) · [General/Code-Organization](Lectures/Technical%20ID/General/Code%20Organization.md) · [Debugging](Lectures/Technical%20ID/General/Debugging.md)
 - **New:** Live AI-PR-review framing
+- **Revisit:** [5 · Coding Practices](Tech-TopUps/5-Coding-Practices.md) — the checklist you have been reviewing against since week 6.
 - **Status:** written + **NEW: live AI-PR framing**
 
 ### Week 14 · Dec 3 · Mircea
@@ -248,6 +258,10 @@ Walk through the exam shape — common-core interrogation of your live app, then
 
 The course’s core skill isn’t taught once at the end — it’s a habit built from the moment there’s an app to judge. **Introduced week 6** on the freshly-live app, with a short **“good React” checklist** as the rubric (sharpened by Konstantina’s week-8 patterns). **Practised** as recurring back-half solo drills. **Culminates week 13**, student-driven and exam-shaped. Reading and judging code you didn’t write, rising in independence — the same imitate → originate arc as everything else here.
 
+### Usability, twice
+
+Tested **twice, on different things, with different methods**. Week 7 puts a *wireframe* through a heuristic walkthrough — cheap to test rough, expensive to test polished, which is the whole argument for wireframes over Figma. Week 12 puts the *deployed app* in front of people who can actually open it. Accessibility rides along in week 12 because it is the checkable half of the same question: usability needs a person to watch, a11y needs a keyboard, a contrast ratio and a semantic tag — and it is legally live in Denmark. That checkability is also why it belongs in this course: an AI will hand you a component that looks correct and cannot be operated without a mouse.
+
 ### Two repos, two jobs
 
 A **shared reference to-do**, git-tagged per lecture, is the canonical good code and the seed each team forks. A **personal exercise repo** — one folder per week — holds the solo drills, checked at a glance, not by pull request.
@@ -270,7 +284,7 @@ No weekly pull-request reviews — they never scaled at this size. Instead: **do
 
 ### Away weeks
 
-All four travel weeks are covered by real lectures, not filler: Konstantina takes React (wk 8, 12), a guest covers React II (wk 3 — Bjørn / a TA, to confirm), the designer takes screen design (wk 7). Every load-bearing backend lecture stays on an in-person week.
+All four travel weeks are covered by real lectures, not filler: Konstantina takes React (wk 8) and usability & accessibility (wk 12), a guest covers React II (wk 3 — Bjørn / a TA, to confirm), the designer takes screen design (wk 7). Every load-bearing backend lecture stays on an in-person week.
 
 ### Where each week’s material comes from
 
@@ -278,6 +292,6 @@ All four travel weeks are covered by real lectures, not filler: Konstantina take
 
 ### Pre-course
 
-The six **Tech-TopUps** modules (CSS, DOM, JS, layouts, coding practices, async), with **Scrimba’s free tier** as the interactive companion — Learn HTML & CSS (5.7h) and Learn JavaScript (9.4h), both MDN-built; Learn React (15.1h) as a bonus. A **Node/npm setup step** runs pre-course. npm arrives in three doses: setup (pre-course) → mechanics (wk 1) → judgment (wk 12).
+**One** module is required before week 1 — **[JavaScript, the Language](Tech-TopUps/3-Javascript-the-Language.md)** — with **Scrimba’s free tier** as the interactive companion (Learn JavaScript, 9.4h, MDN-built; Learn HTML & CSS 5.7h and Learn React 15.1h as bonuses). The remaining Tech-TopUps arrive just-in-time, each on the card of the week it serves: CSS at wk 1, async before wk 4, coding practices before wk 6, layouts before wk 12. A **Node/npm setup step** still runs pre-course. npm arrives in three doses: setup (pre-course) → mechanics (wk 1) → judgment (wk 12).
 
 *Draft · sequencing subject to change · built Aug 2026*

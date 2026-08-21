@@ -206,6 +206,16 @@
     border-top:1px dashed #E4D3C0;padding-top:10px}
   .spine-foot b{color:var(--proj);font-weight:600}
 
+  /* Tech-TopUps pre-reading dripped to a week — dashed, to read as student
+     homework rather than as one of the GH/learnIT/New source pills */
+  .prereq{border-top:1px solid var(--line-soft);padding:8px 18px 9px;
+    display:flex;gap:9px;align-items:baseline;
+    font-size:11.5px;color:var(--ink-soft);line-height:1.45}
+  .pq{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:600;color:var(--ink-faint);
+    border:1px dashed var(--ink-faint);border-radius:20px;padding:2px 7px;
+    white-space:nowrap;position:relative;top:-.5px}
+
   /* learnIT hand-in link on milestone cards */
   .assign{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
     font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.05em;
@@ -274,6 +284,7 @@
     <div class="kicker">ITU Copenhagen · Autumn 2026 · Thursdays</div>
     <h1>Technical Interaction Design <span class="yr">/ Weekly Syllabus</span></h1>
     <p class="lede">Build from minute one; deepen as you go. A <b>fast technical track</b> stands up a working, shared, deployed app in the first five weeks, while a <b>quieter design track</b> runs alongside — study your users, design for them, revise. Every team builds one <b>group to-do app</b>: the same lean core, a population-driven twist of their own. Each week has a lecture, a two-hour exercise slot, and a project milestone. <b>Dogfood the core, design the twist for someone unlike you, and own every line at the exam.</b></p>
+    <p class="lede">Only one prerequisite module is required before week 1 — <b>JavaScript, the Language</b>. The other Tech-TopUps drip across the semester, each assigned the week before it first matters.</p>
     <p class="lede">In the AI era the scarce skill is <b>code comprehension</b>, not code production — owning and being able to explain code you may not have typed. So the deal with students is simple: <b>use AI all you want; own every line at the exam.</b> Everything below is built to make that deal fair.</p>
 
     <div class="glance">
@@ -344,6 +355,7 @@
           </div>
         </div>
         <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%201/T0-React-Starter-Kit.md" target="_blank" rel="noopener">T0-Starter-Kit</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%201/T1-Intro-to-React.md" target="_blank" rel="noopener">T1-Intro-to-React</a> (front half)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%201/T2-Hooks.md" target="_blank" rel="noopener">T2-Hooks</a></li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Tech-TopUps/1-Basics-of-CSS.md" target="_blank" rel="noopener">1 · Basics of CSS</a> — read alongside this week: styling starts immediately, and it is the catch-up if you only managed the JavaScript module over the weekend.</span></div>
       </div>
     </div>
 
@@ -414,6 +426,7 @@
           </div>
         </div>
         <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%204/1.%20Backends-and-the-Parse-Platform.md" target="_blank" rel="noopener">L4 Backends &amp; the Parse Platform</a> (login included)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%204/Parse-Configuration-for-Vite.md" target="_blank" rel="noopener">Parse-Config-for-Vite</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%201/T3-the-useEffect-Hook.md" target="_blank" rel="noopener">T3-useEffect</a> (revisit — now against your own backend)</li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Tech-TopUps/6-Async-Programming-and-Promises.md" target="_blank" rel="noopener">6 · Async Programming &amp; Promises</a> — read before this week: your first real awaits against a backend.</span></div>
       </div>
     </div>
 
@@ -460,6 +473,7 @@
           </div>
         </div>
         <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%203/1.%20Web-App-Architectures.md" target="_blank" rel="noopener">L3 Web-App-Architectures</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%203/2.%20Routing%20in%20React.md" target="_blank" rel="noopener">Routing in React</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%203/3.%20Collaboration-with-Git-Flow.md" target="_blank" rel="noopener">Collaboration with Git-Flow</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/General/Code%20Organization.md" target="_blank" rel="noopener">General/Code-Organization</a> + <a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%207/COMPONENT_EXTRACTION_CHEATSHEET.md" target="_blank" rel="noopener">L7 cheatsheet</a> (the review checklist)</li></ul></div></div><div class="res-grp"><span class="src new">New</span><div class="ri-body"><ul class="ri"><li>Frontend deploy → GitHub Pages (not in the notes yet)</li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Tech-TopUps/5-Coding-Practices.md" target="_blank" rel="noopener">5 · Coding Practices</a> — read before this week: the vocabulary for the code-review introduction.</span></div>
       </div>
     </div>
 
@@ -484,7 +498,7 @@
             <span class="checkin">◆ Check-in — is your scope &amp; data model sound?</span>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=231641" target="_blank" rel="noopener">Prototyping slides</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228522" target="_blank" rel="noopener">Lauesen ch.13</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=234019" target="_blank" rel="noopener">NN/g Heuristic Evaluation Workbook</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=228523" target="_blank" rel="noopener">Usability Report template</a></li></ul></div></div></div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/5-Usability-and-Its-Evaluation.md" target="_blank" rel="noopener">Usability and Its Evaluation</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/tree/main/Lectures/usability_examples" target="_blank" rel="noopener">10 worked heuristic counterexamples</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=231641" target="_blank" rel="noopener">Prototyping slides</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228522" target="_blank" rel="noopener">Lauesen ch.13</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=234019" target="_blank" rel="noopener">NN/g Heuristic Evaluation Workbook</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=228523" target="_blank" rel="noopener">Usability Report template</a></li></ul></div></div></div>
       </div>
     </div>
 
@@ -513,6 +527,7 @@
           </div>
         </div>
         <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><div class="ri-lead">L2 T4–T8:</div><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%202/T4-Refactoring%20by%20Extracting%20Components.md" target="_blank" rel="noopener">Extracting Components</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%202/T5-Updater-Functions-for-State.md" target="_blank" rel="noopener">Updater Functions</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%202/T6-Updating%20Objects%20and%20Lists%20in%20State.md" target="_blank" rel="noopener">Updating Objects &amp; Lists</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%202/T7-React-the-useRef-Hook.md" target="_blank" rel="noopener">useRef</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%202/T8-Patterns%20of%20Component%20Communication.md" target="_blank" rel="noopener">Component Communication</a></li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Optional</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Tech-TopUps/2-DOM-Manipulation-with-Javascript.md" target="_blank" rel="noopener">2 · DOM Manipulation with JavaScript</a> — background only, for where <code>useRef</code> reaches a real DOM node. React handles the rest.</span></div>
       </div>
     </div>
 
@@ -590,22 +605,23 @@
       <div class="when"><div class="wk">Week 12</div><div class="date">Nov 19</div><div class="node"></div></div>
       <div class="card">
         <div class="lec">
-          <div class="lec-top"><span class="who react">Konstantina</span><span class="lec-eyebrow">Lecture · React IV</span><span class="away-tag">Mircea away</span></div>
-          <div class="ttl">Making it feel real: MUI &amp; mobile-first</div>
-          <div class="desc">A component library (MUI — fast, accessible, functional) and a mobile-first pass. Use a design system, don’t build one. This is also where packages become a <i>judgment</i>: what you take on when you add a dependency, and why blindly <code>npm install</code>-ing whatever the AI suggests is the not-owning-your-code trap. Polish that turns a working prototype into something you’d actually keep on your phone.</div>
+          <div class="lec-top"><span class="who react">Konstantina</span><span class="lec-eyebrow">Lecture · Usability &amp; a11y</span><span class="away-tag">Mircea away</span></div>
+          <div class="ttl">Making it work for everyone: usability &amp; accessibility</div>
+          <div class="desc">Two ways of asking whether an app is any good, and they need different evidence. <b>Usability is empirical</b> — you cannot reason it out, you have to watch somebody try. <b>Accessibility is checkable</b> — keyboard-only navigation, contrast, semantic markup, labels — and it is legally live in Denmark. Week 7 tested a wireframe before anything existed; this week you test the deployed app that people can actually open. MUI is the vehicle: a component library whose parts are accessible by default, which is the strongest possible argument for <i>use a design system, don’t build one</i> — and the point where packages become a <i>judgment</i>, because blindly <code>npm install</code>-ing what the AI suggests is the not-owning-your-code trap. And a11y is where that trap bites hardest: an AI will hand you a component that looks right and cannot be operated by keyboard. Checkable is exactly what lets you catch it.</div>
         </div>
         <div class="lanes">
           <div class="lane exercise">
             <div class="lane-h"><span class="mk"></span>Exercise</div>
-            <div class="split"><span class="h solo">1h solo</span>Rebuild one screen with MUI components.</div>
-            <div class="split"><span class="h grp">1h project</span>Apply MUI; do a mobile-first pass.</div>
+            <div class="split"><span class="h solo">1h solo</span>Accessibility audit of your own app — keyboard-only pass, contrast, semantics, labels. Write down what fails.</div>
+            <div class="split"><span class="h grp">1h project</span>Three think-alouds on the live app; triage what they surface. Apply MUI and a mobile-first pass.</div>
           </div>
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project milestone</div>
-            <div class="mile">Polished, mobile-first UI<span class="sub">The app feels real.</span></div>
+            <div class="mile">Usability tested on the real app · a11y pass done<span class="sub">Findings triaged; MUI and mobile-first bring it up to standard.</span></div>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/General/Libraries.md" target="_blank" rel="noopener">General / Libraries</a> (dependency judgment)</li></ul></div></div><div class="res-grp"><span class="src new">New</span><div class="ri-body"><ul class="ri"><li>MUI + mobile-first pass — Konstantina to build</li></ul></div></div></div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/General/Libraries.md" target="_blank" rel="noopener">General / Libraries</a> (dependency judgment)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/5-Usability-and-Its-Evaluation.md" target="_blank" rel="noopener">Usability and Its Evaluation</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/tree/main/Lectures/usability_examples" target="_blank" rel="noopener">10 worked heuristic counterexamples</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li><a class="rl lit" href="https://learnit.itu.dk/mod/url/view.php?id=228523" target="_blank" rel="noopener">Usability Report template</a></li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228522" target="_blank" rel="noopener">Lauesen ch.13</a></li></ul></div></div><div class="res-grp"><span class="src new">New</span><div class="ri-body"><ul class="ri"><li>MUI + mobile-first pass — Konstantina to build</li><li>a11y audit checklist (keyboard, contrast, semantics, labels)</li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Tech-TopUps/4-Layouts-and-Responsiveness.md" target="_blank" rel="noopener">4 · Layouts &amp; Responsiveness</a> — read before this week: Flexbox and Grid, ahead of the mobile-first pass.</span></div>
       </div>
     </div>
 
@@ -629,6 +645,7 @@
           </div>
         </div>
         <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><div class="ri-lead">L7 code-quality set:</div><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%207/CASE_STUDY_TODO_APP.md" target="_blank" rel="noopener">Case-Study ToDo</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%207/COMPONENT_EXTRACTION_GUIDE.md" target="_blank" rel="noopener">Component-Extraction Guide</a> + <a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%207/COMPONENT_EXTRACTION_CHEATSHEET.md" target="_blank" rel="noopener">Cheatsheet</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%207/CODE_QUALITY_SPRINT_PLAN.md" target="_blank" rel="noopener">Code-Quality Sprint Plan</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/Lecture%207/CLASS_DISCUSSION_GUIDE.md" target="_blank" rel="noopener">Class-Discussion Guide</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/General/Code%20Organization.md" target="_blank" rel="noopener">General/Code-Organization</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical%20ID/General/Debugging.md" target="_blank" rel="noopener">Debugging</a></li></ul></div></div><div class="res-grp"><span class="src new">New</span><div class="ri-body"><ul class="ri"><li>Live AI-PR-review framing</li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Revisit</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Tech-TopUps/5-Coding-Practices.md" target="_blank" rel="noopener">5 · Coding Practices</a> — the checklist you have been reviewing against since week 6.</span></div>
       </div>
     </div>
 
@@ -669,6 +686,10 @@
         <p>The course’s core skill isn’t taught once at the end — it’s a habit built from the moment there’s an app to judge. <b>Introduced week 6</b> on the freshly-live app, with a short <b>“good React” checklist</b> as the rubric (sharpened by Konstantina’s week-8 patterns). <b>Practised</b> as recurring back-half solo drills. <b>Culminates week 13</b>, student-driven and exam-shaped. Reading and judging code you didn’t write, rising in independence — the same imitate → originate arc as everything else here.</p>
       </div>
       <div class="note">
+        <div class="nt">Usability, twice</div>
+        <p>Tested <b>twice, on different things, with different methods</b>. Week 7 puts a <i>wireframe</i> through a heuristic walkthrough — cheap to test rough, expensive to test polished, which is the whole argument for wireframes over Figma. Week 12 puts the <i>deployed app</i> in front of people who can actually open it. Accessibility rides along in week 12 because it is the checkable half of the same question: usability needs a person to watch, a11y needs a keyboard, a contrast ratio and a semantic tag — and it is legally live in Denmark. That checkability is also why it belongs in this course: an AI will hand you a component that looks correct and cannot be operated without a mouse.</p>
+      </div>
+      <div class="note">
         <div class="nt">Two repos, two jobs</div>
         <p>A <b>shared reference to-do</b>, git-tagged per lecture, is the canonical good code and the seed each team forks. A <b>personal exercise repo</b> — one folder per week — holds the solo drills, checked at a glance, not by pull request.</p>
       </div>
@@ -690,7 +711,7 @@
       </div>
       <div class="note">
         <div class="nt">Away weeks</div>
-        <p>All four travel weeks are covered by real lectures, not filler: Konstantina takes React (wk 8, 12), a guest covers React II (wk 3 — Bjørn / a TA, to confirm), the designer takes screen design (wk 7). Every load-bearing backend lecture stays on an in-person week.</p>
+        <p>All four travel weeks are covered by real lectures, not filler: Konstantina takes React (wk 8) and usability &amp; accessibility (wk 12), a guest covers React II (wk 3 — Bjørn / a TA, to confirm), the designer takes screen design (wk 7). Every load-bearing backend lecture stays on an in-person week.</p>
       </div>
       <div class="note">
         <div class="nt">Where each week’s material comes from</div>
@@ -698,7 +719,7 @@
       </div>
       <div class="note">
         <div class="nt">Pre-course</div>
-        <p>The six <b>Tech-TopUps</b> modules (CSS, DOM, JS, layouts, coding practices, async), with <b>Scrimba’s free tier</b> as the interactive companion — Learn HTML &amp; CSS (5.7h) and Learn JavaScript (9.4h), both MDN-built; Learn React (15.1h) as a bonus. A <b>Node/npm setup step</b> runs pre-course. npm arrives in three doses: setup (pre-course) → mechanics (wk 1) → judgment (wk 12).</p>
+        <p><b>One</b> module is required before week 1 — **<a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Tech-TopUps/3-Javascript-the-Language.md" target="_blank" rel="noopener">JavaScript, the Language</a><b> — with </b>Scrimba’s free tier<b> as the interactive companion (Learn JavaScript, 9.4h, MDN-built; Learn HTML &amp; CSS 5.7h and Learn React 15.1h as bonuses). The remaining Tech-TopUps arrive just-in-time, each on the card of the week it serves: CSS at wk 1, async before wk 4, coding practices before wk 6, layouts before wk 12. A </b>Node/npm setup step** still runs pre-course. npm arrives in three doses: setup (pre-course) → mechanics (wk 1) → judgment (wk 12).</p>
       </div>
     </div>
     <div class="foot">Draft · sequencing subject to change · built Aug 2026</div>
