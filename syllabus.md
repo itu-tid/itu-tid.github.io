@@ -8,6 +8,7 @@
 
 **ITU Copenhagen · Autumn 2026 · Thursdays**
 
+Overview:
 - A **fast technical track** stands up a working, shared, deployed app in the first five weeks, while a **quieter design track** runs alongside — study your users, design for them, revise. 
 - Every team builds one **group to-do app**: the same lean core, a population-driven twist of their own. 
 - Each week has a lecture, a two-hour exercise slot, and a project milestone. 
