@@ -272,7 +272,7 @@ All four travel weeks are covered by real lectures, not filler: Konstantina take
 
 ### Where each week’s material comes from
 
-`GH` your [**itu-tid/lecture-notes**](https://github.com/itu-tid/lecture-notes) — the technical spine, mostly already written. `learnIT` last year’s **design materials** — interviews, thematic analysis, wireframing, usability. `New` the short list left to write: **frontend deploy to GitHub Pages** (wk 6), List collection layer (wk 5), context (wk 9), TS side-by-side (wk 11), MUI + mobile-first (wk 12, Konstantina), live AI-PR framing (wk 13), exam + AI framing (wk 14).
+`GH` your [**itu-tid.github.io**](https://github.com/itu-tid/itu-tid.github.io) — the technical spine, mostly already written. `learnIT` last year’s **design materials** — interviews, thematic analysis, wireframing, usability. `New` the short list left to write: **frontend deploy to GitHub Pages** (wk 6), List collection layer (wk 5), context (wk 9), TS side-by-side (wk 11), MUI + mobile-first (wk 12, Konstantina), live AI-PR framing (wk 13), exam + AI framing (wk 14).
 
 ### Pre-course
 
