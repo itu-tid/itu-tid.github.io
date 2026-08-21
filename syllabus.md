@@ -8,7 +8,11 @@
 
 **ITU Copenhagen · Autumn 2026 · Thursdays**
 
-Build from minute one; deepen as you go. A **fast technical track** stands up a working, shared, deployed app in the first five weeks, while a **quieter design track** runs alongside — study your users, design for them, revise. Every team builds one **group to-do app**: the same lean core, a population-driven twist of their own. Each week has a lecture, a two-hour exercise slot, and a project milestone. **Dogfood the core, design the twist for someone unlike you, and own every line at the exam.**
+- A **fast technical track** stands up a working, shared, deployed app in the first five weeks, while a **quieter design track** runs alongside — study your users, design for them, revise. 
+- Every team builds one **group to-do app**: the same lean core, a population-driven twist of their own. 
+- Each week has a lecture, a two-hour exercise slot, and a project milestone. 
+- **Dogfood the core, design the twist for someone unlike you, and own every line at the exam.**
+- All deliverables are due on Tuesday at midnight
 
 Only one prerequisite module is required before week 1 — **JavaScript, the Language**. The other Tech-TopUps drip across the semester, each assigned the week before it first matters.
 
