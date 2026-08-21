@@ -25,6 +25,9 @@ OUT = ROOT / "syllabus.html"
 
 REPO = "https://github.com/itu-tid/itu-tid.github.io"
 BADGES = {"GH": "gh", "learnIT": "lit", "New": "new"}
+# Tech-TopUps pre-readings, dripped week by week. Not lecture source material,
+# so they get their own row under the resource strip rather than a source pill.
+NOTES = ("Prereq", "Revisit", "Optional")
 
 # Which colour track a week's row gets, keyed by teacher. Filled from the
 # "Teaching team" list in the markdown; a teacher not listed there (a guest)
@@ -199,6 +202,14 @@ def resources(items):
     return f'<div class="res">{"".join(groups)}</div>' if groups else ""
 
 
+def prereads(items):
+    rows = "".join(
+        f'<div class="prereq"><span class="pq">{label}</span>'
+        f'<span>{inline(value)}</span></div>'
+        for label, value in items if label in NOTES)
+    return f"\n        {rows}" if rows else ""
+
+
 def week_row(heading, body, last):
     if heading.startswith("Break"):
         date = heading.split("·")[1].strip()
@@ -255,7 +266,7 @@ def week_row(heading, body, last):
             <div class="mile">{inline(mile)}<span class="sub">{inline(sub.strip('*'))}</span></div>{extra}
           </div>
         </div>
-        {resources(fields(body))}
+        {resources(fields(body))}{prereads(fields(body))}
       </div>
     </div>"""
 
