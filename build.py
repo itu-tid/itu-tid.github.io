@@ -16,6 +16,7 @@ the HTML, which is served from GitHub Pages where relative paths would 404.
 import html
 import re
 import sys
+from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -109,6 +110,32 @@ def paragraphs(lines):
     return out
 
 
+def blocks(lines):
+    """Overview prose → a sequence of ("p", text) and ("ul", [items])."""
+    out, para, items = [], [], []
+    def flush_para():
+        if para:
+            out.append(("p", " ".join(para)))
+            para.clear()
+    def flush_list():
+        if items:
+            out.append(("ul", list(items)))
+            items.clear()
+    for line in lines:
+        text = line.strip()
+        if text.startswith("- "):
+            flush_para()
+            items.append(text[2:].strip())
+        elif text:
+            flush_list()
+            para.append(text)
+        else:
+            flush_para()
+    flush_para()
+    flush_list()
+    return out
+
+
 def fields(lines):
     """`- **Key:** value` bullets → list of (key, value), order preserved."""
     return [(m.group(1), m.group(2).strip())
@@ -127,7 +154,7 @@ def parse(text):
     lead = paragraphs(sections(top["Overview"], 3)[0][1] if False else
                       top["Overview"][:index_of_heading(top["Overview"])])
     doc["kicker"] = lead[0].strip("*")
-    doc["lede"] = lead[1:]
+    doc["lede"] = blocks(top["Overview"][:index_of_heading(top["Overview"])])[1:]
     doc["glance"] = [re.match(r"-\s+\*\*(.+?)\*\*\s+—\s+(.*)", ln.strip()).groups()
                      for ln in over.get("At a glance", []) if ln.strip().startswith("- ")]
     doc["legend"] = [re.match(r"-\s+`(\w+)`\s+(.*)", ln.strip()).groups()
@@ -145,15 +172,6 @@ def parse(text):
                                     if not ln.strip().startswith("- ")])[0]
 
     doc["weeks"] = sections(top["Weeks"], 3)
-    # the spine at the top links the same hand-ins as the week cards, keyed by
-    # week number — so each learnIT URL is still written exactly once
-    doc["assignments"] = {}
-    for head, body in doc["weeks"]:
-        num = re.match(r"Week 0*(\d+)", head)
-        value = dict(fields(body)).get("Assignment")
-        if num and value:
-            doc["assignments"][int(num.group(1))] = assignment(value, f'week "{head}"')
-
     doc["notes"] = [(h, paragraphs(b)[0]) for h, b in sections(top["How the pieces fit"], 3)]
     tail = paragraphs([ln for ln in top["How the pieces fit"] if not ln.startswith("### ")])
     doc["foot"] = tail[-1].strip("*") if tail else ""
@@ -169,21 +187,38 @@ def index_of_heading(lines):
 
 # --------------------------------------------------------------------- render
 
+MONTHS = {m: i for i, m in enumerate(
+    "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(), 1)}
+
+
+def parse_date(text, year):
+    """"Oct 8" → a date."""
+    m = re.match(r"([A-Z][a-z]{2})\s+(\d{1,2})", text.strip())
+    return date(year, MONTHS[m.group(1)], int(m.group(2))) if m else None
+
+
+def next_tuesday(after, skip_week_of=None):
+    """The next Tuesday strictly after a Thursday lecture — skipping the one
+    that falls inside the autumn break, which is why week 7 gets two weeks."""
+    day = after + timedelta(days=(1 - after.weekday()) % 7 or 7)
+    if skip_week_of and day.isocalendar()[:2] == skip_week_of.isocalendar()[:2]:
+        day += timedelta(days=7)
+    return day
+
+
 def track_of(who, eyebrow):
+    """Colour by track first, then by teacher.
+
+    A design week is green whoever teaches it — that is what makes the
+    two-technical-then-one-design rhythm visible down the timeline. Technical
+    weeks take the colour of whoever is in the room.
+    """
+    if "Design" in eyebrow:
+        return "design"
     for name, key in TRACKS.items():
         if who.startswith(name):
             return key
-    if "Design" in eyebrow:
-        return "design"
     return "react" if "React" in eyebrow else "you"
-
-
-def assignment(value, where):
-    """`- **Assignment:** [name](url)` → (name, url)."""
-    m = re.match(r"\[(.+?)\]\((.+?)\)", value)
-    if not m:
-        sys.exit(f"build.py: {where} — Assignment must be a markdown link")
-    return m.group(1), m.group(2)
 
 
 def resources(items):
@@ -210,7 +245,7 @@ def prereads(items):
     return f"\n        {rows}" if rows else ""
 
 
-def week_row(heading, body, last):
+def week_row(heading, body, last, boundary=None):
     if heading.startswith("Break"):
         date = heading.split("·")[1].strip()
         note = paragraphs(body)[0]
@@ -227,22 +262,61 @@ def week_row(heading, body, last):
     if who.endswith("*"):
         who, away = re.match(r"(.+?)\s+\*\((.+?)\)\*$", who).groups()
 
-    # title and eyebrow sit on consecutive lines; the description follows
-    text = [ln.strip() for ln in body
-            if ln.strip() and not ln.strip().startswith("- ")]
+    # title and eyebrow sit on consecutive lines; the description follows and may
+    # run to several paragraphs, which are kept apart rather than run together
+    prose = [ln for ln in body if not ln.strip().startswith("- ")]
+    text = [ln.strip() for ln in prose if ln.strip()]
     if len(text) < 3:
         sys.exit(f'build.py: week "{heading}" needs a title, an eyebrow and a description')
-    title, eyebrow, desc = text[0].strip("* "), text[1].strip("* "), " ".join(text[2:])
+    title, eyebrow = text[0].strip("* "), text[1].strip("* ")
+    seen, rest = 0, []
+    for ln in prose:
+        if seen >= 2:
+            rest.append(ln)
+        elif ln.strip():
+            seen += 1
+    paras = paragraphs(rest)
+    desc = ("".join(f"<p>{inline(x)}</p>" for x in paras)
+            if len(paras) > 1 else inline(paras[0]))
     f = dict(fields(body))
 
-    mile, _, sub = f.get("Milestone", "").partition(" — ")
+    # weeks with no team yet run two hours of solo work instead of 1h + 1h
+    if "Second hour" in f:
+        lane_head, lines = "Exercise · 2h solo", (
+            ("solo", "first hour", f.get("Solo", "")),
+            ("solo", "second hour", f["Second hour"]))
+    elif "Project" in f:
+        lane_head, lines = "Exercise", (
+            ("solo", "1h solo", f["Solo"]),
+            ("grp", "1h project", f["Project"]))
+    else:
+        sys.exit(f'build.py: week "{heading}" needs a Project or a Second hour field')
+    exercise = "\n            ".join(
+        f'<div class="split"><span class="h {cls}">{label}</span>{inline(body)}</div>'
+        for cls, label, body in lines)
+
+    # two different horizons, kept apart: what must be finished by the Tuesday
+    # that closes this course week, and what merely begins now
+    rows = []
+    if "Done by" in f:
+        label = f"done by {boundary}" if boundary else "done by"
+        rows.append(f'<div class="split"><span class="h grp">{label}</span>'
+                    f'<span class="key">{inline(f["Done by"])}</span></div>')
+    if "Starting" in f:
+        rows.append('<div class="split"><span class="h solo">starting</span>'
+                    f'{inline(f["Starting"])}</div>')
+    if not rows:
+        sys.exit(f'build.py: week "{heading}" needs a Done by, a Starting, or both')
+    project = "\n            ".join(rows)
     # a learnIT assignment is a hand-in, so it belongs beside the milestone
     # rather than in the reading list
     extra = ""
-    if "Assignment" in f:
-        name, url = assignment(f["Assignment"], f'week "{heading}"')
-        extra += (f'\n            <a class="assign" href="{url}" target="_blank"'
-                  f' rel="noopener">↗ Assignment · {emphasis(esc(name))}</a>')
+    # a deliverable appears twice: outlined on the week it is set, filled on the
+    # lecture you turn up to having handed it in. Both always name the date.
+    if "Due" in f:
+        extra = f'\n            <span class="due">Due {inline(f["Due"])}</span>' + extra
+    if "Set" in f:
+        extra = f'\n            <span class="set">Set · {inline(f["Set"])}</span>' + extra
     if "Check-in" in f:
         extra += f'\n            <span class="checkin">◆ {inline(f["Check-in"])}</span>'
     cls = f'row t-{track_of(who, eyebrow)}' + (" away" if away else "") + (" last" if last else "")
@@ -253,17 +327,16 @@ def week_row(heading, body, last):
         <div class="lec">
           <div class="lec-top"><span class="who {track_of(who, eyebrow)}">{inline(who)}</span><span class="lec-eyebrow">{inline(eyebrow)}</span>{f'<span class="away-tag">{inline(away)}</span>' if away else ''}</div>
           <div class="ttl">{inline(title)}</div>
-          <div class="desc">{inline(desc)}</div>
+          <div class="desc">{desc}</div>
         </div>
         <div class="lanes">
           <div class="lane exercise">
-            <div class="lane-h"><span class="mk"></span>Exercise</div>
-            <div class="split"><span class="h solo">1h solo</span>{inline(f.get('Solo', ''))}</div>
-            <div class="split"><span class="h grp">1h project</span>{inline(f.get('Project', ''))}</div>
+            <div class="lane-h"><span class="mk"></span>{lane_head}</div>
+            {exercise}
           </div>
           <div class="lane project">
-            <div class="lane-h"><span class="mk"></span>Project milestone</div>
-            <div class="mile">{inline(mile)}<span class="sub">{inline(sub.strip('*'))}</span></div>{extra}
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            {project}{extra}
           </div>
         </div>
         {resources(fields(body))}{prereads(fields(body))}
@@ -271,26 +344,31 @@ def week_row(heading, body, last):
     </div>"""
 
 
-def spine_name(doc, week_label, name):
-    """Checkpoint name, linked to that week's hand-in when it has one."""
-    num = re.match(r"Week (\d+)", week_label)
-    found = doc["assignments"].get(int(num.group(1))) if num else None
-    if not found:
-        return inline(name)
-    title, url = found
-    return (f'<a href="{url}" target="_blank" rel="noopener" '
-            f'title="{html.escape(title)}">{inline(name)}</a>')
-
-
 def render(doc):
     ind = "      "
     weeks = doc["weeks"]
-    rows = [week_row(h, b, last=(i == len(weeks) - 1)) for i, (h, b) in enumerate(weeks)]
+    year = int(re.search(r"(20\d\d)", doc["kicker"]).group(1))
+    brk = next((parse_date(h.split("·")[1], year)
+                for h, _ in weeks if h.startswith("Break")), None)
+
+    def boundary_for(heading):
+        parts = heading.split("·")
+        lecture = parse_date(parts[1], year) if len(parts) > 1 else None
+        if not lecture or heading.startswith("Break"):
+            return None
+        tue = next_tuesday(lecture, brk)
+        return f"Tue {tue.day} {tue:%b}"
+
+    rows = [week_row(h, b, last=(i == len(weeks) - 1), boundary=boundary_for(h))
+            for i, (h, b) in enumerate(weeks)]
 
     slots = {
         "KICKER": inline(doc["kicker"]),
         "H1": esc(doc["h1"]),
-        "LEDE": "\n    ".join(f'<p class="lede">{inline(p)}</p>' for p in doc["lede"]),
+        "LEDE": "\n    ".join(
+            f'<p class="lede">{inline(body)}</p>' if kind == "p" else
+            '<ul class="lede">' + "".join(f"<li>{inline(i)}</li>" for i in body) + "</ul>"
+            for kind, body in doc["lede"]),
         "GLANCE": "\n".join(
             f'{ind}<div class="stat"><div class="n">{inline(n)}</div>'
             f'<div class="l">{inline(l)}</div></div>' for n, l in doc["glance"]),
@@ -301,7 +379,7 @@ def render(doc):
         "SPINE_H": inline(doc["spine_h"]),
         "SPINE": "\n".join(
             f'{ind}<div class="milestone">\n{ind}  <div class="m-wk">{inline(w)}</div>\n'
-            f'{ind}  <div class="m-name">{spine_name(doc, w, n)}</div>\n'
+            f'{ind}  <div class="m-name">{inline(n)}</div>\n'
             f'{ind}  <div class="m-sub">{inline(s)}</div>\n{ind}</div>'
             for w, n, s in doc["spine"]),
         "SPINE_FOOT": inline(doc["spine_foot"]),

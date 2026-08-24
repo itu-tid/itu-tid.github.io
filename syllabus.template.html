@@ -57,6 +57,11 @@
   h1 .yr{color:var(--ink-faint);font-weight:500}
   .lede{color:var(--ink-soft);font-size:15.5px;max-width:66ch}
   .lede + .lede{margin-top:11px}
+  ul.lede{list-style:none;margin:0;padding:0}
+  ul.lede>li{position:relative;padding-left:16px;margin-bottom:5px}
+  ul.lede>li:last-child{margin-bottom:0}
+  ul.lede>li::before{content:'';position:absolute;left:2px;top:.6em;
+    width:4px;height:4px;border-radius:50%;background:var(--ink-faint)}
   .lede b{color:var(--ink);font-weight:600}
 
   /* ---- At a glance ---- */
@@ -123,6 +128,7 @@
   .ttl{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;
     letter-spacing:-.008em;margin-bottom:4px;line-height:1.2}
   .desc{font-size:13.5px;color:var(--ink-soft)}
+  .desc p + p{margin-top:9px}
 
   /* keep prose sentence-case AND sans regardless of the preview's font-load timing;
      only the small mono labels are deliberately uppercased/monospaced */
@@ -154,6 +160,7 @@
   .split .h.solo{color:var(--you)}
   .split .h.grp{color:var(--proj)}
   .mile{font-size:13.5px;color:var(--ink);font-weight:500}
+  .split .key{color:var(--ink);font-weight:500}
   .mile .sub{display:block;font-weight:400;color:var(--ink-soft);font-size:12.5px;margin-top:3px}
 
   /* break row */
@@ -215,6 +222,20 @@
     text-transform:uppercase;font-weight:600;color:var(--ink-faint);
     border:1px dashed var(--ink-faint);border-radius:20px;padding:2px 7px;
     white-space:nowrap;position:relative;top:-.5px}
+
+  /* a hard deadline falling in this week — the only filled chip on a card */
+  .due{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:600;color:#FFF;background:var(--proj);
+    border-radius:20px;padding:4px 10px}
+
+  /* a deliverable handed out this week — outlined, because nothing is owed yet */
+  .set a,.due a{color:inherit;text-decoration:underline;text-underline-offset:2px;
+    text-decoration-thickness:1px}
+  .set{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:600;color:var(--proj);background:transparent;
+    border:1px solid var(--proj);border-radius:20px;padding:3px 10px}
 
   /* learnIT hand-in link on milestone cards */
   .assign{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
