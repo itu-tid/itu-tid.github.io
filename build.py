@@ -30,10 +30,9 @@ BADGES = {"GH": "gh", "learnIT": "lit", "New": "new"}
 # so they get their own row under the resource strip rather than a source pill.
 NOTES = ("Prereq", "Revisit", "Optional")
 
-# Which colour track a week's row gets, keyed by teacher. Filled from the
-# "Teaching team" list in the markdown; a teacher not listed there (a guest)
-# falls back to the lecture's eyebrow — "React II" → react, "Design II" → design.
-TRACKS: dict[str, str] = {}
+# name → colour key, filled from the "Teaching team" list in the markdown
+PEOPLE: dict[str, str] = {}
+PERSON_KEYS = ("you", "react")
 
 
 # ---------------------------------------------------------------- inline text
@@ -160,9 +159,8 @@ def parse(text):
     doc["legend"] = [re.match(r"-\s+`(\w+)`\s+(.*)", ln.strip()).groups()
                      for ln in over.get("Teaching team", []) if ln.strip().startswith("- ")]
     for key, label in doc["legend"]:
-        name = re.sub(r"\*\*|\s+—.*", "", label).strip()
-        if key != "away":
-            TRACKS[name] = key
+        if key in PERSON_KEYS:
+            PEOPLE[re.sub(r"\*\*|\s+—.*", "", label).strip()] = key
 
     spine_key = next(k for k in top if k.startswith("Deliverables"))
     doc["spine_h"] = spine_key
@@ -206,19 +204,20 @@ def next_tuesday(after, skip_week_of=None):
     return day
 
 
-def track_of(who, eyebrow):
-    """Colour by track first, then by teacher.
+# Two independent axes. The track says what kind of week it is; the person says
+# who is standing at the front. They do not line up — Konstantina teaches both
+# design and technical weeks — so they get separate colours: the card's left
+# border carries the track, the timeline node and the name badge carry the person.
+def track_of(eyebrow):
+    return "design" if "Design" in eyebrow else "tech"
 
-    A design week is green whoever teaches it — that is what makes the
-    two-technical-then-one-design rhythm visible down the timeline. Technical
-    weeks take the colour of whoever is in the room.
-    """
-    if "Design" in eyebrow:
-        return "design"
-    for name, key in TRACKS.items():
+
+def person_of(who, eyebrow):
+    for name, key in PEOPLE.items():
         if who.startswith(name):
             return key
-    return "react" if "React" in eyebrow else "you"
+    # a guest we do not know: fall back to the kind of lecture it is
+    return "react" if ("React" in eyebrow or "Design" in eyebrow) else "you"
 
 
 def resources(items):
@@ -305,8 +304,6 @@ def week_row(heading, body, last, boundary=None):
     if "Starting" in f:
         rows.append('<div class="split"><span class="h solo">starting</span>'
                     f'{inline(f["Starting"])}</div>')
-    if not rows:
-        sys.exit(f'build.py: week "{heading}" needs a Done by, a Starting, or both')
     project = "\n            ".join(rows)
     # a learnIT assignment is a hand-in, so it belongs beside the milestone
     # rather than in the reading list
@@ -319,29 +316,40 @@ def week_row(heading, body, last, boundary=None):
         extra = f'\n            <span class="set">Set · {inline(f["Set"])}</span>' + extra
     if "Check-in" in f:
         extra += f'\n            <span class="checkin">◆ {inline(f["Check-in"])}</span>'
-    cls = f'row t-{track_of(who, eyebrow)}' + (" away" if away else "") + (" last" if last else "")
+    track, person = track_of(eyebrow), person_of(who, eyebrow)
+    # weeks before the teams exist have no project lane at all
+    has_project = bool(rows or extra)
+    project_lane = ("" if not has_project else
+                    '\n          <div class="lane project">\n'
+                    '            <div class="lane-h"><span class="mk"></span>Project</div>\n'
+                    f'            {project}{extra}\n'
+                    '          </div>')
+
+    cls = f"row t-{track} p-{person}" + (" away" if away else "") + (" last" if last else "")
 
     return f"""    <div class="{cls}">
       <div class="when"><div class="wk">{esc(wk)}</div><div class="date">{esc(date)}</div><div class="node"></div></div>
       <div class="card">
         <div class="lec">
-          <div class="lec-top"><span class="who {track_of(who, eyebrow)}">{inline(who)}</span><span class="lec-eyebrow">{inline(eyebrow)}</span>{f'<span class="away-tag">{inline(away)}</span>' if away else ''}</div>
+          <div class="lec-top"><span class="who {person}">{inline(who)}</span><span class="lec-eyebrow">{inline(eyebrow)}</span>{f'<span class="away-tag">{inline(away)}</span>' if away else ''}</div>
           <div class="ttl">{inline(title)}</div>
           <div class="desc">{desc}</div>
         </div>
-        <div class="lanes">
+        <div class="lanes{"" if has_project else " alone"}">
           <div class="lane exercise">
             <div class="lane-h"><span class="mk"></span>{lane_head}</div>
             {exercise}
-          </div>
-          <div class="lane project">
-            <div class="lane-h"><span class="mk"></span>Project</div>
-            {project}{extra}
-          </div>
+          </div>{project_lane}
         </div>
         {resources(fields(body))}{prereads(fields(body))}
       </div>
     </div>"""
+
+
+def legend_mark(key):
+    if key == "away":
+        return "away"
+    return f"dot {key}" if key in PERSON_KEYS else f"bar {key}"
 
 
 def render(doc):
@@ -373,7 +381,7 @@ def render(doc):
             f'{ind}<div class="stat"><div class="n">{inline(n)}</div>'
             f'<div class="l">{inline(l)}</div></div>' for n, l in doc["glance"]),
         "LEGEND": "\n".join(
-            f'{ind}<span><i class="{"away" if k == "away" else f"dot {k}"}">'
+            f"{ind}<span><i class=\"{legend_mark(k)}\">"
             f'{"away" if k == "away" else ""}</i> {inline(t)}</span>'
             for k, t in doc["legend"]),
         "SPINE_H": inline(doc["spine_h"]),

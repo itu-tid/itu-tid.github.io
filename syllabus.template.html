@@ -79,6 +79,9 @@
   .dot.you{background:var(--you)}
   .dot.react{background:var(--react)}
   .dot.design{background:var(--design)}
+  .bar{width:4px;height:14px;border-radius:2px;display:inline-block}
+  .bar.tech{background:var(--you)}
+  .bar.design{background:var(--design)}
   .away{border:1.5px dashed var(--ink-faint);border-radius:4px;padding:0 6px;
     font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;
     text-transform:uppercase;color:var(--ink-soft)}
@@ -96,8 +99,8 @@
     color:var(--ink);margin-top:3px}
   .node{position:absolute;right:-6px;top:28px;width:12px;height:12px;border-radius:50%;
     background:var(--card);border:2.5px solid var(--you);z-index:2}
-  .row.t-react .node{border-color:var(--react)}
-  .row.t-design .node{border-color:var(--design)}
+  .row.p-react .node{border-color:var(--react)}
+  .row.p-you .node{border-color:var(--you)}
   .row.away .node{border-style:dashed}
 
   .card{
@@ -106,7 +109,7 @@
     border-radius:var(--radius);
     margin:12px 0 12px 28px;overflow:hidden;
   }
-  .row.t-react .card{border-left-color:var(--react)}
+  .row.t-tech .card{border-left-color:var(--you)}
   .row.t-design .card{border-left-color:var(--design)}
 
   /* lecture header band */
@@ -145,6 +148,7 @@
 
   /* exercise + project lanes */
   .lanes{border-top:1px solid var(--line-soft);display:grid;grid-template-columns:1fr 1fr}
+  .lanes.alone{grid-template-columns:1fr}
   .lane{padding:12px 18px 13px}
   .lane + .lane{border-left:1px solid var(--line-soft)}
   .lane-h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
