@@ -295,11 +295,11 @@ def week_row(heading, body, last, boundary=None):
         f'<div class="split"><span class="h {cls}">{label}</span>{inline(body)}</div>'
         for cls, label, body in lines)
 
-    # two different horizons, kept apart: what must be finished by the Tuesday
-    # that closes this course week, and what merely begins now
+    # two horizons, kept apart. Both are work handed out today; they differ in
+    # how far away they land — next Tuesday, or somewhere further out.
     rows = []
     if "Done by" in f:
-        label = f"done by {boundary}" if boundary else "done by"
+        label = f"todo by {boundary}" if boundary else "todo"
         rows.append(f'<div class="split"><span class="h grp">{label}</span>'
                     f'<span class="key">{inline(f["Done by"])}</span></div>')
     if "Starting" in f:
