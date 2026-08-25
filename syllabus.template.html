@@ -234,8 +234,6 @@
     border-radius:20px;padding:4px 10px}
 
   /* a deliverable handed out this week — outlined, because nothing is owed yet */
-  .set a,.due a{color:inherit;text-decoration:underline;text-underline-offset:2px;
-    text-decoration-thickness:1px}
   .set{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
     font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;
     text-transform:uppercase;font-weight:600;color:var(--proj);background:transparent;
@@ -282,6 +280,13 @@
   .rl:hover{text-decoration-color:var(--you)}
   .rl.lit{color:var(--design);text-decoration-color:rgba(63,122,72,.45)}
   .rl.lit:hover{text-decoration-color:var(--design)}
+
+  /* a link inside a chip takes the chip's colour — the GH/learnIT palette is
+     unreadable on the filled Due chip, and .rl.lit would otherwise win on
+     specificity */
+  .set .rl,.due .rl{color:inherit;text-decoration:underline;
+    text-decoration-color:currentColor;text-decoration-thickness:1px;
+    text-underline-offset:2px}
 
   @media (max-width:620px){
     .spine-track{grid-template-columns:1fr 1fr;gap:14px 12px}
