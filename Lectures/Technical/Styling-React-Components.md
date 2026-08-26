@@ -1,7 +1,7 @@
 # Styling React Components
 
 Where the CSS goes, once there are components to attach it to. Read alongside
-[Basics of CSS](../../Tech-TopUps/1-Basics-of-CSS.md); this is the React-specific
+[Basics of CSS](../../TopUps/1-Basics-of-CSS.md); this is the React-specific
 half, and week 3's solo hour is where you put it to work.
 
 ## Styling
