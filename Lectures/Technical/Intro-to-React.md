@@ -223,11 +223,38 @@ Most applications sooner or later rely on lists of things that you want to proce
 
 ### In React, to render lists you rely on `for` loops and  `array.map()`
 
+Our three hardcoded `<TodoItem />`s become one array and one `map`:
+
+```jsx
+const todos = ["Buy milk", "Call the landlord", "Book the dentist"];
+
+function TodoList() {
+  return (
+    <ul>
+      {todos.map((text, index) => (
+        <TodoItem key={index} text={text} />
+      ))}
+    </ul>
+  );
+}
+```
+
+`map` turns an array of **strings** into an array of **JSX elements**, and React renders an
+array of elements by rendering each one. That is the whole mechanism. Add a fourth string
+to `todos` and a fourth row appears; nothing else has to change.
+
 ### You must use a `key` attribute for every element in a list
-- must be unique
-- can be the database ID, UUID, or anything else unique
-- important internally for React's rendering
-- if you don't do this, your console will be full of 
+- must be unique **among its siblings**
+- can be the database ID, UUID, or anything else stable
+- it is how React tells the items apart between renders — without it, it cannot know
+  whether you added a row, removed one, or reordered them
+- if you don't do this, your console fills up with warnings
+
+We are using the array **index** above, which is the thing every beginner reaches for and
+which works perfectly — until items can be removed from the middle. Delete the first of
+three, and the item that was index 1 becomes index 0: React sees "the thing with key 0
+changed its text" rather than "the first thing is gone". Next week adds delete, you will
+watch exactly that go wrong, and that is when we swap indexes for real IDs.
 
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
@@ -245,7 +272,35 @@ This is the main job of your UI app.
 
 Associating event handlers with events is done with the attribute in curly brackets syntax, as above. (See [onClick example](https://react.dev/learn/responding-to-events#adding-event-handlers).)
 
+Our button, doing nothing useful yet:
+
+```jsx
+function TodoList() {
+  function handleAdd() {
+    console.log("Add was clicked");
+  }
+
+  return (
+    <>
+      <ul>
+        {todos.map((text, index) => <TodoItem key={index} text={text} />)}
+      </ul>
+      <button onClick={handleAdd}>Add</button>
+    </>
+  );
+}
+```
+
 #### WARNING: You must know the difference between calling a function and passing it as a reference!
+
+```jsx
+<button onClick={handleAdd}>Add</button>     // ✅ hands React the function
+<button onClick={handleAdd()}>Add</button>   // ❌ calls it now, hands React the result
+```
+
+The second one runs `handleAdd` while the component is *rendering*, before anybody has
+clicked anything, and gives `onClick` whatever it returned — usually `undefined`. If your
+handler fires once on load and never again, this is why.
 
 ### **Event handlers always receive an event as argument**
 
@@ -265,13 +320,69 @@ If you have an `onClick` handler on both a button and a containing div, both wil
 
 ### Every component can store local state 
 
-Unlike the props, the state can be changed from within the component
+Unlike the props, the state can be changed from within the component.
+
+First, the version that does **not** work — worth typing out, because the reason it fails
+is the reason state exists:
+
+```jsx
+const SAMPLE_TASKS = ["Buy milk", "Call the landlord", "Book the dentist",
+                      "Water the plants", "Reply to Mette"];
+
+function randomTask() {
+  return SAMPLE_TASKS[Math.floor(Math.random() * SAMPLE_TASKS.length)];
+}
+
+let todos = ["Buy milk"];          // ❌ an ordinary variable
+
+function TodoList() {
+  function handleAdd() {
+    todos.push(randomTask());
+    console.log(todos);            // the array really does grow — look at the console
+  }
+  // …and the screen never changes
+}
+```
+
+The array grows. The console proves it. The screen ignores you completely, because nothing
+told React that anything happened — it only re-runs your component when you ask it to, and
+pushing onto a variable is not asking.
 
 ### Local state is defined using the `useState` hook 
 
 The `useState` hook: 
 - takes an **initial** value
 - returns **current value** and a **setter function**
+
+```jsx
+import { useState } from "react";
+
+function TodoList() {
+  const [todos, setTodos] = useState(["Buy milk"]);
+
+  function handleAdd() {
+    setTodos([...todos, randomTask()]);   // a *new* array, not a push
+  }
+
+  return (
+    <>
+      <ul>
+        {todos.map((text, index) => <TodoItem key={index} text={text} />)}
+      </ul>
+      <button onClick={handleAdd}>Add</button>
+    </>
+  );
+}
+```
+
+Two things changed, and both matter:
+
+- `todos` now comes from `useState`, so it survives between renders. A plain `let` inside
+  the component would be created fresh every time React called the function.
+- `setTodos` is given a **new array** — `[...todos, randomTask()]` — rather than the old
+  one mutated. React decides whether to redraw by comparing what it was given with what it
+  had; hand it the same array object back and it sees no change, even if the contents
+  differ. `push` would have done exactly that.
 
 See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
 
@@ -288,6 +399,55 @@ This is *reactive programming*. And reactive programming is why React is called 
 A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
 
 In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
+
+So the loop the app now runs is:
+
+> you click **Add** → `handleAdd` calls `setTodos` with a new array → React notices the
+> state it is holding is not the array it had → it calls `TodoList()` again → `map` builds
+> one more `<TodoItem />` than last time → the new row appears.
+
+Nobody wrote "add a row to the screen" anywhere. You changed the data and described what
+the screen should look like for any data; React did the rest. That is the trade React asks
+you to make, and everything else this term is a consequence of it.
+
+Here is the whole thing, which is the app you leave the first lecture with:
+
+```jsx
+import { useState } from "react";
+
+const SAMPLE_TASKS = ["Buy milk", "Call the landlord", "Book the dentist",
+                      "Water the plants", "Reply to Mette"];
+
+function randomTask() {
+  return SAMPLE_TASKS[Math.floor(Math.random() * SAMPLE_TASKS.length)];
+}
+
+function TodoItem({ text }) {
+  return <li className="todo-item">{text}</li>;
+}
+
+export default function TodoList() {
+  const [todos, setTodos] = useState(["Buy milk"]);
+
+  function handleAdd() {
+    setTodos([...todos, randomTask()]);
+  }
+
+  return (
+    <>
+      <h1>My To-Do ({todos.length})</h1>
+      <ul>
+        {todos.map((text, index) => (
+          <TodoItem key={index} text={text} />
+        ))}
+      </ul>
+      <button onClick={handleAdd}>Add</button>
+    </>
+  );
+}
+```
+
+Forty lines, and every idea in this note is in there somewhere.
 
 # References
 
