@@ -252,7 +252,7 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 
 ---
 
-## 🎓 Sprint Assignment Quick Checklist
+## 🎓 Extraction checklist
 
 - [ ] Identify all pages in your app
 - [ ] For each page, list the semantic sections
@@ -263,7 +263,6 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 - [ ] Refactor pages to use components
 - [ ] Test: Can someone unfamiliar with your CSS understand structure?
 - [ ] Document components with JSDoc
-- [ ] Create Storybook stories (bonus)
 
 ---
 
@@ -272,7 +271,7 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 1. **Start with layout** - Extract containers first
 2. **Then UI primitives** - Buttons, avatars, inputs
 3. **Finally domain** - Profile headers, job cards
-4. **Use TypeScript** - Props interfaces catch errors
+4. **Name your props for what varies** - variant, size, content; not colour
 5. **Write README** - Explain component usage
 6. **Keep it simple** - Don't over-engineer
 
@@ -293,6 +292,6 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 
 ## 📚 Quick Links
 
-- [Full Guide](./COMPONENT_EXTRACTION_GUIDE.md)
+- [Full Guide](Component-Extraction-Guide.md)
 - [Semantic JSX Article](https://mxb.dev/blog/semantic-jsx/)
 - [React Docs: Composition](https://react.dev/learn/passing-props-to-a-component)
