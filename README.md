@@ -20,7 +20,7 @@ Course order, as the 2026 syllabus runs it:
 |---|---|
 | 1 · React I | [React Starter Kit](Lectures/Technical/React-Starter-Kit.md) · [Intro to React](Lectures/Technical/Intro-to-React.md) · [Hooks](Lectures/Technical/Hooks.md) |
 | 2 · React II | [Forms & Conditional Rendering](Lectures/Technical/Forms-and-Conditional-Rendering.md) · [Updater Functions for State](Lectures/Technical/Updater-Functions-for-State.md) · [Updating Objects and Lists in State](Lectures/Technical/Updating-Objects-and-Lists-in-State.md) · [Patterns of Component Communication](Lectures/Technical/Patterns-of-Component-Communication.md) · [The useEffect Hook](Lectures/Technical/The-useEffect-Hook.md) · [Debugging](Lectures/Technical/Debugging.md) |
-| 3 · Design I | [The Interaction Design Process](Lectures/Interaction-Design/The-Interaction-Design-Process.md) · [Styling React Components](Lectures/Technical/Styling-React-Components.md) |
+| 3 · Design I | [The Interaction Design Process](Lectures/Interaction-Design/The-Interaction-Design-Process.md) · [Tasks](Lectures/Interaction-Design/Tasks.md) · [Styling React Components](Lectures/Technical/Styling-React-Components.md) |
 | 4 · Backend I | [Backends and the Parse Platform](Lectures/Technical/Backends-and-the-Parse-Platform.md) · [Parse Configuration for Vite](Lectures/Technical/Parse-Configuration-for-Vite.md) |
 | 5 · Backend II | [Authorization and ACL in Parse](Lectures/Technical/Authorization-and-ACL-in-Parse.md) |
 | 6 · Routing & deploy | [Web App Architectures](Lectures/Technical/Web-App-Architectures.md) · [Routing in React](Lectures/Technical/Routing-in-React.md) · [Protecting Routes](Lectures/Technical/Protecting-Routes.md) |
