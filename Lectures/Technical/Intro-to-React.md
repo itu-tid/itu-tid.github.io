@@ -8,28 +8,35 @@ one opens by saying what the app does at that point.
 
 ## React is a ***component-based*** UI library
 
+**The app now.** A heading that says *My To-Do*, and one hardcoded item under it. Nothing
+is dynamic yet — this is only about where the code goes.
+
 ### Everything in React is a component
+
+A button is a component. A list row is a component. So is the whole page. You build a
+screen by nesting small ones inside bigger ones, and there is no other unit — no templates,
+no partials, no widgets.
 
 ### Components are **JS functions** that return JSX elements
 
 [Example](https://react.dev/learn/your-first-component#defining-a-component) of a React component :
 
-```js
-export default function ToDoList() {
-  const name = "Mircea";
-  
+```jsx
+export default function TodoList() {
   return (
     <>
-      <h1>Remember {name}:</h1>
+      <h1>My To-Do</h1>
       <ul>
-        <li>Buy bread</li>
         <li>Buy milk</li>
       </ul>
     </>
-  )
+  );
 }
-
 ```
+
+A plain JavaScript function, returning something that looks like HTML. The name is
+capitalised — React uses that to tell your components apart from built-in tags like `<ul>`,
+so `todoList` would not work.
 
 ## JSX is a combination of JS and HTML
 
@@ -40,7 +47,7 @@ JSX is acronym for JavaScript + XML
 ### JSX is a **syntax extension** that provides template-like declarative UI description within JavaScript itself
 - syntax extension for Javascript! 
 - has the full power of JS inside of the {}
-- template-like because it looks like other other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask, Moustache)
+- template-like because it looks like other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask, Moustache)
 - HTML-like code within JavaScript
 - JSX is **transpiled** to Javascript 
 
@@ -72,9 +79,9 @@ return (
   </>
 )
 ```
-this is called  = a fragment. 
-
-Solution is to use a Fragment when you don't need an actual HTML element as parent
+`<>…</>` is called a **fragment**: a wrapper that groups elements without adding anything
+to the page. Use it whenever you need a single parent but do not want a real `<div>` in
+the output.
 #### Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) 
 
 ### JSX converts most HTML and CSS attributes to camelCase 
@@ -97,7 +104,7 @@ Curly brackets to escape JS inside JSX can be used in three ways
 ```js
 return (
   <>
-    <h1>Hello {user.firstName + user.LastName}</h1>
+    <h1>Hello {user.firstName + " " + user.lastName}</h1>
     <p>Today is: {todaysDate}</p>
   </>
 );
@@ -149,9 +156,35 @@ Functions can be parameterized, so components should be parameterizable too.
 ### Props are used in the component definition as the `props` parameter 
 - In the component definition the props are accessed as either
 	- a single function parameter named `props`
+	- a destructured dictionary
 
 ### You can be more explicit using a [destructured](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) dictionary in the component definition
 - makes code easier to read and write
+
+Here is our to-do row, written both ways:
+
+```jsx
+// the props object, whole
+function TodoItem(props) {
+  return <li className="todo-item">{props.text}</li>;
+}
+
+// destructured — the version we will use from here on
+function TodoItem({ text }) {
+  return <li className="todo-item">{text}</li>;
+}
+```
+
+Both are the same component. The second says, in its own signature, exactly which props it
+expects — so you can tell what it needs without reading the body. Used like this:
+
+```jsx
+<TodoItem text="Buy milk" />
+<TodoItem text="Call the landlord" />
+```
+
+Which is already tedious for two items, and impossible for a list that changes while the
+app is running. That is the next section.
 
 
 ### With the `{children}` prop
@@ -270,7 +303,7 @@ Nice examples of rendering lists and filtering at: *Describing the UI* > [Render
 This is the main job of your UI app.
 
 ### Event handlers are defined inside components
-### Handlers have usually names starting with `handle`... 
+### Handlers usually have names starting with `handle`
 ### Built-in components (e.g. `<button>`) support built-in events (e.g. `onClick`, etc.).
 
 Associating event handlers with events is done with the attribute in curly brackets syntax, as above. (See [onClick example](https://react.dev/learn/responding-to-events#adding-event-handlers).)
@@ -305,7 +338,7 @@ The second one runs `handleAdd` while the component is *rendering*, before anybo
 clicked anything, and gives `onClick` whatever it returned — usually `undefined`. If your
 handler fires once on load and never again, this is why.
 
-### **Event handlers always receive an event as argument**
+### Event handlers always receive an event as argument
 
 The `event` argument details info about what just happened. 
 - Sometimes you can ignore it, 
@@ -380,8 +413,10 @@ function TodoList() {
 
 Two things changed, and both matter:
 
-- `todos` now comes from `useState`, so it survives between renders. A plain `let` inside
-  the component would be created fresh every time React called the function.
+- `todos` now comes from `useState`, so React is the one holding it. The broken version
+  above did survive — a variable outside the component persists perfectly well — but
+  nothing connected it to the screen. Had we moved that `let` *inside* the component it
+  would have been worse still, created fresh on every call.
 - `setTodos` is given a **new array** — `[...todos, randomTask()]` — rather than the old
   one mutated. React decides whether to redraw by comparing what it was given with what it
   had; hand it the same array object back and it sees no change, even if the contents
@@ -389,7 +424,9 @@ Two things changed, and both matter:
 
 See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
 
-### Note: Hooks are special React functions who's name starts with `use`
+### Note: hooks are special React functions whose name starts with `use`
+
+There are rules about where you may call them, and a reason for those rules — see [Hooks](Hooks.md).
 
 ## Reactive Programming
 
@@ -452,6 +489,11 @@ export default function TodoList() {
 
 Forty lines, and every idea in this note is in there somewhere.
 
+And deliberately silly: **Add** picks a task at random, because there is nothing to type
+into yet. Next week there is, and that is where forms come in — along with the first real
+bug, when deleting from the middle of the list shows you why keying by position was never
+going to hold.
+
 # References
 
 Read up from the [react.dev](https://react.dev) documentation site, the following: 
@@ -485,10 +527,3 @@ function Greeting() {
   )
 }
 ```
-
----
-
-By the end the app is deliberately silly: **Add** picks a task at random, because there is
-nothing to type into yet. Next week there is, and that is where forms come in — along with
-the first real bug, when deleting from the middle of the list shows you why keying by
-position was never going to hold.
