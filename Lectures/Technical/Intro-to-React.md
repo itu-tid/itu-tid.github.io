@@ -8,16 +8,16 @@ These sections are in the order the app needs them, so you can follow straight d
 page while the to-do grows on screen. Each step is the smallest thing that makes the
 previous step's problem go away.
 
-| the app | the idea it forces |
-|---|---|
-| 1. A heading that says *My To-Do*, and nothing else | a component is a function returning JSX |
-| 2. Some markup around it, with a `className` | JSX is stricter than HTML |
-| 3. The heading counts the items | interpolating JS into JSX with `{ }` |
-| 4. One `<TodoItem text="Buy milk" />` | props |
-| 5. Three items, from an array | rendering lists, and keys |
-| 6. An **Add** button that does nothing yet | event handling |
-| 7. **Add** appends a random sample task — and the screen updates | state, with `useState` |
-| 8. Why did the screen update? | reactive programming |
+| the app                                                          | the idea it forces                      |
+| ---------------------------------------------------------------- | --------------------------------------- |
+| 1. A heading that says *My To-Do*, and nothing else              | a component is a function returning JSX |
+| 2. Some markup around it, with a `className`                     | JSX is stricter than HTML               |
+| 3. The heading counts the items                                  | interpolating JS into JSX with `{ }`    |
+| 4. One `<TodoItem text="Buy milk" />`                            | props                                   |
+| 5. Three items, from an array                                    | rendering lists, and keys               |
+| 6. An **Add** button that does nothing yet                       | event handling                          |
+| 7. **Add** appends a random sample task — and the screen updates | state, with `useState`                  |
+| 8. Why did the screen update?                                    | reactive programming                    |
 
 Step 7 is the one worth slowing down for. A plain variable changes and nothing happens on
 screen; that failure is the entire argument for state, and it is much more convincing when
