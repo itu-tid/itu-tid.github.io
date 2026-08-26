@@ -2,17 +2,21 @@
 """Render one PDF chapter per week, from the notes the syllabus names.
 
     export TID_VAULT="…/Megavault/teaching/technical interaction design/"
-    python3 tools/build-pdfs.py            # every week
-    python3 tools/build-pdfs.py 1 2        # just these
+    python3 tools/build-pdfs.py                     # every week
+    python3 tools/build-pdfs.py 1 2                 # just these
+    python3 tools/build-pdfs.py --changed a.md b.md # whichever weeks use those notes
 
 The week -> notes mapping is not written down here. It is read out of the
 syllabus's `GH:` rows, the same source that decides what the published page
 says, so a note that moves between weeks moves its chapter with it and there is
 no second list to forget to update.
 
-Output goes to pdf/, one file per week, named for the week and its title:
-`pdf/Week-01-First-React-app-components-props-state.pdf`. Weeks whose notes all
-live on learnIT produce nothing, and say so.
+Output goes to $TID_PDF_OUT if set -- the shared iCloud folder students are
+given -- and to ./pdf otherwise. Either way it is one file per week, named for
+the week and its title, and never committed: a rebuilt PDF is a megabyte of new
+binary, and fourteen of them every time a note changes would bury the history.
+
+Weeks whose notes all live on learnIT produce nothing, and say so.
 """
 
 import os
@@ -26,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import build  # noqa: E402  -- reuse the syllabus parser rather than a second one
 
 ROOT = Path(__file__).parent.parent
-OUT = ROOT / "pdf"
+OUT = Path(os.environ.get("TID_PDF_OUT") or ROOT / "pdf")
 SUBTITLE = "Technical Interaction Design · ITU · Autumn 2026"
 
 
@@ -59,6 +63,13 @@ def weeks():
         yield int(m.group(1)), title, notes
 
 
+def weeks_using(paths):
+    """Week numbers whose chapter includes any of these notes."""
+    targets = {Path(p).resolve() for p in paths}
+    return {num for num, _, notes in weeks()
+            if targets & {n.resolve() for n in notes}}
+
+
 def main(wanted):
     if not os.environ.get("TID_VAULT"):
         sys.exit("build-pdfs: set TID_VAULT — the syllabus source lives in the vault")
@@ -81,4 +92,14 @@ def main(wanted):
 
 
 if __name__ == "__main__":
-    main({int(a) for a in sys.argv[1:]})
+    args = sys.argv[1:]
+    if args and args[0] == "--changed":
+        if not os.environ.get("TID_VAULT"):
+            sys.exit("build-pdfs: set TID_VAULT — the syllabus source lives in the vault")
+        affected = weeks_using(args[1:])
+        if not affected:
+            print("build-pdfs: nothing changed that any chapter uses")
+            sys.exit(0)
+        main(affected)
+    else:
+        main({int(a) for a in args})

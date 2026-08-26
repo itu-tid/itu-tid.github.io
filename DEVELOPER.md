@@ -64,10 +64,24 @@ python3 tools/build-pdfs.py        # every week
 python3 tools/build-pdfs.py 1 2    # just these
 ```
 
-Output lands in `pdf/`, one file per week. The week → notes mapping is not written down
-anywhere in the tool: it is read out of the syllabus's `GH:` rows, so a note that moves
-between weeks moves its chapter with it. A link to a folder means every note inside it,
-in name order — that is how week 7 picks up the ten heuristic counterexamples.
+Output goes to **`$TID_PDF_OUT`** — the shared iCloud folder students are given a link to —
+and to `./pdf` if that is unset. **The chapters are never committed.** Each rebuild is
+about a megabyte of new binary per week, and fourteen of them every time a note changes
+would bury the history in a term.
+
+The week → notes mapping is not written down anywhere in the tool: it is read out of the
+syllabus's `GH:` rows, so a note that moves between weeks moves its chapter with it. A
+link to a folder means every note inside it, in name order — that is how week 7 picks up
+the ten heuristic counterexamples.
+
+### You do not have to remember to run it
+
+`git-hooks/post-commit` does it for you: it looks at which notes the commit touched, works
+out which chapters use them, and rebuilds only those, in the background.
+
+Post-commit rather than pre-commit precisely *because* the PDFs are not in the repository —
+they do not have to exist before the commit is made, so the commit returns instantly and
+the chapters catch up a minute later. Progress goes to `$TMPDIR/tid-pdf-rebuild.log`.
 
 **How it works, and why not LaTeX.** `tools/md-to-pdf.sh` runs pandoc to turn the notes
 into one HTML document, applies `tools/print.css`, and prints it with headless Chrome.
@@ -76,10 +90,6 @@ the box-drawing characters in the Vite project tree, `tectonic` survives those b
 the `→` in the VS Code menu paths, and both clip long code lines off the right margin.
 Chrome wraps code, renders every glyph, and lets the chapters use the same typefaces and
 palette as the published syllabus.
-
-**Do not put this in the pre-commit hook.** It takes about a minute per chapter, and each
-rebuild adds ~1 MB of new binary to the history *per week*. Run it deliberately, when you
-are about to refresh the links on learnIT — not on every commit.
 
 Known gaps: no page numbers (Chrome's headless PDF exposes no way to add them without
 also stamping a `file://` URL in the footer), and the Google Fonts import means the first

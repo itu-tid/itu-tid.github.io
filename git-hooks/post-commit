@@ -1,0 +1,27 @@
+#!/bin/bash
+# Rebuild the PDF chapters affected by this commit, in the background.
+#
+# Post-commit rather than pre-commit on purpose: the PDFs are not in the
+# repository -- they go to $TID_PDF_OUT, the shared iCloud folder -- so they do
+# not need to exist before the commit is made. Running afterwards means the
+# commit returns instantly and the chapters catch up a minute later.
+#
+# Only the weeks whose notes actually changed are rebuilt. Edit one note and one
+# chapter is redrawn.
+
+[ -f ~/.local_envvars.sh ] && source ~/.local_envvars.sh
+[ -z "$TID_VAULT" ] && exit 0
+
+ROOT="$(git rev-parse --show-toplevel)"
+CHANGED=$(git diff-tree --no-commit-id --name-only -r HEAD -- '*.md' | grep '^Lectures/' || true)
+[ -z "$CHANGED" ] && exit 0
+
+LOG="${TMPDIR:-/tmp}/tid-pdf-rebuild.log"
+(
+  cd "$ROOT" || exit
+  echo "--- $(git log -1 --format='%h %s') ---"
+  # shellcheck disable=SC2086
+  python3 tools/build-pdfs.py --changed $CHANGED
+) > "$LOG" 2>&1 &
+
+echo "post-commit: rebuilding affected PDF chapters in the background ($LOG)"

@@ -9,3 +9,7 @@ __pycache__/
 # ($TID_VAULT), never in here -- they carry the %%asides%% and the New: rows.
 syllabus.md
 syllabus-internal.html
+
+# Chapters are built to $TID_PDF_OUT (shared iCloud), never committed --
+# a rebuild is a megabyte of new binary per week.
+pdf/
