@@ -1,0 +1,32 @@
+#!/bin/bash
+# Rebuild syllabus.html from the vault source before every commit.
+#
+# The markdown lives in the Obsidian vault, not here (see DEVELOPER.md), so
+# there is no GitHub Action that can rebuild it on push. This hook is the
+# replacement: it means the committed page can never be older than the source.
+#
+# Install once per clone:   git config core.hooksPath git-hooks
+#
+# Without TID_VAULT -- a co-teacher's clone, CI -- it does nothing and lets the
+# commit through, because there is nothing it could build.
+
+set -e
+cd "$(git rev-parse --show-toplevel)"
+[ -f ~/.local_envvars.sh ] && source ~/.local_envvars.sh
+
+if [ -z "$TID_VAULT" ]; then
+    exit 0
+fi
+
+if [ ! -f "$TID_VAULT/2026-syllabus.md" ]; then
+    echo "pre-commit: TID_VAULT is set but $TID_VAULT/2026-syllabus.md is missing." >&2
+    echo "            Fix the path, or unset TID_VAULT to commit without rebuilding." >&2
+    exit 1
+fi
+
+python3 build.py > /dev/null
+
+if ! git diff --quiet -- syllabus.html; then
+    git add syllabus.html
+    echo "pre-commit: syllabus.html was stale; rebuilt from the vault and staged."
+fi

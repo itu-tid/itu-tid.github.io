@@ -36,12 +36,24 @@ Three mechanisms, all resolved by `staff_only()` in `build.py`:
   has to be written for a given week.
 - **`- **Status:** …`** — never rendered on either page. Planning state.
 
-### Nothing rebuilds this for you
+### The pre-commit hook is what replaced the Action
 
-There was a GitHub Action; it went when the source left the repo, because it cannot build
-from a file it cannot see. So `syllabus.html` is generated locally and committed. **Run
-`build.py` before committing a syllabus change**, or the published page drifts from the
-vault without anything complaining.
+There was a GitHub Action. It went when the source left the repo, because it cannot build
+from a file it cannot see. Its replacement is local:
+
+```bash
+git config core.hooksPath git-hooks   # once per clone
+```
+
+`git-hooks/pre-commit` rebuilds `syllabus.html` from the vault before **every** commit and
+stages it if it changed — so it catches a stale page even when you are committing something
+else entirely, which is the case you would otherwise miss. Without `TID_VAULT` set — a
+co-teacher's clone — it does nothing and lets the commit through, because there is nothing
+it could build.
+
+That leaves exactly one gap: edit the syllabus in the vault and never commit anything, and
+the published page stays behind until your next commit. Run `python3 build.py` and commit
+if you want it out sooner.
 
 ## What else lives in the vault
 
