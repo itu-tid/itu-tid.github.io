@@ -3,12 +3,12 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 ## Autumn 2026
 - **[Syllabus](syllabus.md)** — week by week: who teaches what, the five deliverable checkpoints, and which notes back each lecture. Styled version: [syllabus.html](syllabus.html).
 
-`syllabus.md` is the source; run `python3 build.py` to regenerate the styled pages from it.
-It writes two, from the one source: `syllabus.html` — the students' page, and what GitHub
-Pages serves — and `syllabus-internal.html`, the same thing with the teaching team's asides
-and the `New:` to-write rows left in. Anything wrapped in `%%…%%` in the markdown, and any
-`New:` or `Status:` row, is ours and stays off the student page.
-Pushing a change to `syllabus.md` on `main` rebuilds both automatically ([workflow](.github/workflows/build-syllabus.yml)), so neither drifts from the markdown.
+`syllabus.md` is the source; run `python3 build.py` to regenerate `syllabus.html` — the
+students' page, and what GitHub Pages serves. Anything wrapped in `%%…%%` in the markdown,
+and any `New:` or `Status:` row, is for the teaching team and never reaches it; with
+`TID_VAULT` set, `build.py` also writes a staff copy of that page, with all of it left in,
+into the Obsidian vault rather than into this public repo.
+Pushing a change to `syllabus.md` on `main` rebuilds the student page automatically ([workflow](.github/workflows/build-syllabus.yml)), so it never drifts from the markdown.
 
 ## Coding Pre-requisites
 - [1-Basics-of-CSS](Tech-TopUps/1-Basics-of-CSS.md)

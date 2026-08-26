@@ -8,8 +8,10 @@ never edit the generated HTML by hand.
 
 Two pages come out of the one source:
 
-    syllabus.html           what students see, and what is published
-    syllabus-internal.html  ours, with the staff asides and the `New:` rows
+    syllabus.html   what students see, and what this public repo publishes
+    $TID_VAULT/2026-syllabus-internal.html   ours, with the staff asides and
+                    the `New:` rows -- written into the Obsidian vault, never
+                    into the repo
 
 See staff_only() for how a passage is marked as one or the other.
 
@@ -21,6 +23,7 @@ the HTML, which is served from GitHub Pages where relative paths would 404.
 """
 
 import html
+import os
 import re
 import sys
 from datetime import date, timedelta
@@ -29,8 +32,14 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 SRC = ROOT / "syllabus.md"
 TEMPLATE = ROOT / "syllabus.template.html"
-OUT = ROOT / "syllabus.html"              # the students' page, the one we publish
-OUT_INTERNAL = ROOT / "syllabus-internal.html"  # ours: staff asides and `New:` kept
+OUT = ROOT / "syllabus.html"   # the students' page, the one we publish
+
+# Ours -- the same syllabus with the staff asides and the `New:` rows left in.
+# It is written into the Obsidian vault rather than the repo, because the repo
+# is public and this page is the half that is not for students. Set TID_VAULT
+# to build it; without it, only the student page is written.
+VAULT = os.environ.get("TID_VAULT")
+OUT_INTERNAL = Path(VAULT) / "2026-syllabus-internal.html" if VAULT else None
 
 # Fields that exist for whoever is running the course, not for whoever is
 # taking it: `Status` is never rendered at all, `New` is a badge on the staff
@@ -521,11 +530,14 @@ def check_new_list(text, doc):
 
 if __name__ == "__main__":
     raw = expand(SRC.read_text(encoding="utf-8"))
-    for out, keep in ((OUT_INTERNAL, True), (OUT, False)):
+    if not OUT_INTERNAL:
+        print("build.py: TID_VAULT unset -- skipping the internal page")
+    for out, keep in (((OUT_INTERNAL, True), (OUT, False)) if OUT_INTERNAL
+                      else ((OUT, False),)):
         source = staff_only(raw, keep=keep)
         document = parse(source)
         if keep:
             check_new_list(source, document)
         out.write_text(render(document), encoding="utf-8")
-        print(f"{out.name}: {len(document['weeks'])} week rows, "
+        print(f"{out}: {len(document['weeks'])} week rows, "
               f"{len(document['notes'])} notes, {len(document['spine'])} checkpoints")
