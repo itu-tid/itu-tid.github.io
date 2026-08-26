@@ -120,7 +120,26 @@ In practice, there's no real reason to have any public tables. If it's a public 
 
 ### The simplest possible DB Model
 
-![](../../../todo-db-model.png)
+```mermaid
+erDiagram
+    _User ||--o{ TodoItem : owns
+    _User {
+        objectId string PK
+        username  string
+        email     string
+    }
+    TodoItem {
+        objectId  string  PK
+        name      string
+        category  string
+        userId    pointer FK
+    }
+```
+
+One table and one pointer. Parse adds `objectId`, `createdAt` and `updatedAt` to every
+class for free, so the only fields we declare are the three that mean something. Note that
+there is no `List` here: a to-do belongs directly to a user, which is as small as the model
+can get — and it is the thing the sharing layer has to change.
 
 an important field **userId**:
 ```js

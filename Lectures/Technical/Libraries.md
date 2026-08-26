@@ -3,9 +3,7 @@
 
 **"If I have seen further, it is by standing on the shoulders of giants."** (Isaac Newton)
 
-![](../../../shoulders-of-giants.png)
-
-(image from: [reddit](https://www.reddit.com/r/ProgrammerHumor/comments/ef50d3/standing_on_the_shoulders_of_giants/))
+([the programmers' version](https://www.reddit.com/r/ProgrammerHumor/comments/ef50d3/standing_on_the_shoulders_of_giants/) of the same idea)
 ## Modern programming languages allow you to specify a list of required libraries for every project
 
 - In React 
