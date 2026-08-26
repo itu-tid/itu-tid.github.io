@@ -20,7 +20,26 @@ From your terminal, navigate to the folder where you keep projects and run
 npm create vite@latest my-app -- --template react
 ```
 
-Note: Replace "my-app" with the project name you want. 
+Note: replace `my-app` with the project name you want.
+
+It will ask you one question:
+
+```
+Which linter to use?
+  Oxlint
+  ESLint
+```
+
+**Choose ESLint.** Both are fine tools, but `eslint-plugin-react-hooks` — which comes with
+the ESLint option — is what underlines a hook called inside an `if`, and that is a mistake
+worth having caught while you are making it rather than at the exam. ESLint is also what
+every answer you find online will assume.
+
+If you would rather not be asked, the flag is `--eslint`:
+
+```bash
+npm create vite@latest my-app -- --template react --eslint
+```
 
 Then install dependencies
 
