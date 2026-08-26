@@ -1,5 +1,11 @@
 # Component Extraction & Semantic React Architecture
 
+> **On the examples below.** They are written in TypeScript with Tailwind class names,
+> because they came from a different course. This course is JavaScript and MUI. Read them
+> for the *decisions* — when a block deserves a name, when repetition earns a component —
+> and ignore the syntax around them; nothing here depends on the stack.
+
+
 ## 📋 Universal Principles (CSS-Agnostic)
 
 **These principles apply whether you use Tailwind, CSS Modules, styled-components, or plain CSS.**

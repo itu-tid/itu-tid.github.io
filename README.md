@@ -25,11 +25,11 @@ Course order, as the 2026 syllabus runs it:
 | 5 · Backend II | [Authorization and ACL in Parse](Lectures/Technical/Authorization-and-ACL-in-Parse.md) |
 | 6 · Routing & deploy | [Web App Architectures](Lectures/Technical/Web-App-Architectures.md) · [Routing in React](Lectures/Technical/Routing-in-React.md) · [Protecting Routes](Lectures/Technical/Protecting-Routes.md) |
 | 7 · Design II | [Usability and Its Evaluation](Lectures/Interaction-Design/Usability-and-Its-Evaluation.md) · [usability examples](Lectures/Interaction-Design/usability-examples) |
-| 8 · Collaboration | [Collaboration with Git-Flow](Lectures/Technical/Collaboration-with-Git-Flow.md) · [Code Organization](Lectures/Technical/Code-Organization.md) · [Code-Quality set](Lectures/Technical/Code-Quality) |
+| 8 · Collaboration | [Collaboration with Git-Flow](Lectures/Technical/Collaboration-with-Git-Flow.md) · [Code Organization](Lectures/Technical/Code-Organization.md) · [Component-Extraction Cheatsheet](Lectures/Technical/Component-Extraction-Cheatsheet.md) |
 | 9 · Design III | [Libraries](Lectures/Technical/Libraries.md) |
 | 10 · Organisation | [Refactoring by Extracting Components](Lectures/Technical/Refactoring-by-Extracting-Components.md) · [The useRef Hook](Lectures/Technical/The-useRef-Hook.md) |
 | 11 · Backend III | [Efficient Communication with the Backend](Lectures/Technical/Efficient-Communication-with-the-Backend.md) · [Running Code Server-Side](Lectures/Technical/Running-Code-Server-Side.md) · [useEffect Against a Live Backend](Lectures/Technical/useEffect-Against-a-Live-Backend.md) |
-| 13 · Code quality | [Code-Quality set](Lectures/Technical/Code-Quality) · [Debugging](Lectures/Technical/Debugging.md) |
+| 13 · Code quality | [Component-Extraction Guide](Lectures/Technical/Component-Extraction-Guide.md) · [Debugging](Lectures/Technical/Debugging.md) |
 
 ## TopUps
 

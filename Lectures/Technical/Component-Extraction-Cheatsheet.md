@@ -1,5 +1,11 @@
 # Component Extraction Cheat Sheet
 
+> **On the examples below.** They are written in TypeScript with Tailwind class names,
+> because they came from a different course. This course is JavaScript and MUI. Read them
+> for the *decisions* — when a block deserves a name, when repetition earns a component —
+> and ignore the syntax around them; nothing here depends on the stack.
+
+
 ## 🚦 Quick Decision Tree
 
 ```
