@@ -409,8 +409,81 @@ def render(doc):
     return out
 
 
+# --------------------------------------------------------------- placeholders
+
+def numbers(seq):
+    """[3, 7, 9] → "3, 7 and 9"."""
+    n = [str(x) for x in seq]
+    if not n:
+        return "none"
+    return n[0] if len(n) == 1 else ", ".join(n[:-1]) + " and " + n[-1]
+
+
+def week_facts(text):
+    """Facts the prose keeps getting wrong, computed from the week cards.
+
+    Hand-written notes drift every time the term is restructured — the design
+    weeks move, a check-in appears, a lecture changes hands. Anything here can
+    be written as {{name}} in the markdown and will always be right.
+    """
+    doc = parse(text)
+    weeks, design, checkin, feedback, people = [], [], [], [], {}
+    for head, body in doc["weeks"]:
+        m = re.match(r"Week 0*(\d+) · [^·]+· (.+)", head)
+        if not m:
+            continue
+        num, who = int(m.group(1)), re.sub(r"\s*\*\(.*?\)\*", "", m.group(2)).strip()
+        f = dict(fields(body))
+        prose = [ln.strip() for ln in body if ln.strip() and not ln.strip().startswith("- ")]
+        weeks.append(num)
+        if len(prose) > 1 and "Design" in prose[1]:
+            design.append(num)
+        if "Check-in" in f:
+            checkin.append(num)
+        if "Feedback" in f:
+            feedback.append(num)
+        people.setdefault(who, []).append(num)
+
+    facts = {
+        "design-weeks": numbers(design),
+        "checkin-weeks": numbers(checkin),
+        "feedback-weeks": numbers(feedback),
+        "week-count": str(len(weeks)),
+    }
+    for who, ws in people.items():
+        facts[f"weeks:{who}"] = numbers(ws)
+        facts[f"count:{who}"] = str(len(ws))
+    return facts
+
+
+def expand(text):
+    for key, value in week_facts(text).items():
+        text = text.replace("{{" + key + "}}", value)
+    left = set(re.findall(r"\{\{([a-z][a-z:\- ]*)\}\}", text))
+    if left:
+        sys.exit(f"build.py: unknown placeholder(s): {', '.join(sorted(left))}")
+    return text
+
+
+def check_new_list(text, doc):
+    """The provenance note lists the to-write items by week. It cannot be
+    generated — the labels are editorial — but it can be stopped from drifting."""
+    note = re.search(r"`New` the short list left to write:(.*)", text)
+    if not note:
+        return
+    claimed = sorted({int(x) for x in re.findall(r"wk (\d+)", note.group(1))})
+    actual = sorted(int(re.match(r"Week 0*(\d+)", h).group(1))
+                    for h, b in doc["weeks"]
+                    if re.match(r"Week", h) and "New" in dict(fields(b)))
+    if claimed != actual:
+        sys.exit("build.py: the 'short list left to write' names weeks "
+                 f"{claimed} but weeks {actual} have a New: item")
+
+
 if __name__ == "__main__":
-    document = parse(SRC.read_text(encoding="utf-8"))
+    source = expand(SRC.read_text(encoding="utf-8"))
+    document = parse(source)
+    check_new_list(source, document)
     OUT.write_text(render(document), encoding="utf-8")
     print(f"{OUT.name}: {len(document['weeks'])} week rows, "
           f"{len(document['notes'])} notes, {len(document['spine'])} checkpoints")
