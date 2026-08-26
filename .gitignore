@@ -5,6 +5,7 @@ Code/7-intro-to-react/hello-world/package-lock.json
 
 __pycache__/
 
-# The staff copy of the syllabus is built into the Obsidian vault ($TID_VAULT),
-# never into this repo -- it carries the %%asides%% and the New: rows.
+# The syllabus source and the staff copy of the page live in the Obsidian vault
+# ($TID_VAULT), never in here -- they carry the %%asides%% and the New: rows.
+syllabus.md
 syllabus-internal.html

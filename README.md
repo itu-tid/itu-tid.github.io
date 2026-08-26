@@ -3,12 +3,18 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 ## Autumn 2026
 - **[Syllabus](syllabus.md)** — week by week: who teaches what, the five deliverable checkpoints, and which notes back each lecture. Styled version: [syllabus.html](syllabus.html).
 
-`syllabus.md` is the source; run `python3 build.py` to regenerate `syllabus.html` — the
-students' page, and what GitHub Pages serves. Anything wrapped in `%%…%%` in the markdown,
-and any `New:` or `Status:` row, is for the teaching team and never reaches it; with
-`TID_VAULT` set, `build.py` also writes a staff copy of that page, with all of it left in,
-into the Obsidian vault rather than into this public repo.
-Pushing a change to `syllabus.md` on `main` rebuilds the student page automatically ([workflow](.github/workflows/build-syllabus.yml)), so it never drifts from the markdown.
+`syllabus.html` is generated. Its markdown source is **not in this repo** — it lives at
+`$TID_VAULT/2026-syllabus.md` in the Obsidian vault, because it carries `%%staff asides%%`
+and `New:` / `Status:` rows that are notes between the people teaching the course. Keeping
+the source here and stripping it on the way out would have been theatre: the markdown is
+the original, the page only a copy.
+
+    export TID_VAULT="…/Megavault/teaching/technical interaction design/"
+    python3 build.py
+
+writes `syllabus.html` here and a staff copy of the same page, with everything left in,
+back into the vault. Edit the markdown in the vault, `syllabus.template.html` for design,
+and never either generated page by hand.
 
 ## Coding Pre-requisites
 - [1-Basics-of-CSS](Tech-TopUps/1-Basics-of-CSS.md)

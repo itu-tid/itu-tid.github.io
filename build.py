@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
-"""Build the syllabus pages from syllabus.md.
+"""Build the syllabus pages from the markdown source in the Obsidian vault.
 
-syllabus.md is the single source of truth. This script reads it, and fills
-syllabus.template.html (the design shell — all the CSS lives there) with the
-markdown's content. Edit the markdown for content, the template for design;
-never edit the generated HTML by hand.
+The source is `$TID_VAULT/2026-syllabus.md`, and it lives outside this repo on
+purpose: it carries the `%%staff asides%%` and the `New:` / `Status:` rows,
+which are notes between the people teaching the course. Stripping those out of
+the generated page while leaving them in a committed source file would have
+been theatre — the markdown is the original, the HTML only a copy.
 
-Two pages come out of the one source:
+So, from the one source:
 
-    syllabus.html   what students see, and what this public repo publishes
-    $TID_VAULT/2026-syllabus-internal.html   ours, with the staff asides and
-                    the `New:` rows -- written into the Obsidian vault, never
-                    into the repo
+    ./syllabus.html                          the students' page. Generated,
+                                             committed, and what GitHub Pages
+                                             serves.
+    $TID_VAULT/2026-syllabus-internal.html   ours, everything left in. Written
+                                             into the vault, never in here.
 
-See staff_only() for how a passage is marked as one or the other.
+Edit the markdown in the vault for content, syllabus.template.html (the design
+shell — all the CSS lives there) for design; never edit either generated page
+by hand. See staff_only() for how a passage is marked as one or the other.
 
+    export TID_VAULT="…/Megavault/teaching/technical interaction design/"
     python3 build.py
 
 Markdown links to notes in this repo are written repo-relative, so they work
@@ -30,16 +35,15 @@ from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-SRC = ROOT / "syllabus.md"
 TEMPLATE = ROOT / "syllabus.template.html"
 OUT = ROOT / "syllabus.html"   # the students' page, the one we publish
 
-# Ours -- the same syllabus with the staff asides and the `New:` rows left in.
-# It is written into the Obsidian vault rather than the repo, because the repo
-# is public and this page is the half that is not for students. Set TID_VAULT
-# to build it; without it, only the student page is written.
 VAULT = os.environ.get("TID_VAULT")
-OUT_INTERNAL = Path(VAULT) / "2026-syllabus-internal.html" if VAULT else None
+if not VAULT:
+    sys.exit("build.py: set TID_VAULT to the course folder in the Obsidian vault — "
+             "the syllabus source lives there, not in this repo")
+SRC = Path(VAULT) / "2026-syllabus.md"
+OUT_INTERNAL = Path(VAULT) / "2026-syllabus-internal.html"
 
 # Fields that exist for whoever is running the course, not for whoever is
 # taking it: `Status` is never rendered at all, `New` is a badge on the staff
@@ -530,10 +534,7 @@ def check_new_list(text, doc):
 
 if __name__ == "__main__":
     raw = expand(SRC.read_text(encoding="utf-8"))
-    if not OUT_INTERNAL:
-        print("build.py: TID_VAULT unset -- skipping the internal page")
-    for out, keep in (((OUT_INTERNAL, True), (OUT, False)) if OUT_INTERNAL
-                      else ((OUT, False),)):
+    for out, keep in ((OUT_INTERNAL, True), (OUT, False)):
         source = staff_only(raw, keep=keep)
         document = parse(source)
         if keep:
