@@ -2,31 +2,13 @@
 
 React is a JavaScript **library** for building interactive **single page applications**. We will talk about what Single Page Applications are and how they work in a different lecture. For now, we want to be users of react so we'll start doing a very simple application in it and learn React on the way.
 
-## How we build it
+We build a to-do list as we go. Each section below is the smallest step that makes the
+previous step's problem go away, so the page reads in the order the app needs — and each
+one opens by saying what the app does at that point.
 
-These sections are in the order the app needs them, so you can follow straight down the
-page while the to-do grows on screen. Each step is the smallest thing that makes the
-previous step's problem go away.
+## React is a ***component-based*** UI library
 
-| the app                                                          | the idea it forces                      |
-| ---------------------------------------------------------------- | --------------------------------------- |
-| 1. A heading that says *My To-Do*, and nothing else              | a component is a function returning JSX |
-| 2. Some markup around it, with a `className`                     | JSX is stricter than HTML               |
-| 3. The heading counts the items                                  | interpolating JS into JSX with `{ }`    |
-| 4. One `<TodoItem text="Buy milk" />`                            | props                                   |
-| 5. Three items, from an array                                    | rendering lists, and keys               |
-| 6. An **Add** button that does nothing yet                       | event handling                          |
-| 7. **Add** appends a random sample task — and the screen updates | state, with `useState`                  |
-| 8. Why did the screen update?                                    | reactive programming                    |
-
-Step 7 is the one worth slowing down for. A plain variable changes and nothing happens on
-screen; that failure is the entire argument for state, and it is much more convincing when
-you have just watched it not work.
-
-By the end the app is silly on purpose: **Add** picks a task at random, because you cannot
-type one in yet. Next week you can, and that is where forms come in.
-
-## React is a ***component-based*** UI library 
+**The app now.** A heading that says *My To-Do*, and nothing else on screen. 
 
 ### Components are **JS functions** that return JSX elements
 
@@ -50,6 +32,8 @@ export default function ToDoList() {
 ```
 
 ## JSX is a combination of JS and HTML
+
+**The app now.** The same heading, wrapped in a little markup — and the first surprise, because that markup is not quite HTML.
 
 JSX is acronym for JavaScript + XML
 
@@ -104,6 +88,8 @@ Two [minor exceptions](https://react.dev/learn/writing-markup-with-jsx#3-camelca
 
 ## Interpolating JS in JSX
 
+**The app now.** The heading counts: *My To-Do (3)*. The number has to come from JavaScript, and it has to land inside the markup.
+
 Curly brackets to escape JS inside JSX can be used in three ways
 ### As **inline inside of HTML text**
 
@@ -145,6 +131,8 @@ export default function TodoList() {
 ```
 
 ## Parameterizing Components
+
+**The app now.** One `<TodoItem text="Buy milk" />`. Writing a second one by hand would mean copying the whole component, so it has to take its text from outside.
 
 ### A component is a function. Functions can be parameterized => Components  should be parameterizable
 
@@ -229,6 +217,8 @@ cards, modals, page wrappers — ends up taking `children`.
 
 ## Rendering Lists
 
+**The app now.** Three items, drawn from an array rather than typed out. Which is the point: the array is the app, and the screen is a picture of it.
+
 Most applications sooner or later rely on lists of things that you want to process. 
 
 ### In React, to render lists you rely on `for` loops and  `array.map()`
@@ -242,6 +232,8 @@ Most applications sooner or later rely on lists of things that you want to proce
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
 ## Event Handling
+
+**The app now.** An **Add** button that does nothing at all. Making it do something is the next two sections.
 
 ### Interactive apps must handle events: click, type, mouse move, screen touch, etc. 
 
@@ -269,6 +261,8 @@ If you have an `onClick` handler on both a button and a containing div, both wil
 
 ## Component State
 
+**The app now. This is the one to slow down for.** Add pushes a task onto the array — and nothing appears. The variable really did change; the screen simply does not care. That failure is the whole argument for state, and it is far more convincing having just watched it fail.
+
 ### Every component can store local state 
 
 Unlike the props, the state can be changed from within the component
@@ -283,7 +277,9 @@ See the [button with counter example](https://react.dev/learn#updating-the-scree
 
 ### Note: Hooks are special React functions who's name starts with `use`
 
-## Reactive Programming 
+## Reactive Programming
+
+**The app now.** It works: **Add** appends a random sample task and the list grows. The question left over is *why the screen redrew at all* — nobody told it to. 
 
 When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
 
@@ -326,3 +322,10 @@ function Greeting() {
   )
 }
 ```
+
+---
+
+By the end the app is deliberately silly: **Add** picks a task at random, because there is
+nothing to type into yet. Next week there is, and that is where forms come in — along with
+the first real bug, when deleting from the middle of the list shows you why keying by
+position was never going to hold.
