@@ -44,7 +44,10 @@ so `todoList` would not work.
 
 JSX is acronym for JavaScript + XML
 
-### JSX is a **syntax extension** that provides template-like declarative UI description within JavaScript itself
+### A syntax extension for JavaScript
+
+It lets you describe a UI declaratively, inside the language itself, rather than in a separate template file.
+
 - syntax extension for Javascript! 
 - has the full power of JS inside of the {}
 - template-like because it looks like other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask, Moustache)
@@ -99,7 +102,7 @@ Two [minor exceptions](https://react.dev/learn/writing-markup-with-jsx#3-camelca
 **The app now.** The heading counts: *My To-Do (3)*. The number has to come from JavaScript, and it has to land inside the markup.
 
 Curly brackets to escape JS inside JSX can be used in three ways
-### As **inline inside of HTML text**
+### Inside text
 
 ```js
 return (
@@ -110,7 +113,7 @@ return (
 );
 ```
 
-### As **attributes immediately following the `=` sign**
+### As an attribute value
 ```js
 return (
   <img
@@ -121,7 +124,9 @@ return (
 
 ```
 
-### Special case of attributes: **[double curlies](https://react.dev/learn/javascript-in-jsx-with-curly-braces#using-double-curlies-css-and-other-objects-in-jsx) for objects**
+### Double curlies, for objects
+
+An object *inside* the braces — so `{{ }}`, which is one pair for the JS and one for the object. See [double curlies](https://react.dev/learn/javascript-in-jsx-with-curly-braces#using-double-curlies-css-and-other-objects-in-jsx).
 ```js
 export default function TodoList() {
   return (
@@ -146,20 +151,21 @@ export default function TodoList() {
 
 Functions can be parameterized, so components should be parameterizable too.
 
-### Component parameters are called **`props`** in React
+### Parameters are called `props`
 - the term very likely comes from properties
 
-### Props are passed on normally as HTML attributes
+### Passed like HTML attributes
 
 - In the moment when the *props* are [passed to the component](https://react.dev/learn/passing-props-to-a-component#step-1-pass-props-to-the-child-component), they *look* like HTML attributes -- have the same syntax
 
-### Props are used in the component definition as the `props` parameter 
+### They arrive as one object
 - In the component definition the props are accessed as either
 	- a single function parameter named `props`
 	- a destructured dictionary
 
-### You can be more explicit using a [destructured](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) dictionary in the component definition
-- makes code easier to read and write
+### Or destructure them
+
+Naming the props you expect in the signature itself — [destructuring](https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component) — makes the component easier to read and to write.
 
 Here is our to-do row, written both ways:
 
@@ -257,7 +263,7 @@ cards, modals, page wrappers — ends up taking `children`.
 
 Most applications sooner or later rely on lists of things that you want to process. 
 
-### In React, to render lists you rely on `for` loops and  `array.map()`
+### Lists are rendered with `array.map()`
 
 Our three hardcoded `<TodoItem />`s become one array and one `map`:
 
@@ -279,7 +285,7 @@ function TodoList() {
 array of elements by rendering each one. That is the whole mechanism. Add a fourth string
 to `todos` and a fourth row appears; nothing else has to change.
 
-### You must use a `key` attribute for every element in a list
+### Every item needs a `key`
 - must be unique **among its siblings**
 - can be the database ID, UUID, or anything else stable
 - it is how React tells the items apart between renders — without it, it cannot know
@@ -298,13 +304,13 @@ Nice examples of rendering lists and filtering at: *Describing the UI* > [Render
 
 **The app now.** An **Add** button that does nothing at all. Making it do something is the next two sections.
 
-### Interactive apps must handle events: click, type, mouse move, screen touch, etc. 
+### Interactive apps handle events
 
-This is the main job of your UI app.
+Click, type, mouse move, touch. Responding to these is the main job of a UI.
 
 ### Event handlers are defined inside components
 ### Handlers usually have names starting with `handle`
-### Built-in components (e.g. `<button>`) support built-in events (e.g. `onClick`, etc.).
+### Built-in elements come with built-in events
 
 Associating event handlers with events is done with the attribute in curly brackets syntax, as above. (See [onClick example](https://react.dev/learn/responding-to-events#adding-event-handlers).)
 
@@ -327,7 +333,7 @@ function TodoList() {
 }
 ```
 
-#### WARNING: You must know the difference between calling a function and passing it as a reference!
+#### Passing a function, not calling it
 
 ```jsx
 <button onClick={handleAdd}>Add</button>     // ✅ hands React the function
@@ -338,13 +344,13 @@ The second one runs `handleAdd` while the component is *rendering*, before anybo
 clicked anything, and gives `onClick` whatever it returned — usually `undefined`. If your
 handler fires once on load and never again, this is why.
 
-### Event handlers always receive an event as argument
+### Handlers receive an event object
 
 The `event` argument details info about what just happened. 
 - Sometimes you can ignore it, 
 - Sometimes you inspect it to learn about the event (e.g. mouse position, element that was clicked, etc. )
 
-### Events propagate (*bubble up*) the DOM tree (advanced)
+### Events bubble up the DOM tree
 
 If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
 
@@ -384,7 +390,7 @@ The array grows. The console proves it. The screen ignores you completely, becau
 told React that anything happened — it only re-runs your component when you ask it to, and
 pushing onto a variable is not asking.
 
-### Local state is defined using the `useState` hook 
+### State comes from `useState`
 
 The `useState` hook: 
 - takes an **initial** value
@@ -424,7 +430,7 @@ Two things changed, and both matter:
 
 See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
 
-### Note: hooks are special React functions whose name starts with `use`
+### Hooks start with `use`
 
 There are rules about where you may call them, and a reason for those rules — see [Hooks](Hooks.md).
 
