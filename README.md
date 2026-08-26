@@ -41,6 +41,12 @@ Course order, as the 2026 syllabus runs it:
 | 11 · Backend III | [Efficient Communication with the Backend](Lectures/Technical%20ID/Efficient-Communication-with-the-Backend.md) · [Running Code Server-Side](Lectures/Technical%20ID/Running-Code-Server-Side.md) · [useEffect Against a Live Backend](Lectures/Technical%20ID/useEffect-Against-a-Live-Backend.md) |
 | 13 · Code quality | [Code-Quality set](Lectures/Technical%20ID/Code-Quality) · [Debugging](Lectures/Technical%20ID/Debugging.md) |
 
+## Course documents
+
+- [Report Structure](Report-Structure.md) — what goes in the final report, section by section
+- [Exam Structure](Exam-Structure.md) — how the oral runs, and the kinds of question asked
+- [Coding Guidelines](Coding-Guidelines.md)
+
 ## The app we build
 
 [itu-tid/todo-26](https://github.com/itu-tid/todo-26) — the reference to-do, tagged once
