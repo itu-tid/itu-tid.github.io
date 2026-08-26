@@ -63,5 +63,5 @@ watching previous cohorts present:
 - How do you model a one-to-many relationship in Parse? An example from your project?
 - How do you secure your application's data in Parse?
 
-Every note in [`Lectures/Technical ID/`](Lectures/Technical%20ID) also ends with its own
+Every note in [`Lectures/Technical/`](Lectures/Technical) also ends with its own
 **Exam Questions** section. Those test the material; the ones above test *your project*.

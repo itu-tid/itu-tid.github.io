@@ -1,8 +1,30 @@
-# Updating a List in a Parent Component from a Child Component
+# Patterns of Component Communication
+## parent to child = via props
+
+- parent can send information to the child via props
+
+## child to parent = via callbacks
+- child does not even know who the parent is (imagine a button, it does not know, and it should not know who uses it)
+- but the parent will give it callbacks and it can call them, effectively communicating to the parent
+
+![](../images/props-and-callbacks.png)
+
+**Next**: once you extract components, two of them end up needing the same state, and
+neither owns it. That is *lifting state up*, and it is in
+[Refactoring by Extracting Components](Refactoring-by-Extracting-Components.md) —
+because extraction is what creates the problem in the first place.
+
+
+## Exam Questions
+
+### 1. Explain the three patterns of component communication in React.
+
+
+# Worked example: a child updating a list in its parent
 
 Imagine the situation when you have a list of posts on a social media site, something like in the example below: 
 
-![](../images/example-list-of-posts.png)
+![](../../images/example-list-of-posts.png)
 
 You want to update the list in the parent component which might be called `Home` from the child component, which might be called `PostingContainer`. 
 
@@ -113,4 +135,4 @@ function PostingContainer ({addPostToList}) {
 };
 ```
 
-Why is this smarter? 
+Why is this smarter?

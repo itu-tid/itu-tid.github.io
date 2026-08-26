@@ -63,12 +63,12 @@ Given the importance of designing interactions in the world we live in and our f
 #### **Design Thinking** 
 An ideology that asserts that a hands-on, user-centric approach to problem solving can lead to innovation [DT]. Process comprises 6 distinct phases. 
 
-![](images/design-thinking.png)
+![](../images/design-thinking.png)
 
 #### **Google Design Sprints** 
 A process that starts from from ideation to prototyping and evaluation but explcitly without implementation [GDS]. 
 
-![](images/steps-of-gds.png)
+![](../images/steps-of-gds.png)
 	 - [1min summary video](https://www.youtube.com/watch?v=QwJwemOX37w)
 	 - [10 min overview video](https://www.youtube.com/watch?v=WWEJCLkf1D4)
 
@@ -106,16 +106,6 @@ This course is about *technical* ID. This means that we focus much more on the t
 - Git - A collaboration tool that you can not live without 
 
 These technologies are useful for almost any web development project and also for many mobile applications at the moment. E.g., React Native is very similar to React and allows you to build cross-platform applications.
-
-
-# Project Work
-
-- Form teams 
-- Choose your project theme:  [Project-Themes](Project-Themes.md)
-- Think about a special kind of user for which you want to target the application for
-	- Be smart. You should have access to discuss with this kind of user 
-		1. before designing, to understand requirements, but also 
-		2) once the design is done, to evaluate your solution
 
 
 ## References

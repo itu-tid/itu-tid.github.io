@@ -54,3 +54,9 @@ e.g. the two patterns below are too repetitive; they should be factored out in a
 <img width="822" alt="image" src="https://github.com/user-attachments/assets/85b15686-71c7-4dcd-9203-36a6877634e4">
 This could be extracted into a component that could be named something better than `RedGreenHighlihterLabel` ... 
 
+## Naming and modularisation
+
+A few conventions 
+- (naming) components are named with capital letters 
+- (modularization): components are defined in their own files
+- (modularization) To import a component one can use either *default* or *named* imports
