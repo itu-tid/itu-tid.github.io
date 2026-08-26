@@ -8,6 +8,8 @@ one opens by saying what the app does at that point.
 
 ## React is a ***component-based*** UI library
 
+### Everything in React is a component
+
 ### Components are **JS functions** that return JSX elements
 
 [Example](https://react.dev/learn/your-first-component#defining-a-component) of a React component :
@@ -43,9 +45,9 @@ JSX is acronym for JavaScript + XML
 - JSX is **transpiled** to Javascript 
 
 ### JSX has a **stricter syntax than HTML**
-#### A component can [only ever return a single JSX tag](https://react.dev/learn/writing-markup-with-jsx#1-return-a-single-root-element) 
-Otherwise, you get an error.
-Solution is to use a Fragment when you don't need an actual HTML element as parent
+#### A component can only ever return a single JSX tag 
+
+Otherwise, [you get an error](https://react.dev/learn/writing-markup-with-jsx#1-return-a-single-root-element).
 
 ```js
 // This won't work - multiple top-level elements
@@ -71,12 +73,13 @@ return (
 )
 ```
 this is called  = a fragment. 
+
+Solution is to use a Fragment when you don't need an actual HTML element as parent
 #### Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) 
 
-
 ### JSX converts most HTML and CSS attributes to camelCase 
-#### HTML Event Handlers, e.g. `onclick` => `onClick`
-#### CSS attributes, e.g. `background-color` => `backgroundColor`
+#### HTML event handlers, e.g. `onclick` becomes `onClick`
+#### CSS attributes, e.g. `background-color` becomes `backgroundColor`
 #### Special JS keyword `class` becomes `className`
 
 Two [minor exceptions](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things) from this rule.
@@ -132,7 +135,9 @@ export default function TodoList() {
 
 **The app now.** One `<TodoItem text="Buy milk" />`. Writing a second one by hand would mean copying the whole component, so it has to take its text from outside.
 
-### A component is a function. Functions can be parameterized => Components  should be parameterizable
+### A component is a function
+
+Functions can be parameterized, so components should be parameterizable too.
 
 ### Component parameters are called **`props`** in React
 - the term very likely comes from properties
