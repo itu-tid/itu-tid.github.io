@@ -165,13 +165,67 @@ export default function TodoList() {
 
 ### With the `{children}` prop
 
-A component can refer to everything that's enclosed inside it's JSX tag with `{children}`
+Props pass **data** into a component. `children` passes **markup** into it — everything
+written between the opening and closing tags.
 
-![](images/children-prop-example.png)
+Start without it. A panel that takes its content as an ordinary prop:
 
-This is how you can use the `ToDoItem` component: 
+```jsx
+function Panel({ title, text }) {
+  return (
+    <section className="panel">
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </section>
+  );
+}
 
-![](images/component-with-children-usage.png)
+<Panel title="Today" text="Nothing due." />
+```
+
+That works exactly as long as the content is one string. The moment you want a list inside
+the panel, or a button, or another component, you are stuck: you cannot put a `<ul>` inside
+a string. You would end up adding `items`, then `buttonLabel`, then `showIcon`, and the
+panel would slowly learn about everything that might ever go in it.
+
+`children` is the way out. The component stops describing its content and only describes
+its *frame*:
+
+```jsx
+function Panel({ title, children }) {
+  return (
+    <section className="panel">
+      <h2>{title}</h2>
+      {children}
+    </section>
+  );
+}
+```
+
+Now the same component takes anything:
+
+```jsx
+<Panel title="Today">
+  <ul>
+    <li>Buy milk</li>
+    <li>Call the landlord</li>
+  </ul>
+</Panel>
+
+<Panel title="Nothing due">
+  <p>Enjoy the afternoon.</p>
+  <button>Add something anyway</button>
+</Panel>
+```
+
+Note what `Panel` does **not** know: that there is a list, that there is a button, that
+either exists. It knows it has a title and a frame to draw around whatever it was handed.
+That is the whole idea, and it is why almost every layout component you write — containers,
+cards, modals, page wrappers — ends up taking `children`.
+
+> **The rule of thumb.** If it is data the component needs to *use* — a title, a count, a
+> user — make it a prop. If it is markup the component only needs to *place*, use
+> `children`.
 
 ## Rendering Lists
 
