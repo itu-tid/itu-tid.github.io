@@ -70,3 +70,17 @@ This is a common thing you will do when writing React
 ### 1. What does "lifting state up" mean in React?
 
 ### 2. Why is this principle important: *"Code in a component should be at the same abstraction level"*?
+
+# The same function, written twice
+
+Components are not the only thing worth extracting. A pattern from previous cohorts, seen
+often enough to be worth naming: `const getCurrentUser = async () => …` defined once in
+`ProfileBar` and again in `Settings`, because both screens needed it and neither knew
+about the other.
+
+Two copies of a function are two things to fix when the backend changes, and they drift
+silently — one gets a null check, the other does not. Pull it into a **custom hook**
+(`useCurrentUser`) and both screens call the same code.
+
+The signal to watch for: you are about to write something you have a feeling you already
+wrote. You probably did.

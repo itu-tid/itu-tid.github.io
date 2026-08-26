@@ -14,6 +14,21 @@
 The individual examination is where the course's deal is settled: you may have used AI
 as much as you liked, and you own every line when we meet.
 
+## Giving the demo
+
+Five to seven minutes is short, and the failure modes are consistent — these came out of
+watching previous cohorts present:
+
+- **Open with a slide that says what the idea is.** Thirty seconds of "here is who this
+  is for and what it does" before anything moves on screen.
+- **Have real data in the system.** An app demoed with `asdf` and `test test` looks
+  unfinished whatever the code is like.
+- **Have a story, and rehearse it.** Not a feature tour — one path through the app that
+  a real person would actually take. Steve Jobs' keynotes and Google's product demos are
+  worth watching for exactly this.
+- **Reset your state before you start.** The profile you have been developing against is
+  full of debris. Clear it, or make a clean account.
+
 ## What you get asked
 
 **About your code**

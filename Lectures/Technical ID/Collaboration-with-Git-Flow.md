@@ -46,3 +46,17 @@ In the course we make use of the following branches:
 ### 1. Describe the three types of branches used in the course's Git Flow model.
 
 ### 2. Why should `node_modules` be in `.gitignore`?
+
+# `main` always compiles
+
+The one rule that is not a matter of taste: **code on `main` must run**. Every cohort has
+had at least one team whose `main` did not compile, usually for days, usually because a
+branch was merged in a hurry near a deadline.
+
+It matters more than it looks. `main` is what a teammate branches from, what the examiner
+clones, and what your deployed app is built from — so a broken `main` is not one person's
+problem for an afternoon, it is everybody's problem until somebody notices. Which is the
+whole argument for branches: you break your own branch, not the one four other people are
+standing on.
+
+Pull, build, and run *before* you merge, not after.
