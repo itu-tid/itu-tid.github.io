@@ -47,7 +47,7 @@ Let us take each of these in turn.
 
 
 The image below shows the Parse UI for setting Class-level permissions
-![](../images/class-level-permissions-in-parse.png)
+![](images/class-level-permissions-in-parse.png)
 
 ##### Practical Implication: For your applications, you can prevent non-authenticated users to access your tables
 
@@ -112,7 +112,7 @@ Under `App Settings > Server Settings > Client Class Creation` you can specify i
 
 The methods above should be combined together to strengthen the DB access for  your application. 
 
-![](../images/parse-server-access-control.png)
+![](images/parse-server-access-control.png)
 
 In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application. 
 

@@ -56,7 +56,7 @@ async function fetchMorty() {
 
 # References
 - [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) -- an overview at *mdn* (Mozila Developer Network)
-- [Video discussion]([https://www.youtube.com/watch?v=li7FzDHYZpc&ab_channel=RobertsDevTalk](https://www.youtube.com/watch?v=li7FzDHYZpc&ab_channel=RobertsDevTalk)) about how to transform a `Promise.then()` into `async/await` call
+- [Video discussion](https://www.youtube.com/watch?v=li7FzDHYZpc) about how to transform a `Promise.then()` into `async/await` call
 
 
 # TODO 

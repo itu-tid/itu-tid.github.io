@@ -10,11 +10,11 @@
 
 #### Version 1
 
-![](../images/monster-component-part-1.png)
-![](../../images/monster-component-part-2.png)
+![](images/monster-component-part-1.png)
+![](images/monster-component-part-2.png)
 
 #### Version 2 
-![](../images/component-with-same-abstraction-level-code.png)
+![](images/component-with-same-abstraction-level-code.png)
 
 
 - this version allows us to think in terms of the UI elements that are all at the same abstraction level - the play/stop button, the name of the todo list item, its duration, the remove button.

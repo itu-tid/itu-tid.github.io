@@ -20,7 +20,7 @@ Consequently, a free tier will have limitations. The limitations of the Back4App
 
 The image below shows the prices and limitations of the Back4App various plans.
 
-![](../images/parse-server-plans.png)
+![](images/parse-server-plans.png)
 
 In particular for the free tier, you have limited:
 - number of requests
@@ -37,7 +37,7 @@ Using a backend-as-a-service impacts how you design communication between your f
 
 Looking at the networking tab in the screenshot below, we can see many requests being made:
 
-![](../images/maths-camp-lots-of-requests.png)
+![](images/maths-camp-lots-of-requests.png)
 
 **Discussion:** Why might we need to improve this interaction? Is it to save money or is it to have a faster application?
 

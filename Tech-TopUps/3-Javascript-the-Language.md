@@ -1,5 +1,5 @@
 
-![](js-most-used-in-2023.png)
+![](images/js-most-used-in-2023.png)
 (source: [StackOverflow developer survey](https://survey.stackoverflow.co/2023/#programming-scripting-and-markup-languages))
 
 ## Why the popularity? 

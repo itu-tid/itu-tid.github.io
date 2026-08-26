@@ -4,5 +4,5 @@ Even better than good error messages is a careful design that prevents a problem
 
 A possible example is preventing the user from typing errors by providing predefined choices that they can select from. 
 
-![](images/error-prevention.png)
+![](../images/error-prevention.png)
 

@@ -4,7 +4,7 @@ Accelerators — unseen by the novice user — may often speed up the interactio
 
 Normally, application menus are designed with [6_recognition_rather_than_recall](6_recognition_rather_than_recall.md) in mind. However, for the expert, there is always a keyboard shortcut that is listed in the menus such that as the user becomes more and more of an expert, they can stop searching in the menus, and start using the shortcuts.
 
-![](images/menu-shortcuts.png)
+![](../images/menu-shortcuts.png)
 
 
 

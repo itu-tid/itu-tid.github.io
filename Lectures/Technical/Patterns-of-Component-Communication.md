@@ -7,7 +7,7 @@
 - child does not even know who the parent is (imagine a button, it does not know, and it should not know who uses it)
 - but the parent will give it callbacks and it can call them, effectively communicating to the parent
 
-![](../images/props-and-callbacks.png)
+![](images/props-and-callbacks.png)
 
 **Next**: once you extract components, two of them end up needing the same state, and
 neither owns it. That is *lifting state up*, and it is in
@@ -24,7 +24,7 @@ because extraction is what creates the problem in the first place.
 
 Imagine the situation when you have a list of posts on a social media site, something like in the example below: 
 
-![](../../images/example-list-of-posts.png)
+![](images/example-list-of-posts.png)
 
 You want to update the list in the parent component which might be called `Home` from the child component, which might be called `PostingContainer`. 
 

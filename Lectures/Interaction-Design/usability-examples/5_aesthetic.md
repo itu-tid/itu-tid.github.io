@@ -3,7 +3,7 @@
 Dialogues should not contain information which is irrelevant or rarely needed. Every extra unit of information in a dialogue competes with the relevant units of information and diminishes their relative visibility.
 
 The image below, designed by Tim Wray shows the difference between aesthetically and in-aesthetically designing the presentation of the ten Nielsen principles.
-![](images/principles-as-ui-dialog.png)
+![](../images/principles-as-ui-dialog.png)
 
 ## Counterexamples
 
