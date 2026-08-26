@@ -52,6 +52,7 @@ Course order, as the 2026 syllabus runs it:
 
 ## Course documents
 
+- [Working as a Team](Project-Collaboration.md) — how the four of you divide the project
 - [Report Structure](Report-Structure.md) — what goes in the final report, section by section
 - [Exam Structure](Exam-Structure.md) — how the oral runs, and the kinds of question asked
 - [Coding Guidelines](Coding-Guidelines.md)
