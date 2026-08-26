@@ -1,0 +1,88 @@
+/* Print stylesheet for the lecture notes.
+   Palette and typefaces match syllabus.template.html, so a printed chapter and
+   the published syllabus look like the same course. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root{
+  --ink:#1E2A31; --ink-soft:#5C6A70; --ink-faint:#8B979C;
+  --paper:#FBFCFA; --line:#DDE2DD; --line-soft:#E7EBE7;
+  --accent:#23577A; --code-bg:#F1F3F0;
+}
+@page { size: A4; margin: 20mm 18mm; }
+
+html { font-size: 10.5pt; }
+body{
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color:var(--ink); background:#fff; line-height:1.55;
+  max-width:none; margin:0; padding:0;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* --- title block ------------------------------------------------------- */
+header#title-block-header{ margin:0 0 2.2rem; padding-bottom:1.1rem;
+  border-bottom:2px solid var(--ink); }
+header#title-block-header .title{
+  font-family:'Space Grotesk','Inter',sans-serif; font-weight:700;
+  font-size:2.1rem; line-height:1.15; margin:0 0 .35rem; letter-spacing:-.02em; }
+header#title-block-header .subtitle{
+  font-size:.92rem; color:var(--ink-soft); font-weight:500; margin:0; }
+
+/* --- headings ---------------------------------------------------------- */
+h1,h2,h3,h4{ font-family:'Space Grotesk','Inter',sans-serif; color:var(--ink);
+  line-height:1.2; break-after:avoid; page-break-after:avoid; }
+h1{ font-size:1.55rem; font-weight:700; margin:2.4rem 0 .9rem;
+    padding-top:.7rem; border-top:1px solid var(--line);
+    break-before:page; page-break-before:always; }
+h1:first-of-type{ break-before:auto; page-break-before:auto; border-top:0; padding-top:0; }
+h2{ font-size:1.18rem; font-weight:600; margin:1.9rem 0 .6rem; }
+h3{ font-size:1rem; font-weight:600; margin:1.4rem 0 .45rem; color:var(--ink); }
+h4{ font-size:.94rem; font-weight:600; margin:1.1rem 0 .35rem; color:var(--ink-soft); }
+
+/* --- body -------------------------------------------------------------- */
+p,li{ orphans:2; widows:2; }
+p{ margin:.65rem 0; }
+ul{ margin:.6rem 0; padding-left:1.35rem; }
+ol{ margin:.6rem 0; padding-left:1.9rem; }  /* room for a two-digit marker */
+li{ margin:.22rem 0; }
+li>ul,li>ol{ margin:.2rem 0; }
+a{ color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(35,87,122,.28); }
+strong{ font-weight:600; }
+blockquote{ margin:1rem 0; padding:.55rem 0 .55rem 1rem;
+  border-left:3px solid var(--line); color:var(--ink-soft); }
+hr{ border:0; border-top:1px solid var(--line); margin:1.8rem 0; }
+
+/* --- code: the thing LaTeX got wrong ----------------------------------- */
+code,kbd{ font-family:'JetBrains Mono',ui-monospace,monospace; font-size:.86em;
+  background:var(--code-bg); padding:.1em .34em; border-radius:4px; }
+pre{ background:var(--code-bg); border:1px solid var(--line-soft); border-radius:7px;
+  padding:.75rem .9rem; margin:.85rem 0; overflow:visible;
+  break-inside:avoid; page-break-inside:avoid; }
+pre code{ background:none; padding:0; font-size:.8rem; line-height:1.45;
+  white-space:pre-wrap; word-break:break-word; }   /* wrap, never clip */
+
+/* --- tables ------------------------------------------------------------ */
+table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.9rem;
+  break-inside:avoid; page-break-inside:avoid; }
+th,td{ text-align:left; padding:.4rem .6rem; border-bottom:1px solid var(--line-soft);
+  vertical-align:top; }
+th{ font-weight:600; border-bottom:1.5px solid var(--line); }
+
+/* --- figures ----------------------------------------------------------- */
+img{ max-width:100%; height:auto; border:1px solid var(--line-soft); border-radius:6px;
+  break-inside:avoid; }
+figure{ margin:1.2rem 0; break-inside:avoid; page-break-inside:avoid; }
+figcaption{ font-size:.82rem; color:var(--ink-faint); margin-top:.4rem; text-align:center; }
+
+/* --- table of contents ------------------------------------------------- */
+nav#TOC{ margin:0 0 1.5rem; padding:1rem 1.2rem 1.1rem; background:#F4F6F3;
+  border:1px solid var(--line-soft); border-radius:9px;
+  break-after:page; page-break-after:always; }
+nav#TOC>ul{ margin:0; padding-left:1.1rem; }
+nav#TOC a{ border:0; color:var(--ink); }
+nav#TOC ul ul{ font-size:.92em; color:var(--ink-soft); }
+nav#TOC>ul{ list-style:none; padding-left:0; }
+nav#TOC>ul>li{ margin:.4rem 0; font-weight:600; }
+nav#TOC>ul>li>ul{ font-weight:400; margin:.15rem 0 .5rem; }
+#toc-title{ font-family:'Space Grotesk','Inter',sans-serif; font-size:1rem;
+  font-weight:600; margin:0 0 .6rem; color:var(--ink-soft);
+  letter-spacing:.04em; text-transform:uppercase; }

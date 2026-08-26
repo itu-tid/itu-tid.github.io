@@ -55,6 +55,36 @@ That leaves exactly one gap: edit the syllabus in the vault and never commit any
 the published page stays behind until your next commit. Run `python3 build.py` and commit
 if you want it out sooner.
 
+## PDF chapters
+
+One PDF per week, for linking from learnIT, built from the same notes the syllabus names:
+
+```bash
+python3 tools/build-pdfs.py        # every week
+python3 tools/build-pdfs.py 1 2    # just these
+```
+
+Output lands in `pdf/`, one file per week. The week → notes mapping is not written down
+anywhere in the tool: it is read out of the syllabus's `GH:` rows, so a note that moves
+between weeks moves its chapter with it. A link to a folder means every note inside it,
+in name order — that is how week 7 picks up the ten heuristic counterexamples.
+
+**How it works, and why not LaTeX.** `tools/md-to-pdf.sh` runs pandoc to turn the notes
+into one HTML document, applies `tools/print.css`, and prints it with headless Chrome.
+The obvious route — pandoc straight to PDF — was tried first and lost: `pdflatex` dies on
+the box-drawing characters in the Vite project tree, `tectonic` survives those but drops
+the `→` in the VS Code menu paths, and both clip long code lines off the right margin.
+Chrome wraps code, renders every glyph, and lets the chapters use the same typefaces and
+palette as the published syllabus.
+
+**Do not put this in the pre-commit hook.** It takes about a minute per chapter, and each
+rebuild adds ~1 MB of new binary to the history *per week*. Run it deliberately, when you
+are about to refresh the links on learnIT — not on every commit.
+
+Known gaps: no page numbers (Chrome's headless PDF exposes no way to add them without
+also stamping a `file://` URL in the footer), and the Google Fonts import means the first
+build on a cold cache is slower.
+
 ## What else lives in the vault
 
 The split is by kind, not by course: this repo holds material other people write into and

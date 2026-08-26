@@ -46,6 +46,12 @@ card of the week that needs them, so read each one *before* the week beside it.
 | week 9 | [4 · Layouts and Responsiveness](TopUps/4-Layouts-and-Responsiveness.md) |
 | week 13, optional | [2 · DOM Manipulation with JavaScript](TopUps/2-DOM-Manipulation-with-Javascript.md) |
 
+## Chapters as PDF
+
+Each week's notes, bundled into one PDF, in [`pdf/`](pdf) — for reading offline, or
+printing. They are generated from the notes, so the markdown is always the newer of the
+two if they ever disagree.
+
 ## Course documents
 
 - [Working as a Team](Project-Collaboration.md) — how the four of you divide the project
