@@ -280,7 +280,14 @@ def week_row(heading, body, last, boundary=None):
     f = dict(fields(body))
 
     # weeks with no team yet run two hours of solo work instead of 1h + 1h
-    if "Second hour" in f:
+    if "Studio" in f:
+        # a check-in week: the whole slot is one room, teams called one at a time
+        lane_head = "Exercise · 2h studio"
+        lines = [("grp", "2h studio", f["Studio"])]
+        if "Solo" in f:
+            lines.insert(0, ("solo", "at home", f["Solo"]))
+        lines = tuple(lines)
+    elif "Second hour" in f:
         lane_head, lines = "Exercise · 2h solo", (
             ("solo", "first hour", f.get("Solo", "")),
             ("solo", "second hour", f["Second hour"]))
