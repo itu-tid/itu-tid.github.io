@@ -64,10 +64,22 @@ python3 tools/build-pdfs.py        # every week
 python3 tools/build-pdfs.py 1 2    # just these
 ```
 
-Output goes to **`$TID_PDF_OUT`** — the shared iCloud folder students are given a link to —
-and to `./pdf` if that is unset. **The chapters are never committed.** Each rebuild is
-about a megabyte of new binary per week, and fourteen of them every time a note changes
-would bury the history in a term.
+Output goes to **`$TID_PDF_OUT`** — a clone of
+[itu-tid/lecture-notes-pdf](https://github.com/itu-tid/lecture-notes-pdf), published at
+<https://itu-tid.github.io/lecture-notes-pdf/> — and to `./pdf` if that is unset. **The
+chapters are never committed to this repository.** Each rebuild is about a megabyte of new
+binary per week, and fourteen of them every time a note changes would bury the history in
+a term.
+
+`tools/publish-chapters.sh` pushes them, and it **rewrites that repository rather than
+appending to it**: every publish replaces its single commit and force-pushes, so the
+binaries never accumulate there either. Nothing in it deserves a history — the history
+lives here, with the source. It also regenerates `index.html` from whatever files are
+actually present, so a renamed week cannot leave a dead link behind.
+
+iCloud was tried first and failed the only test that mattered: a shared-folder link shows
+non-Apple visitors a sign-in wall and no file listing at all. Asking a cohort to create an
+Apple ID to read the lecture notes was not a trade worth making.
 
 The week → notes mapping is not written down anywhere in the tool: it is read out of the
 syllabus's `GH:` rows, so a note that moves between weeks moves its chapter with it. A
@@ -77,7 +89,7 @@ the ten heuristic counterexamples.
 ### You do not have to remember to run it
 
 `git-hooks/post-commit` does it for you: it looks at which notes the commit touched, works
-out which chapters use them, and rebuilds only those, in the background.
+out which chapters use them, rebuilds only those, and publishes — all in the background.
 
 Post-commit rather than pre-commit precisely *because* the PDFs are not in the repository —
 they do not have to exist before the commit is made, so the commit returns instantly and

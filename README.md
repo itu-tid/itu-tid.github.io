@@ -48,9 +48,11 @@ card of the week that needs them, so read each one *before* the week beside it.
 
 ## Chapters as PDF
 
-Each week's notes, bundled into one PDF for reading offline or printing, in the shared
-folder linked from learnIT. They are generated from the notes in this repository, so if
-the two ever disagree, the markdown here is the newer one.
+Each week's notes bundled into one PDF, for reading offline or printing:
+**<https://itu-tid.github.io/lecture-notes-pdf/>**
+
+They are generated from the notes in this repository, so if the two ever disagree, the
+markdown here is the newer one.
 
 ## Course documents
 

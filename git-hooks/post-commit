@@ -21,7 +21,7 @@ LOG="${TMPDIR:-/tmp}/tid-pdf-rebuild.log"
   cd "$ROOT" || exit
   echo "--- $(git log -1 --format='%h %s') ---"
   # shellcheck disable=SC2086
-  python3 tools/build-pdfs.py --changed $CHANGED
+  python3 tools/build-pdfs.py --changed $CHANGED && tools/publish-chapters.sh
 ) > "$LOG" 2>&1 &
 
-echo "post-commit: rebuilding affected PDF chapters in the background ($LOG)"
+echo "post-commit: rebuilding and publishing affected chapters in the background ($LOG)"
