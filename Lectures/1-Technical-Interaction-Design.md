@@ -63,12 +63,12 @@ Given the importance of designing interactions in the world we live in and our f
 #### **Design Thinking** 
 An ideology that asserts that a hands-on, user-centric approach to problem solving can lead to innovation [DT]. Process comprises 6 distinct phases. 
 
-![](design-thinking.png)
+![](images/design-thinking.png)
 
 #### **Google Design Sprints** 
 A process that starts from from ideation to prototyping and evaluation but explcitly without implementation [GDS]. 
 
-![](steps-of-gds.png)
+![](images/steps-of-gds.png)
 	 - [1min summary video](https://www.youtube.com/watch?v=QwJwemOX37w)
 	 - [10 min overview video](https://www.youtube.com/watch?v=WWEJCLkf1D4)
 

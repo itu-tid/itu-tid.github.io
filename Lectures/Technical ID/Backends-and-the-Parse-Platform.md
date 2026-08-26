@@ -10,7 +10,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 	- **Back-end** -- handles data processing, storage, and security
 - The server side in a ***client-server architecture***
 
-![](images/client-server-architecture.png)
+![](../images/client-server-architecture.png)
 
 
 ### What are the **responsibilities of the backend**?
@@ -575,7 +575,7 @@ Use whichever notation you prefer. Two that I like are:
 	- attributes are listed in the box
 2. On the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
 
-![](images/alterantive-er-diagrams.png)
+![](../images/alterantive-er-diagrams.png)
 
 No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database. 
 # Project Work
@@ -597,3 +597,45 @@ The documentation on ParsePlatform.org
 - Nov '24 - better organized the references
 ## To Do
 - Nov'24 - make sure to spend more time discussing the Relationships
+
+
+## Exam Questions
+
+### 1. What is the difference between front-end and back-end?
+
+### 2. List at least 5 responsibilities of a backend.
+
+### 3. What is Parse Platform and what does it provide?
+
+### 4. What does CRUD stand for and what do each of the letters represent?
+
+### 5. Explain what this code does:
+```js
+const TodoItem = Parse.Object.extend("TodoItem");
+const newItem = new TodoItem();
+newItem.set("name", "Buy milk");
+newItem.set("done", false);
+await newItem.save();
+```
+
+### 6. What is wrong with this query pattern?
+```js
+const query = new Parse.Query("Post");
+const posts = await query.find();
+
+for (let post of posts) {
+  const userQuery = new Parse.Query("User");
+  const user = await userQuery.get(post.get("userId"));
+  console.log(user.get("username"));
+}
+```
+
+### 7. How do you get the currently logged-in user in Parse?
+
+### 8. Explain the difference between Pointers and Relations in Parse.
+
+### 9. How would you query all TodoItems where done is false, ordered by creation date?
+
+### 10. Why are Join Tables often preferred over Parse Relations for many-to-many relationships?
+
+### 11. What is the loading notification pattern and why is it important?

@@ -66,7 +66,7 @@ Everything in CSS has a box around it.
 
 A block box in CSS has: content area, padding, [margin](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#margin), border: 
 
-![](css-box.png)
+![](../Lectures/images/css-box.png)
 
 Two box models:
 1. [Standard Box Model](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#the_standard_css_box_model): padding & border is added to the width & height
@@ -109,7 +109,7 @@ See the demo of: [Positioning elements](https://developer.mozilla.org/en-US/docs
 
 Implement a CSS layout for a website that provides translations from French to English. It should add the translation above the original text as in the figure below. 
 
-![](inline-block-example.png)
+![](../Lectures/images/inline-block-example.png)
 Start from the following HTML, and define the required CSS.
 
 ```

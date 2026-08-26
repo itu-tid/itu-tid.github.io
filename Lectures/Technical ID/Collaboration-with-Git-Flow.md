@@ -4,7 +4,7 @@ In TID we use a collaboration model that's a modified version of a popular one n
 
 Git Flow is a way of choreographing collaboration with Git that is designed around multiple types of branches as you can see in the following image: 
 
-![The Git Flow Model](../../images/The%20Git%20Flow%20Model.png)
+![The Git Flow Model](../images/The%20Git%20Flow%20Model.png)
 
 
 In the course we make use of the following branches: 
@@ -39,3 +39,10 @@ In the course we make use of the following branches:
 - Specifies files that you don’t want tracked
 - Make sure that your node_modules folder is in `.gitignore` 
 - And that `.gitignore` is in the root of your repo folder
+
+
+## Exam Questions
+
+### 1. Describe the three types of branches used in the course's Git Flow model.
+
+### 2. Why should `node_modules` be in `.gitignore`?

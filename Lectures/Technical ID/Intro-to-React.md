@@ -1,4 +1,3 @@
-
 # React
 
 React is a JavaScript **library** for building interactive **single page applications**. We will talk about what Single Page Applications are and how they work in a different lecture. For now, we want to be users of react so we'll start doing a very simple application in it and learn React on the way. 
@@ -166,7 +165,15 @@ See the [button with counter example](https://react.dev/learn#updating-the-scree
 
 ### Note: Hooks are special React functions who's name starts with `use`
 
+## Reactive Programming 
 
+When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
+
+This is *reactive programming*. And reactive programming is why React is called so. 
+
+A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
+
+In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
 
 ## Event Handling
 
@@ -194,55 +201,6 @@ If you have an `onClick` handler on both a button and a containing div, both wil
 
 - Sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior). 
 
-
-
-## Connecting Inputs To State Via Event Handlers
-
-The strange story of how you connect a state variable to the content of an input control in React: 
-
-```js
-import { useState } from 'react';
-
-export default function InputExample () {
-  const [answer, setAnswer] = useState('');
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    // do something with the answer 
-    // ... 
-  }
-
-  function handleTextareaChange(e) {
-    setAnswer(e.target.value);
-  }
-
-  return (
-    <>
-  
-	  <form onSubmit={handleSubmit}>
-
-		<textarea
-          value={answer}
-          onChange={handleTextareaChange}
-          disabled={status === 'submitting'}
-        />
-        <br />
-        
-        <button disabled={answer.length === 0}>
-          Submit
-        </button>
-      
-      </form>
-    </>
-  );
-}
-```
-
-### This is called a `controlled component` 
-- because the form elements (i.e. `textarea` in our example, are controlled by the react prop). Should probably be *controlling* ...  
-
-
-
 ## Rendering Lists
 
 Most applications sooner or later rely on lists of things that you want to process. 
@@ -256,93 +214,6 @@ Most applications sooner or later rely on lists of things that you want to proce
 - if you don't do this, your console will be full of 
 
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
-
-
-
-
-## Styling
-
-CSS Styles can be defined in multiple ways
-
-### In a separate file
-This has the problem that it does not scale - at some point the various styles will conflict with each other.
-
-### Inline as the example above
-This is the least recommended
-
-### As local variables, as they use in React Native 
-
-e.g. [here](https://github.com/mircealungu/zeeguu-mobile/blob/master/screens/AllArticles.js)
-
-### With the help of `styled-components` library
-
-#### First you install the library `npm install -s styled-components`
-
-#### Then you define styles with the `styled` function!
-```js
-
-// Create a Title component that'll render an <h1> tag with some styles
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: #BF4F74;
-`;
-
-// Create a Wrapper component that'll render a <section> tag with some styles
-const Wrapper = styled.section`
-  padding: 4em;
-  background: papayawhip;
-`;
-
-// Use Title and Wrapper like any other React component – except they're styled!
-render(
-  <Wrapper>
-    <Title>
-      Hello World!
-    </Title>
-  </Wrapper>
-);
-```
-#### Move components to their own file
-
-#### Benefits of `styled-components`
-##### Benefit 1: automatic CSS scoping
-- the `Wrapper` and `Title` styles only apply to our title above
-##### Benefit 2: automatic delete of CSS
-- deleting the component deletes the style
-- otherwise, in a huge CSS file you end up with a lot of dead code
-
-## Conditional Rendering 
-
-Often components need to display differently based on some state or prop. 
-
-Three possible ways to render conditionally: 
-1. If statements
-1. The `conditional ? operator` 
-1. When only one option is possible `logical && syntax` 
-
-Note: 
-- you can [conditionally return null](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null) if you don't want to display a given component in some situation. 
-
-Read and see examples at: *Describing the UI > [Conditional Rendering](https://react.dev/learn/conditional-rendering)*
-
-
-
-
-
-
-## Reactive Programming 
-
-When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
-
-This is *reactive programming*. And reactive programming is why React is called so. 
-
-A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
-
-In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
-
-
-
 
 # References
 
@@ -361,15 +232,20 @@ Read up from the [react.dev](https://react.dev) documentation site, the followin
 	- [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
 
 
+## Exam Questions
 
+### 1. What is JSX and how does it differ from HTML?
 
+### 2. Explain the difference between props and state in React.
 
+### 3. Why do we need to use a `key` attribute when rendering lists in React?
 
-
-
-
-
-
-
-
-
+### 4. What is wrong with this component?
+```js
+function Greeting() {
+  return (
+    <h1>Hello</h1>
+    <p>Welcome to React</p>
+  )
+}
+```

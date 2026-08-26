@@ -3,8 +3,12 @@ Lecture notes for the ***Technical*** part of the Technical Interaction Design c
 ## Autumn 2026
 - **[Syllabus](syllabus.md)** — week by week: who teaches what, the five deliverable checkpoints, and which notes back each lecture. Styled version: [syllabus.html](syllabus.html).
 
-`syllabus.md` is the source; run `python3 build.py` to regenerate `syllabus.html` from it.
-Pushing a change to `syllabus.md` on `main` also rebuilds it automatically ([workflow](.github/workflows/build-syllabus.yml)), so the styled page never drifts from the markdown.
+`syllabus.md` is the source; run `python3 build.py` to regenerate the styled pages from it.
+It writes two, from the one source: `syllabus.html` — the students' page, and what GitHub
+Pages serves — and `syllabus-internal.html`, the same thing with the teaching team's asides
+and the `New:` to-write rows left in. Anything wrapped in `%%…%%` in the markdown, and any
+`New:` or `Status:` row, is ours and stays off the student page.
+Pushing a change to `syllabus.md` on `main` rebuilds both automatically ([workflow](.github/workflows/build-syllabus.yml)), so neither drifts from the markdown.
 
 ## Coding Pre-requisites
 - [1-Basics-of-CSS](Tech-TopUps/1-Basics-of-CSS.md)
@@ -12,38 +16,32 @@ Pushing a change to `syllabus.md` on `main` also rebuilds it automatically ([wor
 - [3-Javascript-the-Language](Tech-TopUps/3-Javascript-the-Language.md)
 - [4-Layouts-and-Responsiveness](Tech-TopUps/4-Layouts-and-Responsiveness.md)
 
-  
+
 ## Technical ID
 
-### 1. Basic React
-- [React Starter Kit](Lectures/Technical%20ID/Lecture%201/T0-React-Starter-Kit.md)
-- [Intro to React](Lectures/Technical%20ID/Lecture%201/T1-Intro-to-React.md)
-- [The useEffect Hook](Lectures/Technical%20ID/Lecture%201/T3-the-useEffect-Hook.md)
-- [Exam Questions](Lectures/Technical%20ID/Lecture%201/Exam-Questions.md)
+The notes live flat in [`Lectures/Technical ID/`](Lectures/Technical%20ID). Which note
+belongs to which week is decided by the [syllabus](syllabus.md) and nothing else — the
+filenames deliberately do not encode it, because the ordering changes every year and a
+folder name has no way of telling you it has gone stale. Each note ends with its own
+**Exam Questions**, so a question can never drift away from the material it tests.
 
-### 2. Intermediate React
-- [Refactoring by Extracting Components](Lectures/Technical%20ID/Lecture%202/T4-Refactoring%20by%20Extracting%20Components.md)
-- [Updater Functions for State](Lectures/Technical%20ID/Lecture%202/T5-Updater-Functions-for-State.md)
-- [Updating Objects and Lists in State](Lectures/Technical%20ID/Lecture%202/T6-Updating%20Objects%20and%20Lists%20in%20State.md)
-- [the useRef Hook](Lectures/Technical%20ID/Lecture%202/T7-React-the-useRef-Hook.md)
-- [Patterns of Component Communication](Lectures/Technical%20ID/Lecture%202/T8-Patterns%20of%20Component%20Communication.md)
-- [Exam Questions](Lectures/Technical%20ID/Lecture%202/Exam-Questions.md)
+Course order, as the 2026 syllabus runs it:
 
-### 3. Routing in Single Page Applications
-- [Web App Architectures](Lectures/Technical%20ID/Lecture%203/1.%20Web-App-Architectures.md)
-- [Routing in React](Lectures/Technical%20ID/Lecture%203/2.%20Routing%20in%20React.md)
-- [Collaboration with Git-Flow](Lectures/Technical%20ID/Lecture%203/3.%20Collaboration-with-Git-Flow.md)
-- [Exam Questions](Lectures/Technical%20ID/Lecture%203/Exam-Questions.md)
+| week | notes |
+|---|---|
+| 1 · React I | [React Starter Kit](Lectures/Technical%20ID/React-Starter-Kit.md) · [Intro to React](Lectures/Technical%20ID/Intro-to-React.md) · [Hooks](Lectures/Technical%20ID/Hooks.md) |
+| 2 · React II | [Forms & Conditional Rendering](Lectures/Technical%20ID/Forms-and-Conditional-Rendering.md) · [Updater Functions for State](Lectures/Technical%20ID/Updater-Functions-for-State.md) · [Updating Objects and Lists in State](Lectures/Technical%20ID/Updating-Objects-and-Lists-in-State.md) · [Patterns of Component Communication](Lectures/Technical%20ID/Patterns-of-Component-Communication.md) · [The useEffect Hook](Lectures/Technical%20ID/The-useEffect-Hook.md) |
+| 3 · Design I | [Styling React Components](Lectures/Technical%20ID/Styling-React-Components.md) |
+| 4 · Backend I | [Backends and the Parse Platform](Lectures/Technical%20ID/Backends-and-the-Parse-Platform.md) · [Parse Configuration for Vite](Lectures/Technical%20ID/Parse-Configuration-for-Vite.md) |
+| 5 · Backend II | [Authorization and ACL in Parse](Lectures/Technical%20ID/Authorization-and-ACL-in-Parse.md) |
+| 6 · Routing & deploy | [Web App Architectures](Lectures/Technical%20ID/Web-App-Architectures.md) · [Routing in React](Lectures/Technical%20ID/Routing-in-React.md) |
+| 8 · Collaboration | [Collaboration with Git-Flow](Lectures/Technical%20ID/Collaboration-with-Git-Flow.md) · [Code Organization](Lectures/Technical%20ID/Code-Organization.md) · [Code-Quality set](Lectures/Technical%20ID/Code-Quality) |
+| 9 · Design III | [Libraries](Lectures/Technical%20ID/Libraries.md) |
+| 10 · Organisation | [Refactoring by Extracting Components](Lectures/Technical%20ID/Refactoring-by-Extracting-Components.md) · [The useRef Hook](Lectures/Technical%20ID/The-useRef-Hook.md) |
+| 11 · Backend III | [Efficient Communication with the Backend](Lectures/Technical%20ID/Efficient-Communication-with-the-Backend.md) · [Running Code Server-Side](Lectures/Technical%20ID/Running-Code-Server-Side.md) · [useEffect Against a Live Backend](Lectures/Technical%20ID/useEffect-Against-a-Live-Backend.md) |
+| 13 · Code quality | [Code-Quality set](Lectures/Technical%20ID/Code-Quality) · [Debugging](Lectures/Technical%20ID/Debugging.md) |
 
-### 4. Basics of a Backend with ParseJS
-- [Backends with the Parse Platform](Lectures/Technical%20ID/Lecture%204/1.%20Backends-and-the-Parse-Platform.md)
-- [Exam Questions](Lectures/Technical%20ID/Lecture%204/Exam-Questions.md)
+## The app we build
 
-### 5. Authorization and ACL in Parse
-- [Authorization-and-ACL in Parse](Lectures/Technical%20ID/Lecture%205/Authorization-and-ACL%20in%20Parse.md)
-- [Exam Questions](Lectures/Technical%20ID/Lecture%205/Exam-Questions.md)
-
-### 6. Communication Efficiency. Server-side Code
-- [Efficient Communication With the Backend](Lectures/Technical%20ID/Lecture%206/1.%20Efficient%20Communication%20With%20the%20Backend.md)
-- [Running Code Server-Side](Lectures/Technical%20ID/Lecture%206/2.%20Running%20Code%20Server-Side.md)
-- [Exam Questions](Lectures/Technical%20ID/Lecture%206/Exam-Questions.md)
+[itu-tid/todo-26](https://github.com/itu-tid/todo-26) — the reference to-do, tagged once
+per lecture (`git checkout week-01`). Teams fork it in week 3.

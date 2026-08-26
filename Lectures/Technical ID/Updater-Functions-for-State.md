@@ -40,3 +40,38 @@ State can be updated with either **updater functions** like in the first button 
 ## Why would you use this
 - [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
 - When a lambda function risks capturing a stale state
+
+
+## Exam Questions
+
+### 1. What will happen when the button is clicked three times?
+```js
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+    setCount(count + 1);
+    setCount(count + 1);
+  }
+
+  return <button onClick={handleClick}>{count}</button>;
+}
+```
+
+### 2. What will be displayed after clicking the "+3" button?
+```js
+function Counter() {
+  const [number, setNumber] = useState(0);
+
+  return (
+    <button onClick={() => {
+      setNumber(n => n + 1);
+      setNumber(n => n + 1);
+      setNumber(n => n + 1);
+    }}>+3: {number}</button>
+  );
+}
+```
+
+### 3. When would you use an updater function vs. passing a direct value to setState?

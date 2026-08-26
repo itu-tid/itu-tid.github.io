@@ -169,3 +169,20 @@ Parse.Cloud.afterSave("TodoItem", async (request) => {
 - Why do we check `request.original`?
 - How could this data be useful for analytics or reporting?
 - What other actions might you want to trigger when a task is completed? 
+
+
+## Exam Questions
+
+### 1. When should you run code on the server instead of the client?
+
+### 2. Explain what this cloud function does:
+```js
+Parse.Cloud.beforeSave("TodoItem", (request) => {
+  const name = request.object.get("name");
+  if (!name || name.trim().length === 0) {
+    throw new Parse.Error(400, "Todo name cannot be empty");
+  }
+});
+```
+
+### 3. What is the difference between `afterSave` and `beforeSave` triggers?

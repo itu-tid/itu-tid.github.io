@@ -20,7 +20,7 @@ Consequently, a free tier will have limitations. The limitations of the Back4App
 
 The image below shows the prices and limitations of the Back4App various plans.
 
-![](images/parse-server-plans.png)
+![](../images/parse-server-plans.png)
 
 In particular for the free tier, you have limited:
 - number of requests
@@ -37,7 +37,7 @@ Using a backend-as-a-service impacts how you design communication between your f
 
 Looking at the networking tab in the screenshot below, we can see many requests being made:
 
-![](images/maths-camp-lots-of-requests.png)
+![](../images/maths-camp-lots-of-requests.png)
 
 **Discussion:** Why might we need to improve this interaction? Is it to save money or is it to have a faster application?
 
@@ -301,3 +301,26 @@ Using raw WebSockets (what LiveQuery does under the hood):
 Parse implements this through the LiveQuery [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification), but you don't need to understand the low-level protocol details to use it effectively.  
 
 
+## Exam Questions
+
+### 1. What is the N+1 select problem and why is it important?
+
+### 2. How do you solve the N+1 problem in Parse?
+
+### 3. What is the difference between polling and event-driven (LiveQuery) approaches for real-time updates?
+
+### 4. What do `select` and `exclude` do in Parse queries?
+```js
+query.select('title', 'completed');
+// vs
+query.exclude('description', 'attachments');
+```
+
+### 5. Explain this LiveQuery subscription:
+```js
+subscription.on('enter', (todo) => {
+  console.log('Todo entered query:', todo.get('title'));
+});
+```
+
+### 6. What are WebSockets and why does LiveQuery use them?

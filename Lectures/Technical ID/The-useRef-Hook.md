@@ -63,3 +63,19 @@ The optional chaining (`?.`) prevents errors if the element isn't mounted yet.
 	- the DOM has already a powerful implementation of 
 	- get a reference to the relevant DOM element
 	- call the `start` and `stop` methods 
+
+
+## Exam Questions
+
+### 1. What is the purpose of the useRef hook?
+
+### 2. What does this code do and why use optional chaining?
+```js
+const inputRef = useRef(null);
+
+useEffect(() => {
+  inputRef.current?.focus();
+}, []);
+
+return <input ref={inputRef} />;
+```

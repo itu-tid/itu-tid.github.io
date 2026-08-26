@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""Build syllabus.html from syllabus.md.
+"""Build the syllabus pages from syllabus.md.
 
 syllabus.md is the single source of truth. This script reads it, and fills
 syllabus.template.html (the design shell — all the CSS lives there) with the
 markdown's content. Edit the markdown for content, the template for design;
-never edit syllabus.html by hand.
+never edit the generated HTML by hand.
+
+Two pages come out of the one source:
+
+    syllabus.html           what students see, and what is published
+    syllabus-internal.html  ours, with the staff asides and the `New:` rows
+
+See staff_only() for how a passage is marked as one or the other.
 
     python3 build.py
 
@@ -22,7 +29,13 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 SRC = ROOT / "syllabus.md"
 TEMPLATE = ROOT / "syllabus.template.html"
-OUT = ROOT / "syllabus.html"
+OUT = ROOT / "syllabus.html"              # the students' page, the one we publish
+OUT_INTERNAL = ROOT / "syllabus-internal.html"  # ours: staff asides and `New:` kept
+
+# Fields that exist for whoever is running the course, not for whoever is
+# taking it: `Status` is never rendered at all, `New` is a badge on the staff
+# page and has no business on the student one.
+STAFF_FIELDS = ("New", "Status")
 
 REPO = "https://github.com/itu-tid/itu-tid.github.io"
 BADGES = {"GH": "gh", "learnIT": "lit", "New": "new"}
@@ -472,6 +485,25 @@ def expand(text):
     return text
 
 
+def staff_only(text, keep):
+    """Resolve the `%%...%%` staff-aside markers.
+
+    One markdown source, two audiences. Anything wrapped in `%%` is written for
+    the teaching team — delivery notes, the reasoning behind a sequencing
+    choice, who is covering what — and is dropped from the student build. Use
+    it for spans *inside* a paragraph or list item, not for whole paragraphs:
+    an emptied paragraph would still render as one.
+
+    `- **New:**` and `- **Status:**` rows go the same way, by field name.
+    """
+    if keep:
+        return re.sub(r"%%(.*?)%%", r"\1", text, flags=re.S)
+    text = re.sub(r"[ \t]*%%.*?%%", "", text, flags=re.S)
+    text = "\n".join(ln for ln in text.split("\n")
+                     if not re.match(rf"\s*- \*\*({'|'.join(STAFF_FIELDS)}):\*\*", ln))
+    return re.sub(r"\n{3,}", "\n\n", text)
+
+
 def check_new_list(text, doc):
     """The provenance note lists the to-write items by week. It cannot be
     generated — the labels are editorial — but it can be stopped from drifting."""
@@ -488,9 +520,12 @@ def check_new_list(text, doc):
 
 
 if __name__ == "__main__":
-    source = expand(SRC.read_text(encoding="utf-8"))
-    document = parse(source)
-    check_new_list(source, document)
-    OUT.write_text(render(document), encoding="utf-8")
-    print(f"{OUT.name}: {len(document['weeks'])} week rows, "
-          f"{len(document['notes'])} notes, {len(document['spine'])} checkpoints")
+    raw = expand(SRC.read_text(encoding="utf-8"))
+    for out, keep in ((OUT_INTERNAL, True), (OUT, False)):
+        source = staff_only(raw, keep=keep)
+        document = parse(source)
+        if keep:
+            check_new_list(source, document)
+        out.write_text(render(document), encoding="utf-8")
+        print(f"{out.name}: {len(document['weeks'])} week rows, "
+              f"{len(document['notes'])} notes, {len(document['spine'])} checkpoints")

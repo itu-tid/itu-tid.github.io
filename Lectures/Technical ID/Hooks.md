@@ -14,3 +14,7 @@ Most popular:
 - would throw off the internal implementation
 - react does not compile your code if you try to 
 
+
+## Exam Questions
+
+### 1. What are the rules for using React hooks?

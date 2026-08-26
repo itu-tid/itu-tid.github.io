@@ -1,9 +1,10 @@
 name: Build syllabus
 
-# syllabus.md is the source of truth; syllabus.html is generated from it.
-# Whenever the source (or the template, or the builder) changes on main, this
-# regenerates the HTML and commits it back, so GitHub Pages always serves a
-# page that matches the markdown.
+# syllabus.md is the source of truth; both HTML pages are generated from it --
+# syllabus.html is the students' page and the one published; 
+# syllabus-internal.html keeps the staff asides and the `New:` rows. Whenever the source (or the
+# template, or the builder) changes on main, this regenerates them and commits
+# them back, so GitHub Pages always serves pages that match the markdown.
 on:
   push:
     branches: [main]
@@ -35,14 +36,14 @@ jobs:
 
       # Nothing to do when the checked-in HTML already matches the markdown --
       # e.g. when it was regenerated locally before the push.
-      - name: Commit syllabus.html if it changed
+      - name: Commit the generated pages if they changed
         run: |
-          if git diff --quiet -- syllabus.html; then
-            echo "syllabus.html already up to date"
+          if git diff --quiet -- syllabus.html syllabus-internal.html; then
+            echo "generated pages already up to date"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add syllabus.html
-          git commit -m "Rebuild syllabus.html from syllabus.md"
+          git add syllabus.html syllabus-internal.html
+          git commit -m "Rebuild the syllabus pages from syllabus.md"
           git push

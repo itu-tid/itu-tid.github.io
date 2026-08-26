@@ -47,7 +47,7 @@ Let us take each of these in turn.
 
 
 The image below shows the Parse UI for setting Class-level permissions
-![](images/class-level-permissions-in-parse.png)
+![](../images/class-level-permissions-in-parse.png)
 
 ##### Practical Implication: For your applications, you can prevent non-authenticated users to access your tables
 
@@ -112,7 +112,7 @@ Under `App Settings > Server Settings > Client Class Creation` you can specify i
 
 The methods above should be combined together to strengthen the DB access for  your application. 
 
-![](images/parse-server-access-control.png)
+![](../images/parse-server-access-control.png)
 
 In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application. 
 
@@ -120,7 +120,7 @@ In practice, there's no real reason to have any public tables. If it's a public 
 
 ### The simplest possible DB Model
 
-![](../../../../todo-db-model.png)
+![](../../../todo-db-model.png)
 
 an important field **userId**:
 ```js
@@ -435,3 +435,49 @@ From the ParsePlatform.org Guide:
 	- Liskov Substitution - 
 	- Interface Segregation - 
 	- **Dependency Injection Principle** - 
+
+
+## Exam Questions
+
+### 1. Why can't Parse API keys be kept secret in a web application?
+
+### 2. What is the difference between authentication and authorization?
+
+### 3. What are the three methods of access control in Parse?
+
+### 4. What is an ACL and at what level does it operate?
+
+### 5. Explain what this code does:
+```js
+const privateNote = new Note();
+privateNote.set("content", "My secret");
+privateNote.setACL(new Parse.ACL(Parse.User.current()));
+await privateNote.save();
+```
+
+### 6. How would you make an object publicly readable but only writable by the owner?
+
+### 7. What's the problem with this code if we only validate name length on the client?
+```js
+// Client-side validation
+if (name.length > 200) {
+  alert("Name too long!");
+  return;
+}
+await todoItem.save();
+```
+
+### 8. What are two benefits of placing this code in a separate service file rather than directly in a React component?
+```js
+export async function fetchTodosByCategory(category) {
+  const query = new Parse.Query(TodoItem);
+  query.equalTo("category", category);
+  query.equalTo("userId", Parse.User.current());
+  const results = await query.find();
+  return results.map(todoItemToPlainObject);
+}
+```
+
+### 9. What are the two types of roles in Parse and how do they differ?
+
+### 10. Why can't ACLs be set at the field level, and what's the workaround?

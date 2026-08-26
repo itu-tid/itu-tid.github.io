@@ -10,10 +10,10 @@ Modifying an object is called **mutating an object**.
 
 ### Modifying objects is easiest with the spread syntax
 
-![](../../images/spread-syntax.png)
+![](../images/spread-syntax.png)
 
 ### Updating nested objects is ... a little bit ugly
-![](../../images/nested-object-definition.png)![](../../images/updating-nested-objects.png)
+![](../images/nested-object-definition.png)![](../images/updating-nested-objects.png)
 
 ## Updating Arrays in State
 
@@ -106,3 +106,31 @@ let reversedArtists = [...artists].reverse();
 # Bibliography
 - https://react.dev/learn/updating-objects-in-state
 - https://react.dev/learn/updating-arrays-in-state
+
+
+## Exam Questions
+
+### 1. Why should you avoid mutating state objects directly in React?
+
+### 2. How would you add a new item to the beginning of this array in state?
+```js
+const [artists, setArtists] = useState([
+  { id: 1, name: "Picasso" },
+  { id: 2, name: "Monet" }
+]);
+```
+
+### 3. How would you remove an item with id=2 from the previous artists array?
+
+### 4. How would you update a nested object in state?
+Given:
+```js
+const [person, setPerson] = useState({
+  name: "Alice",
+  address: {
+    city: "Copenhagen",
+    country: "Denmark"
+  }
+});
+```
+Update only the city to "Aarhus".

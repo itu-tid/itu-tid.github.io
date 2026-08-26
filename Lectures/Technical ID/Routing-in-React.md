@@ -377,5 +377,39 @@ The request will go the server. However, we only have an `index.html` on the ser
 - [React Router Declarative Mode](https://reactrouter.com/start/declarative/installation) - the official documentation - note that there's also Data Mode and Framework mode that we didn't talk about
 
 
+## Exam Questions
 
+### 1. Why is client-side routing necessary in SPAs?
 
+### 2. What is the difference between `<Link>` and `<a>` tags in React Router?
+
+### 3. Explain what this routing setup does:
+```js
+<Routes>
+  <Route path="/dashboard" element={<DashboardLayout />}>
+    <Route index element={<DashboardHome />} />
+    <Route path="stats" element={<DashboardStats />} />
+  </Route>
+</Routes>
+```
+
+### 4. What does this protected route component do?
+```js
+function PrivateRoute({ children }) {
+  const isAuthenticated = checkAuth();
+  return isAuthenticated ? children : <Navigate to="/login" />;
+}
+```
+
+### 5. How do you access URL parameters in React Router?
+```js
+// Route: <Route path="/users/:userId" element={<UserProfile />} />
+// URL: /users/123
+```
+
+### 6. How do you access query string parameters?
+```js
+// URL: /dashboard?sort=name&filter=active
+```
+
+### 7. What happens if a user reloads the page on `/about` in an SPA?

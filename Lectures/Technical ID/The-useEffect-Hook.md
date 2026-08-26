@@ -150,67 +150,33 @@ Why? if your code works in this situation, it means you're cleaning up nicely; a
 if not, then you have to figure out why and cleanup correctly.
 
 
+# Two more shapes of `useEffect`, later
 
-## Releasing Resources on Component Unmount
+There are two further cases — a cleanup function that runs when the component unmounts,
+and an effect with no dependency list at all. Neither is much use against local storage,
+and both are needed the moment an effect talks to a live backend: one to close a
+subscription, the other as a warning. They live in
+*Backend III · [useEffect Against a Live Backend](useEffect-Against-a-Live-Backend.md)*.
 
-### This is ugly and won't be necessary often. But it pushes your understanding of JS syntax... 
 
-It's something that you'll need to do also in other components. 
+## Exam Questions
 
-### Sometimes a component allocates a resource in the initialization and that resource has to be de-allocated in the component *destruction*. 
-
-Examples of such resources could be:
-- a reference to a timer - that executes an action every second
-- a connection to a database 
-
-### If your effect allocates a resource that must be deallocated, do that by returning a *cleanup function* from useEffect
-
-#### The syntax is ***UGLY***: **an arrow function that does the connection, and then returns another function that does the disconnect** 
-
-![](images/effect-with-cleanup-function.png)
-
-#### And  example of resource that needs to be released: a timer
-
-```javascript
+### 1. Explain what this useEffect does:
+```js
 useEffect(() => {
-  setInterval(() => {console.log("hello")},1000)
-}, [])
+  localStorage.setItem("clicks", clicks);
+}, [clicks]);
 ```
 
-The correct way of handling it: 
-```javascript
+### 2. What is the difference between these two useEffect calls?
+```js
+// Version A
 useEffect(() => {
+  console.log("Effect A");
+}, []);
 
-  let interval = setInterval(() => {console.log("hello")}, 1000)
-
-  return () => {
-    clearInterval(interval) // clear the interval in the returning function
-  }
-  
-}, [])
+// Version B
+useEffect(() => {
+  console.log("Effect B");
+});
 ```
-
-
-# Second special case of `useEffect`: no second argument at all!
-
-A very special case of calling `useEffect` is with no second argument: 
-```javascript
-function MyComponent() {  
-
-	useEffect(() => {  
-		console.log("every render!")
-	});  
-	
-	return <div />;  
-}
-```
-
-## **Every time the component renders, React updates the screen and then runs the code inside useEffect.** 
-
-## This is not normally used, except for debugging in my experience. 
-
-## This is the fastest way to run out of cloud credits when you'll connect to the DB later in the course
-
-
-
-

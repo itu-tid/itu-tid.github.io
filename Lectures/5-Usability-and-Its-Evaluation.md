@@ -28,7 +28,7 @@ Published in 1994 in the book “Usability Inspection Methods” by Jakob Nielse
 5. [Error prevention](usability_examples/9_error_prevention.md)
 6. [Recognition rather than recall](usability_examples/6_recognition_rather_than_recall.md)
 7. [Flexibility and efficiency of use](usability_examples/7_flexibility_and_efficiency.md)
-8. [Aesthetic and minimalist design](./usability_examples/8_aesthetics.md)
+8. [Aesthetic and minimalist design](./usability_examples/5_aesthetic.md)
 9. [Help users recognize, diagnose, and recover from errors](usability_examples/8_help_users_recover_from_errors.md)
 10. [Help and documentation](usability_examples/a_documentation.md)
 

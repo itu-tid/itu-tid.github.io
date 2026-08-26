@@ -3,3 +3,9 @@
 *.idea
 *.obsidian
 Code/7-intro-to-react/hello-world/package-lock.json
+
+__pycache__/
+
+# Mircea's own delivery notes and planning inputs -- local, not published
+L1-Opening.md
+resources/
