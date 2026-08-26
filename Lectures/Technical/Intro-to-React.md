@@ -1,6 +1,30 @@
 # React
 
-React is a JavaScript **library** for building interactive **single page applications**. We will talk about what Single Page Applications are and how they work in a different lecture. For now, we want to be users of react so we'll start doing a very simple application in it and learn React on the way. 
+React is a JavaScript **library** for building interactive **single page applications**. We will talk about what Single Page Applications are and how they work in a different lecture. For now, we want to be users of react so we'll start doing a very simple application in it and learn React on the way.
+
+## How we build it
+
+These sections are in the order the app needs them, so you can follow straight down the
+page while the to-do grows on screen. Each step is the smallest thing that makes the
+previous step's problem go away.
+
+| the app | the idea it forces |
+|---|---|
+| 1. A heading that says *My To-Do*, and nothing else | a component is a function returning JSX |
+| 2. Some markup around it, with a `className` | JSX is stricter than HTML |
+| 3. The heading counts the items | interpolating JS into JSX with `{ }` |
+| 4. One `<TodoItem text="Buy milk" />` | props |
+| 5. Three items, from an array | rendering lists, and keys |
+| 6. An **Add** button that does nothing yet | event handling |
+| 7. **Add** appends a random sample task — and the screen updates | state, with `useState` |
+| 8. Why did the screen update? | reactive programming |
+
+Step 7 is the one worth slowing down for. A plain variable changes and nothing happens on
+screen; that failure is the entire argument for state, and it is much more convincing when
+you have just watched it not work.
+
+By the end the app is silly on purpose: **Add** picks a task at random, because you cannot
+type one in yet. Next week you can, and that is where forms come in.
 
 ## React is a ***component-based*** UI library 
 
@@ -149,31 +173,19 @@ This is how you can use the `ToDoItem` component:
 
 ![](images/component-with-children-usage.png)
 
-## Component State
+## Rendering Lists
 
-### Every component can store local state 
+Most applications sooner or later rely on lists of things that you want to process. 
 
-Unlike the props, the state can be changed from within the component
+### In React, to render lists you rely on `for` loops and  `array.map()`
 
-### Local state is defined using the `useState` hook 
+### You must use a `key` attribute for every element in a list
+- must be unique
+- can be the database ID, UUID, or anything else unique
+- important internally for React's rendering
+- if you don't do this, your console will be full of 
 
-The `useState` hook: 
-- takes an **initial** value
-- returns **current value** and a **setter function**
-
-See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
-
-### Note: Hooks are special React functions who's name starts with `use`
-
-## Reactive Programming 
-
-When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
-
-This is *reactive programming*. And reactive programming is why React is called so. 
-
-A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
-
-In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
+Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
 ## Event Handling
 
@@ -201,19 +213,31 @@ If you have an `onClick` handler on both a button and a containing div, both wil
 
 - Sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior). 
 
-## Rendering Lists
+## Component State
 
-Most applications sooner or later rely on lists of things that you want to process. 
+### Every component can store local state 
 
-### In React, to render lists you rely on `for` loops and  `array.map()`
+Unlike the props, the state can be changed from within the component
 
-### You must use a `key` attribute for every element in a list
-- must be unique
-- can be the database ID, UUID, or anything else unique
-- important internally for React's rendering
-- if you don't do this, your console will be full of 
+### Local state is defined using the `useState` hook 
 
-Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
+The `useState` hook: 
+- takes an **initial** value
+- returns **current value** and a **setter function**
+
+See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
+
+### Note: Hooks are special React functions who's name starts with `use`
+
+## Reactive Programming 
+
+When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
+
+This is *reactive programming*. And reactive programming is why React is called so. 
+
+A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
+
+In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
 
 # References
 
@@ -230,7 +254,6 @@ Read up from the [react.dev](https://react.dev) documentation site, the followin
 - Adding Interactivity
 	- [Responding to Events](https://react.dev/learn/responding-to-events) 
 	- [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
-
 
 ## Exam Questions
 
