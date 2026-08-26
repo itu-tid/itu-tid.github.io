@@ -88,7 +88,7 @@ def main(wanted):
              f"Week {num} · {re.sub(r'[*]', '', title)}", SUBTITLE, *map(str, notes)],
             check=True, cwd=ROOT)
         built += 1
-    print(f"\n{built} chapter(s) written to pdf/, {skipped} week(s) skipped")
+    print(f"\n{built} chapter(s) written to {OUT}, {skipped} week(s) skipped")
 
 
 if __name__ == "__main__":
