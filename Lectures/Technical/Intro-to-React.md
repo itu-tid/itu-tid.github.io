@@ -8,8 +8,6 @@ one opens by saying what the app does at that point.
 
 ## React is a ***component-based*** UI library
 
-**The app now.** A heading that says *My To-Do*, and nothing else on screen. 
-
 ### Components are **JS functions** that return JSX elements
 
 [Example](https://react.dev/learn/your-first-component#defining-a-component) of a React component :
@@ -465,7 +463,7 @@ Read up from the [react.dev](https://react.dev) documentation site, the followin
 	- [Responding to Events](https://react.dev/learn/responding-to-events) 
 	- [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
 
-## Exam Questions
+# Exam Questions
 
 ### 1. What is JSX and how does it differ from HTML?
 
