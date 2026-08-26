@@ -4,17 +4,30 @@ How the four of you are expected to divide the project, and what we are looking 
 we watch you do it. Assessment itself lives in the [syllabus](syllabus.html) — this page
 is about the working arrangement, not the marking.
 
-## Everyone owns something you can point at
+## Divide by functionality, not by technology
 
-**Every member owns at least one main screen**, end to end: the interface, the state
-behind it, and the queries under that. Not "helped with", not "did the styling for" —
-owns.
+Each of you takes a slice of what the app *does* and builds all of it: the interface, the
+state behind it, and the queries under that. A slice might be a screen, a feature, or a
+capability — sharing, time-tracking, whichever your app actually has. Some apps have four
+obvious pieces and some have three; what matters is that the cut is vertical.
 
-That means **no specialist split**. You cannot be the CSS person supporting the
-JavaScript person, and you cannot be the one who does the backend while three others do
-the frontend. It is an efficient way to build one app and a poor way to learn four
-people's worth of React, and it collapses at the exam, where you are asked about your
-project rather than about your corner of it.
+What we do not want is the cut going the other way — one person doing the CSS, another
+the React, another the Parse. It is an efficient way to build one app and a poor way to
+learn four people's worth of React, and it collapses at the exam, where you are asked
+about your project rather than about your layer of it.
+
+## Everyone leaves fingerprints
+
+Every member should have substantial code in the repository that is identifiably theirs,
+and `git blame` is how we check. It is a blunt instrument, so treat it as the floor
+rather than the definition:
+
+- It says nothing about understanding. Code an agent wrote and you pasted blames to you
+  just the same, and the exam is where that comes apart.
+- It is noisy. A reformat, a merge, or whoever does the final integration pass can
+  reassign whole files.
+- And it must not stop you touching each other's code. Improving somebody's component is
+  the point; a group where everyone stays in their own files is failing differently.
 
 Two failure modes, and we look for both:
 
@@ -29,7 +42,7 @@ pull request instead of rewriting it, and let them push the thing they wrote.
 
 ## More is not better
 
-A **solid, clear implementation of your core screens beats eight rough ones**. The
+A **small app built well beats a big one built roughly**. The
 required core is small on purpose — owner → lists → items, sharing at the list level —
 and every extra feature has to earn its place against the population you chose.
 
