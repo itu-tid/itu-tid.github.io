@@ -8,6 +8,21 @@ Notes for **Technical Interaction Design** at the IT University of Copenhagen.
 - **[Exam Structure](Exam-Structure.md)** — how the oral runs, and what you get asked
 - **[Coding Guidelines](Coding-Guidelines.md)**
 
+## How the course runs
+
+**Mircea** teaches the technical track; **Konstantina** teaches the design track — weeks 3,
+7, 8, 9 and 12. **Lea** runs the Figma clinic in week 7, **Anna** the Back4App walkthrough
+in week 4; both are in the exercise hours every week.
+
+Each Thursday: a lecture, then two hours of exercise — **one hour on your own**, one hour
+**with your group**. The solo hour is required but ungraded, and it piles up into a
+personal portfolio that is your exam preparation. Weeks 1 and 2 are entirely individual,
+because the teams do not exist yet.
+
+**70% individual exam, 30% group project**, with a hard floor: bomb the individual and you
+fail, however strong the group. The project is your exam curriculum — if you used it, you
+understand it.
+
 ## Deadlines
 
 Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, not
