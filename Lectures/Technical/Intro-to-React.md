@@ -8,9 +8,6 @@ one opens by saying what the app does at that point.
 
 ## React is a ***component-based*** UI library
 
-**The app now.** A heading that says *My To-Do*, and one hardcoded item under it. Nothing
-is dynamic yet — this is only about where the code goes.
-
 ### Everything in React is a component
 
 A button is a component. A list row is a component. So is the whole page. You build a
