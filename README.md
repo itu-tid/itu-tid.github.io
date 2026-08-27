@@ -2,7 +2,29 @@ Notes for **Technical Interaction Design** at the IT University of Copenhagen.
 
 ## Autumn 2026
 
-- **[Syllabus](syllabus.html)** — week by week: who teaches what, the six deliverable checkpoints, and which notes back each lecture.
+- **[Syllabus](syllabus.html)** — week by week: who teaches what, which notes back each lecture, and what is due when.
+- **[Working as a Team](Project-Collaboration.md)** — how the four of you divide the project
+- **[Report Structure](Report-Structure.md)** — what goes in the final report
+- **[Exam Structure](Exam-Structure.md)** — how the oral runs, and what you get asked
+- **[Coding Guidelines](Coding-Guidelines.md)**
+
+## Deadlines
+
+Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, not
+submissions marked line by line.
+
+| due | what |
+|---|---|
+| **Tue 8 Sep** | Teams registered — a group of four, on learnIT. Weeks 1 and 2 are individual. |
+| **Tue 22 Sep** | Themes → tasks — your population, three to five themes with quotes, each mapped to a [task](Lectures/Interaction-Design/Tasks.md), prioritised |
+| **Tue 20 Oct** | Wireframes, tested — the screens your population needs, what testing changed, and the extended ER diagram |
+| **Tue 10 Nov** | Visual & accessibility pass — the a11y audit, and what the visual pass changed |
+| **Tue 24 Nov** | Chosen features working — your feature-menu picks, live in the app |
+| **December** | Final app + thin report — deployed, dogfooded, defensible. Date set by the exam schedule. |
+
+Each design deliverable lands about two weeks after the lecture that teaches it, and the
+feedback opens a later lecture — so there is time to act on it before the next one depends
+on it.
 
 ## Lecture notes
 
@@ -53,13 +75,6 @@ Each week's notes bundled into one PDF, for reading offline or printing:
 
 They are generated from the notes in this repository, so if the two ever disagree, the
 markdown here is the newer one.
-
-## Course documents
-
-- [Working as a Team](Project-Collaboration.md) — how the four of you divide the project
-- [Report Structure](Report-Structure.md) — what goes in the final report, section by section
-- [Exam Structure](Exam-Structure.md) — how the oral runs, and the kinds of question asked
-- [Coding Guidelines](Coding-Guidelines.md)
 
 ## The app we build
 
