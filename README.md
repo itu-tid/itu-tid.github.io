@@ -23,6 +23,11 @@ because the teams do not exist yet.
 fail, however strong the group. The project is your exam curriculum — if you used it, you
 understand it.
 
+The last two minutes of every lecture are yours: **[one anonymous
+question](https://forms.gle/pse8zJNMQthy4UcFA)**, the same link every week. It gets read
+before the next lecture and answered at the start of it — which is the only reason it is
+worth your two minutes.
+
 ## Deadlines
 
 Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, not
