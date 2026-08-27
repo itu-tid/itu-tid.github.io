@@ -2,7 +2,8 @@
 
 Interviews give you what people said. Thematic analysis gives you what keeps coming up.
 Neither of those is something an app can do. **Tasks** are the step in between: they turn
-a finding into something you could build, and they are what you hand in on **Tue 22 Sep**.
+a finding into something you could build, and they are what the user-study deliverable
+asks you to hand in.
 
 The word comes from Søren Lauesen, who uses it in a specific sense worth learning.
 
@@ -101,12 +102,12 @@ was not a shared list at all.
 
 Use the word *task* in your hand-in, so we are all talking about the same object.
 
-## What to hand in — Tue 22 Sep
+## What to hand in
 
 - Your population, and how many people you interviewed
 - Three to five themes, each with a quote that earned it
 - Each theme mapped to at least one task, in the four fields above
 - The tasks, prioritised, with a sentence on why that order
 
-Feedback comes back at the week 6 lecture, which leaves a week to fix things before
-wireframing starts — and week 7 assumes you have.
+Feedback comes back a couple of weeks later, with time to act on it before wireframing
+starts — and the wireframing lecture assumes you have. The syllabus has the dates.

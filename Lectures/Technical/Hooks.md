@@ -20,11 +20,11 @@ That is the whole idea. Everything else is bookkeeping.
 Not decoration — it is how React's linter recognises them and checks the rules below.
 The three you will meet in this course:
 
-| hook | what it gets you | when |
+| hook | what it gets you | you reach for it |
 |---|---|---|
 | `useState` | a value that survives re-renders, and re-renders when it changes | today |
-| [`useEffect`](The-useEffect-Hook.md) | a way to reach *outside* React — storage, a backend, a timer | week 2 |
-| [`useRef`](The-useRef-Hook.md) | a value that survives re-renders but does **not** cause one | week 10 |
+| [`useEffect`](The-useEffect-Hook.md) | a way to reach *outside* React — storage, a backend, a timer | when the app has to stay in step with something React does not control |
+| [`useRef`](The-useRef-Hook.md) | a value that survives re-renders but does **not** cause one | when you start extracting components |
 
 The contrast in that last row is the useful one. State and refs both survive; only state
 redraws. You want a ref for something the screen does not depend on — the DOM node you

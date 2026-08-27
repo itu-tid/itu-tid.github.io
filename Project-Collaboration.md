@@ -32,7 +32,7 @@ rather than the definition:
 Two failure modes, and we look for both:
 
 - **Somebody not coding.** Usually not laziness — usually somebody who fell behind in
-  week 2 and never found a way back in. Notice it in week 4, not week 12.
+  the second week and never found a way back in. Notice it in the first month, not the last.
 - **Somebody coding everything.** More common, and more damaging, because it looks like
   the project is going well right up until the exam.
 
