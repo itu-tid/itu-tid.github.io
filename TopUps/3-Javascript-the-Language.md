@@ -98,8 +98,67 @@ To know:
   - [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) - adding at the end
   - [pop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop) - removes from the end
   - [splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice) - changes contents starting with given index
-- [Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) , e.g.`[...artists]`
-  - Immutable treatment of arrays (creating a new object)
-    - Adding an element to an array with the spread operator: `[...artists, {id:"mich", name: "Michelangelo"}]`. 
-    - Removing an element from an array: `artists.filter(a => a.id !== "mich")`
+- 
+
+
+
+## Immutable treatment of arrays (creating a new object)
+
+### Making a copy of an array
+
+```js
+let words = ['selfogelig', 'krokodil'];
+
+// This will be a copy of the array
+let newArray = words.map (each => each);
+
+// Another way of making a copy is the spread operator 
+let yetAnotherArray = [...words];
+
+```
+
+[Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) , e.g.`[...artists]`
+
+
+### Adding an element to an array with the spread operator: 
+
+```js
+
+let threeWords = [...words, "kroper"];
+
+let artists = [{id:"leo", name: "Leonardo"}];
+
+let moreArtists = [...artists, {id:"michi", name: "Michelangelo"}]
+```
+
+### Removing an element from an array
+
+```js
+let fewerArtists = moreArtists.filter(a => a.id !== "leo")
+```
+`
+### Modifying an element in an array
+
+#### Replacing a constant inside of an array
+
+```js
+let words = ['selfogelig', 'krokodil'];
+
+// This will be a copy of the array
+let newArray = words.map (each => each);
+
+// Another way of making a copy is the ... spread operator 
+let yetAnotherArray = [...words];
+
+```
+
+
+
+#### Modifying an Object inside an array
+```js
+let superheroes = [ {name: "spiderman", power: "climbing"}, {name: "superman", power: "flying"}]; 
+
+superheroes.map (each => each.name == "superman"? {...each, power:"strength and flight" }: each)
+```
+  `
 	

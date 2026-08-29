@@ -1,9 +1,17 @@
 # Side effects in programming 
 
 ## Concept coming from functional programming
+
+Functional programming - a powerful way of programming that is one of the main paradigms (ways of thinking):
+1. imperative 
+2. functional
+3. declarative
+
 ## Side effect = anything besides the main calculation needed for the result
 
-Refers to anything that a function does not serve the purpose of computing the result. Conceptually the following function is free of side-effects:
+### A pure function is a function that does one thing, and one thing only
+
+Conceptually the following function is free of side-effects:
 ```js
 
 function square(i) {
@@ -22,10 +30,12 @@ function square (i) {
 
 in the above case, the `LocalStorage.setItem` saves the value of the counter to `LocalStorage`, a mini key-value store that's available for every web application inside of the browser. 
 
+That was not the main purpose of the function. It was a side effect. 
+
 
 # Side Effects in React with `useEffect`
 
-### In the context of React, the main responsibility of a component function is to... render JSX.  
+### In the context of React, the main responsibility of every component function is to... render JSX.  
 
 ### => Anything besides that is considered a side-effect
 - actions that a functional component does besides rendering the component.
@@ -34,31 +44,53 @@ in the above case, the `LocalStorage.setItem` saves the value of the counter to 
 	- saving things to the DB
 	- we'll see a few examples later
 	
+**A fair objection: is *reading* a side effect?** In the functional-programming tradition,
+no — nothing changes, so nothing is affected. But it does make the function **impure**: its
+result depends on something other than its arguments, so two identical calls can return
+different things, and React can no longer assume that rendering the same props twice gives
+the same JSX.
+
+React sidesteps the argument by framing it differently, and the framing is the useful part:
+
 ### Goal: synchronize your component with **some system outside of React**
+
+Reading and writing are both synchronisation. `localStorage`, the document title, a
+timer, a backend — anything React does not control is *outside*, and keeping your
+component in step with it is what effects are for.
 
 
 ## Defining side effects in React is done with the `useEffect` hook with two arguments
 
-The most basic example possible of a component that changes the title of a window when the state changes
+useEffect allows us to "hook into" the React implementation, and capture the moment when a state variable is updated. We can decide to do something in such a situation. E.g., below, a component that changes the title of the browser window when the state of a variable changes: 
 
-```js
+```jsx
+import { useState, useEffect } from "react";
 
-import { useEffect } from 'react';
+export default function TodoList() {
+  const [todos, setTodos] = useState([]);
 
-export default function Counter({color, size}) {  
-  
-    const [clicks, setClicks] = useState(0);  
-  
-    useEffect(() => {  
-        localStorage.setItem("clicks", clicks);
-    }, [clicks]);
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
-// ...
+  // …
+}
 ```
 
-#### Arg 1: What is the side effect: often a lambda function
+Read it as a sentence: **whenever `todos` changes, write it to local storage.** You never
+call that function yourself. You state the dependency, and React runs it at the right
+moment — which is the same bargain as `map`: describe the relationship, let React do the
+work.
 
-#### Arg 2: When to execute the side effect
+`JSON.stringify` is there because local storage only holds **strings**. Hand it an array
+and you get back `"[object Object]"` on the next load, which is a confusing ten minutes if
+you have not been warned.
+
+#### Arg 1: What the side effect should do is defined by a  function
+- most of the times defined in-place as anonymous arrow function
+- but can just as well be a named function 
+
+#### Arg 2: When to execute the side effect? 
 The second argument is an array that contains one or more state variables
 The (side-)effect would be run on any of those variables changing.
 
@@ -93,35 +125,30 @@ useEffect(() => {
 ```
 IMO, In Mircea's Opinion: this should be called useReactive -- because defines a reactive relationship. 
 
-#### Defining some DOM event handlers
-
-```js
-useEffect(() => {  
-  window.addEventListener("scroll", handleScroll, true);  
-}, [articles]);
-```
-
 ## useEffect as one of the mechanisms of *reactive programming*
 
-### Reactive programming = you express your program logic as a network of dependencies between variables
+You met this last week with `useState`: change the data, and React works out what the
+screen should look like — see [Reactive Programming](Intro-to-React.md#reactive-programming).
 
-#### Excel, the *par excellence* and most popular example of Reactive programming 
-
-- is all about updating cell dependencies
-
-#### React is also *reactive*, so it's all about updating dependencies when state changes
-
-#### Besides updating variables react also updates the UI when the state changes
-
+`useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with
+your data; `useEffect` keeps *everything else* in step with it. Same dependency, same
+automatic re-run, different destination.
 
 
 # Special Case of `useEffect`: Empty dependencies list
 
 ### If you call an effect with an **empty dependencies list**, **it is only run once, on component mount!**
 
+**Mount** is React's word for a component appearing for the first time — its first render,
+when it goes from not being on screen to being on screen. The opposite is **unmount**, when
+it is taken off again. A component mounts once and can then re-render any number of times.
+
+An empty dependency list says *nothing to depend on*, so there is never a later change to
+react to, so it runs at mount and never again.
+
 ##### Why would you want to run something only on mount? What kind of things would you want to do? 
 
-- Initialization.  Sometimes there's special initializations that you want to have when a component is first time rendered. 
+- Initialization.  Often there's special initializations that you want to have when a component is first time rendered - at least the top level component in your program - the screen -- it needs to remember the state from last time. In our case, it would be good if we could have our page remember 
 
 
 

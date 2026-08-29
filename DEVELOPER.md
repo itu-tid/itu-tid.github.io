@@ -36,6 +36,18 @@ Three mechanisms, all resolved by `staff_only()` in `build.py`:
   has to be written for a given week.
 - **`- **Status:** …`** — never rendered on either page. Planning state.
 
+**In the notes, `%%…%%` does nothing.** That syntax is Obsidian's, and only `build.py`
+understands it — so a `%%TODO%%` left in a lecture note is invisible while you write it
+and then published to students verbatim, on GitHub and in the PDF chapter. Use an HTML
+comment instead:
+
+```markdown
+<!-- TODO: this example is still the Counter, not the to-do -->
+```
+
+Hidden in Obsidian, hidden on GitHub, hidden in the chapter. Better still, put the note in
+that week's plan in the vault, where you will actually see it when preparing.
+
 ### The pre-commit hook is what replaced the Action
 
 There was a GitHub Action. It went when the source left the repo, because it cannot build

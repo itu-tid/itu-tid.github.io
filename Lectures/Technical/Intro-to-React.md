@@ -61,7 +61,7 @@ Otherwise, [you get an error](https://react.dev/learn/writing-markup-with-jsx#1-
 return (
   <h1>Title</h1>
   <p>Paragraph</p>
-)
+);
 
 // This works but adds unnecessary <div>
 return (
@@ -69,7 +69,7 @@ return (
     <h1>Title</h1>
     <p>Paragraph</p>
   </div>
-)
+);
 
 // This works without extra DOM node
 return (
@@ -77,7 +77,7 @@ return (
     <h1>Title</h1>
     <p>Paragraph</p>
   </>
-)
+);
 ```
 `<>…</>` is called a **fragment**: a wrapper that groups elements without adding anything
 to the page. Use it whenever you need a single parent but do not want a real `<div>` in
@@ -347,9 +347,26 @@ The `event` argument details info about what just happened.
 - Sometimes you can ignore it, 
 - Sometimes you inspect it to learn about the event (e.g. mouse position, element that was clicked, etc. )
 
+
+<!-- lecture 1 stopped here; state and bubbling opened lecture 2 -->
+
 ### Events bubble up the DOM tree
 
-If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
+If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards.
+
+You will meet this for real next week, the moment each row gets a delete button:
+
+```jsx
+<li onClick={() => toggleDone(id)}>
+  {text}
+  <button onClick={() => remove(id)}>×</button>
+</li>
+```
+
+Click the **×** and *both* handlers fire — the button's, then the row's — so the item is
+deleted and the row you just deleted is also toggled. `e.stopPropagation()` inside the
+delete handler is the fix, and it is much easier to remember once you have watched it
+happen. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
 
 - Sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior). 
 
@@ -359,14 +376,17 @@ If you have an `onClick` handler on both a button and a containing div, both wil
 
 ### Every component can store local state 
 
-Unlike the props, the state can be changed from within the component.
+The difference from props is **ownership**. Props arrive from the parent and the component may only read them; state belongs to the component itself, which is the only thing that can change it. Props are what you were given; state is what you keep.
 
-First, the version that does **not** work — worth typing out, because the reason it fails
-is the reason state exists:
+First, the version that does **not** work — worth typing out, because the reason it fails is the reason state exists:
 
 ```jsx
-const SAMPLE_TASKS = ["Buy milk", "Call the landlord", "Book the dentist",
-                      "Water the plants", "Reply to Mette"];
+const SAMPLE_TASKS = [
+	"Buy milk", 
+	"Call the landlord", 
+	"Book the dentist",
+    "Water the plants", 
+    "Reply to Mette"];
 
 function randomTask() {
   return SAMPLE_TASKS[Math.floor(Math.random() * SAMPLE_TASKS.length)];
@@ -383,24 +403,25 @@ function TodoList() {
 }
 ```
 
-The array grows. The console proves it. The screen ignores you completely, because nothing
-told React that anything happened — it only re-runs your component when you ask it to, and
-pushing onto a variable is not asking.
+The array grows. The console proves it. The screen ignores you completely, because nothing told React that anything happened — it only re-runs your component when you ask it to, and pushing onto a variable is not asking.
 
 ### State comes from `useState`
 
 The `useState` hook: 
 - takes an **initial** value
-- returns **current value** and a **setter function**
+- returns **current value** and a **setter function** (returns from where? you get it from React! React gave you this setter! It baked an observer inside of it! So now if you change the state with its help, it will know that the state has changed! Let's see what does this imply)
 
 ```jsx
+
+// We are importing the useState function from React
 import { useState } from "react";
 
 function TodoList() {
   const [todos, setTodos] = useState(["Buy milk"]);
 
   function handleAdd() {
-    setTodos([...todos, randomTask()]);   // a *new* array, not a push
+    setTodos([...todos, randomTask()]);   
+    // a *new* array, not a push
   }
 
   return (
@@ -416,20 +437,10 @@ function TodoList() {
 
 Two things changed, and both matter:
 
-- `todos` now comes from `useState`, so React is the one holding it. The broken version
-  above did survive — a variable outside the component persists perfectly well — but
-  nothing connected it to the screen. Had we moved that `let` *inside* the component it
-  would have been worse still, created fresh on every call.
-- `setTodos` is given a **new array** — `[...todos, randomTask()]` — rather than the old
-  one mutated. React decides whether to redraw by comparing what it was given with what it
-  had; hand it the same array object back and it sees no change, even if the contents
-  differ. `push` would have done exactly that.
+1. `todos` now comes from `useState`, so React is the one holding it. The broken version above did survive — a variable outside the component persists perfectly well — but nothing connected it to the screen. Had we moved that `let` *inside* the component it would have been worse still, created fresh on every call.
+- `setTodos` is given a **new array** — `[...todos, randomTask()]` — rather than the old one mutated. **React decides whether to redraw by comparing what it was given with what it** **had**; hand it the same array object back and it sees no change, even if the contents differ. `push` would have done exactly that.
 
-See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
-
-### Hooks start with `use`
-
-There are rules about where you may call them, and a reason for those rules — see [Hooks](Hooks.md).
+*Optional*: See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
 
 ## Reactive Programming
 
@@ -492,6 +503,7 @@ export default function TodoList() {
 
 Forty lines, and every idea in this note is in there somewhere.
 
+
 And deliberately silly: **Add** picks a task at random, because there is nothing to type
 into yet. Next week there is, and that is where forms come in — along with the first real
 bug, when deleting from the middle of the list shows you why keying by position was never
@@ -506,7 +518,6 @@ Read up from the [react.dev](https://react.dev) documentation site, the followin
 	- [Writing Markup with JSX](https://react.dev/learn/writing-markup-with-jsx)
 	- [JS in JSX](https://react.dev/learn/javascript-in-jsx-with-curly-braces)
 	- [Passing Props](https://react.dev/learn/passing-props-to-a-component)
-	- [Conditional Rendering](https://react.dev/learn/conditional-rendering)
 	- [Rendering Lists](https://react.dev/learn/rendering-lists)
 
 - Adding Interactivity
@@ -527,6 +538,10 @@ function Greeting() {
   return (
     <h1>Hello</h1>
     <p>Welcome to React</p>
-  )
+  );
 }
 ```
+
+### 5. What is *reactive* about programming in React?
+
+### 6. You push a new item onto an array and the screen does not change. Why not, and what do you do instead? 
