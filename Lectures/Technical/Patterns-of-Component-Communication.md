@@ -20,119 +20,66 @@ because extraction is what creates the problem in the first place.
 ### 1. Explain the three patterns of component communication in React.
 
 
-# Worked example: a child updating a list in its parent
+# Worked example: deleting an item
 
-Imagine the situation when you have a list of posts on a social media site, something like in the example below: 
+The to-do list is the clearest case there is, because the two halves genuinely live in
+different components.
 
-![](images/example-list-of-posts.png)
+`TodoList` owns the array. `TodoItem` draws one row — and the delete button belongs on the
+row, because that is where it makes sense to a user. But the row **cannot delete itself**:
+it does not own the list, and it has no way to reach it. All it can do is say *this one*,
+and let whoever owns the list decide what that means.
 
-You want to update the list in the parent component which might be called `Home` from the child component, which might be called `PostingContainer`. 
+```jsx
+function TodoList() {
+  const [todos, setTodos] = useState([]);
 
-The parent component would look something like the code below:
-- it would have a state variable called posts
-- it would render the `PostingContiner` and then the list of posts
-
-```js
-
-function Home {  
-  const [posts, setPosts] = useState([]);  
-  
-  return (
-    <>
-      <PostingContainer></PostingContainer>	  
-      
-      {posts.map((post, index) => {
-        return (
-          <Post postObject={post}/>
-        )
-      })
-    </>
-  )
-```
-
-In your design, it is the `PostingContainer` that is responsible with creating a new post and publishing it to the database. There are two ways in which you can, from that component, update the list in the parent. 
-
-## Pass both the `posts` and the `setPosts` to the child container so it can append the new 
-
-```js
-
-function Home {  
-
-  const [posts, setPosts] = useState([]);  
-
-  return (
-    <>
-      <PostingContainer posts={posts} setPosts={setPosts}></PostingContainer>	 
-      
-      {posts.map( // ... 
-      })
-    </>
-)
-```
-
-Inside of the `PostingContainer` you can then update the posts once the new post object has been added to the database, something like this: 
-
-```js
-function PostingContainer ({posts, setPosts}) {
-
-  function createPost() {  
-  
-    let newPost = new Parse.Object("POSTS");  
-  
-      newPost.set("text", text);  
-      // save everything else from this post
-      // ...
-      await newPost.save();  
-
-      setPosts([newPost, ...setPosts]);
-};
-
-```
-
-However, this is not smart, because you're sending the whole information about the posts to the child component. The state should really be local to a component, just as attributes are local to a class. Why is this a bad idea? 
-
-
-## Pass a callback function that can add a post to the list
-
-A smarter alternative is below: 
-```js
-
-function Home {
-  const [posts, setPosts] = useState([]);  
-
-  function addPostToList(newPost) {  
-    let newPostsList =[newPost, ...posts];  
-    setPosts(newPostsList);  
+  function handleRemove(id) {
+    setTodos(todos.filter((t) => t.id !== id));
   }
 
   return (
-    <>
-      <PostingContainer addPostToList={addPostToList}></PostingContainer>
-		  
-      {posts.map( // ... 
-      })
+    <ul>
+      {todos.map((todo) => (
+        <TodoItem key={todo.id} todo={todo} onRemove={handleRemove} />
+      ))}
+    </ul>
+  );
+}
 
-    </>
-  )
+function TodoItem({ todo, onRemove }) {
+  return (
+    <li>
+      {todo.text}
+      <button onClick={() => onRemove(todo.id)}>×</button>
+    </li>
+  );
+}
 ```
 
-Then, in the posting container you simply call the callback method with the newly created object and the addition will eventually happen in the context of the parent. 
+Read the two directions:
 
-```js
-function PostingContainer ({addPostToList}) {
+- **Down, as props.** `TodoList` hands each row its `todo` — the data it needs to draw.
+- **Up, as a callback.** `TodoItem` is handed `onRemove` and calls it. It does not know
+  what happens next, and that is the point: it is not deleting anything, it is *reporting
+  a click*.
 
-  function createPost() {  
-  
-    let newPost = new Parse.Object("POSTS");  
-  
-    newPost.set("text", text);  
-    // ... 
-    await newPost.save();  
-    
-    addPostToList(newPost);  
-  
-  }
-};
+`TodoItem` knows nothing about `filter`, about the array, or even that a list exists. Drop
+it into a different app that also passes an `onRemove` and it works unchanged. That is what
+you get for keeping the arrow pointing one way.
+
+### The mistake to avoid
+
+The tempting shortcut is to pass `setTodos` down and let the row remove itself:
+
+```jsx
+<TodoItem todo={todo} todos={todos} setTodos={setTodos} />   // ❌
 ```
 
-Why is this smarter?
+It works. It also means every row now knows the whole list, and the shape of it, and how
+deletion is implemented — so changing any of those means changing the row too. You have
+swapped one small prop for three, and gained a component that only works in this app.
+
+**Hand down what the child needs to know, and a way to tell you something happened.
+Nothing else.**
+
