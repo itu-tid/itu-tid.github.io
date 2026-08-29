@@ -1,3 +1,31 @@
+## Trying any of this out
+
+Everything below is plain JavaScript, so you do not need a browser, a page, or React to
+run it. If you have Node installed — you will need it for the course anyway — typing
+`node` in a terminal drops you into a REPL:
+
+```
+$ node
+Welcome to Node.js v22.
+> const todos = ["Buy milk", "Call the landlord"];
+undefined
+> todos.length
+2
+> todos.map(t => t.toUpperCase())
+[ 'BUY MILK', 'CALL THE LANDLORD' ]
+```
+
+It evaluates a line at a time and prints the result, so it is the fastest way to check
+what something actually does rather than what you assume it does. `.editor` lets you paste
+several lines at once, `.exit` or Ctrl-D leaves.
+
+For a whole file, `node whatever.js` runs it. And the browser's DevTools console is the
+same thing in the other place you will be working — the language is identical, only the
+surroundings differ.
+
+**Try the examples as you read.** Half of them are about the difference between changing
+a thing and making a new one, and that is much easier to believe when you have watched it
+in front of you.
 
 ![](images/js-most-used-in-2023.png)
 (source: [StackOverflow developer survey](https://survey.stackoverflow.co/2023/#programming-scripting-and-markup-languages))
@@ -162,3 +190,63 @@ superheroes.map (each => each.name == "superman"? {...each, power:"strength and 
 ```
   `
 	
+
+
+## Immutable treatment of objects
+
+### Modifying objects is easiest with the spread syntax
+
+![](images/spread-syntax.png)
+
+### Updating nested objects is ... a little bit ugly
+![](images/nested-object-definition.png)![](images/updating-nested-objects.png)
+
+## Inserting in the middle
+
+### Inserting an element  can be done with two uses of `slice`: 
+
+```javascript
+  function handleClick() {
+    const insertAt = 1; // Could be any index
+    const nextArtists = 
+	[
+      
+      // Items before the insertion point:
+      ...artists.slice(0, insertAt),
+      
+      // New item:
+      { id: nextId++, name: name },
+      
+      // Items after the insertion point:
+      ...artists.slice(insertAt)
+    ];
+    setArtists(nextArtists);
+    setName('');
+  }
+
+```
+
+## The methods that change the array under you
+
+### Sorting, reversing - `reverse`, `sort` -- they mutate the array. 
+
+- But it's ok if you copy the array first, and then mutate it the way you like
+
+```
+let reversedArtists = [...artists].reverse();
+```
+
+## Why any of this matters
+
+Nothing above is a rule of JavaScript — `push`, `sort` and `splice` are perfectly good
+functions and there is nothing wrong with using them. It matters because of what you will
+build on top of the language.
+
+React decides whether to redraw by asking *is this the same object I had before?* — not by
+looking inside it. Hand it back the same array with one more item pushed onto it and the
+answer is yes, it is the same object, so nothing happens on screen even though the data
+changed. Hand it a new array and the answer is no, and it redraws.
+
+So in a React app you reach for the versions that **return something new** — `map`,
+`filter`, spread — and avoid the ones that change what they were given. Which is the whole
+reason this page exists.

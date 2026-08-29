@@ -544,4 +544,6 @@ function Greeting() {
 
 ### 5. What is *reactive* about programming in React?
 
-### 6. You push a new item onto an array and the screen does not change. Why not, and what do you do instead? 
+### 6. You push a new item onto an array and the screen does not change. Why not, and what do you do instead?
+
+### 7. Why should you avoid mutating state objects and arrays directly in React? 
