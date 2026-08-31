@@ -5,25 +5,41 @@
 The term comes from functional programming, where the ideal is a **pure function**: give it the same arguments and it gives you the same answer, every time, and changes nothing else in the world.
 
 This one is pure:
-```js
 
+```js
 function square(i) {
-	return i*i;
+	return i * i;
 }
 ```
 
 This one is not:
 
 ```js
-function square (i) {
-	localStorage.setItem("square", i*i);
-	return i*i;
+function square(i) {
+	localStorage.setItem("square", i * i);
+	return i * i;
 }
 ```
 
-In the above case `localStorage.setItem` writes the result somewhere. **`localStorage`** is a small key-value store the browser keeps for every site — a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
+`localStorage.setItem` writes the result somewhere. **`localStorage`** is a small key-value store the browser keeps for every site — a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
 
 Writing to storage was not what `square` was for. It is a **side effect** — something the function does besides producing its answer.
+
+### Reading from outside breaks the other half of the promise
+
+A pure function makes two promises: it changes nothing, and the same arguments give the same answer. Writing broke the first. This breaks the second:
+
+```js
+function lastSquare() {
+	return localStorage.getItem("square");
+}
+```
+
+Nothing is written, so nothing is *affected* — in the strict sense this is not a side effect at all. But call it twice with the same arguments (there are none) and you can get two different answers, because the answer was never in the arguments. It came from outside.
+
+That is what **impure** means, and it is the more useful word here, because React makes no distinction between the two. Reading and writing are both *your component and something outside it having to agree*, and that is the job an effect exists to do.
+
+Keep `lastSquare` in mind. Further down this note you will write it almost line for line, to read your to-do list back after a refresh.
 
 
 ## An effect is where a side effect belongs
@@ -64,8 +80,6 @@ Read it as a sentence: **whenever `todos` changes, write it to local storage.** 
 **Second, when to do it** — an array of the values the effect depends on. React re-runs the effect whenever any of them differs from last time. Props count as well as state; anything the effect reads should be in there.
 
 The array has two special cases, both further down: leave it **empty** and the effect runs once, at mount. Leave it **out altogether** and it runs after every single render, which is almost never what you want.
-
-**And is *reading* from storage a side effect?** In the functional-programming sense, no — nothing changes, so nothing is affected. But it does make the function **impure**: its result depends on something other than its arguments, so two identical calls can return different answers. React's framing sidesteps the argument: reading and writing are both *synchronising with something outside*, and that is what effects are for.
 
 ### The page title is the same shape as saving to storage
 
