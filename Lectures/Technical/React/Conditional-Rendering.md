@@ -8,40 +8,55 @@ You need this the moment the app can be in more than one situation, which is soo
 {todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
 ```
 
-There are three ways to write one, and to see what actually differs between them it is worth writing the *same* thing three times. Here is a to-do row that should look different once it is done.
+There are three ways to write one. Here they are on the same condition — an empty list — because writing the same thing three times is the only way to see what differs between the forms rather than between the examples.
 
 **1. An `if`, before the `return`** — when the two versions are different enough to be worth reading separately:
 
 ```jsx
-function TodoItem({ text, done }) {
-  if (done) {
-    return <li className="done"><s>{text}</s></li>;
+function TodoList({ todos }) {
+  if (todos.length === 0) {
+    return <p>Nothing to do. Enjoy the afternoon.</p>;
   }
-  return <li>{text}</li>;
-}
-```
 
-**2. The `? :` operator**, inside the JSX — when only a small part changes, and repeating the whole `<li>` would hide how little that is:
-
-```jsx
-function TodoItem({ text, done }) {
-  return <li className={done ? "done" : ""}>{done ? <s>{text}</s> : text}</li>;
-}
-```
-
-**3. `&&`** — when there is genuinely nothing to show in the other case, so a `? :` would end in an awkward `: null`:
-
-```jsx
-function TodoItem({ text, done }) {
   return (
-    <li>
-      {text} {done && <span aria-label="done">✓</span>}
-    </li>
+    <ul>
+      {todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
+    </ul>
   );
 }
 ```
 
-They are not three styles of the same thing. `if` and `? :` both answer *which of these two*, and `&&` answers *is there anything here at all* — which is why the empty-list message above is written with `&&` and could not sensibly be written any other way.
+**2. The `? :` operator**, inside the JSX — when the surrounding markup is shared and repeating it would hide how little actually changes:
+
+```jsx
+function TodoList({ todos }) {
+  return (
+    <section>
+      <h2>Today</h2>
+      {todos.length === 0
+        ? <p>Nothing to do. Enjoy the afternoon.</p>
+        : <ul>{todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}</ul>}
+    </section>
+  );
+}
+```
+
+**3. `&&`** — when there is genuinely nothing to show in the other case:
+
+```jsx
+function TodoList({ todos }) {
+  return (
+    <section>
+      {todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
+      <ul>{todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}</ul>
+    </section>
+  );
+}
+```
+
+Now the difference is visible rather than asserted. The first two **choose between two things** — you get the message *or* the list. The third **adds a thing, or does not** — the `<ul>` is always rendered, and it happens to be invisible when empty.
+
+So they are not three styles of one thing. `if` and `? :` answer *which of these two*; `&&` answers *is there anything here at all*. Reach for `&&` when a `? :` would have to end in an awkward `: null`.
 
 A warning about that last one. `&&` returns its **left** side when the left side is falsy — so `{todos.length && <p>…</p>}` renders a literal **0** on the page when the list is empty, because `0` is falsy but is still something React will happily display. Compare explicitly (`=== 0`, `> 0`) and the problem disappears.
 
