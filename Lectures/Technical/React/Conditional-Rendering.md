@@ -4,9 +4,13 @@ A component returns JSX. Which JSX it returns can depend on what is in state, or
 
 You need this the moment the app can be in more than one situation, which is sooner than it sounds. A to-do list that can be added to and deleted from can also be **empty**, and an empty `<ul>` on screen looks like a bug rather than an achievement. So the list needs to say something else when there is nothing in it.
 
-There are three ways to write that. Here they all are on the same condition, because writing the same thing three times is the only way to see what differs between the forms rather than between the examples.
+## There are three ways to write it
 
-**1. An `if`, before the `return`** — the one you already know from every other language you have written. Best when the two versions are different enough to be worth reading separately:
+Here they all are on the same condition, because writing the same thing three times is the only way to see what differs between the forms rather than between the examples.
+
+### An `if` before the `return`, when the two versions read better apart
+
+The one you already know from every other language you have written:
 
 ```jsx
 function TodoList({ todos }) {
@@ -23,7 +27,9 @@ function TodoList({ todos }) {
 }
 ```
 
-**2. The `? : ` operator**, inside the JSX — when the surrounding markup is shared and repeating it would hide how little actually changes:
+### A `? :` inside the JSX, when the markup around it is shared
+
+Writing that markup out twice would hide how little actually changes:
 
 ```jsx
 function TodoList({ todos }) {
@@ -38,7 +44,7 @@ function TodoList({ todos }) {
 }
 ```
 
-**3. `&&`** — when there is genuinely nothing to show in the other case:
+### An `&&`, when there is genuinely nothing to show in the other case
 
 ```jsx
 function TodoList({ todos }) {
@@ -51,16 +57,17 @@ function TodoList({ todos }) {
 }
 ```
 
+## `if` and `? :` choose between two things; `&&` only adds one
+
 The first two **choose between two things** — you get the message *or* the list. The third **adds a thing, or does not** — the `<ul>` is always rendered, and it happens to be invisible when empty.
 
 So they are not three styles of one thing. `if` and `? :` answer *which of these two*; `&&` answers *is there anything here at all*. Reach for `&&` when a `? :` would have to end in an awkward `: null`.
 
-A warning about that last one. `&&` returns its **left** side when the left side is falsy — so `{todos.length && <p>…</p>}` renders a literal **0** on the page when the list is empty, because `0` is falsy but is still something React will happily display. Compare explicitly (`=== 0`, `> 0`) and the problem disappears.
+A component can also [return `null`](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null), which renders nothing at all — the `if` form used to hide a component entirely rather than to choose what it shows.
 
-Note:
-- you can [conditionally return null](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null) if you don't want to display a given component in some situation.
+## `&&` puts a literal 0 on the screen when the left side is a number
 
-Read and see examples at: *Describing the UI > [Conditional Rendering](https://react.dev/learn/conditional-rendering)*
+`&&` returns its **left** side when the left side is falsy — so `{todos.length && <p>…</p>}` renders a literal **0** on the page when the list is empty, because `0` is falsy but is still something React will happily display. Compare explicitly (`=== 0`, `> 0`) and the problem disappears.
 
 
 ## References

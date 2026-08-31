@@ -2,7 +2,7 @@
 
 Motivation - we want to be full-stack web developers :) But we don't have much time.
 
-## Backends
+## A backend is everything your React app cannot do by itself
 
 ### "Backend" only means something relative to a front-end
 - **Relative term** - defined in opposition to the *front-end*
@@ -42,7 +42,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 	- **Parse Platform** = open source framework
 
 
-## Parse Platform
+## Parse is an open-source backend you do not have to build
 
 ### Parse was a startup, then Facebook's, and is now open source
 
@@ -66,7 +66,7 @@ Offers
 
 
 
-## Setting up a Parse Server
+## You can rent a Parse server, or run your own
 ### Back4App hosts Parse for you, and you leave with three keys
 
 Steps to start working with the Back4App Parse deployment
@@ -79,7 +79,7 @@ Steps to start working with the Back4App Parse deployment
 - You can also [deploy your own server on DigitalOcean](Parse-Server-Deployment-Guide.md)
 
 
-## Interacting with Parse from Javascript
+## Everything you do to Parse goes through the JavaScript SDK
 
 The full documentation is in the [Parse.js Javascript Guide](https://docs.parseplatform.org/js/guide/#saving-objects)
 - use as reference
@@ -364,7 +364,7 @@ More advanced features
 - [Resetting Passwords](https://docs.parseplatform.org/js/guide/#resetting-passwords)
 
 
-## React patterns when communicating with a backend
+## A backend is slow, and your components have to show it
 
 ### An empty list and a list that has not arrived yet look identical
 
@@ -421,7 +421,7 @@ One thing worth knowing before you reach for a spinner: if the data usually arri
 Every screen that fetches needs these three states, which means you will write this same `useState` triple in every component that talks to Parse. That repetition is the standard argument for a **custom hook** — one `useTodos()` that returns `{ todos, status }` and keeps the wiring in one place. That is [Component Extraction](../Structure/Component-Extraction-Guide.md) applied to logic rather than to markup; you do not need it in week 4, but notice the duplication when it arrives.
 
 
-## Modeling Relationships in Parse
+## Model your domain before you create a single table
 
 
 You must think ahead about the database model for your application.

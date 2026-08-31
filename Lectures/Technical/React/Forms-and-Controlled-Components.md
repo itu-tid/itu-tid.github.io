@@ -2,7 +2,7 @@
 
 Until now the app could only add whatever it felt like — the button reached into a list of sample tasks and picked one at random. Typing the task yourself means React has to own the input, and the screen has to change shape depending on what is in it.
 
-## Connecting Inputs To State Via Event Handlers
+## Give the value to state, and every keystroke goes back through the setter
 
 An `<input>` normally keeps its own text. You type, the browser remembers, and React knows nothing about it — which is fine until the app needs to *use* what was typed.
 

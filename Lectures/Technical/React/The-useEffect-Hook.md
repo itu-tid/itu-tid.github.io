@@ -26,16 +26,16 @@ In the above case `localStorage.setItem` writes the result somewhere. **`localSt
 Writing to storage was not what `square` was for. It is a **side effect** — something the function does besides producing its answer.
 
 
-## Side Effects in React with `useEffect`
+## An effect is where a side effect belongs
 
 A component function has one job: return JSX. Anything else it does — writing to storage, changing the page title, starting a timer, calling a backend — is a side effect, and belongs in an effect rather than in the body of the component.
 
-### The goal: keep your component in step with something outside React
+### An effect keeps your component in step with something outside React
 
 `localStorage`, the document title, a timer, a backend — anything React does not control is *outside*, and an effect is how you keep the two in step.
 
 
-### Writing one
+### You state the dependency, and React runs the function at the right moment
 
 `useEffect` lets us hook into React and catch the moment a state variable changes, so we can do something about it. Below: a to-do list that writes itself to local storage whenever the list changes.
 
@@ -57,7 +57,7 @@ Read it as a sentence: **whenever `todos` changes, write it to local storage.** 
 
 `JSON.stringify` is there because local storage only holds **strings**. Hand it an array and you get back `"[object Object]"` on the next load, which is a confusing ten minutes if you have not been warned.
 
-### The two arguments
+### The first argument says what to do, the second says when
 
 **First, what to do** — a function, usually written in place as an arrow function, though a named one works just as well.
 
@@ -67,9 +67,9 @@ The array has two special cases, both further down: leave it **empty** and the e
 
 **And is *reading* from storage a side effect?** In the functional-programming sense, no — nothing changes, so nothing is affected. But it does make the function **impure**: its result depends on something other than its arguments, so two identical calls can return different answers. React's framing sidesteps the argument: reading and writing are both *synchronising with something outside*, and that is what effects are for.
 
-### Other things an effect is for
+### The page title is the same shape as saving to storage
 
-**The page title**, so the browser tab says something useful:
+So that the browser tab says something useful:
 
 ```jsx
 useEffect(() => {
@@ -77,7 +77,9 @@ useEffect(() => {
 }, [todos]);
 ```
 
-**What an effect is *not* for** is computing something from state. If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. That is a common enough mistake to have a name: it makes two sources of truth where one would do, and they drift.
+### An effect is not for computing something you already have
+
+If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. That is a common enough mistake to have a name: it makes two sources of truth where one would do, and they drift.
 
 `useEffect` might honestly have been called `useReactive`: what you write is a relationship, not an instruction.
 
@@ -88,7 +90,7 @@ You have already met this with `useState`: change the data, and React works out 
 `useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with your data; `useEffect` keeps *everything else* in step with it. Same dependency, same automatic re-run, different destination.
 
 
-## The empty dependency list: run once, at mount
+## An empty dependency list means run once, at mount
 
 An effect with an **empty** array runs once, when the component first appears, and never again.
 
@@ -96,9 +98,9 @@ An effect with an **empty** array runs once, when the component first appears, a
 
 An empty dependency list says *nothing to depend on*, so there is never a later change to react to, so it runs at mount and never again.
 
-### What only happens once
+### The list is saved on every change, and read back exactly once
 
-**Loading.** The app saves the list on every change; it needs to read it back exactly once, when it starts. That is the whole to-do app made persistent:
+The app saves the list on every change; it needs to read it back exactly once, when it starts. That is the whole to-do app made persistent:
 
 ```jsx
 function loadTodos() {
@@ -123,14 +125,14 @@ Note where the load went. `useState(loadTodos)` — the function passed, not cal
 
 **In two weeks this same shape points at a backend instead of the browser** — the same hook, the same dependency array, a Parse query instead of `localStorage`. The swap is smaller than it sounds.
 
-### One thing that will confuse you: effects run twice in development
+### Effects run twice in development, on purpose
 
 React deliberately mounts every component twice while you are developing, to shake out effects that do not tolerate being run again. In production it happens once.
 
 So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. Saving to local storage twice does no harm — it writes the same thing both times.
 
 
-## Two more shapes, when you need them
+## Cleanup and the missing dependency list wait until there is a backend
 
 `useEffect` has two further forms — a **cleanup function**, and no dependency list at all. Neither does anything useful against local storage, and both matter once an effect talks to a live backend. They are in [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), with the problems that make them necessary.
 

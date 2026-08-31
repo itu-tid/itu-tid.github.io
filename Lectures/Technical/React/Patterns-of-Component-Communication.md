@@ -2,11 +2,11 @@
 
 Components are arranged in a tree, and information has to travel along it. There are only two directions, and they use different mechanisms.
 
-## Parent to child: props
+## Data goes down, as props
 
 The parent hands the child what it needs to draw itself. Data goes down.
 
-## Child to parent: callbacks
+## Events come back up, as callbacks
 
 The child does not know who its parent is — and should not. Imagine a button: it has no idea who put it there, and it would be a worse button if it did.
 
@@ -50,7 +50,7 @@ Read the two directions:
 
 `TodoItem` knows nothing about `filter`, about the array, or even that a list exists. Drop it into an app that archives items instead of deleting them, passing the same `onRemove`, and it works unchanged. That is what you get for keeping the arrow pointing one way.
 
-## The mistake to avoid
+## Passing `setTodos` down gives every row power over the whole list
 
 The tempting shortcut is to pass `setTodos` down and let the row remove itself:
 

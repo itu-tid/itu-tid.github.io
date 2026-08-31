@@ -4,7 +4,7 @@ You know how to write a component. The harder question is which ones to write �
 
 So do it on the screen instead, before you touch the editor. Draw boxes around the parts of the interface, and name each box.
 
-## The to-do, boxed
+## Start by drawing boxes on the app you can already see
 
 ```
 ┌─ TodoApp ─────────────────────────────┐
@@ -39,7 +39,7 @@ TodoApp
 
 That is the whole exercise, and it takes two minutes on paper. Do it away from the editor: you are looking at what the thing *is*, not at what you have already typed.
 
-## What earns a box
+## A box earns its name if you can say what it does without "and"
 
 The same test as for a function: **it does one thing, and you can name it without using "and".**
 
@@ -70,7 +70,7 @@ Two other signals, both visible on the drawing rather than in the code:
 
 **It matches the data.** Notice that the tree above looks like the array it renders: a list of things, and a thing. When the component hierarchy and the data have the same shape, the code is usually easy; when they disagree, something is being forced.
 
-## Making one: extracting `TextInput`
+## Extracting a component is moving JSX out and naming what it needs
 
 `value` and `onChange` are ordinary props, so nothing stops you putting that input inside a component of your own:
 
@@ -113,7 +113,7 @@ Two things improved, and neither is about saving typing.
 
 And look at the shape of it: `TextInput` takes the value it should show, and a way to report that something changed. Exactly what the raw `<input>` takes. The pattern travelled up a level without changing — which is why React reuses the word, and calls *any* component whose important state is held by its parent a controlled one.
 
-## What not to take from this
+## Do not build the whole static version first
 
 React's [Thinking in React](https://react.dev/learn/thinking-in-react) presents the boxes as step one of five, and the next step is *build the whole static version first, with no state at all, then add interactivity*.
 
