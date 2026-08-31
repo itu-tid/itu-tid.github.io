@@ -115,6 +115,16 @@ def main(wanted):
              f"Week {num} · {re.sub(r'[*]', '', title)}", SUBTITLE, *map(str, notes)],
             check=True, cwd=ROOT)
         built += 1
+    # A week that gets retitled is written under a new name, and the old file
+    # would otherwise sit there forever -- publish-chapters builds its index
+    # from whatever is in the directory, so the chapter would be listed twice.
+    # Expected covers every week, not only the ones just built, so this cleans
+    # up after a --changed run as well.
+    expected = {f"Week-{n:02d}-{slug(t)}.pdf" for n, t, notes in weeks() if notes}
+    for stale in sorted(set(OUT.glob("Week-*.pdf")) - {OUT / e for e in expected}):
+        stale.unlink()
+        print(f"  removed {stale.name} — no week produces it any more")
+
     print(f"\n{built} chapter(s) written to {OUT}, {skipped} week(s) skipped")
 
 

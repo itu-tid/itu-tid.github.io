@@ -111,7 +111,7 @@ Another, simpler classification is by Erika Hall (2013): she argues that three c
 - [The Design of Everyday Things](https://web.media.mit.edu/~ascii/papers/norman_chapter1_2013.pdf) , Don Norman.
 
 
-## Project Work 👬
+## Project Work
 - Evaluate the usability of your Lo-Fi prototype
 - Record brief notes of the usability test outcome
 - Write a usability report in which you prioritize the discovered issues

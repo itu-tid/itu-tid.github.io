@@ -19,8 +19,13 @@ body{
 }
 
 /* --- title block ------------------------------------------------------- */
-header#title-block-header{ margin:0 0 2.2rem; padding-bottom:1.1rem;
-  border-bottom:2px solid var(--ink); }
+/* The title owns page one and the contents page two. Sharing a page, the
+   contents box ran off the bottom and split, and a bordered box that splits
+   leaves a stranded fragment rather than a continuation. */
+header#title-block-header{ margin:0; padding-bottom:1.1rem;
+  border-bottom:2px solid var(--ink);
+  min-height:86vh; display:flex; flex-direction:column; justify-content:flex-end;
+  break-after:page; page-break-after:always; }
 header#title-block-header .title{
   font-family:'Space Grotesk','Inter',sans-serif; font-weight:700;
   font-size:2.1rem; line-height:1.15; margin:0 0 .35rem; letter-spacing:-.02em; }

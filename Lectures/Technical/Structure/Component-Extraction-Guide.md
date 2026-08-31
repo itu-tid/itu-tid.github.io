@@ -4,7 +4,7 @@
 > because they came from a different course. This course is JavaScript and MUI. Read them for the *decisions* — when a block deserves a name, when repetition earns a component — and ignore the syntax around them; nothing here depends on the stack.
 
 
-## 📋 Universal Principles (CSS-Agnostic)
+## Universal Principles (CSS-Agnostic)
 
 **These principles apply whether you use Tailwind, CSS Modules, styled-components, or plain CSS.**
 
@@ -12,7 +12,7 @@
 
 ## The Problem: "Div Soup" & "Class Soup"
 
-### ❌ Bad Example (Tailwind)
+### Bad Example (Tailwind)
 ```tsx
 <div className="mx-auto flex w-full max-w-xl flex-col items-start gap-6 px-4 py-6">
   <section className="flex w-full flex-col items-center gap-2 p-6">
@@ -22,7 +22,7 @@
 </div>
 ```
 
-### ❌ Bad Example (CSS Modules)
+### Bad Example (CSS Modules)
 ```tsx
 <div className={styles.outerContainer}>
   <section className={styles.innerSection}>
@@ -32,7 +32,7 @@
 </div>
 ```
 
-### ❌ Bad Example (Inline Styles)
+### Bad Example (Inline Styles)
 ```tsx
 <div style={{ margin: '0 auto', display: 'flex', width: '100%', maxWidth: '36rem', flexDirection: 'column', gap: '1.5rem', padding: '1rem 1rem 1.5rem 1rem' }}>
   <section style={{ display: 'flex', width: '100%', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', padding: '1.5rem' }}>
@@ -43,16 +43,16 @@
 ```
 
 **What's the problem in ALL these examples?**
-- ❌ Can't tell what these divs/sections represent
-- ❌ Styling details overwhelm structure
-- ❌ Not reusable
-- ❌ Hard to review without CSS knowledge
+- Can't tell what these divs/sections represent
+- Styling details overwhelm structure
+- Not reusable
+- Hard to review without CSS knowledge
 
 ---
 
 ## The Solution: Semantic Component Extraction
 
-### ✅ Good Example (Works with ANY CSS approach)
+### Good Example (Works with ANY CSS approach)
 ```tsx
 <ProfileContainer>
   <ProfileHeader>
@@ -63,15 +63,15 @@
 ```
 
 **Benefits:**
-- ✅ Clear component hierarchy
-- ✅ Communicates intent immediately
-- ✅ Backend devs can understand structure
-- ✅ Reusable across the app
-- ✅ Styling details hidden in component files
+- Clear component hierarchy
+- Communicates intent immediately
+- Backend devs can understand structure
+- Reusable across the app
+- Styling details hidden in component files
 
 ---
 
-## 🎯 The Four Core Principles
+## The Four Core Principles
 
 ### 1. **The Tech Lead Test**
 > "If someone who doesn't know your CSS framework can't understand your component hierarchy, you need better abstraction."
@@ -82,10 +82,10 @@
 > "If you can describe a component's purpose in 1-2 words, that should be its name."
 
 ```tsx
-// ❌ Bad: What is this?
+// Bad: What is this?
 <div className="...">
 
-// ✅ Good: Immediately clear
+// Good: Immediately clear
 <ProfileCard>
 <NavigationMenu>
 <PricingTable>
@@ -97,7 +97,7 @@
 ### 4. **The Single Level of Abstraction (SLA)**
 > "Keep all JSX at the same conceptual level. Don't mix high-level components with low-level HTML details."
 
-**❌ Bad (mixed abstraction levels):**
+**Bad (mixed abstraction levels):**
 ```tsx
 <ProfilePage>
   <Header />  {/* High-level component */}
@@ -111,7 +111,7 @@
 </ProfilePage>
 ```
 
-**✅ Good (consistent abstraction level):**
+**Good (consistent abstraction level):**
 ```tsx
 <ProfilePage>
   <Header />
@@ -125,7 +125,7 @@
 
 ---
 
-## 📚 Step-by-Step Tutorial: Component Extraction
+## Step-by-Step Tutorial: Component Extraction
 
 ### Example: Refactoring a Profile Page
 
@@ -394,16 +394,16 @@ export const Profile = () => {
 ```
 
 **Results:**
-- ✅ **60 lines** instead of 275 (78% reduction)
-- ✅ **Immediately understandable** structure
-- ✅ **Each component** < 100 lines
-- ✅ **Reusable** components
-- ✅ **Testable** in isolation
-- ✅ **Reviewable** by anyone
+- **60 lines** instead of 275 (78% reduction)
+- **Immediately understandable** structure
+- **Each component** < 100 lines
+- **Reusable** components
+- **Testable** in isolation
+- **Reviewable** by anyone
 
 ---
 
-## 🔧 Advanced Pattern: Polymorphic Components
+## Advanced Pattern: Polymorphic Components
 
 Allow components to render different HTML elements for semantic correctness:
 
@@ -433,7 +433,7 @@ export const Card = ({ children, element: Element = 'div' }: CardProps) => {
 
 ---
 
-## 📁 Recommended File Structure
+## Recommended File Structure
 
 ```
 src/
@@ -461,7 +461,7 @@ src/
 
 ---
 
-## ✅ Checklist: When to Extract a Component
+## Checklist: When to Extract a Component
 
 Extract when:
 - [ ] A pattern appears 3+ times
@@ -478,7 +478,7 @@ Don't extract when:
 
 ---
 
-## 🎓 Practice Exercise
+## Practice Exercise
 
 **Given this code, extract semantic components:**
 
@@ -528,7 +528,7 @@ const JobPage = () => {
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 ### Articles
 - [Semantic JSX by Max Böck](https://mxb.dev/blog/semantic-jsx/)
@@ -544,7 +544,7 @@ const JobPage = () => {
 
 ---
 
-## 🎯 Key Takeaways
+## Key Takeaways
 
 1. **Component names should communicate intent** - Not implementation details
 2. **Structure over styling** - Code should be readable regardless of CSS approach

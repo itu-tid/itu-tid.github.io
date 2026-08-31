@@ -55,7 +55,7 @@ Read the two directions:
 The tempting shortcut is to pass `setTodos` down and let the row remove itself:
 
 ```jsx
-<TodoItem todo={todo} todos={todos} setTodos={setTodos} />   // ❌
+<TodoItem todo={todo} todos={todos} setTodos={setTodos} />   // do not do this
 ```
 
 It works. It also means every row now knows the whole list, and the shape of it, and how deletion is implemented — so changing any of those means changing the row too. You have swapped one small prop for three, and gained a component that only works in this app.

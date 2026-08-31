@@ -45,14 +45,14 @@ The same test as for a function: **it does one thing, and you can name it withou
 
 And name it as a **thing, not an action**. A component is something on the screen, so it gets a noun: `TodoList`, `TodoItem`, `NewTodoForm`. Functions that *do* something get the verb — `handleAdd`, `handleRemove`. If you find yourself writing `AddTodo` as a component, you have named the button's job rather than the thing on the page.
 
-- `TodoItem` — draws one to-do. ✅
-- `TodoList` — draws all of them. ✅
-- `TodoListAndForm` — two things, wearing a raincoat. ❌ Two boxes.
+- `TodoItem` — draws one to-do.
+- `TodoList` — draws all of them.
+- `TodoListAndForm` — two things, wearing a raincoat. Two boxes.
 
 The commonest way to fail that test is to weld a **domain** component to a **layout** one — something that knows about to-dos *and* accepts arbitrary content:
 
 ```jsx
-function ToDoPanel({ firstName, children }) {      // ❌ two components
+function ToDoPanel({ firstName, children }) { // two components
   return (
     <>
       <h1>To Do List for {firstName}</h1>

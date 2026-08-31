@@ -4,7 +4,7 @@
 > because they came from a different course. This course is JavaScript and MUI. Read them for the *decisions* — when a block deserves a name, when repetition earns a component — and ignore the syntax around them; nothing here depends on the stack.
 
 
-## 🚦 Quick Decision Tree
+## Quick Decision Tree
 
 ```
 Is this JSX block hard to understand?
@@ -19,22 +19,22 @@ Is this JSX block hard to understand?
 
 ---
 
-## ❌ vs ✅ Quick Examples
+## Bad and good, side by side
 
 ### Layout Components
 
 ```tsx
-// ❌ Bad - What is this div?
+// Bad - What is this div?
 <div className="mx-auto flex w-full max-w-xl flex-col gap-6 px-4 py-6">
 
-// ✅ Good - Clear semantic name
+// Good - Clear semantic name
 <ProfileContainer>
 ```
 
 ### Domain Components
 
 ```tsx
-// ❌ Bad - Implementation details everywhere
+// Bad - Implementation details everywhere
 <section className="flex w-full flex-col items-center gap-2 p-6">
   <div className="size-24 rounded-3xl bg-neutral-300">
     <img src={user.avatar} />
@@ -42,7 +42,7 @@ Is this JSX block hard to understand?
   <h2>{user.name}</h2>
 </section>
 
-// ✅ Good - Semantic hierarchy
+// Good - Semantic hierarchy
 <ProfileHeader>
   <Avatar user={user} />
   <UserName>{user.name}</UserName>
@@ -52,29 +52,29 @@ Is this JSX block hard to understand?
 ### Repeated Patterns
 
 ```tsx
-// ❌ Bad - Copy-pasted 10 times
+// Bad - Copy-pasted 10 times
 <button className="rounded-xl bg-neutral-200 px-4 py-2 hover:bg-neutral-300">
   Click me
 </button>
 
-// ✅ Good - Reusable component
+// Good - Reusable component
 <Button variant="secondary">Click me</Button>
 ```
 
 ---
 
-## 🎯 The 4 Tests
+## The 4 Tests
 
 | Test | Question | Example |
 |------|----------|---------|
-| **Tech Lead Test** | Can non-CSS person understand structure? | `<ProfileHeader>` ✅ vs `<div className="...">` ❌ |
-| **Semantic Test** | Can you name it in 1-2 words? | `<JobCard>` ✅ vs `<Component1>` ❌ |
+| **Tech Lead Test** | Can a non-CSS person understand the structure? | `<ProfileHeader>`, not `<div className="...">` |
+| **Semantic Test** | Can you name it in 1-2 words? | `<JobCard>`, not `<Component1>` |
 | **DRY Test** | Is pattern repeated 3+ times? | Extract if yes |
-| **SLA Test** | Is everything at same abstraction level? | Mix `<Header>` and `<div className="...">` = ❌ |
+| **SLA Test** | Is everything at the same abstraction level? | Mixing `<Header>` and `<div className="...">` is not |
 
 ---
 
-## 📋 Step-by-Step Process
+## Step-by-Step Process
 
 ### 1. Identify Sections
 ```tsx
@@ -140,7 +140,7 @@ const Profile = () => {
 
 ---
 
-## 🔧 Component Templates
+## Component Templates
 
 ### Layout Component
 ```tsx
@@ -226,7 +226,7 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 
 ---
 
-## ⚠️ Common Mistakes
+## Common Mistakes
 
 | Mistake | Why Bad | Fix |
 |---------|---------|-----|
@@ -239,18 +239,18 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 
 ---
 
-## 📊 Before/After Metrics
+## Before/After Metrics
 
 **Good refactoring achieves:**
-- ✅ 50-70% line reduction in page files
-- ✅ No component > 150 lines
-- ✅ 3-5 reusable components per page
-- ✅ Clear component hierarchy (3-4 levels max)
-- ✅ Reviewable without CSS knowledge
+- 50-70% line reduction in page files
+- No component > 150 lines
+- 3-5 reusable components per page
+- Clear component hierarchy (3-4 levels max)
+- Reviewable without CSS knowledge
 
 ---
 
-## 🎓 Extraction checklist
+## Extraction checklist
 
 - [ ] Identify all pages in your app
 - [ ] For each page, list the semantic sections
@@ -264,7 +264,7 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 
 ---
 
-## 💡 Pro Tips
+## Pro Tips
 
 1. **Start with layout** - Extract containers first
 2. **Then UI primitives** - Buttons, avatars, inputs
@@ -275,7 +275,7 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 
 ---
 
-## 🆘 When Stuck
+## When Stuck
 
 **Ask yourself:**
 1. What does this component DO? (name it that)
@@ -288,7 +288,7 @@ export const Card = ({ children, as: Element = 'div' }: CardProps) => {
 
 ---
 
-## 📚 Quick Links
+## Quick Links
 
 - [Full Guide](Component-Extraction-Guide.md)
 - [Semantic JSX Article](https://mxb.dev/blog/semantic-jsx/)

@@ -307,8 +307,8 @@ function TodoList() {
 #### Passing a function, not calling it
 
 ```jsx
-<button onClick={handleAdd}>Add</button>     // ✅ hands React the function
-<button onClick={handleAdd()}>Add</button>   // ❌ calls it now, hands React the result
+<button onClick={handleAdd}>Add</button> // hands React the function
+<button onClick={handleAdd()}>Add</button> // calls it now, hands React the result
 ```
 
 The second one runs `handleAdd` while the component is *rendering*, before anybody has clicked anything, and gives `onClick` whatever it returned — usually `undefined`. If your handler fires once on load and never again, this is why.
@@ -361,7 +361,7 @@ function randomTask() {
   return SAMPLE_TASKS[Math.floor(Math.random() * SAMPLE_TASKS.length)];
 }
 
-let todos = ["Buy milk"];          // ❌ an ordinary variable
+let todos = ["Buy milk"]; // an ordinary variable
 
 function TodoList() {
   function handleAdd() {
