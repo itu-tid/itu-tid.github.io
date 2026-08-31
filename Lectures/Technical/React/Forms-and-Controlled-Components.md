@@ -6,7 +6,7 @@ Until now the app could only add whatever it felt like — the button reached in
 
 An `<input>` normally keeps its own text. You type, the browser remembers, and React knows nothing about it — which is fine until the app needs to *use* what was typed.
 
-So we take that job away from the input and give it to state. Two attributes, and nothing else:
+So we take that job away from the input and give it to state. Two attributes do it — `value` and `onChange`:
 
 ```jsx
 import { useState } from "react";
