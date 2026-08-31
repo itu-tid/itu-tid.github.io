@@ -1,4 +1,4 @@
-# The useEffect Hook 
+# The useEffect Hook
 
 ## A side effect is anything besides the main calculation
 

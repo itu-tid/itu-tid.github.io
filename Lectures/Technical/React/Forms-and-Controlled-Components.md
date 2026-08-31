@@ -43,7 +43,7 @@ Because state is just a variable, you can now do things the browser could never 
 
 The button's enabled-ness is *derived* from the text, not stored separately. Nothing has to remember to switch it on and off — it is recomputed on every render. Reach for that whenever you catch yourself about to add a second piece of state that is really about the first.
 
-### The pattern has a name: **controlled**
+### The pattern has a name: controlled
 
 An input whose value comes from state is called **controlled**. The opposite is **uncontrolled**: leave off `value`, and the input keeps its own text — you have to go and ask it what it holds when you want to know.
 
