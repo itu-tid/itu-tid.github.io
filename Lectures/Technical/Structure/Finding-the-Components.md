@@ -9,7 +9,7 @@ So do it on the screen instead, before you touch the editor. Draw boxes around t
 ```
 ┌─ TodoApp ─────────────────────────────┐
 │                                       │
-│  ┌─ AddTodo ─────────────────────┐    │
+│  ┌─ NewTodoForm ─────────────────┐    │
 │  │  ┌─ TextInput ─────────┐      │    │
 │  │  │ What needs doing?   │ [Add]│    │
 │  │  └─────────────────────┘      │    │
@@ -31,7 +31,7 @@ Boxes inside boxes give you the hierarchy for free:
 
 ```
 TodoApp
-├── AddTodo
+├── NewTodoForm
 │   └── TextInput
 └── TodoList
     └── TodoItem   (one per to-do)
@@ -42,6 +42,8 @@ That is the whole exercise, and it takes two minutes on paper. Do it away from t
 ## What earns a box
 
 The same test as for a function: **it does one thing, and you can name it without using "and".**
+
+And name it as a **thing, not an action**. A component is something on the screen, so it gets a noun: `TodoList`, `TodoItem`, `NewTodoForm`. Functions that *do* something get the verb — `handleAdd`, `handleRemove`. If you find yourself writing `AddTodo` as a component, you have named the button's job rather than the thing on the page.
 
 - `TodoItem` — draws one to-do. ✅
 - `TodoList` — draws all of them. ✅
@@ -88,7 +90,7 @@ function TextInput({ value, onChange, placeholder }) {
 The state stays where it was — `TextInput` has none of its own:
 
 ```jsx
-function AddTodo() {
+function NewTodoForm() {
   const [text, setText] = useState("");
 
   return (
@@ -101,11 +103,11 @@ function AddTodo() {
 }
 ```
 
-`useState` did not move into `TextInput`. If it had, `AddTodo` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
+`useState` did not move into `TextInput`. If it had, `NewTodoForm` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
 
 Two things improved, and neither is about saving typing.
 
-**The caller stopped touching `e.target.value`.** `TextInput` unwraps the event and hands up a plain string, so `AddTodo` can pass `setText` directly. The parent now works in the language of the app — a piece of text — instead of the language of the DOM.
+**The caller stopped touching `e.target.value`.** `TextInput` unwraps the event and hands up a plain string, so `NewTodoForm` can pass `setText` directly. The parent now works in the language of the app — a piece of text — instead of the language of the DOM.
 
 **There is one place to change how inputs look.** The `className`, and anything you add later, lives here rather than in every screen that happens to need typing.
 

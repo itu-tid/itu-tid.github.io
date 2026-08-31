@@ -11,7 +11,7 @@ So we take that job away from the input and give it to state. Two attributes, an
 ```jsx
 import { useState } from "react";
 
-function AddTodo() {
+function NewTodoForm() {
   const [text, setText] = useState("");
 
   return (
@@ -56,7 +56,7 @@ Nothing happens — and everybody expects Enter to work.
 That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler:
 
 ```jsx
-function AddTodo({ onAdd }) {
+function NewTodoForm({ onAdd }) {
   const [text, setText] = useState("");
 
   function handleSubmit(e) {
