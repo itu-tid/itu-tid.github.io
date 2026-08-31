@@ -26,7 +26,7 @@
 
 - The state is not changed immediately after you call the setter, but later when React does all the state changes.
 
-![](images/state-snapshot-example1.png)
+![](../images/state-snapshot-example1.png)
 Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-time)!
 
 
@@ -112,7 +112,7 @@ https://react.dev/learn/thinking-in-react
 **Step 0: Start from a mock and a data model**
 
 Imagine the following UI:
-![](images/fruit-filtering-ui.png)
+![](../images/fruit-filtering-ui.png)
 
 
 
@@ -147,7 +147,7 @@ A possible data model for it would be:
 
 **Step 1: Break The UI Into A Component Hierarchy**
 
-![](images/step-2.png)
+![](../images/step-2.png)
 
 
 
@@ -214,8 +214,8 @@ You will **often** have to pass state setters down the component hierarchy, and 
 
 **Exercise**: Try the Live Challenge 2: Profile Editor from [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state). Everybody should be able to do this. Implement a profile editor that has two states, as seen below.
 
-![](images/exercise-state-read-only.png)
-![](images/exercise-state-editable.png)
+![](../images/exercise-state-read-only.png)
+![](../images/exercise-state-editable.png)
 
 Start from the JSX snippet.
 

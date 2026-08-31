@@ -18,7 +18,7 @@ Examples of such resources could be:
 
 #### The syntax is ***UGLY***: **an arrow function that does the connection, and then returns another function that does the disconnect** 
 
-![](images/effect-with-cleanup-function.png)
+![](../images/effect-with-cleanup-function.png)
 
 #### And  example of resource that needs to be released: a timer
 

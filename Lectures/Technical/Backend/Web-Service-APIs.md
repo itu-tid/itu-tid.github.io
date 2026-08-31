@@ -34,7 +34,7 @@ The server exposes API **endpoints** following the following conventions
 - the version of a service is usually encoded in the URL
 
 
-![](images/spotify-endpoints.png)
+![](../images/spotify-endpoints.png)
 #### REST APIs 
 
 A special case of Web Server APIs that follow a strict convention for managing resources via CRUD operations (create, read, update, delete).
@@ -46,7 +46,7 @@ Conventions
 - text based protocol (JSON, XML)
 - strict endpoint naming, see example below
 - HTTP verbs are mapped on CRUD actions
-![](images/example-rest-api.png)
+![](../images/example-rest-api.png)
 Parse offers as an alternative to the JavaScript API that you've been using until now also a REST API. In a system that manages objects of type `Translation`, the way to get a list of translations is done from the command line as in the following:
 
 ```bash
@@ -126,7 +126,7 @@ How does it work?
 - Key is sent with every request
 - Authentication key is to be kept secret
 
-![](images/API%20Key%20Authentication.png)
+![](../images/API%20Key%20Authentication.png)
 
 Why?
 - Faster than always sending username / password
@@ -149,7 +149,7 @@ Addresses the limitations that come with the stateless nature of HTTPS
 
 Session secret key is generated after login on the server, stored in the cookie, and from then on sent always back to the server with every request.
 
-![](images/session-based-auth.png)
+![](../images/session-based-auth.png)
 
 
 

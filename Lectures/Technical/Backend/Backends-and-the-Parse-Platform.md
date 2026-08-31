@@ -10,7 +10,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 	- **Back-end** -- handles data processing, storage, and security
 - The server side in a ***client-server architecture***
 
-![](images/client-server-architecture.png)
+![](../images/client-server-architecture.png)
 
 
 ### What are the **responsibilities of the backend**?
@@ -574,7 +574,7 @@ Use whichever notation you prefer. Two that I like are:
 	- attributes are listed in the box
 2. On the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
 
-![](images/alterantive-er-diagrams.png)
+![](../images/alterantive-er-diagrams.png)
 
 No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database.
 # Project Work

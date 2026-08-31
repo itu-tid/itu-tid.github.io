@@ -10,11 +10,11 @@
 
 #### Version 1
 
-![](images/monster-component-part-1.png)
-![](images/monster-component-part-2.png)
+![](../images/monster-component-part-1.png)
+![](../images/monster-component-part-2.png)
 
 #### Version 2 
-![](images/component-with-same-abstraction-level-code.png)
+![](../images/component-with-same-abstraction-level-code.png)
 
 
 - this version allows us to think in terms of the UI elements that are all at the same abstraction level - the play/stop button, the name of the todo list item, its duration, the remove button.
@@ -35,7 +35,7 @@
 
 # Where the State Goes
 
-Extraction has a consequence. Split one component into three and some of them will need to agree about the same piece of state — which now belongs to none of them. The two patterns from [Component Communication](Patterns-of-Component-Communication.md) (props down, callbacks up) are not enough on their own.
+Extraction has a consequence. Split one component into three and some of them will need to agree about the same piece of state — which now belongs to none of them. The two patterns from [Component Communication](../React/Patterns-of-Component-Communication.md) (props down, callbacks up) are not enough on their own.
 
 ## sibling to sibling by "*lifting the state*"
 

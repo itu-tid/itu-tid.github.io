@@ -160,7 +160,7 @@ if not, then you have to figure out why and cleanup correctly.
 
 # Two more shapes of `useEffect`, later
 
-There are two further cases — a cleanup function that runs when the component unmounts, and an effect with no dependency list at all. Neither is much use against local storage, and both are needed the moment an effect talks to a live backend: one to close a subscription, the other as a warning. They live in *Backend III · [useEffect Against a Live Backend](useEffect-Against-a-Live-Backend.md)*.
+There are two further cases — a cleanup function that runs when the component unmounts, and an effect with no dependency list at all. Neither is much use against local storage, and both are needed the moment an effect talks to a live backend: one to close a subscription, the other as a warning. They live in *Backend III · [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md)*.
 
 
 ## Exam Questions
