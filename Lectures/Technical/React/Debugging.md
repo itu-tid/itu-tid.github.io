@@ -40,3 +40,12 @@ The browser extension adds two panels that plain DevTools does not have:
 ## The stack frame you want is the topmost one in your own file
 
 Most React errors name the component and the hook. Read the first three lines of the stack before changing anything: the frame you want is usually the topmost one that belongs to *your* file rather than to `react-dom`.
+
+
+## Exam Questions
+
+### 1. What does `debugger;` do when nobody has DevTools open, and why does that make it safer to leave in than a `console.log`?
+
+### 2. "The list did not update." Name two different bugs that look exactly like that on screen, and say how the Components panel tells them apart.
+
+### 3. An error's stack is fifteen frames deep and most of them are inside `react-dom`. Which frame do you read first, and why that one?

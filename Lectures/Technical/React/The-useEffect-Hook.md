@@ -42,9 +42,9 @@ That is what **impure** means, and it is the more useful word here, because Reac
 Keep `lastSquare` in mind. Further down this note you will write it almost line for line, to read your to-do list back after a refresh.
 
 
-## An effect is where a side effect belongs
+## The impure parts belong in an effect, not in the component body
 
-A component function has one job: return JSX. Anything else it does — writing to storage, changing the page title, starting a timer, calling a backend — is a side effect, and belongs in an effect rather than in the body of the component.
+A component function has one job: return JSX. Anything else it does — writing to storage, reading it back, changing the page title, calling a backend — makes it impure, and belongs in an effect rather than in the body of the component.
 
 ### An effect keeps your component in step with something outside React
 
@@ -79,7 +79,7 @@ Read it as a sentence: **whenever `todos` changes, write it to local storage.** 
 
 **Second, when to do it** — an array of the values the effect depends on. React re-runs the effect whenever any of them differs from last time. Props count as well as state; anything the effect reads should be in there.
 
-The array has two special cases, both further down: leave it **empty** and the effect runs once, at mount. Leave it **out altogether** and it runs after every single render, which is almost never what you want.
+The array has two special cases. Leave it **empty** and the effect runs once, at mount — that is the next section. Leave it **out altogether** and it runs after every single render, which is almost never what you want and which is why it waits for [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), where it does real damage.
 
 ### The page title is the same shape as saving to storage
 
@@ -160,15 +160,31 @@ useEffect(() => {
 }, [todos]);
 ```
 
-### 2. What is the difference between these two useEffect calls?
+### 2. What is the difference between these two, and which one saves your work?
 ```js
 // Version A
 useEffect(() => {
-  console.log("Effect A");
+  localStorage.setItem("todos", JSON.stringify(todos));
 }, []);
 
 // Version B
 useEffect(() => {
-  console.log("Effect B");
-});
+  localStorage.setItem("todos", JSON.stringify(todos));
+}, [todos]);
 ```
+
+### 3. One of these is a side effect and one of them is not. Say which, and why React puts both in an effect anyway.
+```js
+function square(i) {
+  localStorage.setItem("square", i * i);
+  return i * i;
+}
+
+function lastSquare() {
+  return localStorage.getItem("square");
+}
+```
+
+### 4. The to-do list is read back with `useState(loadTodos)` rather than an effect with an empty dependency array. Both work. What does the user see if you use the effect, and why?
+
+### 5. You expected one line in the console and you got two. What is React doing, and what would this be warning you about if the effect were talking to a backend rather than to local storage?
