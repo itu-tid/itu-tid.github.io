@@ -82,6 +82,14 @@ Three things are happening there.
 
 Later, when the same `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](../Structure/Finding-the-Components.md).
 
+**The button needs no `type`.** Inside a `<form>`, a `<button>` is a submit button by default — which is what makes the click and the Enter key arrive at the same handler.
+
+That default is worth remembering, because it bites the first time you put a *second* button in a form. A **Clear** or **Cancel** beside the Add button will submit the form too, and you will spend a while wondering why cancelling adds a to-do. The fix is to say what it is:
+
+```jsx
+<button type="button" onClick={() => setText("")}>Clear</button>
+```
+
 **`setText("")` clears the field**, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
 
 
@@ -100,3 +108,5 @@ Later, when the same `<input>` turns up in more than one place, it is worth pull
 ### 3. The input shows nothing when you type. Give two different reasons this can happen.
 
 ### 4. Why can a controlled input be cleared after submitting, when an uncontrolled one cannot?
+
+### 5. You add a **Clear** button next to **Add** and now clearing also adds a to-do. Why, and what is the fix?
