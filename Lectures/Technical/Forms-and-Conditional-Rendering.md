@@ -33,13 +33,46 @@ Read the loop, because it is genuinely circular and that is what makes it feel s
 
 Every keystroke goes out to state and comes back. Delete the `onChange` and try typing: nothing happens, because you have told the input to display `text` and given it no way to change it.
 
-### The input is a `controlled component`
+### The pattern has a name: **controlled**
 
-Be precise about which thing the name attaches to: **the `<input>` is the controlled component.** It is the thing being controlled — it has given up deciding what it shows. `AddTodo`, which holds the state and hands it the value, is doing the controlling.
+An input whose value comes from state is called **controlled**. The opposite is **uncontrolled**: leave off `value`, and the input keeps its own text — you have to go and ask it what it holds when you want to know.
 
-The opposite is an **uncontrolled** input: leave off `value` and the input keeps its own text, the browser manages it, and you have to go and ask it what it holds when you want to know.
+That is the whole of the terminology, and it is worth knowing mainly because it turns up in error messages and in every answer you will find online.
 
-What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. And because state is just a variable, you can now do things the browser could never do for you:
+### Making it your own component
+
+`value` and `onChange` are ordinary props, so nothing stops you putting that input inside a component of your own:
+
+```jsx
+function TextInput({ value, onChange, placeholder }) {
+  return (
+    <input
+      className="text-input"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+    />
+  );
+}
+```
+
+Used like this:
+
+```jsx
+<TextInput value={text} onChange={setText} placeholder="What needs doing?" />
+```
+
+Two things improved, and neither is about saving typing.
+
+**The caller stopped touching `e.target.value`.** `TextInput` unwraps the event and hands up a plain string, so `AddTodo` can pass `setText` directly. The parent now works in the language of the app — a piece of text — instead of the language of the DOM.
+
+**There is one place to change how inputs look.** The `className`, and anything you add later, lives here rather than in every screen that happens to need typing.
+
+And look at the shape of it: `TextInput` takes the value it should show, and a way to report that something changed. Exactly what the raw `<input>` takes. The pattern travelled up a level without changing — which is why React reuses the word, and calls *any* component whose important state is held by its parent a controlled one.
+
+What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. 
+
+And because state is just a variable, you can now do things the browser could never do for you:
 
 ```jsx
 <button disabled={text.length === 0}>Add</button>
@@ -65,7 +98,7 @@ function AddTodo({ onAdd }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input value={text} onChange={(e) => setText(e.target.value)} />
+      <TextInput value={text} onChange={setText} placeholder="What needs doing?" />
       <button disabled={text.length === 0}>Add</button>
     </form>
   );
@@ -131,7 +164,7 @@ Read and see examples at: *Describing the UI > [Conditional Rendering](https://r
 
 ## Exam Questions
 
-### 1. What is a controlled component in React?
+### 1. What does it mean for an input to be *controlled*, and what is the alternative?
 
 ### 2. Why does a form need `e.preventDefault()` in a single-page application?
 
