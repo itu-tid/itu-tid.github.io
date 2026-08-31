@@ -84,7 +84,7 @@ Later, when the same `<input>` turns up in more than one place, it is worth pull
 
 **The button needs no `type`.** Inside a `<form>`, a `<button>` is a submit button by default — which is what makes the click and the Enter key arrive at the same handler.
 
-That default is worth remembering, because it bites the first time you put a *second* button in a form. A **Clear** or **Cancel** beside the Add button will submit the form too, and you will spend a while wondering why cancelling adds a to-do. The fix is to say what it is:
+That default is worth remembering, because it bites the first time you put a *second* button in a form. A **Clear** or **Cancel** beside the Add button will submit the form too, and you will spend a while wondering why cancelling adds a to-do. The fix is to set the type explicitly, so it is not a submit button:
 
 ```jsx
 <button type="button" onClick={() => setText("")}>Clear</button>
