@@ -267,7 +267,7 @@ function TodoList() {
 - it is how React tells the items apart between renders — without it, it cannot know whether you added a row, removed one, or reordered them
 - if you don't do this, your console fills up with warnings
 
-We are using the array **index** above, which is the thing every beginner reaches for and which works perfectly — until items can be removed from the middle. Delete the first of three, and the item that was index 1 becomes index 0: React sees "the thing with key 0 changed its text" rather than "the first thing is gone". Next week adds delete, you will watch exactly that go wrong, and that is when we swap indexes for real IDs.
+We are using the array **index** above, which is the thing every beginner reaches for and which works perfectly — until items can be removed from the middle. Delete the first of three, and the item that was index 1 becomes index 0: React sees "the thing with key 0 changed its text" rather than "the first thing is gone". Once the app can delete, you will watch exactly that go wrong, and that is when indexes get swapped for real IDs.
 
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
@@ -326,7 +326,7 @@ The `event` argument details info about what just happened.
 
 If you have an `onClick` handler on both a button and a containing div, both will be handled in sequence, from the inner one outwards.
 
-You will meet this for real next week, the moment each row gets a delete button:
+You meet this for real the moment each row gets a delete button:
 
 ```jsx
 <li onClick={() => toggleDone(id)}>
@@ -429,7 +429,7 @@ So the loop the app now runs is:
 
 Nobody wrote "add a row to the screen" anywhere. You changed the data and described what the screen should look like for any data; React did the rest. That is the trade React asks you to make, and everything else this term is a consequence of it.
 
-Here is the whole thing, which is the app you leave the first lecture with:
+Here is the whole thing:
 
 ```jsx
 import { useState } from "react";
@@ -469,7 +469,7 @@ export default function TodoList() {
 Forty lines, and every idea above is in there somewhere.
 
 
-And deliberately silly: **Add** picks a task at random, because there is nothing to type into yet. Next week there is, and that is where forms come in — along with the first real bug, when deleting from the middle of the list shows you why keying by position was never going to hold.
+And deliberately silly: **Add** picks a task at random, because there is nothing to type into yet. Giving it something to type into is [Forms and Controlled Components](Forms-and-Controlled-Components.md) — along with the first real bug, when deleting from the middle of the list shows you why keying by position was never going to hold.
 
 # References
 

@@ -5,6 +5,7 @@
     python3 tools/build-pdfs.py                     # every week
     python3 tools/build-pdfs.py 1 2                 # just these
     python3 tools/build-pdfs.py --changed a.md b.md # whichever weeks use those notes
+    python3 tools/build-pdfs.py --book              # every week, as one document
 
 The week -> notes mapping is not written down here. It is read out of the
 syllabus's `GH:` rows, the same source that decides what the published page
@@ -70,6 +71,24 @@ def weeks_using(paths):
             if targets & {n.resolve() for n in notes}}
 
 
+def book():
+    """Every chapter, in course order, as one document."""
+    notes, seen = [], set()
+    for num, _, ns in sorted(weeks()):
+        for n in ns:
+            if n not in seen:
+                seen.add(n)
+                notes.append(n)
+    if not notes:
+        sys.exit("build-pdfs: no notes found")
+    target = OUT / "Technical-Interaction-Design.pdf"
+    subprocess.run(
+        [str(ROOT / "tools/md-to-pdf.sh"), str(target),
+         "Technical Interaction Design", SUBTITLE, *map(str, notes)],
+        check=True, cwd=ROOT)
+    print(f"\n{len(notes)} notes into one book at {target}")
+
+
 def main(wanted):
     if not os.environ.get("TID_VAULT"):
         sys.exit("build-pdfs: set TID_VAULT — the syllabus source lives in the vault")
@@ -93,7 +112,11 @@ def main(wanted):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    if args and args[0] == "--changed":
+    if args and args[0] == "--book":
+        if not os.environ.get("TID_VAULT"):
+            sys.exit("build-pdfs: set TID_VAULT — the syllabus source lives in the vault")
+        book()
+    elif args and args[0] == "--changed":
         if not os.environ.get("TID_VAULT"):
             sys.exit("build-pdfs: set TID_VAULT — the syllabus source lives in the vault")
         affected = weeks_using(args[1:])

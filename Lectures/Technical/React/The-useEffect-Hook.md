@@ -115,7 +115,7 @@ IMO, In Mircea's Opinion: this should be called useReactive -- because defines a
 
 ## useEffect as one of the mechanisms of *reactive programming*
 
-You met this last week with `useState`: change the data, and React works out what the screen should look like — see [Reactive Programming](Intro-to-React.md#reactive-programming).
+You have already met this with `useState`: change the data, and React works out what the screen should look like — see [Reactive Programming](Intro-to-React.md#reactive-programming).
 
 `useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with your data; `useEffect` keeps *everything else* in step with it. Same dependency, same automatic re-run, different destination.
 
