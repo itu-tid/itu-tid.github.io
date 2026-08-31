@@ -77,16 +77,6 @@ useEffect(() => {
 }, [todos]);
 ```
 
-**A timer**, which the browser owns and React does not:
-
-```jsx
-useEffect(() => {
-  const id = setInterval(() => setNow(Date.now()), 1000);
-}, []);
-```
-
-That second one has a bug — it starts a new timer every time the component mounts and never stops one. Fixing it needs a cleanup function, which is why cleanup exists; it is covered where it first matters, in [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md).
-
 **What an effect is *not* for** is computing something from state. If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. That is a common enough mistake to have a name: it makes two sources of truth where one would do, and they drift.
 
 `useEffect` might honestly have been called `useReactive`: what you write is a relationship, not an instruction.
@@ -137,12 +127,12 @@ Note where the load went. `useState(loadTodos)` — the function passed, not cal
 
 React deliberately mounts every component twice while you are developing, to shake out effects that do not tolerate being run again. In production it happens once.
 
-So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. It *is* React pointing at effects that would misbehave — most often ones that start something without stopping it, like the timer above.
+So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. Saving to local storage twice does no harm — it writes the same thing both times.
 
 
-## Two more shapes of `useEffect`, later
+## Two more shapes, when you need them
 
-There are two further cases — a cleanup function that runs when the component unmounts, and an effect with no dependency list at all. Neither is much use against local storage, and both are needed the moment an effect talks to a live backend: one to close a subscription, the other as a warning. They live in *Backend III · [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md)*.
+`useEffect` has two further forms — a **cleanup function**, and no dependency list at all. Neither does anything useful against local storage, and both matter once an effect talks to a live backend. They are in [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), with the problems that make them necessary.
 
 
 ## Exam Questions
