@@ -79,9 +79,11 @@ from pathlib import Path
 from urllib.parse import quote
 page, url, rev, built = sys.argv[1:5]
 p = Path(page); html = p.read_text(encoding="utf-8")
-colophon = (f'<p class="colophon">Built {built} from commit '
-            f'<code>{rev}</code> · '
-            f'<a href="{quote(url, safe=":/")}">always the latest version of this chapter</a></p>')
+# The URL is the link text, because a printed chapter is the case this line
+# exists for and a printed link is unclickable. Typeable beats clickable here.
+shown = url.split("://", 1)[-1]
+colophon = (f'<p class="colophon">Built {built} · commit <code>{rev}</code>'
+            f' · latest version: <a href="{quote(url, safe=":/")}">{shown}</a></p>')
 html, n = re.subn(r'(<p class="subtitle">.*?</p>)', r'\1' + colophon, html, count=1, flags=re.S)
 if not n:
     sys.exit("md-to-pdf: no subtitle in the rendered header to hang the colophon on")
