@@ -33,6 +33,16 @@ Read the loop, because it is genuinely circular and that is what makes it feel s
 
 Every keystroke goes out to state and comes back. Delete the `onChange` and try typing: nothing happens, because you have told the input to display `text` and given it no way to change it.
 
+What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. 
+
+And because state is just a variable, you can now do things the browser could never do for you:
+
+```jsx
+<button disabled={text.length === 0}>Add</button>
+```
+
+The button's enabled-ness is *derived* from the text, not stored separately. Nothing has to remember to switch it on and off — it is recomputed on every render. Reach for that whenever you catch yourself about to add a second piece of state that is really about the first.
+
 ### The pattern has a name: **controlled**
 
 An input whose value comes from state is called **controlled**. The opposite is **uncontrolled**: leave off `value`, and the input keeps its own text — you have to go and ask it what it holds when you want to know.
@@ -56,11 +66,23 @@ function TextInput({ value, onChange, placeholder }) {
 }
 ```
 
-Used like this:
+The state stays where it was — `TextInput` has none of its own:
 
 ```jsx
-<TextInput value={text} onChange={setText} placeholder="What needs doing?" />
+function AddTodo() {
+  const [text, setText] = useState("");
+
+  return (
+    <TextInput
+      value={text}
+      onChange={setText}
+      placeholder="What needs doing?"
+    />
+  );
+}
 ```
+
+That is the part worth pausing on. `useState` did not move into `TextInput`. If it had, `AddTodo` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
 
 Two things improved, and neither is about saving typing.
 
@@ -69,16 +91,6 @@ Two things improved, and neither is about saving typing.
 **There is one place to change how inputs look.** The `className`, and anything you add later, lives here rather than in every screen that happens to need typing.
 
 And look at the shape of it: `TextInput` takes the value it should show, and a way to report that something changed. Exactly what the raw `<input>` takes. The pattern travelled up a level without changing — which is why React reuses the word, and calls *any* component whose important state is held by its parent a controlled one.
-
-What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. 
-
-And because state is just a variable, you can now do things the browser could never do for you:
-
-```jsx
-<button disabled={text.length === 0}>Add</button>
-```
-
-The button's enabled-ness is *derived* from the text, not stored separately. Nothing has to remember to switch it on and off — it is recomputed on every render. Reach for that whenever you catch yourself about to add a second piece of state that is really about the first.
 
 ## Wrapping it in a form
 
