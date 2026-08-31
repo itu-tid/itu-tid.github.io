@@ -31,6 +31,17 @@ header#title-block-header .title{
   font-size:2.1rem; line-height:1.15; margin:0 0 .35rem; letter-spacing:-.02em; }
 header#title-block-header .subtitle{
   font-size:.92rem; color:var(--ink-soft); font-weight:500; margin:0; }
+/* A printed chapter is a copy, so it says which one it is and where the live
+   one lives. */
+header#title-block-header .colophon{
+  font-size:.78rem; color:var(--ink-faint); margin:.5rem 0 0; }
+header#title-block-header .colophon code{ background:none; padding:0;
+  font-size:.95em; color:var(--ink-soft); }
+
+/* the same, per note: where this part came from and where to fix it */
+.source{ display:block; font-size:.78rem; color:var(--ink-faint);
+  margin:-.35rem 0 1.4rem; }
+.source a{ color:var(--ink-soft); border-bottom-color:rgba(92,106,112,.3); }
 
 /* --- headings ---------------------------------------------------------- */
 h1,h2,h3,h4{ font-family:'Space Grotesk','Inter',sans-serif; color:var(--ink);
