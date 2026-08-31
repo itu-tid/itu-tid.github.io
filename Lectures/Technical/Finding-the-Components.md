@@ -47,6 +47,21 @@ The same test as for a function: **it does one thing, and you can name it withou
 - `TodoList` — draws all of them. ✅
 - `TodoListAndForm` — two things, wearing a raincoat. ❌ Two boxes.
 
+The commonest way to fail that test is to weld a **domain** component to a **layout** one — something that knows about to-dos *and* accepts arbitrary content:
+
+```jsx
+function ToDoPanel({ firstName, children }) {      // ❌ two components
+  return (
+    <>
+      <h1>To Do List for {firstName}</h1>
+      <div className="panel">{children}</div>
+    </>
+  );
+}
+```
+
+Neither half can be used without the other. Want the heading somewhere without a panel? Want a panel around something that is not a to-do list? You cannot have either, because they were glued together before anybody asked. Two boxes on the drawing, two components in the file.
+
 Two other signals, both visible on the drawing rather than in the code:
 
 **It repeats.** `TodoItem` appears once per to-do. Anything you would draw more than once is a component, because otherwise you will copy the markup and then have to remember to change every copy.
