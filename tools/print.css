@@ -34,9 +34,17 @@ h1{ font-size:1.55rem; font-weight:700; margin:2.4rem 0 .9rem;
     padding-top:.7rem; border-top:1px solid var(--line);
     break-before:page; page-break-before:always; }
 h1:first-of-type{ break-before:auto; page-break-before:auto; border-top:0; padding-top:0; }
-h2{ font-size:1.18rem; font-weight:600; margin:1.9rem 0 .6rem; }
-h3{ font-size:1rem; font-weight:600; margin:1.4rem 0 .45rem; color:var(--ink); }
-h4{ font-size:.94rem; font-weight:600; margin:1.1rem 0 .35rem; color:var(--ink-soft); }
+/* h3 was a rem apart from h2 in size, the same weight and the same colour, and
+   the same size as body text -- so it read as a bold paragraph. Size now
+   separates h2 from h3, and colour separates h3 from the prose around it. */
+h2{ font-size:1.34rem; font-weight:700; margin:2.3rem 0 .65rem;
+    letter-spacing:-.01em; }
+h3{ font-size:1.05rem; font-weight:600; margin:1.6rem 0 .4rem;
+    color:var(--accent); }
+h4{ font-size:.95rem; font-weight:600; margin:1.15rem 0 .3rem;
+    color:var(--ink-soft); }
+/* a heading is not a link, even when it is blue */
+h3 a, h4 a{ color:inherit; border-bottom-color:rgba(35,87,122,.2); }
 
 /* --- body -------------------------------------------------------------- */
 p,li{ orphans:2; widows:2; }
