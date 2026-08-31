@@ -68,6 +68,49 @@ Two other signals, both visible on the drawing rather than in the code:
 
 **It matches the data.** Notice that the tree above looks like the array it renders: a list of things, and a thing. When the component hierarchy and the data have the same shape, the code is usually easy; when they disagree, something is being forced.
 
+## Making one: extracting `TextInput`
+
+`value` and `onChange` are ordinary props, so nothing stops you putting that input inside a component of your own:
+
+```jsx
+function TextInput({ value, onChange, placeholder }) {
+  return (
+    <input
+      className="text-input"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+    />
+  );
+}
+```
+
+The state stays where it was — `TextInput` has none of its own:
+
+```jsx
+function AddTodo() {
+  const [text, setText] = useState("");
+
+  return (
+    <TextInput
+      value={text}
+      onChange={setText}
+      placeholder="What needs doing?"
+    />
+  );
+}
+```
+
+That is the part worth pausing on. `useState` did not move into `TextInput`. If it had, `AddTodo` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
+
+Two things improved, and neither is about saving typing.
+
+**The caller stopped touching `e.target.value`.** `TextInput` unwraps the event and hands up a plain string, so `AddTodo` can pass `setText` directly. The parent now works in the language of the app — a piece of text — instead of the language of the DOM.
+
+**There is one place to change how inputs look.** The `className`, and anything you add later, lives here rather than in every screen that happens to need typing.
+
+And look at the shape of it: `TextInput` takes the value it should show, and a way to report that something changed. Exactly what the raw `<input>` takes. The pattern travelled up a level without changing — which is why React reuses the word, and calls *any* component whose important state is held by its parent a controlled one.
+
 ## What not to take from this
 
 React's [Thinking in React](https://react.dev/learn/thinking-in-react) presents the boxes as step one of five, and the next step is *build the whole static version first, with no state at all, then add interactivity*.
@@ -75,3 +118,12 @@ React's [Thinking in React](https://react.dev/learn/thinking-in-react) presents 
 Treat that as a description of a finished thought rather than a way of working. Nobody builds an entire inert interface and then goes back to bring it to life, and you certainly will not once your app already runs. What you will do — repeatedly, all term — is notice that a `return` has grown too long to read, box up the part that has its own name, and pull it out.
 
 The drawing is worth keeping. The five-step ceremony around it is not.
+
+
+## Exam Questions
+
+### 1. How do you decide what should be its own component?
+
+### 2. What is wrong with a component that renders a to-do heading *and* accepts arbitrary `children`?
+
+### 3. `TextInput` holds no state of its own. Why not, and what would break if it did?

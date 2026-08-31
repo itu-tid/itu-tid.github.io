@@ -47,49 +47,6 @@ An input whose value comes from state is called **controlled**. The opposite is 
 
 That is the whole of the terminology, and it is worth knowing mainly because it turns up in error messages and in every answer you will find online.
 
-### Making it your own component
-
-`value` and `onChange` are ordinary props, so nothing stops you putting that input inside a component of your own:
-
-```jsx
-function TextInput({ value, onChange, placeholder }) {
-  return (
-    <input
-      className="text-input"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-    />
-  );
-}
-```
-
-The state stays where it was — `TextInput` has none of its own:
-
-```jsx
-function AddTodo() {
-  const [text, setText] = useState("");
-
-  return (
-    <TextInput
-      value={text}
-      onChange={setText}
-      placeholder="What needs doing?"
-    />
-  );
-}
-```
-
-That is the part worth pausing on. `useState` did not move into `TextInput`. If it had, `AddTodo` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
-
-Two things improved, and neither is about saving typing.
-
-**The caller stopped touching `e.target.value`.** `TextInput` unwraps the event and hands up a plain string, so `AddTodo` can pass `setText` directly. The parent now works in the language of the app — a piece of text — instead of the language of the DOM.
-
-**There is one place to change how inputs look.** The `className`, and anything you add later, lives here rather than in every screen that happens to need typing.
-
-And look at the shape of it: `TextInput` takes the value it should show, and a way to report that something changed. Exactly what the raw `<input>` takes. The pattern travelled up a level without changing — which is why React reuses the word, and calls *any* component whose important state is held by its parent a controlled one.
-
 ## Wrapping it in a form
 
 The button works. Now press **Enter** in the input.
@@ -110,7 +67,7 @@ function AddTodo({ onAdd }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <TextInput value={text} onChange={setText} placeholder="What needs doing?" />
+      <input value={text} onChange={(e) => setText(e.target.value)} />
       <button disabled={text.length === 0}>Add</button>
     </form>
   );
@@ -122,6 +79,8 @@ Three things there are worth naming.
 **`onSubmit` fires for both** the button click and the Enter key, so you write the handler once. You also get the semantics for free: a screen reader announces a form, and a phone keyboard offers a **Go** key instead of a newline.
 
 **`e.preventDefault()` is not boilerplate.** A form's default behaviour is to send its contents to the server and load whatever comes back — the way the web worked before JavaScript. That would throw away your entire app and reload the page. We are a single-page application: nothing should ever be sent anywhere or reloaded unless we say so. Take the line out and watch it happen once; the flash of the page reloading is worth seeing.
+
+Later, when the same `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](Finding-the-Components.md).
 
 **`setText("")` clears the field**, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
 
