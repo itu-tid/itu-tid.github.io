@@ -12,14 +12,20 @@ syllabus's `GH:` rows, the same source that decides what the published page
 says, so a note that moves between weeks moves its chapter with it and there is
 no second list to forget to update.
 
-Output goes to $TID_PDF_OUT if set -- the shared iCloud folder students are
-given -- and to ./pdf otherwise. Either way it is one file per week, named for
-the week and its title, and never committed: a rebuilt PDF is a megabyte of new
-binary, and fourteen of them every time a note changes would bury the history.
+Output goes to $TID_PDF_OUT if set and to ./pdf otherwise, as Week-NN.pdf --
+the week number and nothing else. The title used to be in the filename, which
+read better in a downloads folder and broke every link the moment a week was
+retitled: learnIT, a student's bookmark, and the "latest version" link printed
+inside every earlier copy of that same chapter. Titles live in chapters.json
+next to the PDFs, which is what the index page reads.
+
+The chapters are never committed: a rebuilt PDF is a megabyte of new binary,
+and fourteen of them every time a note changes would bury the history.
 
 Weeks whose notes all live on learnIT produce nothing, and say so.
 """
 
+import json
 import os
 import re
 import subprocess
@@ -33,12 +39,6 @@ import build  # noqa: E402  -- reuse the syllabus parser rather than a second on
 ROOT = Path(__file__).parent.parent
 OUT = Path(os.environ.get("TID_PDF_OUT") or ROOT / "pdf")
 SUBTITLE = "Technical Interaction Design · ITU · Autumn 2026"
-
-
-def slug(text):
-    text = re.sub(r"[*`_]", "", text)
-    text = re.sub(r"[^A-Za-z0-9]+", "-", text)
-    return re.sub(r"-{2,}", "-", text).strip("-")
 
 
 def weeks():
@@ -109,21 +109,25 @@ def main(wanted):
             print(f"  week {num:2}  — no notes in the repo (learnIT only), skipped")
             skipped += 1
             continue
-        target = OUT / f"Week-{num:02d}-{slug(title)}.pdf"
+        target = OUT / f"Week-{num:02d}.pdf"
         subprocess.run(
             [str(ROOT / "tools/md-to-pdf.sh"), str(target),
              f"Week {num} · {re.sub(r'[*]', '', title)}", SUBTITLE, *map(str, notes)],
             check=True, cwd=ROOT)
         built += 1
-    # A week that gets retitled is written under a new name, and the old file
-    # would otherwise sit there forever -- publish-chapters builds its index
-    # from whatever is in the directory, so the chapter would be listed twice.
-    # Expected covers every week, not only the ones just built, so this cleans
-    # up after a --changed run as well.
-    expected = {f"Week-{n:02d}-{slug(t)}.pdf" for n, t, notes in weeks() if notes}
-    for stale in sorted(set(OUT.glob("Week-*.pdf")) - {OUT / e for e in expected}):
+    # A week that drops out of the syllabus would otherwise leave its chapter
+    # sitting there forever, and the index lists whatever is in the directory.
+    # This also sweeps up the old title-bearing filenames. Expected covers every
+    # week rather than the ones just built, so a --changed run cleans up too.
+    chapters = [{"week": n, "title": re.sub(r"[*]", "", t), "file": f"Week-{n:02d}.pdf"}
+                for n, t, notes in sorted(weeks()) if notes]
+    for stale in sorted(set(OUT.glob("Week-*.pdf")) - {OUT / c["file"] for c in chapters}):
         stale.unlink()
         print(f"  removed {stale.name} — no week produces it any more")
+
+    # The index page needs the titles, which are no longer in the filenames.
+    (OUT / "chapters.json").write_text(
+        json.dumps(chapters, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     print(f"\n{built} chapter(s) written to {OUT}, {skipped} week(s) skipped")
 

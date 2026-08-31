@@ -11,17 +11,20 @@ set -e
 DIR="${TID_PDF_OUT:?set TID_PDF_OUT to the chapters clone}"
 cd "$DIR"
 
-# the index lists whatever is actually there, so a renamed week cannot 404
-FILES=$(ls Week-*.pdf 2>/dev/null | python3 -c "import json,sys; print(json.dumps([l.strip() for l in sys.stdin]))")
-python3 - "$FILES" <<'PY'
-import re, sys
+# The PDFs are named Week-NN.pdf so that a retitled week keeps its URL, which
+# means the titles have to come from somewhere: build-pdfs writes chapters.json
+# beside them, and it is inlined here rather than fetched, so the page still
+# works opened straight off disk.
+python3 <<'PY'
+import json, re
 from pathlib import Path
+chapters = json.loads(Path("chapters.json").read_text(encoding="utf-8"))
 p = Path("index.html")
 # rewrite the whole assignment, not a one-shot placeholder, so publishing twice
 # updates the list the second time as well
-p.write_text(re.sub(r"const files = .*?;",
-                    lambda _: f"const files = {sys.argv[1]};",
-                    p.read_text(), count=1, flags=re.S))
+p.write_text(re.sub(r"const chapters = .*?\n\];",
+                    lambda _: "const chapters = " + json.dumps(chapters, indent=2, ensure_ascii=False) + ";",
+                    p.read_text(encoding="utf-8"), count=1, flags=re.S), encoding="utf-8")
 PY
 
 git checkout -q --orphan publish 2>/dev/null || git checkout -q --orphan publish-$$
