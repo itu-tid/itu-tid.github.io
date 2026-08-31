@@ -2,15 +2,11 @@
 
 A component returns JSX. Which JSX it returns can depend on what is in state, or on what it was handed as props — so the screen changes shape rather than only changing its contents.
 
-You need this the moment the app can be in more than one situation, which is sooner than it sounds. A to-do list that can be added to and deleted from can also be **empty**, and an empty `<ul>` on screen looks like a bug rather than an achievement:
+You need this the moment the app can be in more than one situation, which is sooner than it sounds. A to-do list that can be added to and deleted from can also be **empty**, and an empty `<ul>` on screen looks like a bug rather than an achievement. So the list needs to say something else when there is nothing in it.
 
-```jsx
-{todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
-```
+There are three ways to write that. Here they all are on the same condition, because writing the same thing three times is the only way to see what differs between the forms rather than between the examples.
 
-There are three ways to write one. Here they are on the same condition — an empty list — because writing the same thing three times is the only way to see what differs between the forms rather than between the examples.
-
-**1. An `if`, before the `return`** — when the two versions are different enough to be worth reading separately:
+**1. An `if`, before the `return`** — the one you already know from every other language you have written. Best when the two versions are different enough to be worth reading separately:
 
 ```jsx
 function TodoList({ todos }) {
