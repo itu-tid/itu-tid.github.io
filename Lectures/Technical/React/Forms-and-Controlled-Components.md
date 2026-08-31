@@ -82,13 +82,24 @@ Three things are happening there.
 
 Later, when the same `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](../Structure/Finding-the-Components.md).
 
-**The button needs no `type`.** Inside a `<form>`, a `<button>` is a submit button by default — which is what makes the click and the Enter key arrive at the same handler.
+**The button needs no `type`.** Every `<button>` has one, and there are three:
 
-That default is worth remembering, because it bites the first time you put a *second* button in a form. A **Clear** or **Cancel** beside the Add button will submit the form too, and you will spend a while wondering why cancelling adds a to-do. The fix is to set the type explicitly, so it is not a submit button:
+| `type` | what it does |
+|---|---|
+| `submit` | submits the form — **this is the default** |
+| `button` | nothing on its own; it only runs your `onClick` |
+| `reset` | empties every field in the form (you rarely want this) |
+
+So the Add button is a submit button without saying so, and that is what makes the click and the Enter key arrive at the same handler.
+
+The default bites the first time you put a *second* button in a form. A **Clear** or **Cancel** beside Add will submit the form too, and you will spend a while wondering why cancelling adds a to-do. Written out, the pair reads clearly:
 
 ```jsx
+<button type="submit">Add</button>
 <button type="button" onClick={() => setText("")}>Clear</button>
 ```
+
+`type="button"` looks like it says nothing until you know the alternative it is refusing. It means *this is only a button* — do not submit anything.
 
 **`setText("")` clears the field**, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
 
