@@ -1,27 +1,16 @@
 # Patterns of Component Communication
-## parent to child = via props
 
-- parent can send information to the child via props
+Components are arranged in a tree, and information has to travel along it. There are only two directions, and they use different mechanisms.
 
-## child to parent = via callbacks
-- child does not even know who the parent is (imagine a button, it does not know, and it should not know who uses it)
-- but the parent will give it callbacks and it can call them, effectively communicating to the parent
+## Parent to child: props
 
-![](../images/props-and-callbacks.png)
+The parent hands the child what it needs to draw itself. Data goes down.
 
-**Next**: once you extract components, two of them end up needing the same state, and neither owns it. That is *lifting state up*, and it is in [Refactoring by Extracting Components](../Structure/Refactoring-by-Extracting-Components.md) — because extraction is what creates the problem in the first place.
+## Child to parent: callbacks
 
+The child does not know who its parent is — and should not. Imagine a button: it has no idea who put it there, and it would be a worse button if it did.
 
-## Exam Questions
-
-### 1. Explain the three patterns of component communication in React.
-
-
-# Worked example: deleting an item
-
-The to-do list is the clearest case there is, because the two halves genuinely live in different components.
-
-`TodoList` owns the array. `TodoItem` draws one row — and the delete button belongs on the row, because that is where it makes sense to a user. But the row **cannot delete itself**: it does not own the list, and it has no way to reach it. All it can do is say *this one*, and let whoever owns the list decide what that means.
+What it does have is a function it was handed. Calling it is how the child says *something happened*, without knowing or caring what that means:
 
 ```jsx
 function TodoList() {
@@ -34,7 +23,11 @@ function TodoList() {
   return (
     <ul>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} onRemove={handleRemove} />
+        <TodoItem
+          key={todo.id}
+          todo={todo}          // down: what to draw
+          onRemove={handleRemove}   // up: a way to report a click
+        />
       ))}
     </ul>
   );
@@ -55,9 +48,9 @@ Read the two directions:
 - **Down, as props.** `TodoList` hands each row its `todo` — the data it needs to draw.
 - **Up, as a callback.** `TodoItem` is handed `onRemove` and calls it. It does not know what happens next, and that is the point: it is not deleting anything, it is *reporting a click*.
 
-`TodoItem` knows nothing about `filter`, about the array, or even that a list exists. Drop it into a different app that also passes an `onRemove` and it works unchanged. That is what you get for keeping the arrow pointing one way.
+`TodoItem` knows nothing about `filter`, about the array, or even that a list exists. Drop it into an app that archives items instead of deleting them, passing the same `onRemove`, and it works unchanged. That is what you get for keeping the arrow pointing one way.
 
-### The mistake to avoid
+## The mistake to avoid
 
 The tempting shortcut is to pass `setTodos` down and let the row remove itself:
 
@@ -69,3 +62,13 @@ It works. It also means every row now knows the whole list, and the shape of it,
 
 **Hand down what the child needs to know, and a way to tell you something happened. Nothing else.**
 
+**Next**: once you extract components, two of them end up needing the same state, and neither owns it. That is *lifting state up*, and it is in [Refactoring by Extracting Components](../Structure/Refactoring-by-Extracting-Components.md) — because extraction is what creates the problem in the first place.
+
+
+## Exam Questions
+
+### 1. What are the two directions information travels between components, and what carries each?
+
+### 2. `TodoItem` has a delete button but cannot delete anything. Why is that the right arrangement?
+
+### 3. What goes wrong if you pass `setTodos` to every row instead of an `onRemove` callback?
