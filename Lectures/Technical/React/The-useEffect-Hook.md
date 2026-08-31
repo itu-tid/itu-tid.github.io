@@ -28,7 +28,7 @@ function square (i) {
 }
 ```
 
-in the above case, the `LocalStorage.setItem` saves the value of the counter to `LocalStorage`, a mini key-value store that's available for every web application inside of the browser.
+In the above case `localStorage.setItem` writes the result somewhere. **`localStorage`** is a small key-value store the browser keeps for every site — a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
 
 That was not the main purpose of the function. It was a side effect.
 
@@ -55,7 +55,7 @@ Reading and writing are both synchronisation. `localStorage`, the document title
 
 ### Defining side effects in React is done with the `useEffect` hook with two arguments
 
-useEffect allows us to "hook into" the React implementation, and capture the moment when a state variable is updated. We can decide to do something in such a situation. E.g., below, a component that changes the title of the browser window when the state of a variable changes:
+`useEffect` lets us hook into React and catch the moment a state variable changes, so we can do something about it. Below: a to-do list that writes itself to local storage whenever the list changes.
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -134,9 +134,9 @@ An empty dependency list says *nothing to depend on*, so there is never a later 
 
 
 
-###### If you had a TODO list app, you might want to load counters from the DB 
+###### A to-do list would want to load its items
 
-LocalStorage is actually a little database, that we should benefit from. The following code pattern solves this:
+This is what `localStorage` is for. Two functions cover the whole of it, and the second is where the strings-only rule bites in the other direction:
 
 ```js
 function saveList(key, list) {
@@ -165,11 +165,11 @@ There are two further cases — a cleanup function that runs when the component 
 
 ### Exam Questions
 
-#### 1. Explain what this useEffect does:
+#### 1. Explain what this useEffect does, and when it runs:
 ```js
 useEffect(() => {
-  localStorage.setItem("clicks", clicks);
-}, [clicks]);
+  localStorage.setItem("todos", JSON.stringify(todos));
+}, [todos]);
 ```
 
 #### 2. What is the difference between these two useEffect calls?
