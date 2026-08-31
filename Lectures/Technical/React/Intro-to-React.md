@@ -479,7 +479,7 @@ And deliberately silly: **Add** picks a task at random, because there is nothing
 Read up from the [react.dev](https://react.dev) documentation site, the following:
 
 - Describing the UI
-	- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components)
+	- [Your First Component](https://react.dev/learn/your-first-component)
 	- [Writing Markup with JSX](https://react.dev/learn/writing-markup-with-jsx)
 	- [JS in JSX](https://react.dev/learn/javascript-in-jsx-with-curly-braces)
 	- [Passing Props](https://react.dev/learn/passing-props-to-a-component)

@@ -120,6 +120,11 @@ Treat that as a description of a finished thought rather than a way of working. 
 The drawing is worth keeping. The five-step ceremony around it is not.
 
 
+# References
+
+- [Thinking in React](https://react.dev/learn/thinking-in-react) — the five steps, of which the first is the one worth keeping
+- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components) — once a component has its own name it usually wants its own file
+
 ## Exam Questions
 
 ### 1. How do you decide what should be its own component?

@@ -8,14 +8,6 @@ You need this the moment the app can be in more than one situation, which is soo
 {todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
 ```
 
-Often components need to display differently based on some state or prop.
-
-The moment a list can be added to and deleted from, it can also be **empty** — and an empty `<ul>` on screen looks like a bug rather than an achievement. That is the first place you need this:
-
-```jsx
-{todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
-```
-
 There are three ways to write one, and to see what actually differs between them it is worth writing the *same* thing three times. Here is a to-do row that should look different once it is done.
 
 **1. An `if`, before the `return`** — when the two versions are different enough to be worth reading separately:
