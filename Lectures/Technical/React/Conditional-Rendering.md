@@ -8,7 +8,7 @@ You need this the moment the app can be in more than one situation, which is soo
 
 Here they all are on the same condition, because writing the same thing three times is the only way to see what differs between the forms rather than between the examples.
 
-### An `if` before the `return`, when the two versions read better apart
+### An `if` with an early return, when the two versions read better apart
 
 The one you already know from every other language you have written:
 
