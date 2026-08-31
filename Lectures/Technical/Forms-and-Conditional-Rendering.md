@@ -28,14 +28,16 @@ function AddTodo() {
 Read the loop, because it is genuinely circular and that is what makes it feel strange at first:
 
 1. The input shows whatever `text` says.
-2. You press a key. The input does **not** change itself — it calls `onChange`.
+2. You press a key. It calls `onChange`.
 3. `setText` updates the state, React re-renders, and the input shows the new `text`.
 
 Every keystroke goes out to state and comes back. Delete the `onChange` and try typing: nothing happens, because you have told the input to display `text` and given it no way to change it.
 
-### This is called a `controlled component`
+### The input is a `controlled component`
 
-The form element is controlled by React state rather than by itself. (Should probably be *controlling component*, since the state is doing the controlling, but the name is what it is.)
+Be precise about which thing the name attaches to: **the `<input>` is the controlled component.** It is the thing being controlled — it has given up deciding what it shows. `AddTodo`, which holds the state and hands it the value, is doing the controlling.
+
+The opposite is an **uncontrolled** input: leave off `value` and the input keeps its own text, the browser manages it, and you have to go and ask it what it holds when you want to know.
 
 What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. And because state is just a variable, you can now do things the browser could never do for you:
 
