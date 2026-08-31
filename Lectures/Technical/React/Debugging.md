@@ -34,7 +34,7 @@ That makes it the cheapest breakpoint there is — and unlike a `console.log`, y
 
 The browser extension adds two panels that plain DevTools does not have:
 
-- **Components** — the live component tree, with every component's props and state visible and editable. This is the only way to *see* state rather than print it, and it is what turns "the list did not update" into "the state changed but the key did not", which are different bugs.
+- **Components** — the live component tree, with every component's props and state visible and editable. This is the only way to *see* state rather than print it, and it is what turns "the list did not update" into "the state changed but the [key](Intro-to-React.md#every-item-needs-a-key) did not", which are different bugs.
 - **Profiler** — which components re-rendered and why. Ignore this until something is slow; it answers a question you do not have yet.
 
 ## The stack frame you want is the topmost one in your own file

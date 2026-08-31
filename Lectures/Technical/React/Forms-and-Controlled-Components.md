@@ -1,6 +1,6 @@
 # Forms and Controlled Components
 
-Until now the app could only add whatever it felt like — the button reached into a list of sample tasks and picked one at random. Typing the task yourself means React has to own the input, and the screen has to change shape depending on what is in it.
+Until now the app could only add whatever it felt like — the button reached into a list of sample tasks and picked one at random. Typing the task yourself means React has to own the input — and once it does, the rest of the screen can react to what is in it.
 
 ## Give the value to state, and every keystroke goes back through the setter
 
@@ -23,41 +23,56 @@ function NewTodoForm() {
 }
 ```
 
+React calls your `onChange` with an **event object**, named `e` by convention. `e.target` is the element that fired the event — this input — and `e.target.value` is the text now in it, *including* the key just pressed. That is the whole of it, and it is the expression you will type most often this term.
+
 Read the loop, because it is genuinely circular and that is what makes it feel strange at first:
 
 1. The input shows whatever `text` says.
-2. You press a key. It calls `onChange`.
+2. You press a key. The input calls `onChange`, handing it the event.
 3. `setText` updates the state, React re-renders, and the input shows the new `text`.
+4. Re-rendering does **not** fire `onChange` again — only your typing does. The loop turns once per keystroke, then stops.
 
-Every keystroke goes out to state and comes back. Delete the `onChange` and try typing: nothing happens, because you have told the input to display `text` and given it no way to change it.
+Every keystroke goes out to state and comes back. There are exactly two ways to break that, and both look identical on screen — a dead input:
+
+- **No `onChange`.** You told the input to display `text` and gave it no way to change it.
+- **An `onChange` that never reads `e.target.value`.** The handler runs, but sets state to something that never changes, so the input keeps showing the same `text`.
 
 What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. 
 
 ### A value you can work out from state should not be state itself
 
-Because state is just a variable, you can now do things the browser could never do for you:
+Because `text` is an ordinary value you can read anywhere in the JSX, you can now do things the browser could never do for you:
 
 ```jsx
 <button disabled={text.length === 0}>Add</button>
 ```
 
-The button's enabled-ness is *derived* from the text, not stored separately. Nothing has to remember to switch it on and off — it is recomputed on every render. Reach for that whenever you catch yourself about to add a second piece of state that is really about the first.
+The button's enabled-ness is *derived* from the text, not stored separately. Nothing has to remember to switch it on and off — it is recomputed on every render. The mistake it saves you from looks like this:
+
+```jsx
+const [text, setText] = useState("");
+const [isEmpty, setIsEmpty] = useState(true);   // don't
+```
+
+Now two things have to be kept in step by hand, and one day they will not be. Reach for the derived version whenever you catch yourself about to add a second piece of state that is really about the first.
 
 ### The pattern has a name: controlled
 
 An input whose value comes from state is called **controlled**. The opposite is **uncontrolled**: leave off `value`, and the input keeps its own text — you have to go and ask it what it holds when you want to know.
 
-That is the whole of the terminology, and it is worth knowing mainly because it turns up in error messages and in every answer you will find online.
+That is the whole of the terminology, and it is worth knowing mainly because it turns up in every answer you will find online — and in the warning React prints when a `value` arrives late: *"A component is changing an uncontrolled input to be controlled."* That means `value` was `undefined` on the first render, usually because the state started as `undefined` rather than `""`.
 
 ## Enter does nothing until the input is inside a form
 
-The button works. Now press **Enter** in the input.
+Give that button an `onClick` and it adds a to-do. Now press **Enter** in the input instead.
 
 Nothing happens — and everybody expects Enter to work. 
 
 That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler.
 
 One new thing in the code below: `onAdd`. The form does not own the list of to-dos — `TodoList` does — so it cannot add anything itself. What it gets instead is a function to call, handed down by whoever does own the list. That arrangement has a name and a note of its own: [Patterns of Component Communication](Patterns-of-Component-Communication.md).
+
+`onAdd` is **not** a React prop. `onChange` and `onSubmit` are React's, spelled exactly so; `onAdd` is a name the parent invents, and it could as well have been `whenSomebodyAdds`. The `on…` spelling is a convention that says *this prop is a function you call when something happens* — nothing more.
 
 ```jsx
 function NewTodoForm({ onAdd }) {
@@ -80,7 +95,7 @@ function NewTodoForm({ onAdd }) {
 
 ### One handler catches both the click and the Enter key
 
-`onSubmit` fires for the button click *and* for Enter, so you write the handler once. You also get the semantics for free: a screen reader announces a form, and a phone keyboard offers a **Go** key instead of a newline.
+`onSubmit` fires for the button click *and* for Enter, so you write the handler once. You also get the semantics for free: a screen reader announces a form, and a phone keyboard offers a **Go** key instead of a plain Return.
 
 ### `preventDefault` is what stops the whole page reloading
 
@@ -98,7 +113,7 @@ The Add button above needs no `type`, because every `<button>` already has one, 
 
 So the Add button is a submit button without saying so, and that is what makes the click and the Enter key arrive at the same handler.
 
-The default bites the first time you put a *second* button in a form. A **Clear** or **Cancel** beside Add will submit the form too, and you will spend a while wondering why cancelling adds a to-do. Written out, the pair reads clearly:
+The default bites the first time you put a *second* button in a form. A **Clear** or **Cancel** beside Add will submit the form too, and you will spend a while wondering why cancelling adds a to-do. The confusing part is that Clear still *appears* to work: submitting empties the box as well, so the field clears exactly as you intended. Only the list gives it away. Written out, the pair reads clearly:
 
 ```jsx
 <button type="submit">Add</button>

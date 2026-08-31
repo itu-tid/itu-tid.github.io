@@ -12,7 +12,7 @@ function square(i) {
 }
 ```
 
-This one is not:
+This one is not. It also writes the answer into **`localStorage`** — a small key-value store the browser keeps for every site, a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
 
 ```js
 function square(i) {
@@ -20,8 +20,6 @@ function square(i) {
 	return i * i;
 }
 ```
-
-`localStorage.setItem` writes the result somewhere. **`localStorage`** is a small key-value store the browser keeps for every site — a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
 
 Writing to storage was not what `square` was for. It is a **side effect** — something the function does besides producing its answer.
 
@@ -37,14 +35,16 @@ function lastSquare() {
 
 Nothing is written, so nothing is *affected* — in the strict sense this is not a side effect at all. But call it twice with the same arguments (there are none) and you can get two different answers, because the answer was never in the arguments. It came from outside.
 
-That is what **impure** means, and it is the more useful word here, because React makes no distinction between the two. Reading and writing are both *your component and something outside it having to agree*, and that is the job an effect exists to do.
+That is what **impure** means, and it is the more useful word here, because React makes no distinction between the two: saving your to-dos and loading them back are the same job, done in two directions. **From here on this note says *impure*, and means both.**
 
-Keep `lastSquare` in mind. Further down this note you will write it almost line for line, to read your to-do list back after a refresh.
+Keep both functions in mind. Further down you will write each of them almost line for line — one to save your to-do list, one to read it back after a refresh.
 
 
 ## The impure parts belong in an effect, not in the component body
 
 A component function has one job: return JSX. Anything else it does — writing to storage, reading it back, changing the page title, calling a backend — makes it impure, and belongs in an effect rather than in the body of the component.
+
+Put the `setItem` straight in the body and it runs on **every** render, including the ones that had nothing to do with your to-dos. An effect is how you say *when*.
 
 ### An effect keeps your component in step with something outside React
 
@@ -59,13 +59,13 @@ A component function has one job: return JSX. Anything else it does — writing 
 import { useState, useEffect } from "react";
 
 export default function TodoList() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([]);   // each one is { id, text, done }
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  // …
+  // … the input, the list, the delete button: last week's component, unchanged
 }
 ```
 
@@ -77,7 +77,9 @@ Read it as a sentence: **whenever `todos` changes, write it to local storage.** 
 
 **First, what to do** — a function, usually written in place as an arrow function, though a named one works just as well.
 
-**Second, when to do it** — an array of the values the effect depends on. React re-runs the effect whenever any of them differs from last time. Props count as well as state; anything the effect reads should be in there.
+**Second, when to do it** — an array of the values the effect depends on. **Every effect runs once after the first render, whatever is in the array.** After that, React re-runs it whenever one of the dependencies differs from last time. Props count as well as state; anything the effect reads should be in there.
+
+That first run is easy to forget and it is half of most answers: `[todos]` means *once at the start, and again on every change* — not *only on change*.
 
 The array has two special cases. Leave it **empty** and the effect runs once, at mount — that is the next section. Leave it **out altogether** and it runs after every single render, which is almost never what you want and which is why it waits for [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), where it does real damage.
 
@@ -93,11 +95,13 @@ useEffect(() => {
 
 ### An effect is not for computing something you already have
 
-If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. That is a common enough mistake to have a name: it makes two sources of truth where one would do, and they drift.
+If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. That is a common enough mistake to have a name — **derived state**, kept in state when it should have been derived. It makes two sources of truth where one would do, and they drift.
 
-`useEffect` might honestly have been called `useReactive`: what you write is a relationship, not an instruction.
+You have met this already: `disabled={text.length === 0}` in [Forms and Controlled Components](Forms-and-Controlled-Components.md) is the same rule, one note earlier.
 
 ### An effect is a relationship, not an instruction
+
+`useEffect` might honestly have been called `useReactive`.
 
 You have already met this with `useState`: change the data, and React works out what the screen should look like — see [Reactive Programming](Intro-to-React.md#reactive-programming).
 
@@ -114,7 +118,7 @@ An empty dependency list says *nothing to depend on*, so there is never a later 
 
 ### The list is saved on every change, and read back exactly once
 
-The app saves the list on every change; it needs to read it back exactly once, when it starts. That is the whole to-do app made persistent:
+The app saves the list on every change; it needs to read it back exactly once, when it starts. That is the persistence half of the app, complete:
 
 ```jsx
 function loadTodos() {
@@ -133,7 +137,11 @@ export default function TodoList() {
 }
 ```
 
-Note where the load went. `useState(loadTodos)` — the function passed, not called — asks React to run it once, for the initial value, and never again. It could have been an effect with an empty array instead, but then the first render would show an empty list and the saved one would appear a moment later, which flickers.
+Note where the load went. `useState(loadTodos)` — the function passed, not called — asks React to run it once, for the initial value, and never again.
+
+It could have been an effect with an empty array instead, but then the first render would show an empty list and the saved one would appear a moment later, which flickers.
+
+The missing `()` is deliberate, and this is the one place all week where it is. Write `useState(loadTodos())` instead and the app still works, which is what makes it worth pointing at: you would be reading from storage on **every** render, and never notice. React ignores the *argument* after the first render; it cannot stop you computing it.
 
 `JSON.parse` is the other half of `JSON.stringify`: storage gave back the string you put in, and this turns it into an array again. The `saved ? … : []` matters on the very first visit, when there is nothing stored and `getItem` returns `null`.
 
@@ -141,9 +149,11 @@ Note where the load went. `useState(loadTodos)` — the function passed, not cal
 
 ### Effects run twice in development, on purpose
 
-React deliberately mounts every component twice while you are developing, to shake out effects that do not tolerate being run again. In production it happens once.
+React — specifically the `<StrictMode>` wrapper around your app in `main.jsx` — deliberately mounts every component twice while you are developing, to shake out effects that do not tolerate being run again. In production it happens once.
 
 So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. Saving to local storage twice does no harm — it writes the same thing both times.
+
+It is worth knowing what this is *for*, though. An effect that **sends** something — a message, an order, a payment — would have sent it twice, and that is exactly the bug the double mount is designed to make visible while you are still at your desk.
 
 
 ## Cleanup and the missing dependency list wait until there is a backend
@@ -187,4 +197,4 @@ function lastSquare() {
 
 ### 4. The to-do list is read back with `useState(loadTodos)` rather than an effect with an empty dependency array. Both work. What does the user see if you use the effect, and why?
 
-### 5. You expected one line in the console and you got two. What is React doing, and what would this be warning you about if the effect were talking to a backend rather than to local storage?
+### 5. You expected one line in the console and you got two. What is React doing, why is it harmless for local storage, and what kind of effect would it *not* be harmless for?
