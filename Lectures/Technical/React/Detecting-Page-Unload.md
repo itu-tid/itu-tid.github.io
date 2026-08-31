@@ -1,3 +1,5 @@
+# Detecting Page Unload
+
 - Browsers expose the `beforeunload`event where you can do cleanup before page closes
 - This includes a refresh
 

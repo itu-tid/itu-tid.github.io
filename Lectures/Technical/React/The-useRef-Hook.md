@@ -2,7 +2,7 @@
 
 Allows you to get hold of a DOM element and manipulate it
 
-## Example: Automatically focusing a given element on first render
+### Example: Automatically focusing a given element on first render
 
 ```js
 import {useRef, useEffect} from 'react'
@@ -27,21 +27,21 @@ const InputRefExample = () => {
 	
 export default inputRefExample
 ```
-## Canonical use of the `useRef` hook
+### Canonical use of the `useRef` hook
 1. Import `useRef`
 2. Declare a ref object (i.e. `inputRef`) - initialize it with null, it's fine
 3. Pass your object as the `ref` attribute to the desired DOM element
 4. Refer to the DOM object by using the `current` property
 
 
-## Other Examples of  manipulating the DOM 
+### Other Examples of  manipulating the DOM 
 - scrolling to a given node
 - getting the dimensions of a given DOM node
 - keeping track of a timer (see the TODO list application)
 
-## Notes
+### Notes
 
-### Optional chaining to prevent errors
+#### Optional chaining to prevent errors
 
 The optional chaining (`?.`) prevents errors if the element isn't mounted yet.
 
@@ -51,11 +51,11 @@ The optional chaining (`?.`) prevents errors if the element isn't mounted yet.
 	  }, [])
 ```
 
-#### The reference is persisted between renders
+##### The reference is persisted between renders
 
-#### State changes of the referenced element are not observed by React
+##### State changes of the referenced element are not observed by React
 
-# Read More
+## Read More
 
 - [useRef in the react documentation](https://react.dev/learn/manipulating-the-dom-with-refs)
 - Nice example of [controlling a video player component](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
@@ -65,11 +65,11 @@ The optional chaining (`?.`) prevents errors if the element isn't mounted yet.
 	- call the `start` and `stop` methods
 
 
-## Exam Questions
+### Exam Questions
 
-### 1. What is the purpose of the useRef hook?
+#### 1. What is the purpose of the useRef hook?
 
-### 2. What does this code do and why use optional chaining?
+#### 2. What does this code do and why use optional chaining?
 ```js
 const inputRef = useRef(null);
 

@@ -51,16 +51,16 @@ async function fetchMorty() {
 }
 ```
 
-# Individual Work
+## Individual Work
 - Solve the [Sequencing Animations](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Sequencing_animations) problem
 
-# References
+### References
 - [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) -- an overview at *mdn* (Mozila Developer Network)
 - [Video discussion](https://www.youtube.com/watch?v=li7FzDHYZpc) about how to transform a `Promise.then()` into `async/await` call
 
 
 
-# `await` or `.then()` — does it matter for speed?
+## `await` or `.then()` — does it matter for speed?
 
 Only when you have several calls in a row, and then it depends on whether they have to happen in order.
 

@@ -1,6 +1,6 @@
 # Adding Interactivity (contd.)
 
-## [Render and Commit](https://react.dev/learn/render-and-commit)
+### [Render and Commit](https://react.dev/learn/render-and-commit)
 *Note: the restaurant metaphor is not very useful*
 
 **What to understand**
@@ -16,7 +16,7 @@
 
 
 
-## [State as a Snapshot](https://react.dev/learn/state-as-a-snapshot)
+### [State as a Snapshot](https://react.dev/learn/state-as-a-snapshot)
 *Note: the snapshot metaphor is not find very useful*
 
 **What to understand**
@@ -33,7 +33,7 @@ Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-t
 
 
 
-## [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
+### [Queueing A Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates)
 
 **Updater Functions** = powerful concept
 
@@ -66,9 +66,9 @@ export default function Counter() {
 
 
 
-# Managing State
+## Managing State
 
-## [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
+### [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
 *Note: seems to me to me to be needlessly theoretical*
 
 To Understand
@@ -103,7 +103,7 @@ Nice [Example](https://codesandbox.io/s/dg3sry?file=%2FApp.js&utm_medium=sandpac
 
 
 
-# Thinking in React
+## Thinking in React
 
 https://react.dev/learn/thinking-in-react
 
@@ -170,7 +170,7 @@ A possible data model for it would be:
 
 
 
-# ... to continue from here
+## ... to continue from here
 
 
 
@@ -210,7 +210,7 @@ You will **often** have to pass state setters down the component hierarchy, and 
 
 
 
-# Exercises
+## Exercises
 
 **Exercise**: Try the Live Challenge 2: Profile Editor from [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state). Everybody should be able to do this. Implement a profile editor that has two states, as seen below.
 

@@ -1,12 +1,12 @@
 # Authorization (in Parse)
 
-## Motivation
+### Motivation
 
-#### **Why can you not keep the Parse API keys perfectly secret?** 
+##### **Why can you not keep the Parse API keys perfectly secret?** 
 - Remember the architectural diagram from the beginning of the course? bundle.js is sent to the browser...
 - The JavaScript code of your web application can be inspected by another web programmer.
 
-#### **What happens if I access your repository and find your AppID and JSKey?**
+##### **What happens if I access your repository and find your AppID and JSKey?**
 - Read info that is not meant for me
 - Delete useful information
 - Store my movie collection in your tables
@@ -17,7 +17,7 @@ That is - **only if you have made your tables public**
 - Now it's time to harden the security of our database
 
 
-## **What can we do if the API keys can't be made secret?** 
+### **What can we do if the API keys can't be made secret?** 
 
 Use access control in such a way that even with the keys, no harm can be done
 
@@ -27,17 +27,17 @@ Use access control in such a way that even with the keys, no harm can be done
 
 Let us take each of these in turn.
 
-### 1. Limiting Access to Tables
+#### 1. Limiting Access to Tables
 
-#### For every table you can choose who has access to it and what privileges they have
+##### For every table you can choose who has access to it and what privileges they have
 
-##### Who has access can be specified with multiple levels of granularity
+###### Who has access can be specified with multiple levels of granularity
   - Public (anyone, even unauthenticated)
   - Authenticated users (requiresAuthentication)
   - Specific users
   - Roles
 
-##### Privileges for the entire class
+###### Privileges for the entire class
  - Get - retrieve individual objects by ID
  - Find - query for objects
  - Create - create new objects
@@ -49,14 +49,14 @@ Let us take each of these in turn.
 The image below shows the Parse UI for setting Class-level permissions
 ![](../images/class-level-permissions-in-parse.png)
 
-##### Practical Implication: For your applications, you can prevent non-authenticated users to access your tables
+###### Practical Implication: For your applications, you can prevent non-authenticated users to access your tables
 
 
-#### Obs: mappings from OO lingo to DB lingo
+##### Obs: mappings from OO lingo to DB lingo
 - table = class
 - row = object
 
-### 2. Object-Level Permissions
+#### 2. Object-Level Permissions
 
 Even if now you only allow logged in users, it would still not be desirable that an unfriendly user creates an account and then
 - reads other users data
@@ -64,7 +64,7 @@ Even if now you only allow logged in users, it would still not be desirable that
 
 This is where the **Access Control Lists** concept come into play. They allow you to set **fine-grained permissions** for every row in your table. Usually they are **created at the same time** as the object.
 
-#### Who can ACL permissions apply to? 
+##### Who can ACL permissions apply to? 
   - Public
   - Specific users
   - Roles
@@ -73,8 +73,8 @@ This is where the **Access Control Lists** concept come into play. They allow yo
   - Read - can retrieve/query this object
   - Write - can update or delete this object
 
-#### Examples
-##### User creates a private note
+##### Examples
+###### User creates a private note
 
 In the following example, a logged in user, creates a private note and ensures that it is only himself that can access that note:
 
@@ -88,7 +88,7 @@ privateCounter.setACL(
 privateCounter.save();
 ```
 
-##### Read for public but write only for owner
+###### Read for public but write only for owner
 It is sometimes desirable that an object can be **read by other users**, but just **can not be written by them**. For such a case the `Parse.ACL` object offers the `setPublicReadAccess(true)` method call:
 ```js
 const Post = Parse.Object.extend("Post");
@@ -100,7 +100,7 @@ publicPost.save();
 ```
 Access control lists can be modified every time an object is saved.
 
-### 3. Restricting Class Creation
+#### 3. Restricting Class Creation
 
 Surely, not all users should be allowed to create classes either!
 
@@ -108,7 +108,7 @@ Under `App Settings > Server Settings > Client Class Creation` you can specify i
 
 
 
-### 4. Combining Authorization Methods to Harden the Security of an Application
+#### 4. Combining Authorization Methods to Harden the Security of an Application
 
 The methods above should be combined together to strengthen the DB access for  your application.
 
@@ -116,9 +116,9 @@ The methods above should be combined together to strengthen the DB access for  y
 
 In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application.
 
-## Case Study: ToDo25
+### Case Study: ToDo25
 
-### The simplest possible DB Model
+#### The simplest possible DB Model
 
 ```mermaid
 erDiagram
@@ -148,7 +148,7 @@ item.set("userId", Parse.User.current());
 - Provides data privacy
 - Enables access control
 
-### Define constants for our category values 
+#### Define constants for our category values 
 
 ```js
 export const CATEGORIES = {
@@ -161,14 +161,14 @@ export const CATEGORIES = {
 
 For the future, and a more flexible app, it would be nice to allow users to define their own categories.
 
-### Creating a service layer for the functions that interact with the DB 
+#### Creating a service layer for the functions that interact with the DB 
 
-#### Why a Service Layer?
+##### Why a Service Layer?
 
 Instead of calling Parse directly from our UI components, we create a **service layer**:
 
 
-##### Without a Service Layer code is more of a mess
+###### Without a Service Layer code is more of a mess
 
 - Components do not respect the **Single Responsibility Principle**: rendering the ui and talking to the DB
 
@@ -185,25 +185,25 @@ item.set("userId", Parse.User.current());
 await item.save();
 ```  
 
-##### With a service layer code is simpler in the component
+###### With a service layer code is simpler in the component
 ```js
 // In component - clean, simple
 await createTodoItem(name, category);
 ```
 
-#### Service layer folder
+##### Service layer folder
 
 We have two files at the moment:
 - `src/services/auth.js` - authentication functions
 - `src/services/todoService.js` - handling of todo items
 
 
-#### Defining the TodoItem related services
+##### Defining the TodoItem related services
 ```js
 const TodoItem = Parse.Object.extend("TodoItem");
 
 ```
-##### Helper function to convert Parse Todo object to plain JS object
+###### Helper function to convert Parse Todo object to plain JS object
 
 - React works better with plain JS objects so it's nicer if we convert
 - Also, we unify the treatment of the **id** and the other fields
@@ -221,7 +221,7 @@ function todoItemToPlainObject(parseObj) {
   };
 }
 ```
-##### Fetching items for user and category
+###### Fetching items for user and category
 - Note the multiple query conditions
 - Note the ordering constraint
 ```js
@@ -247,7 +247,7 @@ export async function fetchTodosByCategory(category) {
 
 **But there's a problem**: A malicious user could use Parse's REST API directly or modify the client code to read other users' todos! The query filter is just client-side convenience—it doesn't enforce security.
 
-### Access Controls when creating a new Todo item
+#### Access Controls when creating a new Todo item
 
 ```js
 export const createTodoItem = async (name, category) => {
@@ -292,7 +292,7 @@ export const createTodoItem = async (name, category) => {
 };
 
 ```
-##### Observation: A more concise way 
+###### Observation: A more concise way 
 ```js
 	const acl = new Parse.ACL();
 	acl.setReadAccess(currentUser, true);
@@ -305,27 +305,27 @@ export const createTodoItem = async (name, category) => {
 	item.setACL(acl);
 ```
 
-#### Other object-level configurations
+##### Other object-level configurations
 
-##### Sharing with another user
+###### Sharing with another user
 
 ```js
   const acl = new Parse.ACL(currentUser); // owner has full access
   acl.setReadAccess(otherUser, true);   // other user can read
   acl.setWriteAccess(otherUser, true);  // other user can write
 ```
-##### Public read - owner write
+###### Public read - owner write
 ```js
   const acl = new Parse.ACL(currentUser); // owner has full access
   acl.setPublicReadAccess(true);  // anyone can read
 ```
-##### Role-Based Access
+###### Role-Based Access
 ```js
   const acl = new Parse.ACL(currentUser);
   acl.setRoleReadAccess("TeamMembers", true);
   acl.setRoleWriteAccess("TeamMembers", true); 
 ```
-##### Two types of roles
+###### Two types of roles
 ###### **Application-level roles** (Moderators, Admins, Premium Users)
 - Created manually in Parse Dashboard or via Cloud Code
 - Managed by the app administrators, not end users
@@ -348,7 +348,7 @@ export const createTodoItem = async (name, category) => {
 
   await role.save();
 ```
-### ACL does not work at the field level
+#### ACL does not work at the field level
 
   In Parse, **ACLs work at the object level, not at the field/column level**. This means you cannot make some fields public and other fields private within the same object.
   
@@ -356,7 +356,7 @@ export const createTodoItem = async (name, category) => {
   - You want everyone to **see your todo task name** and done status (public read)
   - But you want to **keep your time tracking data private** (only you can read)
 
-#### Problem: You can not set some fields private and some public 
+##### Problem: You can not set some fields private and some public 
 ```js
   // This does NOT work - you can't set different permissions per field
   const todo = new TodoItem();
@@ -370,9 +370,9 @@ export const createTodoItem = async (name, category) => {
   todo.setACL(acl);
 
 ```
-#### Solution: Split data into two tables with a 1-to-1 relationships
+##### Solution: Split data into two tables with a 1-to-1 relationships
 
-##### Table 1: TodoItem (Public)
+###### Table 1: TodoItem (Public)
 ```js
   const TodoItem = Parse.Object.extend("TodoItem");
   const todo = new TodoItem();
@@ -386,7 +386,7 @@ export const createTodoItem = async (name, category) => {
   todo.setACL(acl);
   await todo.save();
   ```
-#####  Table 2: TodoTimeTracking (Private)
+######  Table 2: TodoTimeTracking (Private)
 ```js
   const TodoTimeTracking = Parse.Object.extend("TodoTimeTracking");
   
@@ -405,9 +405,9 @@ export const createTodoItem = async (name, category) => {
 
 
 
-### Folder Structure
+#### Folder Structure
 
-#### Separate Pages and Reusable Components 
+##### Separate Pages and Reusable Components 
 
 My favorite way of organizing
 - **pages**  -- One file per page/view
@@ -438,13 +438,13 @@ Also, refactor, refactor, refactor. When you find a better organization, go with
 
 
 
-# Reading
+## Reading
 From the ParsePlatform.org Guide:
 - [Class-level Permissions](https://docs.parseplatform.org/js/guide/#class-level-permissions)
 - [Object-level Access Control](https://docs.parseplatform.org/js/guide/#object-level-access-control)
 
 
-# Further reading
+## Further reading
 - SOLID principles
 	- **Single Responsibility Principle -**
 	- Open-closed Principle -
@@ -453,17 +453,17 @@ From the ParsePlatform.org Guide:
 	- **Dependency Injection Principle** -
 
 
-## Exam Questions
+### Exam Questions
 
-### 1. Why can't Parse API keys be kept secret in a web application?
+#### 1. Why can't Parse API keys be kept secret in a web application?
 
-### 2. What is the difference between authentication and authorization?
+#### 2. What is the difference between authentication and authorization?
 
-### 3. What are the three methods of access control in Parse?
+#### 3. What are the three methods of access control in Parse?
 
-### 4. What is an ACL and at what level does it operate?
+#### 4. What is an ACL and at what level does it operate?
 
-### 5. Explain what this code does:
+#### 5. Explain what this code does:
 ```js
 const privateNote = new Note();
 privateNote.set("content", "My secret");
@@ -471,9 +471,9 @@ privateNote.setACL(new Parse.ACL(Parse.User.current()));
 await privateNote.save();
 ```
 
-### 6. How would you make an object publicly readable but only writable by the owner?
+#### 6. How would you make an object publicly readable but only writable by the owner?
 
-### 7. What's the problem with this code if we only validate name length on the client?
+#### 7. What's the problem with this code if we only validate name length on the client?
 ```js
 // Client-side validation
 if (name.length > 200) {
@@ -483,7 +483,7 @@ if (name.length > 200) {
 await todoItem.save();
 ```
 
-### 8. What are two benefits of placing this code in a separate service file rather than directly in a React component?
+#### 8. What are two benefits of placing this code in a separate service file rather than directly in a React component?
 ```js
 export async function fetchTodosByCategory(category) {
   const query = new Parse.Query(TodoItem);
@@ -494,6 +494,6 @@ export async function fetchTodosByCategory(category) {
 }
 ```
 
-### 9. What are the two types of roles in Parse and how do they differ?
+#### 9. What are the two types of roles in Parse and how do they differ?
 
-### 10. Why can't ACLs be set at the field level, and what's the workaround?
+#### 10. Why can't ACLs be set at the field level, and what's the workaround?

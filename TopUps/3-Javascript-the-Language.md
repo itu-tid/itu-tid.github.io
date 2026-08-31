@@ -1,3 +1,5 @@
+# Javascript the Language
+
 ## Trying any of this out
 
 Everything below is plain JavaScript, so you do not need a browser, a page, or React to run it. If you have Node installed — you will need it for the course anyway — typing `node` in a terminal drops you into a REPL:

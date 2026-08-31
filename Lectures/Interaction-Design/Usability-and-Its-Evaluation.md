@@ -13,7 +13,7 @@ Usability is a quality attribute that assesses how easy user interfaces are to u
 
 6. **Satisfaction** - How pleasant is the use of the design?
 
-## Heuristics
+### Heuristics
 
 Heuristics -- loosely defined rules that are likely to help, but are not laws - they can be "broken" if necessary.
 
@@ -46,7 +46,7 @@ Limitation of heuristic evaluation: usability is more complex than what can be c
 **For you:** Learn one set of heuristics. An expert _has the knowledge in their head_.
 
 
-## Usability Testing
+### Usability Testing
 
 The golden standard of usability evaluation is usability testing. This is when you evaluate with users a prototype or an actual system.
 
@@ -58,14 +58,14 @@ Rules of thumb:
 Sometimes you don't start from scratch: evaluating an existing prototype for usability is even easier - you don't have to create the prototype. You go straight to the next steps. Sometimes, you might even learn useful stuff from usability testing the competitor's products (Hall, 2013).
 
 
-### The Participants
+#### The Participants
 
 Three kinds of participants
 - The log keeper - writes down observations
 - The facilitator - explains and helps cautiously, when needed
 - The users - test the prototype / system
 
-### The Users
+#### The Users
 
 Must be representative for your target population.
 
@@ -73,7 +73,7 @@ Best is to have them think aloud. You can also just observe, but it's less valua
 
 After your first mockup, probably one or two users are sufficient -- if they are representative. You'll get sufficient feedback to go back to the drawing board.
 
-### The Tasks
+#### The Tasks
 
 You need to prepare a **set of tasks** that are representative or important for the system. Then you ask the users to try to solve them using the system.
 
@@ -83,7 +83,7 @@ Avoid suggesting which UI elements to be used. That will skew the results.
 
 Avoid trivial tasks. The tasks should be "something that should give the user a feeling of achievement when they are done". As Lauesen proposes, a task is something after which the user can tell himself: I've done that, I can go and have a coffee now. What does this mean about logging in as a task?
 
-### Test Report
+#### Test Report
 
 The report ranks and prioritizes the problems discovered during the usability testing. It is different than the log. It summarizes the findings based on all the participants.
 
@@ -102,7 +102,7 @@ Another, simpler classification is by Erika Hall (2013): she argues that three c
 
 
 
-## Bibliography
+### Bibliography
 
 - *User Interface Design*, Chapter 13: *More on usability testing*. Søren Lauesen, Addison Wesley.
 - *Just Enough Research*, Chapter 7: *Evaluative Research*, Erika Hall, 2013.
@@ -111,7 +111,7 @@ Another, simpler classification is by Erika Hall (2013): she argues that three c
 - [The Design of Everyday Things](https://web.media.mit.edu/~ascii/papers/norman_chapter1_2013.pdf) , Don Norman.
 
 
-# Project Work 👬
+## Project Work 👬
 - Evaluate the usability of your Lo-Fi prototype
 - Record brief notes of the usability test outcome
 - Write a usability report in which you prioritize the discovered issues

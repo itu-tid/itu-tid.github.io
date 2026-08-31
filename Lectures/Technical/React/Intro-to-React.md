@@ -471,7 +471,7 @@ Forty lines, and every idea above is in there somewhere.
 
 And deliberately silly: **Add** picks a task at random, because there is nothing to type into yet. Giving it something to type into is [Forms and Controlled Components](Forms-and-Controlled-Components.md) — along with the first real bug, when deleting from the middle of the list shows you why keying by position was never going to hold.
 
-# References
+## References
 
 Read up from the [react.dev](https://react.dev) documentation site, the following:
 
@@ -486,7 +486,7 @@ Read up from the [react.dev](https://react.dev) documentation site, the followin
 	- [Responding to Events](https://react.dev/learn/responding-to-events)
 	- [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
 
-# Exam Questions
+## Exam Questions
 
 ### 1. What is JSX and how does it differ from HTML?
 

@@ -1,6 +1,6 @@
 # Web Service APIs 
 
-## **What is an API?** 
+### **What is an API?** 
 - *Application Programming Interface* -- a generic term referring to an *interface to a system*
 - the interface is usually made up of
 	- a collection of functions
@@ -14,7 +14,7 @@
 
 
 
-### Focus: Web Service APIs
+#### Focus: Web Service APIs
 
 **Interfaces** for interacting with **remote servers** by using **web technologies** (HTTP)
 
@@ -35,7 +35,7 @@ The server exposes API **endpoints** following the following conventions
 
 
 ![](../images/spotify-endpoints.png)
-#### REST APIs 
+##### REST APIs 
 
 A special case of Web Server APIs that follow a strict convention for managing resources via CRUD operations (create, read, update, delete).
 
@@ -102,7 +102,7 @@ TODO in class:
 - Run this code with node
 - Run a GET request
 
-##### Relationship between the `Parse` object and the Parse REST API
+###### Relationship between the `Parse` object and the Parse REST API
 - The `Parse.Object` and `Parse.Query` objects are built *on top of* REST calls
 - They expose to you the programmer a nicer and simpler interface
 - You could always simply use the REST API with fetch w/o the `Parse.Object` and `Parse.Query`
@@ -110,15 +110,15 @@ TODO in class:
 
 
 
-## Two Challenges When Designing Web Service APIs
+### Two Challenges When Designing Web Service APIs
 
 The main two challenges are:
 1. **Authentication** - How do you ensure that only the callers you want use your endpoints?
 2. **Authorization** - How do you ensure that a user does not overreach?
 
-### Authentication
+#### Authentication
 
-#### API keys
+##### API keys
 Most popular solution for authentication when your application needs to be using a third-party API (e.g. Google Translate, Spotify API, Twitter API, etc.)
 
 How does it work?
@@ -142,7 +142,7 @@ fetch("https://www.omdbapi.com/?t=guardians%20of%20the%20galaxy&apikey=955936f0"
 
 
 
-#### Session Based Authentication
+##### Session Based Authentication
 Most popular solution for authenticating users in a client-server architecture
 
 Addresses the limitations that come with the stateless nature of HTTPS
@@ -153,14 +153,14 @@ Session secret key is generated after login on the server, stored in the cookie,
 
 
 
-# For your projects
+## For your projects
 - harden security of your app by adding access control
 
 
 
 
 
-# Not discussed in the course
+## Not discussed in the course
 - role-based access control
 
 

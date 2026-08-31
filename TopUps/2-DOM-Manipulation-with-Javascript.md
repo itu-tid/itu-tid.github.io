@@ -1,3 +1,5 @@
+# DOM Manipulation with Javascript
+
 
 - The origin of Javascript: a language to implement little animations on web pages.
 

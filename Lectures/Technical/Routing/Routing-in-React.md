@@ -1,44 +1,44 @@
 # Routing in Single Page Applications (SPA)
 
-## Where is routing traditionally implemented in web applications?
+### Where is routing traditionally implemented in web applications?
 - On the server side
 
-## However, when you have a SPA? 
+### However, when you have a SPA? 
 - You don't want to go to the server for the pages, but generate them locally
 - So the routing has to be done on the client side
 
-## Why would it be bad if we didn't have URLs anymore in our SPA web applications? 
+### Why would it be bad if we didn't have URLs anymore in our SPA web applications? 
 - Usability principle? (conventions that are familiar to the user)
 - Deep linking
 - Browser functionality
 
 
-## How do we implement routing in SPAS?
+### How do we implement routing in SPAS?
 - On the client side (i.e. in the browser)
 - Every URL request is intercepted by the our SPA
 
 
-# Routing in React
+## Routing in React
 
-### Is Routing the responsibility of React?
+#### Is Routing the responsibility of React?
 - You'd think so... but, nope. React does not care
 - React is responsible with the rendering of components
 - Routing has to be implemented by a 3rd party library
 
-### How would a 3rd party library work? 
+#### How would a 3rd party library work? 
 - **Intercepting the intent of navigating to a different page** and rendering the corresponding page
 - How can it intercept?
 
-### How to find a routing library? 
+#### How to find a routing library? 
 - Look on `npm`
 - Choose the most popular
 - Why is this a good idea?
 	- popularity is proportional to support
 	- *many eyes catch all the bugs*
 
-# Example routing with `react-router-dom` 
+## Example routing with `react-router-dom` 
 
-## 1. Basic Routing Setup
+### 1. Basic Routing Setup
 
 - Install `react-router-dom` via npm/yarn
 - Wrap the app with `<BrowserRouter>`
@@ -59,7 +59,7 @@ function App() {
 }
 ```
 
-## 2. Navigation 
+### 2. Navigation 
 
 - Use `<Link>` for client-side navigation (avoids full page reloads)
 - This is as opposite to `<a>` elements - who go to the server and trigger a full page re-render
@@ -78,7 +78,7 @@ const Header = () => { 
 };
 ```
 
-## When you need to change URL url from JS
+### When you need to change URL url from JS
 
 - Use the `useNavigate` hook for programmatic navigation
 ```js
@@ -97,7 +97,7 @@ export default function Profile() { 
 ```
 
 
-## Dynamic Routes 
+### Dynamic Routes 
 
 - Sometimes you want to pass parameters to the url, e.g. ``/users/:id``
 - Use `:param` in the path to define dynamic segments
@@ -116,9 +116,9 @@ function UserProfile() {
 
 ```
 
-## Exact vs. Partial Matching
+### Exact vs. Partial Matching
 
-### Partial matching as default
+#### Partial matching as default
 
 - By default, a route uses partial matching, it will **match if the beginning of the URL matches the path**
 
@@ -128,7 +128,7 @@ function UserProfile() {
 
 - This will match `/about`, `/about/team`, `/about/us`, etc.
 
-### Exact matching as an option
+#### Exact matching as an option
 
 - When you use the **exact** prop on a `<Route>`, the path must match the entire URL for the route to render
 ```js
@@ -139,7 +139,7 @@ function UserProfile() {
 
 - Use this when you want a component to render for a group of related routes (e.g. sidebar for all the logged in routes)
 
-## Nested routes
+### Nested routes
 
 Most often than not, you will want to have nested routes.
 
@@ -168,7 +168,7 @@ function DashboardLayout() {
 - Note the `index` - that this is what gets rendered inside of the `<Outlet>`
 
 
-## Protected Routes
+### Protected Routes
 
 - How to protect routes (e.g., redirect unauthenticated users).
 - Use `<Navigate>` for redirects
@@ -193,7 +193,7 @@ function PrivateRoute({ children }) {
 />
 
 ```
-## URL search parameters 
+### URL search parameters 
 
 - Search params are query strings that can exist appended at the end of your URL, e.g.
 ```
@@ -216,7 +216,7 @@ function DashboardHome() {
 }
 ```
 
-## Handling unknown routes
+### Handling unknown routes
 
 - Use a wildcard route (*) to catch all unmatched paths
 ```js
@@ -226,9 +226,9 @@ function DashboardHome() {
 </Routes>
 
 ```
-## An example with Navbar and Sidebar
+### An example with Navbar and Sidebar
 
-### App.js
+#### App.js
 ```js
 import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
@@ -256,7 +256,7 @@ function App() {
 }
 ```
 
-### NavBar.js - top navigation
+#### NavBar.js - top navigation
 
 ```js
 import { Link } from 'react-router-dom';
@@ -303,7 +303,7 @@ and add the following CSS:
 
 because the framework (`react-router-dom`) automatically adds the `.active` class to the link that matches the current URL.
 
-### MainLayout.js - the sidebar
+#### MainLayout.js - the sidebar
 
 ```js
 import { Outlet } from 'react-router-dom';
@@ -332,7 +332,7 @@ export default function MainLayout() {
 
 Note: you can also use the `NavLink` here to highlight the currently selected element
 
-### About.js 
+#### About.js 
 
 ```js
 export default function About() {
@@ -345,7 +345,7 @@ export default function About() {
 }
 ```
 
-### Feed.js and Child.js
+#### Feed.js and Child.js
 
 ```js
 // Feed.js
@@ -361,29 +361,29 @@ export default function Profile() {
 ```
 
 
-# Notes
-## If the user does a reload on your `/about` page? 
+## Notes
+### If the user does a reload on your `/about` page? 
 
 The request will go the server. However, we only have an `index.html` on the server, we do not have an about!
 - The solution in this kind of situations is that normally, the web host will redirect all the page-not-found to the `index.html` such that tis' still the react app that gets to handle the request. And the react app will parse the url of the page, and handle it again.
 
 
-## But this is only one library... how do we do routing with others
+### But this is only one library... how do we do routing with others
 - if you understand the concepts here you will have a much easier time understanding other similar libraries
 - the problems described above are the same
 
 
-# Read More
+## Read More
 - [React Router Declarative Mode](https://reactrouter.com/start/declarative/installation) - the official documentation - note that there's also Data Mode and Framework mode that we didn't talk about
 
 
-## Exam Questions
+### Exam Questions
 
-### 1. Why is client-side routing necessary in SPAs?
+#### 1. Why is client-side routing necessary in SPAs?
 
-### 2. What is the difference between `<Link>` and `<a>` tags in React Router?
+#### 2. What is the difference between `<Link>` and `<a>` tags in React Router?
 
-### 3. Explain what this routing setup does:
+#### 3. Explain what this routing setup does:
 ```js
 <Routes>
   <Route path="/dashboard" element={<DashboardLayout />}>
@@ -393,7 +393,7 @@ The request will go the server. However, we only have an `index.html` on the ser
 </Routes>
 ```
 
-### 4. What does this protected route component do?
+#### 4. What does this protected route component do?
 ```js
 function PrivateRoute({ children }) {
   const isAuthenticated = checkAuth();
@@ -401,15 +401,15 @@ function PrivateRoute({ children }) {
 }
 ```
 
-### 5. How do you access URL parameters in React Router?
+#### 5. How do you access URL parameters in React Router?
 ```js
 // Route: <Route path="/users/:userId" element={<UserProfile />} />
 // URL: /users/123
 ```
 
-### 6. How do you access query string parameters?
+#### 6. How do you access query string parameters?
 ```js
 // URL: /dashboard?sort=name&filter=active
 ```
 
-### 7. What happens if a user reloads the page on `/about` in an SPA?
+#### 7. What happens if a user reloads the page on `/about` in an SPA?

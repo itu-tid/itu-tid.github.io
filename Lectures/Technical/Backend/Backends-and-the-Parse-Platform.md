@@ -2,9 +2,9 @@
 
 Motivation - we want to be full-stack web developers :) But we don't have much time.
 
-## Backends
+### Backends
 
-### What is a backend? 
+#### What is a backend? 
 - **Relative term** - defined in opposition to the *front-end*
 	- **Front-end** -- code that runs in the user's browser and handles presentation and user interaction
 	- **Back-end** -- handles data processing, storage, and security
@@ -13,7 +13,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 ![](../images/client-server-architecture.png)
 
 
-### What are the **responsibilities of the backend**?
+#### What are the **responsibilities of the backend**?
 - Authentication (proving that a user is who they say they are)
 - Authorization (what can a user do)
 - Session management for web applications
@@ -22,7 +22,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 - API endpoints / request handling (since the backend receives and responds to requests)
 - Data validation (ensuring incoming data is correct/safe)
 
-### Setting up a traditional backend
+#### Setting up a traditional backend
 - Machine setup (or create a VM with a cloud provider)
 - Operating system installation & configuration
 - Security & firewall configuration
@@ -33,7 +33,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 - Backup system
 
 
-### Low-Code Backends
+#### Low-Code Backends
 - Pre-built solutions for common backend needs
 - Backend-as-a-service
 	- Firebase = proprietary, hosted by Google
@@ -42,13 +42,13 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 	- **Parse Platform** = open source framework
 
 
-## Parse Platform
+### Parse Platform
 
-### History
+#### History
 
 Startup => Facebook => [Open Source](https://github.com/parse-community)
 
-### Implementation
+#### Implementation
 
 Implemented in JS - runs on Node
 
@@ -66,25 +66,25 @@ Offers
 
 
 
-## Setting up a Parse Server
-### Using Parse from Back4App
+### Setting up a Parse Server
+#### Using Parse from Back4App
 
 Steps to start working with the Back4App Parse deployment
 1. Create an account on Back4App
 2. Create a backend (app) for your react application in Back4App
 3. Somewhere in settings find `APP_ID` and `JAVASCRIPT_KEY` and `PARSE_SERVER_URL` and save them for late
 
-### Using your own deployment
+#### Using your own deployment
 
 - You can also [deploy your own server on DigitalOcean](Parse-Server-Deployment-Guide.md)
 
 
-# Interacting with Parse from Javascript
+## Interacting with Parse from Javascript
 
 The full documentation is in the [Parse.js Javascript Guide](https://docs.parseplatform.org/js/guide/#saving-objects)
 - use as reference
 
-## Connecting to a server
+### Connecting to a server
 
 - install the parse JS SDK (software development kit) `npm install -S parse`
 - configure your react application to connect to the server and corresponding app (there might be multiple apps on the server)
@@ -103,7 +103,7 @@ Note: code above should be in the top level component of our app
 
 Note 2: if you don't want to import the minified version, see the [Parse-Configuration-for-Vite](Parse-Configuration-for-Vite.md) . If you change the Vite configuration, then you can write `import Parse from 'parse'` which is nicer.
 
-## CRUD Operations
+### CRUD Operations
 
 *To Read*: [CRUD operations with Parse](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial) (approx. 30min)
 
@@ -114,7 +114,7 @@ CRUD(O) stands for
 - Delete
 - Overview
 
-### Creating and Saving a New Object to the Database
+#### Creating and Saving a New Object to the Database
 
 ```javascript
 import Parse from 'parse';
@@ -143,7 +143,7 @@ Advanced Parse functionalities:
 - [saving objects when offline](https://docs.parseplatform.org/js/guide/#saving-objects-offline) with `saveEventually`
 
 
-### Retrieving an Object
+#### Retrieving an Object
 
 Imagine you have a GameScore object.
 ```js
@@ -170,7 +170,7 @@ query.get(gameScoreId)
 });
 ```
 
-### Updating an Object
+#### Updating an Object
 
 ```js
 
@@ -202,7 +202,7 @@ Advanced Parse features
 - [Atomic arrays](https://docs.parseplatform.org/js/guide/#arrays)
 
 
-## Querying for Objects 
+### Querying for Objects 
 
 Most basic way to query for objects is:
 ```jsx
@@ -230,9 +230,9 @@ References:
 - [Queries on Strings](https://docs.parseplatform.org/js/guide/#queries-on-string-values)
 
 
-## User Management with Parse
+### User Management with Parse
 
-### Account Creation and Authentication
+#### Account Creation and Authentication
 
 The Javascript Parse SDK helps you manage user accounts and track the logged in user.
 
@@ -309,7 +309,7 @@ What happens:
 - Log out: `await Parse.User.logOut()`
 
 
-### Getting the current user
+#### Getting the current user
 
 It would be silly if the user had to login every time they opened the app Parse stores info about the logged in user in LocalStorage
 ```jsx
@@ -321,7 +321,7 @@ if (currentUser) {
 }
 ```
 
-### Logging out the current user
+#### Logging out the current user
 
 ```jsx
 Parse.User.logOut().then(() => {
@@ -329,7 +329,7 @@ Parse.User.logOut().then(() => {
 });
 ```
 
-### Associating users with other tables
+#### Associating users with other tables
 
 Example of storing a `Post` for a `User`.
 - Create an attribute on the `Post`
@@ -364,9 +364,9 @@ More advanced features
 - [Resetting Passwords](https://docs.parseplatform.org/js/guide/#resetting-passwords)
 
 
-# React patterns when communicating with a backend
+## React patterns when communicating with a backend
 
-## Loading notification pattern
+### Loading notification pattern
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -416,7 +416,7 @@ export default TodoList;
 
 
 
-# Modeling Relationships in Parse
+## Modeling Relationships in Parse
 
 
 You must think ahead about the database model for your application.
@@ -426,15 +426,15 @@ The main questions are
 2. What are the relationships between them?
 
 
-## Relationships 
+### Relationships 
 
-### One-to-many Relationships
+#### One-to-many Relationships
 
 Can be implemented with
 1. Pointers - the default one
 2. Arrays - for special situations where the "many" are "few" :)
 
-#### Creating a relationship with pointers
+##### Creating a relationship with pointers
 ```jsx
 var game = new Parse.Object("Game");
 game.set("createdBy", Parse.User.current());
@@ -454,7 +454,7 @@ var game = ...
 // getting the user who created the Game
 var user = game.get("createdBy");
 ```
-#### Creating a relationship with arrays (not recomended)
+##### Creating a relationship with arrays (not recomended)
 
 ```js
 // let's say we have four weapons
@@ -475,15 +475,15 @@ To retrieve the Weapon objects:
 ```js
 var weapons = Parse.User.current().get("weaponsList")
 ```
-### Many-to-Many Relationships
+#### Many-to-Many Relationships
 
 Can be implemented in two ways
 1. Using the Parse Relation attribute type
 2. Using join tables
 
-#### Using Parse Relations
+##### Using Parse Relations
 
-##### Defining a relation between authors and books
+###### Defining a relation between authors and books
 
 ```js
 // let’s say we have a few objects representing Author objects
@@ -504,7 +504,7 @@ relation.add(authorThree);
 // now save the book object
 book.save();
 ```
-##### Getting the authors of a book
+###### Getting the authors of a book
 
 ```js
 // suppose we have a book object
@@ -518,7 +518,7 @@ var query = relation.query();
 
 // now execute the query
 ```
-##### Getting all the books to which an author has contributed
+###### Getting all the books to which an author has contributed
 
 ```js
 // suppose we have a author object, for which we want to get all books
@@ -534,7 +534,7 @@ query.equalTo("authors", author);
 Note
 - the `equalTo` is not intuitive
 
-#### Using Join Tables (better this!)
+##### Using Join Tables (better this!)
 
 Create a new kind of entity that maps one authors to one book.
 ```javascript
@@ -549,7 +549,7 @@ bookAuthor.save();
 
 This is always more powerful from the point of view of modeling!
 
-##### Why are Join Tables more powerful than relationships? 
+###### Why are Join Tables more powerful than relationships? 
 
 Because they allow you to model the relationship in a more rich manner later! E.g. if you need to know author order, or the type of contribution (editor, primary author, co-author, etc.)
 ```javascript
@@ -566,7 +566,7 @@ bookAuthor.save();
 ```
 
 
-## Entity-Relationship Diagrams
+### Entity-Relationship Diagrams
 
 Use whichever notation you prefer. Two that I like are:
 1. On the left hand side is the most popular way of showing attributes
@@ -577,38 +577,38 @@ Use whichever notation you prefer. Two that I like are:
 ![](../images/alterantive-er-diagrams.png)
 
 No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database.
-# Project Work
+## Project Work
 - Design a **domain model** for your application by **creating an ER diagram**. The diagram will be part of your final report. Discuss your diagram with the staff. Make sure to keep it up to date as your project progresses. As you work on your implementation you will realize that you need to constantly refine it. Keep it up to date.
 - Create the tables corresponding to your ER diagram in Back4App
 - Start connecting your React application to your own Parse backend
 
 
-# References
+### References
 
 The documentation on ParsePlatform.org
 - [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) - extensive reference for everything ParseJS
 - [Relationships](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
 
 
-# Meta
-## History
+## Meta
+### History
 - Oct '25 - Improved structure - made the page more stand-alone - less external references
 - Nov '24 - better organized the references
-## To Do
+### To Do
 - Nov'24 - make sure to spend more time discussing the Relationships
 
 
-## Exam Questions
+### Exam Questions
 
-### 1. What is the difference between front-end and back-end?
+#### 1. What is the difference between front-end and back-end?
 
-### 2. List at least 5 responsibilities of a backend.
+#### 2. List at least 5 responsibilities of a backend.
 
-### 3. What is Parse Platform and what does it provide?
+#### 3. What is Parse Platform and what does it provide?
 
-### 4. What does CRUD stand for and what do each of the letters represent?
+#### 4. What does CRUD stand for and what do each of the letters represent?
 
-### 5. Explain what this code does:
+#### 5. Explain what this code does:
 ```js
 const TodoItem = Parse.Object.extend("TodoItem");
 const newItem = new TodoItem();
@@ -617,7 +617,7 @@ newItem.set("done", false);
 await newItem.save();
 ```
 
-### 6. What is wrong with this query pattern?
+#### 6. What is wrong with this query pattern?
 ```js
 const query = new Parse.Query("Post");
 const posts = await query.find();
@@ -629,12 +629,12 @@ for (let post of posts) {
 }
 ```
 
-### 7. How do you get the currently logged-in user in Parse?
+#### 7. How do you get the currently logged-in user in Parse?
 
-### 8. Explain the difference between Pointers and Relations in Parse.
+#### 8. Explain the difference between Pointers and Relations in Parse.
 
-### 9. How would you query all TodoItems where done is false, ordered by creation date?
+#### 9. How would you query all TodoItems where done is false, ordered by creation date?
 
-### 10. Why are Join Tables often preferred over Parse Relations for many-to-many relationships?
+#### 10. Why are Join Tables often preferred over Parse Relations for many-to-many relationships?
 
-### 11. What is the loading notification pattern and why is it important?
+#### 11. What is the loading notification pattern and why is it important?

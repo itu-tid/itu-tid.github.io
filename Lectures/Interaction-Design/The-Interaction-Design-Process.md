@@ -5,7 +5,7 @@
 
 _**“I saw the angel in the stone and I carved until I set it free.”**_ **– Michelangelo (1475 – 1564)**
 
-## An Iterative Discovery and Creation  Process
+### An Iterative Discovery and Creation  Process
 
 
 
@@ -25,7 +25,7 @@ The following are two popular alternative definitions of ID:
 
 As you can imagine, based on these definitions, interaction design is a very broad domain. E.g. CHI -- the main international conference where researchers working in human-computer interaction meet to discuss the latest findings. At one of the last such conferences I attended the topics ranged from: smart shoes, to smart pills that you could track as they traversed your digestive tract, to "5D" games, to adaptable systems for language learning (this, the least futuristic one, was my work).
 
-## How to design a successful Interaction?
+### How to design a successful Interaction?
 Every year an incredible large number of apps is created, and only a few of them are successful. So what makes some apps more successful than others?
 
 Think about:
@@ -56,16 +56,16 @@ It seems that delivering something useful and usable are both important. But how
 One good place to start from is knowing who your users are. Designing for the average user means frustrating most of the users. [The Flaw of the Averages](https://www.thestar.com/news/insight/2016/01/16/when-us-air-force-discovered-the-flaw-of-averages.html)
 
 
-## Specific Processes & Approaches
+### Specific Processes & Approaches
 
 Given the importance of designing interactions in the world we live in and our fondness of having a "process" for everything we do (SCRUM anybody?) you can imagine why many people would try to provide recipes for how to do Interaction Design. And indeed, there are many processes for ID. The most popular one, and the one from one of the most popular company out there are:
  
-#### **Design Thinking** 
+##### **Design Thinking** 
 An ideology that asserts that a hands-on, user-centric approach to problem solving can lead to innovation [DT]. Process comprises 6 distinct phases.
 
 ![](images/design-thinking.png)
 
-#### **Google Design Sprints** 
+##### **Google Design Sprints** 
 A process that starts from from ideation to prototyping and evaluation but explcitly without implementation [GDS].
 
 ![](images/steps-of-gds.png)
@@ -93,7 +93,7 @@ Finally, although not as process-driven, there are other approaches can also wor
 - **Design for yourself** - this is what the authors of Vi, LaTeX, etc. set out to do. Solving a problem that they had. And then, it turned out, that other people also had that problem. Is this a more or less risky approach than Design-Driven Innovation?
 
 
-# *Technical* Interaction Design
+## *Technical* Interaction Design
 
 This course is about *technical* ID. This means that we focus much more on the technical aspects of creating interactions. In particular we will discuss several technologies that you will likely need for the foreseeable future if you want to create any interactive application:
 
@@ -108,7 +108,7 @@ This course is about *technical* ID. This means that we focus much more on the t
 These technologies are useful for almost any web development project and also for many mobile applications at the moment. E.g., React Native is very similar to React and allows you to build cross-platform applications.
 
 
-## References
+### References
 
 [Laundauer] - The Trouble with Computers: Usefulness, Usability, and Productivity, Laundauer. [pp.141 -- 142](https://www.ics.uci.edu/~redmiles/ics227-SQ04/papers/Lan95.pdf).
 

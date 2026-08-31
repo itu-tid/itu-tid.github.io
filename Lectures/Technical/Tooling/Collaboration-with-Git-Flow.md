@@ -12,19 +12,19 @@ In the course we make use of the following branches:
 - **Feature branches** for individual work
 - the **development** branch for group integration
 
-## The `main` branch
+### The `main` branch
 
 - Contains releases
 - Only modified by PR from develop
 - Protected = only admins can accept PRs to it (TID staff are admins)
 
-## The `development` branch
+### The `development` branch
 
 - Contains the latest version of the team code
 - Always ready for demo
 - Point of integration of feature branches
 
-## Feature branches
+### Feature branches
 
 - Are forked from `development`
 - For independent / subgroup work
@@ -34,20 +34,20 @@ In the course we make use of the following branches:
 
 
 
-## The `.gitignore` file
+### The `.gitignore` file
 
 - Specifies files that you don’t want tracked
 - Make sure that your node_modules folder is in `.gitignore`
 - And that `.gitignore` is in the root of your repo folder
 
 
-## Exam Questions
+### Exam Questions
 
-### 1. Describe the three types of branches used in the course's Git Flow model.
+#### 1. Describe the three types of branches used in the course's Git Flow model.
 
-### 2. Why should `node_modules` be in `.gitignore`?
+#### 2. Why should `node_modules` be in `.gitignore`?
 
-# `main` always compiles
+## `main` always compiles
 
 The one rule that is not a matter of taste: **code on `main` must run**. Every cohort has had at least one team whose `main` did not compile, usually for days, usually because a branch was merged in a hurry near a deadline.
 

@@ -42,7 +42,7 @@ function Broken({ showTitle }) {
 
 The first time `showTitle` is true, `items` is the second slot. When it turns false, the same line asks for the *first* slot — and gets handed the title. Everything after it shifts too. Keeping every hook at the top level, called every time, is what guarantees the order never changes.
 
-# References
+## References
 
 - [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks) — the two rules, and what the linter checks
 - [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)

@@ -5,7 +5,7 @@ Originally CSS for styling; HTML for content. Thought out to really separate pro
 
 I've always Googled stuff. And these days you can ask ChatGPT. And that's fine. However, both when Googling, and especially when ChatGPT-ing, you must understand, in order to select the best solution.
 
-# Seems simple. Why bother?
+## Seems simple. Why bother?
 
 Quite a complicated concept if you look at the [number of questions on StackOverflow](https://stackoverflow.com/tags) (compared with Java half the questions... also daily)
 
@@ -15,7 +15,7 @@ Quite a complicated concept if you look at the [number of questions on StackOver
 - different browsers have different implementations (e.g. implementation of [:has](https://caniuse.com/css-has))
 - functional (!) pseudo-selector
 
-# CSS Selectors
+## CSS Selectors
 
 To Read
 - [What is a selector? ](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors#what_is_a_selector)
@@ -38,11 +38,11 @@ You should know:
 - How to style specially an item that has the property `is-selected`, e.g. `<li is-selected>Home</li>`?
 - Which is correct: `element [property]` and `element[property]`?
 
-## Exercise
+### Exercise
 - Do the [Selectors Tasks](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Selectors_Tasks) from mdn
 - Install WebStorm (or use VSCode) and do the tasks in this exercise, and all the following ones locally, instead of on the website
 
-# Cascade, Inheritance, and Specificity 
+## Cascade, Inheritance, and Specificity 
 
 To Read: [article](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance)
 
@@ -57,10 +57,10 @@ To Read: [What is inheritance?](https://developer.mozilla.org/en-US/docs/Learn/C
 To answer:
 - What has higher priority: the style for an element or for a class? But a class or an id?
 
-## Exercise
+### Exercise
 - Do the [Inheritance tasks](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_tasks) from mdn
 
-# **The Box Model**
+## **The Box Model**
 
 Everything in CSS has a box around it.
 
@@ -78,12 +78,12 @@ When specifying [length dimensions](https://developer.mozilla.org/en-US/docs/Lea
 
 Note: using rem instead of em is more accessible because it's relative to the user's font size in the browser or OS.
 
-## Exercise
+### Exercise
 - Do the [box model tasks](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Box_Model_Tasks) from mdn
 
 
 
-# Flow Layouts
+## Flow Layouts
 
 Depending on the type, there are several types of outer display types. In what's called the  [Normal flow](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flow_layout/Block_and_inline_layout_in_normal_flow) elements with the corresponding
 - **display: inline** -- layout horizontally (e.g. words in a paragraph).
@@ -91,7 +91,7 @@ Depending on the type, there are several types of outer display types. In what's
 - **display: [inline-block](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#using_display_inline-block)** -- layout block inside, and horizontally in the context
 
 
-## In Flow and Out of Flow
+### In Flow and Out of Flow
 
 See: [article](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flow_layout/In_flow_and_out_of_flow)
 
@@ -105,7 +105,7 @@ See the demo of: [Positioning elements](https://developer.mozilla.org/en-US/docs
 - What is the difference between static, relative and absolute?
 
 
-## Exercise
+### Exercise
 
 Implement a CSS layout for a website that provides translations from French to English. It should add the translation above the original text as in the figure below.
 

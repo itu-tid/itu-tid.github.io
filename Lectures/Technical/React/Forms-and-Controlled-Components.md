@@ -85,7 +85,7 @@ Later, when the same `<input>` turns up in more than one place, it is worth pull
 **`setText("")` clears the field**, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
 
 
-# References
+## References
 
 - *Adding Interactivity* > [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
 - *Adding Interactivity* > [Responding to Events](https://react.dev/learn/responding-to-events)

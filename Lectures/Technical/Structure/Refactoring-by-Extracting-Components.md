@@ -3,17 +3,17 @@
 
 **Lesson:** refactoring is critical for having a codebase that is maintainable and pleasant to work with
 
-### Challenge: Compare the following equivalent versions of code
+#### Challenge: Compare the following equivalent versions of code
 
 - They have **exactly the same behavior**: rendering items in the todo list
 - Which of them is easier to read?
 
-#### Version 1
+##### Version 1
 
 ![](../images/monster-component-part-1.png)
 ![](../images/monster-component-part-2.png)
 
-#### Version 2 
+##### Version 2 
 ![](../images/component-with-same-abstraction-level-code.png)
 
 
@@ -24,20 +24,20 @@
 	- css details
 	- etc.
 
-### Principle: Code in a component should be at the same abstraction level
+#### Principle: Code in a component should be at the same abstraction level
 
-### Advice: iterate. iterate. iterate
+#### Advice: iterate. iterate. iterate
 - there is no way to arrive to simple code without a lot of iteration
 
-### Advice 2: first make it work. then refactor it and make it nice
+#### Advice 2: first make it work. then refactor it and make it nice
 - you never get it right from the first time
 
 
-# Where the State Goes
+## Where the State Goes
 
 Extraction has a consequence. Split one component into three and some of them will need to agree about the same piece of state — which now belongs to none of them. The two patterns from [Component Communication](../React/Patterns-of-Component-Communication.md) (props down, callbacks up) are not enough on their own.
 
-## sibling to sibling by "*lifting the state*"
+### sibling to sibling by "*lifting the state*"
 
 Sometimes, you want the state of two components to always change together.
 
@@ -52,7 +52,7 @@ This is a common thing you will do when writing React
 
 **Example**: in the TODO list application, ensuring that one can't start two tasks in two different lists
 
-## Sending a message from one component to the other
+### Sending a message from one component to the other
 
 - also has to be done via the parent
 - in our case, imagine that you want to move one of the tasks, from one list to the other
@@ -62,13 +62,13 @@ This is a common thing you will do when writing React
 - talks about lifting state with an example
 
 
-## Exam Questions
+### Exam Questions
 
-### 1. What does "lifting state up" mean in React?
+#### 1. What does "lifting state up" mean in React?
 
-### 2. Why is this principle important: *"Code in a component should be at the same abstraction level"*?
+#### 2. Why is this principle important: *"Code in a component should be at the same abstraction level"*?
 
-# The same function, written twice
+## The same function, written twice
 
 Components are not the only thing worth extracting. A common case: `const getCurrentUser = async () => …` defined once in `ProfileBar` and again in `Settings`, because both screens needed it and neither knew about the other.
 
