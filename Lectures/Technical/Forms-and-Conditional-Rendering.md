@@ -96,7 +96,9 @@ And look at the shape of it: `TextInput` takes the value it should show, and a w
 
 The button works. Now press **Enter** in the input.
 
-Nothing happens — and everybody expects Enter to work. That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler:
+Nothing happens — and everybody expects Enter to work. 
+
+That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler:
 
 ```jsx
 function AddTodo({ onAdd }) {
@@ -135,9 +137,9 @@ The moment a list can be added to and deleted from, it can also be **empty** —
 {todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
 ```
 
-Three possible ways to render conditionally:
+There are three ways to write one, and to see what actually differs between them it is worth writing the *same* thing three times. Here is a to-do row that should look different once it is done.
 
-**1. An `if`, before the `return`** — best when whole branches differ:
+**1. An `if`, before the `return`** — when the two versions are different enough to be worth reading separately:
 
 ```jsx
 function TodoItem({ text, done }) {
@@ -148,17 +150,27 @@ function TodoItem({ text, done }) {
 }
 ```
 
-**2. The `? :` operator**, inside the JSX — best when only a small part changes:
+**2. The `? :` operator**, inside the JSX — when only a small part changes, and repeating the whole `<li>` would hide how little that is:
 
 ```jsx
-<li>{done ? <s>{text}</s> : text}</li>
+function TodoItem({ text, done }) {
+  return <li className={done ? "done" : ""}>{done ? <s>{text}</s> : text}</li>;
+}
 ```
 
-**3. `&&`**, when there is nothing to show in the other case:
+**3. `&&`** — when there is genuinely nothing to show in the other case, so a `? :` would end in an awkward `: null`:
 
 ```jsx
-{todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
+function TodoItem({ text, done }) {
+  return (
+    <li>
+      {text} {done && <span aria-label="done">✓</span>}
+    </li>
+  );
+}
 ```
+
+They are not three styles of the same thing. `if` and `? :` both answer *which of these two*, and `&&` answers *is there anything here at all* — which is why the empty-list message above is written with `&&` and could not sensibly be written any other way.
 
 A warning about that last one. `&&` returns its **left** side when the left side is falsy — so `{todos.length && <p>…</p>}` renders a literal **0** on the page when the list is empty, because `0` is falsy but is still something React will happily display. Compare explicitly (`=== 0`, `> 0`) and the problem disappears.
 
