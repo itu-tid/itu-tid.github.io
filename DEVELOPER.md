@@ -92,11 +92,11 @@ That last one is a full clone of this repository as it stood before staff notes,
 
 ## Notes
 
-Flat inside `Lectures/Technical/` and `Lectures/Interaction-Design/`. Filenames do not encode the week, on purpose: the ordering changes every year, and a folder called `Lecture 3` has no way of telling you it has gone stale — which is exactly what happened to the 2025 layout. The syllabus decides what belongs where, and it is generated and checked. Track is the one thing the folders encode, because track does not change.
+Two folders by track — `Lectures/Technical/` and `Lectures/Interaction-Design/` — and inside the technical one, five by subject: React, Structure, Backend, Routing, Tooling. Neither filenames nor folders encode the week, on purpose: the ordering changes every year, and a folder called `Lecture 3` has no way of telling you it has gone stale — which is exactly what happened to the 2025 layout. The syllabus decides what belongs where, and it is generated and checked. Track and subject are what the folders encode, because neither changes: routing will still be routing next year.
 
 Each note ends with an `## Exam Questions` section covering its own material. Add questions there rather than in a separate file, for the same reason: a question in its own file drifts away from the material it tests.
 
-Images live beside the notes that use them, in each folder's own `images/`.
+Images live in one `images/` per track, not one per subject folder — splitting forty files five ways buys nothing.
 
 ## The app we build
 
