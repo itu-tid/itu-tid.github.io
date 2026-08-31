@@ -16,7 +16,7 @@ You need to write code that *runs on the server* for:
 	- e.g. your application offers Google Translate functionality
 - **Validation and side effects** making a check before a user writes something to the database or updating some other metadata after a write is done
 
-**Discussion:** Think of examples of computational tasks from your own project that would benefit from server-side execution. 
+**Discussion:** Think of examples of computational tasks from your own project that would benefit from server-side execution.
 
 ## Cloud Functions in Parse
 
@@ -168,7 +168,7 @@ Parse.Cloud.afterSave("TodoItem", async (request) => {
 - What does the above code do?
 - Why do we check `request.original`?
 - How could this data be useful for analytics or reporting?
-- What other actions might you want to trigger when a task is completed? 
+- What other actions might you want to trigger when a task is completed?
 
 
 ## Exam Questions

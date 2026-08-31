@@ -1,6 +1,6 @@
 # Parse Server Deployment Guide - Ubuntu on DigitalOcean
 
-This guide documents the successful deployment of Parse Server 8.2.5 on an Ubuntu DigitalOcean droplet. 
+This guide documents the successful deployment of Parse Server 8.2.5 on an Ubuntu DigitalOcean droplet.
 
 ## Prerequisites
 - Ubuntu server on DigitalOcean (tested on 1GB droplet)
@@ -72,7 +72,7 @@ npm install parse-server express
 
 Create `index.js` file with the following content (replace `YOUR_DROPLET_IP` with your actual IP):
 
-edit  `~/parse-server/index.js` and add the following: 
+edit  `~/parse-server/index.js` and add the following:
 
 ```js
 

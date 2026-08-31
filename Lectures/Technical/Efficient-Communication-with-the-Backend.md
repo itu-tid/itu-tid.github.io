@@ -49,7 +49,7 @@ This is not a problem only for backends-as-a-service - this is a general problem
 
 ### The N+1 Select Problem
 
-This is **one of the most popular ways** of using a DB sub-optimally. 
+This is **one of the most popular ways** of using a DB sub-optimally.
 
 You send a query, get n objects back, and then for every one of those objects, you send another query to get more information.
 
@@ -298,7 +298,7 @@ Using raw WebSockets (what LiveQuery does under the hood):
 // Thankfully, Parse LiveQuery handles all of this for you!
 ```
 
-Parse implements this through the LiveQuery [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification), but you don't need to understand the low-level protocol details to use it effectively.  
+Parse implements this through the LiveQuery [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification), but you don't need to understand the low-level protocol details to use it effectively.
 
 
 ## Exam Questions

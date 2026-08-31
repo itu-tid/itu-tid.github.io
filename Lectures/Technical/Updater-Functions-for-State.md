@@ -7,7 +7,7 @@
 > arriving, a timer, a live query pushing a change. That is why this note sits with the
 > backend material rather than with `useState`.
 
-State can be updated with either **updater functions** like in the first button below or by calling the setter function with an actual value, the second button below. One increments with three the value of the state var. The other with one.  
+State can be updated with either **updater functions** like in the first button below or by calling the setter function with an actual value, the second button below. One increments with three the value of the state var. The other with one.
 
 ```js
   export defult function Counter() {

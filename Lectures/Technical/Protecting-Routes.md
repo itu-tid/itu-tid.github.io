@@ -30,7 +30,7 @@ const EventDetailPage = () => {
 ```
 ## With a Higher-Order Component
 
-Creating another React component named `RequireAuth` that redirects to the Login page if the user is not logged in. 
+Creating another React component named `RequireAuth` that redirects to the Login page if the user is not logged in.
 ```js
 import Parse from "./services/Parse";  
 import Login from "./pages/LoginPage";  

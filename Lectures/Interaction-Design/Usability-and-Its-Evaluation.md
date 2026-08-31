@@ -1,7 +1,7 @@
 
 # Usability
 
-Usability is a quality attribute that assesses how easy user interfaces are to use. It is usually thought as decomposable further in more precise qualities: 
+Usability is a quality attribute that assesses how easy user interfaces are to use. It is usually thought as decomposable further in more precise qualities:
 
 1. **Learnability** - How easy is it for users to accomplish basic tasks the first time they encounter the design?
 
@@ -15,11 +15,11 @@ Usability is a quality attribute that assesses how easy user interfaces are to u
 
 ## Heuristics
 
-Heuristics -- loosely defined rules that are likely to help, but are not laws - they can be "broken" if necessary. 
+Heuristics -- loosely defined rules that are likely to help, but are not laws - they can be "broken" if necessary.
 
-One of the most popular set of heuristics for interactive systems is the one of Jakob Nielsen. 
+One of the most popular set of heuristics for interactive systems is the one of Jakob Nielsen.
 
-Published in 1994 in the book “Usability Inspection Methods” by Jakob Nielsen and Robert L. Mack. They were a refinement of an earlier set of heuristics by Nielsen and Molich --  a dane. 
+Published in 1994 in the book “Usability Inspection Methods” by Jakob Nielsen and Robert L. Mack. They were a refinement of an earlier set of heuristics by Nielsen and Molich --  a dane.
 
 1. [Visibility of system status](usability-examples/1_status.md)
 2. [Match between system and the real world](usability-examples/2_match.md)
@@ -35,13 +35,13 @@ Published in 1994 in the book “Usability Inspection Methods” by Jakob Nielse
 
 Heuristic evaluation is based _solely_ on an agreed set of recognized heuristics
 
-Other sets of heuristics exist besides the Nielsen ones. E.g., [ISO standard 9241-110 from 2020](https://www.dialogdesign.dk/isos-dialogue-principles-2019/) proposes: 
-- seven principles, 
-- 20 categories of recommendations, 
-- 65 recommendations, and about 
-- 140 examples take up 15 densely printed pages in the standard 
+Other sets of heuristics exist besides the Nielsen ones. E.g., [ISO standard 9241-110 from 2020](https://www.dialogdesign.dk/isos-dialogue-principles-2019/) proposes:
+- seven principles,
+- 20 categories of recommendations,
+- 65 recommendations, and about
+- 140 examples take up 15 densely printed pages in the standard
 
-Limitation of heuristic evaluation: usability is more complex than what can be captured in 10 rules. 
+Limitation of heuristic evaluation: usability is more complex than what can be captured in 10 rules.
 
 **For you:** Learn one set of heuristics. An expert _has the knowledge in their head_.
 
@@ -50,7 +50,7 @@ Limitation of heuristic evaluation: usability is more complex than what can be c
 
 The golden standard of usability evaluation is usability testing. This is when you evaluate with users a prototype or an actual system.
 
-Rules of thumb: 
+Rules of thumb:
 - The more detailed and realistic your prototype, the more you can trust your results; the more effort it takes to make changes if you've made a wrong decision
 - Even with less detailed prototypes,  you can detect many problems
 - Don't use expensive testing to find out things you can detect with cheap tests (Hall, 2013)
@@ -61,7 +61,7 @@ Sometimes you don't start from scratch: evaluating an existing prototype for usa
 ### The Participants
 
 Three kinds of participants
-- The log keeper - writes down observations 
+- The log keeper - writes down observations
 - The facilitator - explains and helps cautiously, when needed
 - The users - test the prototype / system
 
@@ -69,35 +69,35 @@ Three kinds of participants
 
 Must be representative for your target population.
 
-Best is to have them think aloud. You can also just observe, but it's less valuable. 
+Best is to have them think aloud. You can also just observe, but it's less valuable.
 
-After your first mockup, probably one or two users are sufficient -- if they are representative. You'll get sufficient feedback to go back to the drawing board. 
+After your first mockup, probably one or two users are sufficient -- if they are representative. You'll get sufficient feedback to go back to the drawing board.
 
 ### The Tasks
 
-You need to prepare a **set of tasks** that are representative or important for the system. Then you ask the users to try to solve them using the system. 
+You need to prepare a **set of tasks** that are representative or important for the system. Then you ask the users to try to solve them using the system.
 
-The tasks should be expressed from the POV of the user, not from the POV of the system. They should express a need or a problem that a typical user of the system encounters. 
+The tasks should be expressed from the POV of the user, not from the POV of the system. They should express a need or a problem that a typical user of the system encounters.
 
-Avoid suggesting which UI elements to be used. That will skew the results. 
+Avoid suggesting which UI elements to be used. That will skew the results.
 
-Avoid trivial tasks. The tasks should be "something that should give the user a feeling of achievement when they are done". As Lauesen proposes, a task is something after which the user can tell himself: I've done that, I can go and have a coffee now. What does this mean about logging in as a task? 
+Avoid trivial tasks. The tasks should be "something that should give the user a feeling of achievement when they are done". As Lauesen proposes, a task is something after which the user can tell himself: I've done that, I can go and have a coffee now. What does this mean about logging in as a task?
 
 ### Test Report
 
-The report ranks and prioritizes the problems discovered during the usability testing. It is different than the log. It summarizes the findings based on all the participants. 
+The report ranks and prioritizes the problems discovered during the usability testing. It is different than the log. It summarizes the findings based on all the participants.
 
-One possible way of classifying the tasks severity is proposed by Lauesen who argues for five severity classes: 
+One possible way of classifying the tasks severity is proposed by Lauesen who argues for five severity classes:
 - Missing functionality or bug
-- Task failure 
+- Task failure
 - Cumbersome
 - Medium problem: succeeds, but user is slow
 - Minor: success with a bit of hesitation
 
-Another, simpler classification is by Erika Hall (2013): she argues that three classes that are defined based on a combination of frequency and impact suffices: 
+Another, simpler classification is by Erika Hall (2013): she argues that three classes that are defined based on a combination of frequency and impact suffices:
 - High-impact problems that prevent the user from completing a task. If you don’t resolve these you have a high risk to the success of your product.
 - Moderate problems with low frequency or low problems with moderate frequency
-- Low-impact problems affecting a low number of users. Obviously these don't get prioritized. 
+- Low-impact problems affecting a low number of users. Obviously these don't get prioritized.
 
 
 
@@ -105,15 +105,15 @@ Another, simpler classification is by Erika Hall (2013): she argues that three c
 ## Bibliography
 
 - *User Interface Design*, Chapter 13: *More on usability testing*. Søren Lauesen, Addison Wesley.
-- *Just Enough Research*, Chapter 7: *Evaluative Research*, Erika Hall, 2013. 
-- *Nielsen Heuristics with Examples*, Rolf Molich. [Web Page at Rolf Molich's Websitej](https://www.dialogdesign.dk/nielsens-heuristics-1994/) 
+- *Just Enough Research*, Chapter 7: *Evaluative Research*, Erika Hall, 2013.
+- *Nielsen Heuristics with Examples*, Rolf Molich. [Web Page at Rolf Molich's Websitej](https://www.dialogdesign.dk/nielsens-heuristics-1994/)
 - *Turn User Goals into Task Scenarios for Usability Testing*, Marieke McCloskey [Web Page at nngroup](https://www.nngroup.com/articles/task-scenarios-usability-testing/)
 - [The Design of Everyday Things](https://web.media.mit.edu/~ascii/papers/norman_chapter1_2013.pdf) , Don Norman.
 
 
 # Project Work 👬
-- Evaluate the usability of your Lo-Fi prototype 
-- Record brief notes of the usability test outcome 
+- Evaluate the usability of your Lo-Fi prototype
+- Record brief notes of the usability test outcome
 - Write a usability report in which you prioritize the discovered issues
 - Improve design
 

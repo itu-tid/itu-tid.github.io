@@ -11,10 +11,10 @@ To make your code more maintainable, and your life easier, here are some rules t
 ## Avoid copy-pasting code that you don't understand
 
 Why?
-- The code will become a *big ball of mud and bugs* if you just add stuff in there that was generated without you understanding it. 
+- The code will become a *big ball of mud and bugs* if you just add stuff in there that was generated without you understanding it.
 - You upset the code reviewers...
 
-As a rule of thumb, code generation is useful as a reminder of something that you knew before, something that you understand and have written so many times that you're bored to write. Not something that you've never understood.  
+As a rule of thumb, code generation is useful as a reminder of something that you knew before, something that you understand and have written so many times that you're bored to write. Not something that you've never understood.
 
 How do we know that it's generated code?
 - your code is using class components -- which is archaic
@@ -32,7 +32,7 @@ How do we know that it's generated code?
 ## Do not hardcode colors ad hoc 
 Separate the definition of your colors in a colors file (e.g. [colors file from zeeguu](https://github.com/zeeguu/web/blob/master/src/components/colors.js))
 
-This allows reuse. And keeps the unity of the design if the same colors are used across the application. 
+This allows reuse. And keeps the unity of the design if the same colors are used across the application.
 
 
 
@@ -45,18 +45,15 @@ This increases the readability of the code
 # React
 
 ## Keep components small
-- examples 
-- counter-example: show 
+- examples
+- counter-example: show
 
 ## Extract repetitive patterns into a separate components
-e.g. the two patterns below are too repetitive; they should be factored out in a separate component
-<img width="778" alt="image" src="https://github.com/user-attachments/assets/c0417216-c537-474b-b64e-9c039a2f86e6">
-<img width="822" alt="image" src="https://github.com/user-attachments/assets/85b15686-71c7-4dcd-9203-36a6877634e4">
-This could be extracted into a component that could be named something better than `RedGreenHighlihterLabel` ... 
+e.g. the two patterns below are too repetitive; they should be factored out in a separate component <img width="778" alt="image" src="https://github.com/user-attachments/assets/c0417216-c537-474b-b64e-9c039a2f86e6"> <img width="822" alt="image" src="https://github.com/user-attachments/assets/85b15686-71c7-4dcd-9203-36a6877634e4"> This could be extracted into a component that could be named something better than `RedGreenHighlihterLabel` ...
 
 ## Naming and modularisation
 
-A few conventions 
-- (naming) components are named with capital letters 
+A few conventions
+- (naming) components are named with capital letters
 - (modularization): components are defined in their own files
 - (modularization) To import a component one can use either *default* or *named* imports

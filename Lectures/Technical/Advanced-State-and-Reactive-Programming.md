@@ -7,8 +7,8 @@
 - Change of state in a component triggers a component re-render
 - Besides the re-rendered component, all it's children will also be re-rendered
 
-- Rendering is logical 
-	- react has a virtual DOM that it updates 
+- Rendering is logical
+	- react has a virtual DOM that it updates
 	- then updates the real DOM only in those parts where this is necessary
 
 
@@ -20,11 +20,11 @@
 *Note: the snapshot metaphor is not find very useful*
 
 **What to understand**
-- “Rendering” means that React is calling your component, which is a function. 
+- “Rendering” means that React is calling your component, which is a function.
 	- JSX returned from function a *snapshot of the UI in time*
 	- Its props, event handlers, and local variables were all calculated using its state at the time of the render
 
-- The state is not changed immediately after you call the setter, but later when React does all the state changes. 
+- The state is not changed immediately after you call the setter, but later when React does all the state changes.
 
 ![](images/state-snapshot-example1.png)
 Play with the [example](https://react.dev/learn/state-as-a-snapshot#state-over-time)!
@@ -79,7 +79,7 @@ To Understand
 	- render different states in terms of that
 	- do not use redundant state variables (the whole discussion in Remove non-essential variables)
 
-[Example](https://codesandbox.io/s/wnphcd?file=%2FApp.js&utm_medium=sandpack) of multiple states for a component. 
+[Example](https://codesandbox.io/s/wnphcd?file=%2FApp.js&utm_medium=sandpack) of multiple states for a component.
 - note the Promise in the example! what does it do?
 
 ```javascript
@@ -124,7 +124,7 @@ Imagine the following UI:
 
 
 
-A possible data model for it would be: 
+A possible data model for it would be:
 
 ```
 [  
@@ -181,9 +181,9 @@ Heuristics for deciding if something is state
 - Is it passed in from a parent via props? If so, it isn’t state.
 - Can you compute it based on existing state or props in your component? If so, it definitely isn’t state!
 
-Discuss on our own code example. 
+Discuss on our own code example.
 
-Read up at home: the state discussion about the [shopping list example](https://react.dev/learn/thinking-in-react#step-3-find-the-minimal-but-complete-representation-of-ui-state). 
+Read up at home: the state discussion about the [shopping list example](https://react.dev/learn/thinking-in-react#step-3-find-the-minimal-but-complete-representation-of-ui-state).
 
 
 
@@ -212,12 +212,12 @@ You will **often** have to pass state setters down the component hierarchy, and 
 
 # Exercises
 
-**Exercise**: Try the Live Challenge 2: Profile Editor from [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state). Everybody should be able to do this. Implement a profile editor that has two states, as seen below. 
+**Exercise**: Try the Live Challenge 2: Profile Editor from [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state). Everybody should be able to do this. Implement a profile editor that has two states, as seen below.
 
 ![](images/exercise-state-read-only.png)
 ![](images/exercise-state-editable.png)
 
-Start from the JSX snippet. 
+Start from the JSX snippet.
 
 ```
 export default function EditProfile() {

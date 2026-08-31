@@ -37,7 +37,7 @@ export default defineConfig({
 
 ## One other performance configuration
 
-While you're at it, also add the `optimizeDeps` key to tell Vite to load parse at dev server startup for faster performance during development. 
+While you're at it, also add the `optimizeDeps` key to tell Vite to load parse at dev server startup for faster performance during development.
 ```js
 
 export default defineConfig({

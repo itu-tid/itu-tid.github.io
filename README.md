@@ -10,28 +10,17 @@ Notes for **Technical Interaction Design** at the IT University of Copenhagen.
 
 ## How the course runs
 
-**Mircea** teaches the technical track; **Konstantina** teaches the design track — weeks 3,
-7, 8, 9 and 12. **Lea** runs the Figma clinic in week 7, **Anna** the Back4App walkthrough
-in week 4; both are in the exercise hours every week.
+**Mircea** teaches the technical track; **Konstantina** teaches the design track — weeks 3, 7, 8, 9 and 12. **Lea** runs the Figma clinic in week 7, **Anna** the Back4App walkthrough in week 4; both are in the exercise hours every week.
 
-Each Thursday: a lecture, then two hours of exercise — **one hour on your own**, one hour
-**with your group**. The solo hour is required but ungraded, and it piles up into a
-personal portfolio that is your exam preparation. Weeks 1 and 2 are entirely individual,
-because the teams do not exist yet.
+Each Thursday: a lecture, then two hours of exercise — **one hour on your own**, one hour **with your group**. The solo hour is required but ungraded, and it piles up into a personal portfolio that is your exam preparation. Weeks 1 and 2 are entirely individual, because the teams do not exist yet.
 
-**70% individual exam, 30% group project**, with a hard floor: bomb the individual and you
-fail, however strong the group. The project is your exam curriculum — if you used it, you
-understand it.
+**70% individual exam, 30% group project**, with a hard floor: bomb the individual and you fail, however strong the group. The project is your exam curriculum — if you used it, you understand it.
 
-The last two minutes of every lecture are yours: **[one anonymous
-question](https://forms.gle/pse8zJNMQthy4UcFA)**, the same link every week. It gets read
-before the next lecture and answered at the start of it — which is the only reason it is
-worth your two minutes.
+The last two minutes of every lecture are yours: **[one anonymous question](https://forms.gle/pse8zJNMQthy4UcFA)**, the same link every week. It gets read before the next lecture and answered at the start of it — which is the only reason it is worth your two minutes.
 
 ## Deadlines
 
-Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, not
-submissions marked line by line.
+Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, not submissions marked line by line.
 
 | due | what |
 |---|---|
@@ -42,19 +31,11 @@ submissions marked line by line.
 | **Tue 24 Nov** | Chosen features working — your feature-menu picks, live in the app |
 | **December** | Final app + thin report — deployed, dogfooded, defensible. Date set by the exam schedule. |
 
-Each design deliverable lands about two weeks after the lecture that teaches it, and the
-feedback opens a later lecture — so there is time to act on it before the next one depends
-on it.
+Each design deliverable lands about two weeks after the lecture that teaches it, and the feedback opens a later lecture — so there is time to act on it before the next one depends on it.
 
 ## Lecture notes
 
-Two folders, split by who owns the material: [`Lectures/Technical/`](Lectures/Technical)
-and [`Lectures/Interaction-Design/`](Lectures/Interaction-Design). Inside each, the notes
-are flat. Which note belongs to which week is decided by the syllabus and nothing else —
-filenames deliberately do not encode it, because the ordering changes every year and a
-folder name has no way of telling you it has gone stale. Track does not change, which is
-why it is the one thing the folders *do* encode. Each note ends with its own **Exam
-Questions**, so a question can never drift from the material it tests.
+Two folders, split by who owns the material: [`Lectures/Technical/`](Lectures/Technical) and [`Lectures/Interaction-Design/`](Lectures/Interaction-Design). Inside each, the notes are flat. Which note belongs to which week is decided by the syllabus and nothing else — filenames deliberately do not encode it, because the ordering changes every year and a folder name has no way of telling you it has gone stale. Track does not change, which is why it is the one thing the folders *do* encode. Each note ends with its own **Exam Questions**, so a question can never drift from the material it tests.
 
 Course order, as the 2026 syllabus runs it:
 
@@ -75,9 +56,7 @@ Course order, as the 2026 syllabus runs it:
 
 ## TopUps
 
-Short self-study modules in [`TopUps/`](TopUps), covering the background a lecture assumes
-but does not teach. Only the first is due before the course starts; the rest arrive on the
-card of the week that needs them, so read each one *before* the week beside it.
+Short self-study modules in [`TopUps/`](TopUps), covering the background a lecture assumes but does not teach. Only the first is due before the course starts; the rest arrive on the card of the week that needs them, so read each one *before* the week beside it.
 
 | read before | module |
 |---|---|
@@ -90,18 +69,14 @@ card of the week that needs them, so read each one *before* the week beside it.
 
 ## Chapters as PDF
 
-Each week's notes bundled into one PDF, for reading offline or printing:
-**<https://itu-tid.github.io/lecture-notes-pdf/>**
+Each week's notes bundled into one PDF, for reading offline or printing: **<https://itu-tid.github.io/lecture-notes-pdf/>**
 
-They are generated from the notes in this repository, so if the two ever disagree, the
-markdown here is the newer one.
+They are generated from the notes in this repository, so if the two ever disagree, the markdown here is the newer one.
 
 ## The app we build
 
-[itu-tid/todo-26](https://github.com/itu-tid/todo-26) — the reference to-do, tagged once
-per lecture (`git checkout week-01`). Teams fork it in week 3.
+[itu-tid/todo-26](https://github.com/itu-tid/todo-26) — the reference to-do, tagged once per lecture (`git checkout week-01`). Teams fork it in week 3.
 
 ---
 
-Maintaining the course? [DEVELOPER.md](DEVELOPER.md) — how the syllabus is built, and what
-lives in the vault instead of here.
+Maintaining the course? [DEVELOPER.md](DEVELOPER.md) — how the syllabus is built, and what lives in the vault instead of here.

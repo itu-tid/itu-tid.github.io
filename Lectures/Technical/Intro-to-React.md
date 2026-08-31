@@ -2,17 +2,13 @@
 
 React is a JavaScript **library** for building interactive **single page applications**. We will talk about what Single Page Applications are and how they work in a different lecture. For now, we want to be users of react so we'll start doing a very simple application in it and learn React on the way.
 
-We build a to-do list as we go. Each section below is the smallest step that makes the
-previous step's problem go away, so the page reads in the order the app needs — and each
-one opens by saying what the app does at that point.
+We build a to-do list as we go. Each section below is the smallest step that makes the previous step's problem go away, so the page reads in the order the app needs — and each one opens by saying what the app does at that point.
 
 ## React is a ***component-based*** UI library
 
 ### Everything in React is a component
 
-A button is a component. A list row is a component. So is the whole page. You build a
-screen by nesting small ones inside bigger ones, and there is no other unit — no templates,
-no partials, no widgets.
+A button is a component. A list row is a component. So is the whole page. You build a screen by nesting small ones inside bigger ones, and there is no other unit — no templates, no partials, no widgets.
 
 ### Components are **JS functions** that return JSX elements
 
@@ -31,9 +27,7 @@ export default function TodoList() {
 }
 ```
 
-A plain JavaScript function, returning something that looks like HTML. The name is
-capitalised — React uses that to tell your components apart from built-in tags like `<ul>`,
-so `todoList` would not work.
+A plain JavaScript function, returning something that looks like HTML. The name is capitalised — React uses that to tell your components apart from built-in tags like `<ul>`, so `todoList` would not work.
 
 ## JSX is a combination of JS and HTML
 
@@ -45,11 +39,11 @@ JSX is acronym for JavaScript + XML
 
 It lets you describe a UI declaratively, inside the language itself, rather than in a separate template file.
 
-- syntax extension for Javascript! 
+- syntax extension for Javascript!
 - has the full power of JS inside of the {}
 - template-like because it looks like other front-end JS frameworks (e.g., [Vue templates](https://www.freecodecamp.org/news/reacts-jsx-vs-vue-s-templates-a-showdown-on-the-front-end-b00a70470409/)) and server-side rendering frameworks (e.g. Jinja for Flask, Moustache)
 - HTML-like code within JavaScript
-- JSX is **transpiled** to Javascript 
+- JSX is **transpiled** to Javascript
 
 ### JSX has a **stricter syntax than HTML**
 #### A component can only ever return a single JSX tag 
@@ -79,9 +73,7 @@ return (
   </>
 );
 ```
-`<>…</>` is called a **fragment**: a wrapper that groups elements without adding anything
-to the page. Use it whenever you need a single parent but do not want a real `<div>` in
-the output.
+`<>…</>` is called a **fragment**: a wrapper that groups elements without adding anything to the page. Use it whenever you need a single parent but do not want a real `<div>` in the output.
 #### Tags must [always be closed](https://react.dev/learn/writing-markup-with-jsx#2-close-all-the-tags) 
 
 ### JSX converts most HTML and CSS attributes to camelCase 
@@ -178,22 +170,19 @@ function TodoItem({ text }) {
 }
 ```
 
-Both are the same component. The second says, in its own signature, exactly which props it
-expects — so you can tell what it needs without reading the body. Used like this:
+Both are the same component. The second says, in its own signature, exactly which props it expects — so you can tell what it needs without reading the body. Used like this:
 
 ```jsx
 <TodoItem text="Buy milk" />
 <TodoItem text="Call the landlord" />
 ```
 
-Which is already tedious for two items, and impossible for a list that changes while the
-app is running. That is the next section.
+Which is already tedious for two items, and impossible for a list that changes while the app is running. That is the next section.
 
 
 ### With the `{children}` prop
 
-Props pass **data** into a component. `children` passes **markup** into it — everything
-written between the opening and closing tags.
+Props pass **data** into a component. `children` passes **markup** into it — everything written between the opening and closing tags.
 
 Start without it. A panel that takes its content as an ordinary prop:
 
@@ -210,13 +199,9 @@ function Panel({ title, text }) {
 <Panel title="Today" text="Nothing due." />
 ```
 
-That works exactly as long as the content is one string. The moment you want a list inside
-the panel, or a button, or another component, you are stuck: you cannot put a `<ul>` inside
-a string. You would end up adding `items`, then `buttonLabel`, then `showIcon`, and the
-panel would slowly learn about everything that might ever go in it.
+That works exactly as long as the content is one string. The moment you want a list inside the panel, or a button, or another component, you are stuck: you cannot put a `<ul>` inside a string. You would end up adding `items`, then `buttonLabel`, then `showIcon`, and the panel would slowly learn about everything that might ever go in it.
 
-`children` is the way out. The component stops describing its content and only describes
-its *frame*:
+`children` is the way out. The component stops describing its content and only describes its *frame*:
 
 ```jsx
 function Panel({ title, children }) {
@@ -245,10 +230,7 @@ Now the same component takes anything:
 </Panel>
 ```
 
-Note what `Panel` does **not** know: that there is a list, that there is a button, that
-either exists. It knows it has a title and a frame to draw around whatever it was handed.
-That is the whole idea, and it is why almost every layout component you write — containers,
-cards, modals, page wrappers — ends up taking `children`.
+Note what `Panel` does **not** know: that there is a list, that there is a button, that either exists. It knows it has a title and a frame to draw around whatever it was handed. That is the whole idea, and it is why almost every layout component you write — containers, cards, modals, page wrappers — ends up taking `children`.
 
 > **The rule of thumb.** If it is data the component needs to *use* — a title, a count, a
 > user — make it a prop. If it is markup the component only needs to *place*, use
@@ -258,7 +240,7 @@ cards, modals, page wrappers — ends up taking `children`.
 
 **The app now.** Three items, drawn from an array rather than typed out. Which is the point: the array is the app, and the screen is a picture of it.
 
-Most applications sooner or later rely on lists of things that you want to process. 
+Most applications sooner or later rely on lists of things that you want to process.
 
 ### Lists are rendered with `array.map()`
 
@@ -278,22 +260,15 @@ function TodoList() {
 }
 ```
 
-`map` turns an array of **strings** into an array of **JSX elements**, and React renders an
-array of elements by rendering each one. That is the whole mechanism. Add a fourth string
-to `todos` and a fourth row appears; nothing else has to change.
+`map` turns an array of **strings** into an array of **JSX elements**, and React renders an array of elements by rendering each one. That is the whole mechanism. Add a fourth string to `todos` and a fourth row appears; nothing else has to change.
 
 ### Every item needs a `key`
 - must be unique **among its siblings**
 - can be the database ID, UUID, or anything else stable
-- it is how React tells the items apart between renders — without it, it cannot know
-  whether you added a row, removed one, or reordered them
+- it is how React tells the items apart between renders — without it, it cannot know whether you added a row, removed one, or reordered them
 - if you don't do this, your console fills up with warnings
 
-We are using the array **index** above, which is the thing every beginner reaches for and
-which works perfectly — until items can be removed from the middle. Delete the first of
-three, and the item that was index 1 becomes index 0: React sees "the thing with key 0
-changed its text" rather than "the first thing is gone". Next week adds delete, you will
-watch exactly that go wrong, and that is when we swap indexes for real IDs.
+We are using the array **index** above, which is the thing every beginner reaches for and which works perfectly — until items can be removed from the middle. Delete the first of three, and the item that was index 1 becomes index 0: React sees "the thing with key 0 changed its text" rather than "the first thing is gone". Next week adds delete, you will watch exactly that go wrong, and that is when we swap indexes for real IDs.
 
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
@@ -337,14 +312,12 @@ function TodoList() {
 <button onClick={handleAdd()}>Add</button>   // ❌ calls it now, hands React the result
 ```
 
-The second one runs `handleAdd` while the component is *rendering*, before anybody has
-clicked anything, and gives `onClick` whatever it returned — usually `undefined`. If your
-handler fires once on load and never again, this is why.
+The second one runs `handleAdd` while the component is *rendering*, before anybody has clicked anything, and gives `onClick` whatever it returned — usually `undefined`. If your handler fires once on load and never again, this is why.
 
 ### Handlers receive an event object
 
-The `event` argument details info about what just happened. 
-- Sometimes you can ignore it, 
+The `event` argument details info about what just happened.
+- Sometimes you can ignore it,
 - Sometimes you inspect it to learn about the event (e.g. mouse position, element that was clicked, etc. )
 
 
@@ -363,12 +336,9 @@ You will meet this for real next week, the moment each row gets a delete button:
 </li>
 ```
 
-Click the **×** and *both* handlers fire — the button's, then the row's — so the item is
-deleted and the row you just deleted is also toggled. `e.stopPropagation()` inside the
-delete handler is the fix, and it is much easier to remember once you have watched it
-happen. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation). 
+Click the **×** and *both* handlers fire — the button's, then the row's — so the item is deleted and the row you just deleted is also toggled. `e.stopPropagation()` inside the delete handler is the fix, and it is much easier to remember once you have watched it happen. [See event propagation example](https://react.dev/learn/responding-to-events#event-propagation).
 
-- Sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior). 
+- Sometimes you can change the behavior of the event by calling `stopPropagation` or `preventDefault` on the event object. [example of stop propagation](https://react.dev/learn/responding-to-events#stopping-propagation) and of [preventing default behavior](https://react.dev/learn/responding-to-events#preventing-default-behavior).
 
 ## Component State
 
@@ -407,7 +377,7 @@ The array grows. The console proves it. The screen ignores you completely, becau
 
 ### State comes from `useState`
 
-The `useState` hook: 
+The `useState` hook:
 - takes an **initial** value
 - returns **current value** and a **setter function** (returns from where? you get it from React! React gave you this setter! It baked an observer inside of it! So now if you change the state with its help, it will know that the state has changed! Let's see what does this imply)
 
@@ -444,15 +414,15 @@ Two things changed, and both matter:
 
 ## Reactive Programming
 
-**The app now.** It works: **Add** appends a random sample task and the list grows. The question left over is *why the screen redrew at all* — nobody told it to. 
+**The app now.** It works: **Add** appends a random sample task and the list grows. The question left over is *why the screen redrew at all* — nobody told it to.
 
-When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered. 
+When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered.
 
-This is *reactive programming*. And reactive programming is why React is called so. 
+This is *reactive programming*. And reactive programming is why React is called so.
 
-A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically. 
+A bit like in Excel -- one of the classical reactive programming environments -- where when you change one cell, all the others who depend on it and only those are changed automatically.
 
-In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those. 
+In React, the dependents are not formulas, but UIs. When a state variable or a prop changes, the library automatically redraws all the relevant UI elements, and only those.
 
 So the loop the app now runs is:
 
@@ -460,9 +430,7 @@ So the loop the app now runs is:
 > state it is holding is not the array it had → it calls `TodoList()` again → `map` builds
 > one more `<TodoItem />` than last time → the new row appears.
 
-Nobody wrote "add a row to the screen" anywhere. You changed the data and described what
-the screen should look like for any data; React did the rest. That is the trade React asks
-you to make, and everything else this term is a consequence of it.
+Nobody wrote "add a row to the screen" anywhere. You changed the data and described what the screen should look like for any data; React did the rest. That is the trade React asks you to make, and everything else this term is a consequence of it.
 
 Here is the whole thing, which is the app you leave the first lecture with:
 
@@ -504,14 +472,11 @@ export default function TodoList() {
 Forty lines, and every idea in this note is in there somewhere.
 
 
-And deliberately silly: **Add** picks a task at random, because there is nothing to type
-into yet. Next week there is, and that is where forms come in — along with the first real
-bug, when deleting from the middle of the list shows you why keying by position was never
-going to hold.
+And deliberately silly: **Add** picks a task at random, because there is nothing to type into yet. Next week there is, and that is where forms come in — along with the first real bug, when deleting from the middle of the list shows you why keying by position was never going to hold.
 
 # References
 
-Read up from the [react.dev](https://react.dev) documentation site, the following: 
+Read up from the [react.dev](https://react.dev) documentation site, the following:
 
 - Describing the UI
 	- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components)
@@ -521,7 +486,7 @@ Read up from the [react.dev](https://react.dev) documentation site, the followin
 	- [Rendering Lists](https://react.dev/learn/rendering-lists)
 
 - Adding Interactivity
-	- [Responding to Events](https://react.dev/learn/responding-to-events) 
+	- [Responding to Events](https://react.dev/learn/responding-to-events)
 	- [State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
 
 # Exam Questions

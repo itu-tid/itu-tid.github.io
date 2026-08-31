@@ -19,15 +19,15 @@ function App() {
 }
 ```
 - Is the `title` defined where it should be?
-- What is the difference between `ChatOverviewHeader` and  `ChatOverview`? Is there something about the naming conventions that is off here? 
-- Is there a problem with the route definitions? 
+- What is the difference between `ChatOverviewHeader` and  `ChatOverview`? Is there something about the naming conventions that is off here?
+- Is there a problem with the route definitions?
 
 ### Rules
 #### Define parameters and constants as close as possible to where they are used
 #### Use a code styling convention. 
 - CamelCase is for class names
 - Constants and variables are lowerCase
-- Sometimes constants can also be ALL_UPERCASE 
+- Sometimes constants can also be ALL_UPERCASE
 #### Follow a naming convention also for your URLs
 Choose either all lowercase or camelcase
 
@@ -63,7 +63,7 @@ return (
 
 ## Example 3
 
-Q: What is the problem with the following code? 
+Q: What is the problem with the following code?
 ```js
 return (  
   <div>  
@@ -87,7 +87,7 @@ const BlurredComponent = styled.div`
 ```
 ### Rules
 #### Use an automatic code formatter
-It will make code more readable. 
+It will make code more readable.
 
 #### If a style is used in multiple components, factor it out
 E.g. in the project above, `ColumnContainer` is defined  four times, always the same way.

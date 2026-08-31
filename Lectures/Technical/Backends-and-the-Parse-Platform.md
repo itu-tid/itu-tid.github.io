@@ -28,7 +28,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 - Security & firewall configuration
 - Database management system (DBMS)
 - Web server (e.g. nginx, apache2)
-- Application server / runtime environment 
+- Application server / runtime environment
 - Logging, monitoring & analytics
 - Backup system
 
@@ -39,7 +39,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 	- Firebase = proprietary, hosted by Google
 	- Back-for-App.com = a deployment of Parse
 - Self-hostable
-	- **Parse Platform** = open source framework 
+	- **Parse Platform** = open source framework
 
 
 ## Parse Platform
@@ -69,7 +69,7 @@ Offers
 ## Setting up a Parse Server
 ### Using Parse from Back4App
 
-Steps to start working with the Back4App Parse deployment 
+Steps to start working with the Back4App Parse deployment
 1. Create an account on Back4App
 2. Create a backend (app) for your react application in Back4App
 3. Somewhere in settings find `APP_ID` and `JAVASCRIPT_KEY` and `PARSE_SERVER_URL` and save them for late
@@ -82,7 +82,7 @@ Steps to start working with the Back4App Parse deployment
 # Interacting with Parse from Javascript
 
 The full documentation is in the [Parse.js Javascript Guide](https://docs.parseplatform.org/js/guide/#saving-objects)
-- use as reference 
+- use as reference
 
 ## Connecting to a server
 
@@ -101,7 +101,7 @@ Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
 ```
 Note: code above should be in the top level component of our app
 
-Note 2: if you don't want to import the minified version, see the [Parse-Configuration-for-Vite](Parse-Configuration-for-Vite.md) . If you change the Vite configuration, then you can write `import Parse from 'parse'` which is nicer. 
+Note 2: if you don't want to import the minified version, see the [Parse-Configuration-for-Vite](Parse-Configuration-for-Vite.md) . If you change the Vite configuration, then you can write `import Parse from 'parse'` which is nicer.
 
 ## CRUD Operations
 
@@ -112,7 +112,7 @@ CRUD(O) stands for
 - Retrieve
 - Update
 - Delete
-- Overview 
+- Overview
 
 ### Creating and Saving a New Object to the Database
 
@@ -133,19 +133,19 @@ newItem.save().then(
 );
 ```
 
-Steps: 
+Steps:
 1. Creating a class for the object
 2. `save()` - sends the data to the server
-3. save returns a *promise* so we  have to unpack it `save.then( (obj) => {...})` 
+3. save returns a *promise* so we  have to unpack it `save.then( (obj) => {...})`
 4. The `Counter` class is automatically been created in the database if it didn't exist - behavior that can be turned off
 
-Advanced Parse functionalities: 
+Advanced Parse functionalities:
 - [saving objects when offline](https://docs.parseplatform.org/js/guide/#saving-objects-offline) with `saveEventually`
 
 
 ### Retrieving an Object
 
-Imagine you have a GameScore object. 
+Imagine you have a GameScore object.
 ```js
 const GameScore = Parse.Object.extend("GameScore");
 const query = new Parse.Query(GameScore);
@@ -204,7 +204,7 @@ Advanced Parse features
 
 ## Querying for Objects 
 
-Most basic way to query for objects is: 
+Most basic way to query for objects is:
 ```jsx
 const GameScore = Parse.Object.extend("GameScore");
 const query = new Parse.Query(GameScore);
@@ -218,13 +218,13 @@ for (let i = 0; i < results.length; i++) {
   alert(object.id + ' - ' + object.get('playerName'));
 }
 ```
-Steps: 
+Steps:
 - Create a class reference
 - Create a query object
 - Add constraints on the query object
 - call `.find()`
 
-References: 
+References:
 - [Query Constraints](https://docs.parseplatform.org/js/guide/#query-constraints)
 - [Queries on Arrays](https://docs.parseplatform.org/js/guide/#queries-on-array-values)
 - [Queries on Strings](https://docs.parseplatform.org/js/guide/#queries-on-string-values)
@@ -234,7 +234,7 @@ References:
 
 ### Account Creation and Authentication
 
-The Javascript Parse SDK helps you manage user accounts and track the logged in user. 
+The Javascript Parse SDK helps you manage user accounts and track the logged in user.
 
 The following example is a simple page that either creates an account or logs in the user.
 
@@ -302,17 +302,16 @@ function Auth() {
 export default Auth;
 ```
 
-What happens: 
+What happens:
 - `Parse.User.signUp()` creates a new user
 - `Parse.User.logIn()` logs in existing user
-- Both methods automatically manage the session 
+- Both methods automatically manage the session
 - Log out: `await Parse.User.logOut()`
 
 
 ### Getting the current user
 
-It would be silly if the user had to login every time they opened the app
-Parse stores info about the logged in user in LocalStorage
+It would be silly if the user had to login every time they opened the app Parse stores info about the logged in user in LocalStorage
 ```jsx
 const currentUser = Parse.User.current();
 if (currentUser) {
@@ -332,7 +331,7 @@ Parse.User.logOut().then(() => {
 
 ### Associating users with other tables
 
-Example of storing a `Post` for a `User`. 
+Example of storing a `Post` for a `User`.
 - Create an attribute on the `Post`
 - Query the posts for that user
 
@@ -420,9 +419,9 @@ export default TodoList;
 # Modeling Relationships in Parse
 
 
-You must think ahead about the database model for your application. 
+You must think ahead about the database model for your application.
 
-The main questions are 
+The main questions are
 1. What are the types of objects in my domain model?
 2. What are the relationships between them?
 
@@ -431,7 +430,7 @@ The main questions are
 
 ### One-to-many Relationships
 
-Can be implemented with 
+Can be implemented with
 1. Pointers - the default one
 2. Arrays - for special situations where the "many" are "few" :)
 
@@ -446,7 +445,7 @@ now we can query all the games of a user using:
 var query = new Parse.Query("Game");
 query.equalTo("createdBy", Parse.User.current());
 ```
-of get the user who created a game: 
+of get the user who created a game:
 
 ```js
 // say we have a Game object
@@ -472,7 +471,7 @@ var user = Parse.User.current();
 user.set("weaponsList", weapons);
 ```
 
-To retrieve the Weapon objects: 
+To retrieve the Weapon objects:
 ```js
 var weapons = Parse.User.current().get("weaponsList")
 ```
@@ -537,7 +536,7 @@ Note
 
 #### Using Join Tables (better this!)
 
-Create a new kind of entity that maps one authors to one book. 
+Create a new kind of entity that maps one authors to one book.
 ```javascript
 var author = ...
 
@@ -548,7 +547,7 @@ bookAuthor.set("author", author);
 bookAuthor.save();
 ```
 
-This is always more powerful from the point of view of modeling! 
+This is always more powerful from the point of view of modeling!
 
 ##### Why are Join Tables more powerful than relationships? 
 
@@ -569,15 +568,15 @@ bookAuthor.save();
 
 ## Entity-Relationship Diagrams
 
-Use whichever notation you prefer. Two that I like are: 
-1. On the left hand side is the most popular way of showing attributes 
+Use whichever notation you prefer. Two that I like are:
+1. On the left hand side is the most popular way of showing attributes
 	- crow's feet show cardinality
 	- attributes are listed in the box
 2. On the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
 
 ![](images/alterantive-er-diagrams.png)
 
-No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database. 
+No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database.
 # Project Work
 - Design a **domain model** for your application by **creating an ER diagram**. The diagram will be part of your final report. Discuss your diagram with the staff. Make sure to keep it up to date as your project progresses. As you work on your implementation you will realize that you need to constantly refine it. Keep it up to date.
 - Create the tables corresponding to your ER diagram in Back4App

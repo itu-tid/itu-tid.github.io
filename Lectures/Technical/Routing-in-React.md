@@ -21,18 +21,18 @@
 # Routing in React
 
 ### Is Routing the responsibility of React?
-- You'd think so... but, nope. React does not care 
+- You'd think so... but, nope. React does not care
 - React is responsible with the rendering of components
 - Routing has to be implemented by a 3rd party library
 
 ### How would a 3rd party library work? 
-- **Intercepting the intent of navigating to a different page** and rendering the corresponding page 
-- How can it intercept? 
+- **Intercepting the intent of navigating to a different page** and rendering the corresponding page
+- How can it intercept?
 
 ### How to find a routing library? 
 - Look on `npm`
 - Choose the most popular
-- Why is this a good idea? 
+- Why is this a good idea?
 	- popularity is proportional to support
 	- *many eyes catch all the bugs*
 
@@ -141,10 +141,10 @@ function UserProfile() {
 
 ## Nested routes
 
-Most often than not, you will want to have nested routes. 
+Most often than not, you will want to have nested routes.
 
 - you can define them inside of each other
-- you can use the `<Outlet>` element to render the children elements inside of the layout of the main 
+- you can use the `<Outlet>` element to render the children elements inside of the layout of the main
 
 
 ```js
@@ -165,7 +165,7 @@ function DashboardLayout() {
   );
 }
 ```
-- Note the `index` - that this is what gets rendered inside of the `<Outlet>` 
+- Note the `index` - that this is what gets rendered inside of the `<Outlet>`
 
 
 ## Protected Routes
@@ -195,7 +195,7 @@ function PrivateRoute({ children }) {
 ```
 ## URL search parameters 
 
-- Search params are query strings that can exist appended at the end of your URL, e.g. 
+- Search params are query strings that can exist appended at the end of your URL, e.g.
 ```
 /dashboard?sort=name&filter=active
 /profile?tab=settings
@@ -275,7 +275,7 @@ export default function NavBar() {
 
 ```
 
-or better yet, using the `NavLink` from the framework you can do: 
+or better yet, using the `NavLink` from the framework you can do:
 
 ```js
 import { NavLink } from 'react-router-dom';
@@ -293,7 +293,7 @@ export default function NavBar() {
 }
 ```
 
-and add the following CSS: 
+and add the following CSS:
 ```css
 .active {
   font-weight: bold;
@@ -301,7 +301,7 @@ and add the following CSS:
 }
 ```
 
-because the framework (`react-router-dom`) automatically adds the `.active` class to the link that matches the current URL. 
+because the framework (`react-router-dom`) automatically adds the `.active` class to the link that matches the current URL.
 
 ### MainLayout.js - the sidebar
 
@@ -364,7 +364,7 @@ export default function Profile() {
 # Notes
 ## If the user does a reload on your `/about` page? 
 
-The request will go the server. However, we only have an `index.html` on the server, we do not have an about! 
+The request will go the server. However, we only have an `index.html` on the server, we do not have an about!
 - The solution in this kind of situations is that normally, the web host will redirect all the page-not-found to the `index.html` such that tis' still the react app that gets to handle the request. And the react app will parse the url of the page, and handle it again.
 
 

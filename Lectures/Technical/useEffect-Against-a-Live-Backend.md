@@ -1,20 +1,18 @@
 # `useEffect` Against a Live Backend
 
-Week 2 used `useEffect` to keep local storage in step with state, and a dependency list
-was all it needed. A backend is different in two ways: a live query is a resource that
-has to be released, and a careless effect now costs money rather than milliseconds.
+Week 2 used `useEffect` to keep local storage in step with state, and a dependency list was all it needed. A backend is different in two ways: a live query is a resource that has to be released, and a careless effect now costs money rather than milliseconds.
 
 ## Releasing Resources on Component Unmount
 
 ### This is ugly and won't be necessary often. But it pushes your understanding of JS syntax... 
 
-It's something that you'll need to do also in other components. 
+It's something that you'll need to do also in other components.
 
 ### Sometimes a component allocates a resource in the initialization and that resource has to be de-allocated in the component *destruction*. 
 
 Examples of such resources could be:
 - a reference to a timer - that executes an action every second
-- a connection to a database 
+- a connection to a database
 
 ### If your effect allocates a resource that must be deallocated, do that by returning a *cleanup function* from useEffect
 
@@ -30,7 +28,7 @@ useEffect(() => {
 }, [])
 ```
 
-The correct way of handling it: 
+The correct way of handling it:
 ```javascript
 useEffect(() => {
 
@@ -45,7 +43,7 @@ useEffect(() => {
 
 # Second special case of `useEffect`: no second argument at all!
 
-A very special case of calling `useEffect` is with no second argument: 
+A very special case of calling `useEffect` is with no second argument:
 ```javascript
 function MyComponent() {  
 

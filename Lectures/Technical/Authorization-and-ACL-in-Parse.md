@@ -3,8 +3,8 @@
 ## Motivation
 
 #### **Why can you not keep the Parse API keys perfectly secret?** 
-- Remember the architectural diagram from the beginning of the course? bundle.js is sent to the browser... 
-- The JavaScript code of your web application can be inspected by another web programmer. 
+- Remember the architectural diagram from the beginning of the course? bundle.js is sent to the browser...
+- The JavaScript code of your web application can be inspected by another web programmer.
 
 #### **What happens if I access your repository and find your AppID and JSKey?**
 - Read info that is not meant for me
@@ -13,7 +13,7 @@
 - etc.
 
 That is - **only if you have made your tables public**
-- When we created the DB we were asked about access control and we agreed to make everything public because we're working on an MVP. 
+- When we created the DB we were asked about access control and we agreed to make everything public because we're working on an MVP.
 - Now it's time to harden the security of our database
 
 
@@ -58,8 +58,8 @@ The image below shows the Parse UI for setting Class-level permissions
 
 ### 2. Object-Level Permissions
 
-Even if now you only allow logged in users, it would still not be desirable that an unfriendly user creates an account and then 
-- reads other users data 
+Even if now you only allow logged in users, it would still not be desirable that an unfriendly user creates an account and then
+- reads other users data
 - or even starts deleting other people's data!
 
 This is where the **Access Control Lists** concept come into play. They allow you to set **fine-grained permissions** for every row in your table. Usually they are **created at the same time** as the object.
@@ -76,7 +76,7 @@ This is where the **Access Control Lists** concept come into play. They allow yo
 #### Examples
 ##### User creates a private note
 
-In the following example, a logged in user, creates a private note and ensures that it is only himself that can access that note: 
+In the following example, a logged in user, creates a private note and ensures that it is only himself that can access that note:
 
 ```js
 const Counter = Parse.Object.extend("Counter");
@@ -98,23 +98,23 @@ publicPost.setACL(new Parse.ACL(Parse.User.current()));
 publicPost.setPublicReadAccess(true);
 publicPost.save();
 ```
-Access control lists can be modified every time an object is saved. 
+Access control lists can be modified every time an object is saved.
 
 ### 3. Restricting Class Creation
 
-Surely, not all users should be allowed to create classes either! 
+Surely, not all users should be allowed to create classes either!
 
-Under `App Settings > Server Settings > Client Class Creation` you can specify if your expect users to be allowed to create new classes in your database. Probably you do not want that. 
+Under `App Settings > Server Settings > Client Class Creation` you can specify if your expect users to be allowed to create new classes in your database. Probably you do not want that.
 
 
 
 ### 4. Combining Authorization Methods to Harden the Security of an Application
 
-The methods above should be combined together to strengthen the DB access for  your application. 
+The methods above should be combined together to strengthen the DB access for  your application.
 
 ![](images/parse-server-access-control.png)
 
-In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application. 
+In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application.
 
 ## Case Study: ToDo25
 
@@ -136,10 +136,7 @@ erDiagram
     }
 ```
 
-One table and one pointer. Parse adds `objectId`, `createdAt` and `updatedAt` to every
-class for free, so the only fields we declare are the three that mean something. Note that
-there is no `List` here: a to-do belongs directly to a user, which is as small as the model
-can get — and it is the thing the sharing layer has to change.
+One table and one pointer. Parse adds `objectId`, `createdAt` and `updatedAt` to every class for free, so the only fields we declare are the three that mean something. Note that there is no `List` here: a to-do belongs directly to a user, which is as small as the model can get — and it is the thing the sharing layer has to change.
 
 an important field **userId**:
 ```js
@@ -162,7 +159,7 @@ export const CATEGORIES = {
 };
 ```
 
-For the future, and a more flexible app, it would be nice to allow users to define their own categories. 
+For the future, and a more flexible app, it would be nice to allow users to define their own categories.
 
 ### Creating a service layer for the functions that interact with the DB 
 
@@ -173,7 +170,7 @@ Instead of calling Parse directly from our UI components, we create a **service 
 
 ##### Without a Service Layer code is more of a mess
 
-- Components do not respect the **Single Responsibility Principle**: rendering the ui and talking to the DB 
+- Components do not respect the **Single Responsibility Principle**: rendering the ui and talking to the DB
 
 - Larger more complicated components
 - Duplicated code
@@ -196,7 +193,7 @@ await createTodoItem(name, category);
 
 #### Service layer folder
 
-We have two files at the moment: 
+We have two files at the moment:
 - `src/services/auth.js` - authentication functions
 - `src/services/todoService.js` - handling of todo items
 
@@ -437,7 +434,7 @@ My favorite way of organizing
 
 ```
 
-Also, refactor, refactor, refactor. When you find a better organization, go with that. 
+Also, refactor, refactor, refactor. When you find a better organization, go with that.
 
 
 
@@ -449,11 +446,11 @@ From the ParsePlatform.org Guide:
 
 # Further reading
 - SOLID principles
-	- **Single Responsibility Principle -** 
-	- Open-closed Principle - 
-	- Liskov Substitution - 
-	- Interface Segregation - 
-	- **Dependency Injection Principle** - 
+	- **Single Responsibility Principle -**
+	- Open-closed Principle -
+	- Liskov Substitution -
+	- Interface Segregation -
+	- **Dependency Injection Principle** -
 
 
 ## Exam Questions

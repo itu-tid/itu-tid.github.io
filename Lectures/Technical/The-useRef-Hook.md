@@ -1,6 +1,6 @@
 # The `useRef` hook
 
-Allows you to get hold of a DOM element and manipulate it 
+Allows you to get hold of a DOM element and manipulate it
 
 ## Example: Automatically focusing a given element on first render
 
@@ -31,7 +31,7 @@ export default inputRefExample
 1. Import `useRef`
 2. Declare a ref object (i.e. `inputRef`) - initialize it with null, it's fine
 3. Pass your object as the `ref` attribute to the desired DOM element
-4. Refer to the DOM object by using the `current` property 
+4. Refer to the DOM object by using the `current` property
 
 
 ## Other Examples of  manipulating the DOM 
@@ -59,10 +59,10 @@ The optional chaining (`?.`) prevents errors if the element isn't mounted yet.
 
 - [useRef in the react documentation](https://react.dev/learn/manipulating-the-dom-with-refs)
 - Nice example of [controlling a video player component](https://react.dev/learn/synchronizing-with-effects#step-1-declare-an-effect)
-	- you need to interact with the video element in the DOM 
-	- the DOM has already a powerful implementation of 
+	- you need to interact with the video element in the DOM
+	- the DOM has already a powerful implementation of
 	- get a reference to the relevant DOM element
-	- call the `start` and `stop` methods 
+	- call the `start` and `stop` methods
 
 
 ## Exam Questions

@@ -5,10 +5,10 @@
 	- Technique that enables your program to start a potentially long-running task and still be able to be responsive to other events while that task runs
 
 
-- [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) 
+- [What are Promises and how to Use Them?](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises)
 	- Using the `then` syntax for promises
 	- Using `await` with promises in `async` functions
-	- How to chain two promises? 
+	- How to chain two promises?
 
 
 Promises are often used when requesting something from a server, as in the following example:
@@ -37,7 +37,7 @@ async function fetchMorty() {
 }
 ```
 
-Surely, one needs to also handle exceptions: 
+Surely, one needs to also handle exceptions:
 
 ```js
 async function fetchMorty() {
@@ -60,4 +60,4 @@ async function fetchMorty() {
 
 
 # TODO 
-- integrate in these notes the [Looong SO discussion]( https://stackoverflow.com/questions/54495711/async-await-vs-then-which-is-the-best-for-performance/54497100#54497100) about `async/await` vs. `Promise.then()` -- main observation is that when one has multiple calls one after the other, "*it depends on whether your operations are serial or parallel. If your tasks are serial then there will be no difference between `await` and `.then`. But if your tasks are parallel then `.then` will take less time*". 
+- integrate in these notes the [Looong SO discussion]( https://stackoverflow.com/questions/54495711/async-await-vs-then-which-is-the-best-for-performance/54497100#54497100) about `async/await` vs. `Promise.then()` -- main observation is that when one has multiple calls one after the other, "*it depends on whether your operations are serial or parallel. If your tasks are serial then there will be no difference between `await` and `.then`. But if your tasks are parallel then `.then` will take less time*".

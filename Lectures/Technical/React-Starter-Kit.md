@@ -30,10 +30,7 @@ Which linter to use?
   ESLint
 ```
 
-**Choose ESLint.** Both are fine tools, but `eslint-plugin-react-hooks` — which comes with
-the ESLint option — is what underlines a hook called inside an `if`, and that is a mistake
-worth having caught while you are making it rather than at the exam. ESLint is also what
-every answer you find online will assume.
+**Choose ESLint.** Both are fine tools, but `eslint-plugin-react-hooks` — which comes with the ESLint option — is what underlines a hook called inside an `if`, and that is a mistake worth having caught while you are making it rather than at the exam. ESLint is also what every answer you find online will assume.
 
 If you would rather not be asked, the flag is `--eslint`:
 
@@ -85,7 +82,7 @@ Key files:
 * **`src/App.jsx`**: Starter component — edit here to start building.
 
 ## Step 6: Install Prettier for formatting
-Download the **Prettier** extenstion: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode 
+Download the **Prettier** extenstion: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
 
 ![Prettier-Code-Formatter](images/Prettier-Code-Formatter.png)
 
@@ -94,7 +91,7 @@ Go to settings, and search for "Format". Make sure you click the "Format on Save
 
 ![Prettier-Format-on-Save](images/Prettier-Format-on-Save.png)
 
-If possible, choose the "Prettier - Code Formatter" in the "Default Formatter". 
+If possible, choose the "Prettier - Code Formatter" in the "Default Formatter".
 
 ![Prettier-Default-Formatter](images/Prettier-Default-Formatter.png)
 
@@ -106,22 +103,13 @@ Reload the window with **Cmd/Ctrl+Shift+P → Developer: Reload Window**.
 
 
 ## Step 7: Build for production (optional)
-When you're ready to deploy your app or test it in a production-like environment, you'll need
-to build it. Building the app optimises it for performance and creates a build directory with
-all the files necessary to run the app.
-In your terminal, ensure you're in your project directory.
-Run the following command:
+When you're ready to deploy your app or test it in a production-like environment, you'll need to build it. Building the app optimises it for performance and creates a build directory with all the files necessary to run the app. In your terminal, ensure you're in your project directory. Run the following command:
 
 ```bash
 npm run build
 ```
 
-This creates a build directory in your project with static files that are optimised for
-performance. These are the files you'll use to deploy your app.
-Note: The build process minifies your code (reduces the size of the code), bundles it
-(combines multiple files into one), and optimises it in other ways for production. The
-resulting code is harder for humans to read, but shorter, which makes your app load 
-faster for your users.
+This creates a build directory in your project with static files that are optimised for performance. These are the files you'll use to deploy your app. Note: The build process minifies your code (reduces the size of the code), bundles it (combines multiple files into one), and optimises it in other ways for production. The resulting code is harder for humans to read, but shorter, which makes your app load faster for your users.
 
 
 ## Quick Commands Recap

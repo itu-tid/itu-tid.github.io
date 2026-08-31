@@ -2,7 +2,7 @@
 
 ## **What is an API?** 
 - *Application Programming Interface* -- a generic term referring to an *interface to a system*
-- the interface is usually made up of 
+- the interface is usually made up of
 	- a collection of functions
 	- conventions of usage for those functions
 - the ***system*** about whose interface we talk about can be
@@ -25,13 +25,13 @@ The **client** can be
 - a native application (e.g. the Spotify app)
 
 The **server** can be:
-- your own server (e.g. `api.zeeguu.org` for `zeeguu.org`) 
+- your own server (e.g. `api.zeeguu.org` for `zeeguu.org`)
 - A 3rd party API (e.g. Spotify, Twitter, OMDB, Google Translate)
 
 The server exposes API **endpoints** following the following conventions
-- communication is done via HTTP 
+- communication is done via HTTP
 - data is usually returned in JSON format
-- the version of a service is usually encoded in the URL 
+- the version of a service is usually encoded in the URL
 
 
 ![](images/spotify-endpoints.png)
@@ -47,7 +47,7 @@ Conventions
 - strict endpoint naming, see example below
 - HTTP verbs are mapped on CRUD actions
 ![](images/example-rest-api.png)
-Parse offers as an alternative to the JavaScript API that you've been using until now also a REST API. In a system that manages objects of type `Translation`, the way to get a list of translations is done from the command line as in the following: 
+Parse offers as an alternative to the JavaScript API that you've been using until now also a REST API. In a system that manages objects of type `Translation`, the way to get a list of translations is done from the command line as in the following:
 
 ```bash
 curl -X GET \
@@ -56,8 +56,8 @@ curl -X GET \
   https://parseapi.back4app.com/classes/Counter
 ```
 
-To understand the command 
-- `curl` - linux based terminal-based tool used for sending HTTP requests 
+To understand the command
+- `curl` - linux based terminal-based tool used for sending HTTP requests
 - `-X` specifies the HTTP verb to be used by `curl`
 - `-H` specifies headers (in our case, we send two headers that identify us)
 
@@ -98,7 +98,7 @@ const postData = {
   }
 ```
 
-TODO in class: 
+TODO in class:
 - Run this code with node
 - Run a GET request
 
@@ -112,27 +112,27 @@ TODO in class:
 
 ## Two Challenges When Designing Web Service APIs
 
-The main two challenges are: 
+The main two challenges are:
 1. **Authentication** - How do you ensure that only the callers you want use your endpoints?
-2. **Authorization** - How do you ensure that a user does not overreach? 
+2. **Authorization** - How do you ensure that a user does not overreach?
 
 ### Authentication
 
 #### API keys
 Most popular solution for authentication when your application needs to be using a third-party API (e.g. Google Translate, Spotify API, Twitter API, etc.)
 
-How does it work? 
+How does it work?
 - API Key = Unique generated value is assigned to a user
-- Key is sent with every request 
+- Key is sent with every request
 - Authentication key is to be kept secret
 
 ![](images/API%20Key%20Authentication.png)
 
-Why? 
+Why?
 - Faster than always sending username / password
 - Easy to revoke in case user access should be terminated
 
-Example: If you go to [omdbapi.com](https://www.omdbapi.com/) and get a key, then you can get information about a given movie as below: 
+Example: If you go to [omdbapi.com](https://www.omdbapi.com/) and get a key, then you can get information about a given movie as below:
 
 ```js
 fetch("https://www.omdbapi.com/?t=guardians%20of%20the%20galaxy&apikey=955936f0")
@@ -145,16 +145,16 @@ fetch("https://www.omdbapi.com/?t=guardians%20of%20the%20galaxy&apikey=955936f0"
 #### Session Based Authentication
 Most popular solution for authenticating users in a client-server architecture
 
-Addresses the limitations that come with the stateless nature of HTTPS 
+Addresses the limitations that come with the stateless nature of HTTPS
 
-Session secret key is generated after login on the server, stored in the cookie, and from then on sent always back to the server with every request. 
+Session secret key is generated after login on the server, stored in the cookie, and from then on sent always back to the server with every request.
 
 ![](images/session-based-auth.png)
 
 
 
 # For your projects
-- harden security of your app by adding access control 
+- harden security of your app by adding access control
 
 
 
