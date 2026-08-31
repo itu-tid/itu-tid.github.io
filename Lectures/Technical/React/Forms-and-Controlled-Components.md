@@ -1,4 +1,4 @@
-# Forms and Conditional Rendering
+# Forms and Controlled Components
 
 Until now the app could only add whatever it felt like — the button reached into a list of sample tasks and picked one at random. Typing the task yourself means React has to own the input, and the screen has to change shape depending on what is in it.
 

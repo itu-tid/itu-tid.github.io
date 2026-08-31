@@ -1,4 +1,4 @@
-# Setting breakpoints in VSCode
+# Debugging
 
 1. Create the `.vscode` folder in your project
 2. Add the following configuration in the `launch.json` file

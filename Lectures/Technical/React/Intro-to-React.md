@@ -1,4 +1,4 @@
-# React
+# Introduction to React
 
 React is a JavaScript **library** for building interactive **single page applications**. We will talk about what Single Page Applications are and how they work in a different lecture. For now, we want to be users of react so we'll start doing a very simple application in it and learn React on the way.
 

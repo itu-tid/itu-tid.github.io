@@ -1,4 +1,4 @@
-# Side effects in programming 
+# The useEffect Hook 
 
 ### Concept coming from functional programming
 

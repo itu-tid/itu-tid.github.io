@@ -1,4 +1,4 @@
-# Adding Interactivity (contd.)
+# Advanced State and Reactive Programming
 
 ### [Render and Commit](https://react.dev/learn/render-and-commit)
 *Note: the restaurant metaphor is not very useful*

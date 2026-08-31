@@ -5,7 +5,7 @@
     python3 tools/build-pdfs.py                     # every week
     python3 tools/build-pdfs.py 1 2                 # just these
     python3 tools/build-pdfs.py --changed a.md b.md # whichever weeks use those notes
-    python3 tools/build-pdfs.py --book              # every week, as one document
+    python3 tools/build-pdfs.py --book              # all of it as one, into ./pdf
 
 The week -> notes mapping is not written down here. It is read out of the
 syllabus's `GH:` rows, the same source that decides what the published page
@@ -72,7 +72,14 @@ def weeks_using(paths):
 
 
 def book():
-    """Every chapter, in course order, as one document."""
+    """Every chapter, in course order, as one document.
+
+    Written to ./pdf rather than $TID_PDF_OUT, deliberately: this is a review
+    tool, not something students are given. Read end to end it shows up
+    inconsistencies that are invisible one note at a time -- uneven voice,
+    chapters in an order that made sense per week and not in sequence. The
+    per-week chapters remain the thing that gets published.
+    """
     notes, seen = [], set()
     for num, _, ns in sorted(weeks()):
         for n in ns:
@@ -81,7 +88,8 @@ def book():
                 notes.append(n)
     if not notes:
         sys.exit("build-pdfs: no notes found")
-    target = OUT / "Technical-Interaction-Design.pdf"
+    target = ROOT / "pdf" / "Technical-Interaction-Design.pdf"
+    target.parent.mkdir(exist_ok=True)
     subprocess.run(
         [str(ROOT / "tools/md-to-pdf.sh"), str(target),
          "Technical Interaction Design", SUBTITLE, *map(str, notes)],

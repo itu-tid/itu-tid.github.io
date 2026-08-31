@@ -1,4 +1,4 @@
-# Start Your First React App with **Vite** and **Visual Studio Code**
+# Start Your First React App, with Vite
 
 ## Step 1: Install Node.js
 Visit the official Node.js website at https://nodejs.org/en/download/prebuilt-installer
