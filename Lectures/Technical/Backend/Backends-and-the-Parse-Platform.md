@@ -2,9 +2,9 @@
 
 Motivation - we want to be full-stack web developers :) But we don't have much time.
 
-### Backends
+## Backends
 
-#### What is a backend? 
+### "Backend" only means something relative to a front-end
 - **Relative term** - defined in opposition to the *front-end*
 	- **Front-end** -- code that runs in the user's browser and handles presentation and user interaction
 	- **Back-end** -- handles data processing, storage, and security
@@ -13,7 +13,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 ![](../images/client-server-architecture.png)
 
 
-#### What are the **responsibilities of the backend**?
+### The backend owns everything the browser cannot be trusted with
 - Authentication (proving that a user is who they say they are)
 - Authorization (what can a user do)
 - Session management for web applications
@@ -22,7 +22,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 - API endpoints / request handling (since the backend receives and responds to requests)
 - Data validation (ensuring incoming data is correct/safe)
 
-#### Setting up a traditional backend
+### A traditional backend is eight pieces of infrastructure before a line of your own code
 - Machine setup (or create a VM with a cloud provider)
 - Operating system installation & configuration
 - Security & firewall configuration
@@ -33,7 +33,7 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 - Backup system
 
 
-#### Low-Code Backends
+### A low-code backend hands you all eight as a service
 - Pre-built solutions for common backend needs
 - Backend-as-a-service
 	- Firebase = proprietary, hosted by Google
@@ -42,13 +42,13 @@ Motivation - we want to be full-stack web developers :) But we don't have much t
 	- **Parse Platform** = open source framework
 
 
-### Parse Platform
+## Parse Platform
 
-#### History
+### Parse was a startup, then Facebook's, and is now open source
 
 Startup => Facebook => [Open Source](https://github.com/parse-community)
 
-#### Implementation
+### Parse is a Node server, plus an SDK you install in your client
 
 Implemented in JS - runs on Node
 
@@ -66,15 +66,15 @@ Offers
 
 
 
-### Setting up a Parse Server
-#### Using Parse from Back4App
+## Setting up a Parse Server
+### Back4App hosts Parse for you, and you leave with three keys
 
 Steps to start working with the Back4App Parse deployment
 1. Create an account on Back4App
 2. Create a backend (app) for your react application in Back4App
 3. Somewhere in settings find `APP_ID` and `JAVASCRIPT_KEY` and `PARSE_SERVER_URL` and save them for late
 
-#### Using your own deployment
+### You can host it yourself, and the client code is identical
 
 - You can also [deploy your own server on DigitalOcean](Parse-Server-Deployment-Guide.md)
 
@@ -84,7 +84,7 @@ Steps to start working with the Back4App Parse deployment
 The full documentation is in the [Parse.js Javascript Guide](https://docs.parseplatform.org/js/guide/#saving-objects)
 - use as reference
 
-### Connecting to a server
+### One initialisation at the top of the app, and every Parse call knows where to go
 
 - install the parse JS SDK (software development kit) `npm install -S parse`
 - configure your react application to connect to the server and corresponding app (there might be multiple apps on the server)
@@ -103,7 +103,7 @@ Note: code above should be in the top level component of our app
 
 Note 2: if you don't want to import the minified version, see the [Parse-Configuration-for-Vite](Parse-Configuration-for-Vite.md) . If you change the Vite configuration, then you can write `import Parse from 'parse'` which is nicer.
 
-### CRUD Operations
+### Create, retrieve, update and delete is the whole vocabulary
 
 *To Read*: [CRUD operations with Parse](https://www.back4app.com/docs/react/data-objects/react-crud-tutorial) (approx. 30min)
 
@@ -202,7 +202,7 @@ Advanced Parse features
 - [Atomic arrays](https://docs.parseplatform.org/js/guide/#arrays)
 
 
-### Querying for Objects 
+### A query is a class, some constraints, and a `find()`
 
 Most basic way to query for objects is:
 ```jsx
@@ -230,7 +230,7 @@ References:
 - [Queries on Strings](https://docs.parseplatform.org/js/guide/#queries-on-string-values)
 
 
-### User Management with Parse
+### Parse gives you accounts, login and the current user without your writing any of it
 
 #### Account Creation and Authentication
 
@@ -366,54 +366,59 @@ More advanced features
 
 ## React patterns when communicating with a backend
 
-### Loading notification pattern
+### An empty list and a list that has not arrived yet look identical
+
+Everything you have fetched so far was instant. `localStorage` is synchronous — the data is already on the machine, so the line after `getItem` has it. A backend is on the other side of a network, and the round trip is somewhere between fifty milliseconds and, on a bad train connection, several seconds.
+
+Which means there is now a moment that did not exist before: the component has rendered, and the data has not arrived.
+
+Look at what your app shows during that moment. `useState([])` gives an empty array, so the list renders — empty. **The screen says "you have no to-dos" when the truth is "I do not know yet."** Those are different things, and the user cannot tell them apart.
+
+So the arrival of the data has to become state too:
 
 ```jsx
-import { useState, useEffect } from 'react';
-import Parse from 'parse';
-
 function TodoList() {
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      setLoading(true);
+    async function fetchTodos() {
       try {
-        const Todo = Parse.Object.extend('Todo');
-        const query = new Parse.Query(Todo);
-        const results = await query.find();
-        setTodos(results);
+        const query = new Parse.Query(Parse.Object.extend("Todo"));
+        setTodos(await query.find());
+        setStatus("ready");
       } catch (error) {
-        console.error('Error fetching todos:', error);
-      } finally {
-        setLoading(false);
+        console.error(error);
+        setStatus("failed");
       }
-    };
-
+    }
     fetchTodos();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (status === "loading") return <p>Loading your to-dos…</p>;
+  if (status === "failed") return <p>Could not reach the server. Try again.</p>;
 
   return (
-    <div>
-      <h1>Todos</h1>
-      <ul>
-        {todos.map(todo => (
-          <li key={todo.id}>{todo.get('title')}</li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.id}>{todo.get("title")}</li>
+      ))}
+    </ul>
   );
 }
-
-export default TodoList;
 ```
 
+**Three states, not two.** Loading, failed, and ready — and the reason the failed one is not optional is that without it a dead network looks exactly like an empty list. The user retries nothing, because as far as they can see nothing went wrong. A `catch` that only writes to the console is a bug with a comforting shape: you see the error while developing, and your users never do.
 
+The rendering itself is nothing new — it is the early-return form of [conditional rendering](../React/Conditional-Rendering.md), which is why that note showed you three shapes and said the `if` was the one for whole-screen decisions. This is the screen it meant.
+
+**What you render is a design decision.** `<p>Loading…</p>` is honest and takes a minute. A spinner is a rotating element in CSS, and there is nothing React-specific about it. Better than either, when you know the shape of what is coming, are **skeleton rows** — grey blocks the size of the real to-dos — because the layout does not jump when the data lands.
+
+One thing worth knowing before you reach for a spinner: if the data usually arrives in 200ms, a spinner appears and disappears before the eye resolves it, and the flicker reads as a glitch rather than as progress. Showing nothing for the first few hundred milliseconds often looks *faster* than showing a spinner immediately.
+
+### The same three states in every component is the argument for a custom hook
+
+Every screen that fetches needs these three states, which means you will write this same `useState` triple in every component that talks to Parse. That repetition is the standard argument for a **custom hook** — one `useTodos()` that returns `{ todos, status }` and keeps the wiring in one place. That is [Component Extraction](../Structure/Component-Extraction-Guide.md) applied to logic rather than to markup; you do not need it in week 4, but notice the duplication when it arrives.
 
 
 ## Modeling Relationships in Parse
@@ -426,7 +431,7 @@ The main questions are
 2. What are the relationships between them?
 
 
-### Relationships 
+### Every relationship you will model is one-to-many or many-to-many
 
 #### One-to-many Relationships
 
@@ -566,7 +571,7 @@ bookAuthor.save();
 ```
 
 
-### Entity-Relationship Diagrams
+### The notation matters less than being able to explain your model
 
 Use whichever notation you prefer. Two that I like are:
 1. On the left hand side is the most popular way of showing attributes
@@ -583,7 +588,7 @@ No matter which notation you use, the most important aspect is being able to com
 - Start connecting your React application to your own Parse backend
 
 
-### References
+## References
 
 The documentation on ParsePlatform.org
 - [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) - extensive reference for everything ParseJS
@@ -637,4 +642,4 @@ for (let post of posts) {
 
 #### 10. Why are Join Tables often preferred over Parse Relations for many-to-many relationships?
 
-#### 11. What is the loading notification pattern and why is it important?
+#### 11. A component fetches its data in a `useEffect` and starts with `useState([])`. Before the data arrives, what does the user see, and why is that a problem? What are the three states the component actually has?

@@ -33,7 +33,9 @@ Every keystroke goes out to state and comes back. Delete the `onChange` and try 
 
 What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. 
 
-And because state is just a variable, you can now do things the browser could never do for you:
+### A value you can work out from state should not be state itself
+
+Because state is just a variable, you can now do things the browser could never do for you:
 
 ```jsx
 <button disabled={text.length === 0}>Add</button>
@@ -47,7 +49,7 @@ An input whose value comes from state is called **controlled**. The opposite is 
 
 That is the whole of the terminology, and it is worth knowing mainly because it turns up in error messages and in every answer you will find online.
 
-## Wrapping it in a form
+## Enter does nothing until the input is inside a form
 
 The button works. Now press **Enter** in the input.
 
@@ -76,13 +78,17 @@ function NewTodoForm({ onAdd }) {
 }
 ```
 
-Three things are happening there.
+### One handler catches both the click and the Enter key
 
-**`onSubmit` fires for both** the button click and the Enter key, so you write the handler once. You also get the semantics for free: a screen reader announces a form, and a phone keyboard offers a **Go** key instead of a newline.
+`onSubmit` fires for the button click *and* for Enter, so you write the handler once. You also get the semantics for free: a screen reader announces a form, and a phone keyboard offers a **Go** key instead of a newline.
 
-**`e.preventDefault()` is not boilerplate.** A form's default behaviour is to send its contents to the server and load whatever comes back — the way the web worked before JavaScript. That would throw away your entire app and reload the page. We are a single-page application: nothing should ever be sent anywhere or reloaded unless we say so. Take the line out and watch it happen once; the flash of the page reloading is worth seeing.
+### `preventDefault` is what stops the whole page reloading
 
-**The button needs no `type`.** Every `<button>` has one, and there are three:
+It is not boilerplate. A form's default behaviour is to send its contents to the server and load whatever comes back — the way the web worked before JavaScript. That would throw away your entire app and reload the page. We are a single-page application: nothing should ever be sent anywhere or reloaded unless we say so. Take the line out and watch it happen once; the flash of the page reloading is worth seeing.
+
+### Every button in a form submits it unless you say otherwise
+
+The Add button above needs no `type`, because every `<button>` already has one, and there are three:
 
 | `type` | what it does |
 |---|---|
@@ -101,7 +107,9 @@ The default bites the first time you put a *second* button in a form. A **Clear*
 
 `type="button"` looks like it says nothing until you know the alternative it is refusing. It means *this is only a button* — do not submit anything.
 
-**`setText("")` clears the field**, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
+### A controlled input is one you can clear
+
+`setText("")` empties the field, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
 
 Later, when that `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](../Structure/Finding-the-Components.md).
 
