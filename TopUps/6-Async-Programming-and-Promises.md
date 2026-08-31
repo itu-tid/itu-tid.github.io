@@ -59,5 +59,24 @@ async function fetchMorty() {
 - [Video discussion](https://www.youtube.com/watch?v=li7FzDHYZpc) about how to transform a `Promise.then()` into `async/await` call
 
 
-# TODO 
-- integrate in these notes the [Looong SO discussion]( https://stackoverflow.com/questions/54495711/async-await-vs-then-which-is-the-best-for-performance/54497100#54497100) about `async/await` vs. `Promise.then()` -- main observation is that when one has multiple calls one after the other, "*it depends on whether your operations are serial or parallel. If your tasks are serial then there will be no difference between `await` and `.then`. But if your tasks are parallel then `.then` will take less time*".
+
+# `await` or `.then()` — does it matter for speed?
+
+Only when you have several calls in a row, and then it depends on whether they have to happen in order.
+
+**Serial** — each call needs the previous one's answer. No difference between the two: both wait, because you have no choice but to wait.
+
+**Parallel** — the calls are independent. Now it matters, because awaiting each in turn makes them queue up for no reason:
+
+```js
+const user = await getUser();      // waits
+const todos = await getTodos();    // then waits again — for nothing
+```
+
+Start them both, then wait for both:
+
+```js
+const [user, todos] = await Promise.all([getUser(), getTodos()]);
+```
+
+`Promise.all` when the calls do not depend on each other is the part worth remembering. There is a [long StackOverflow discussion](https://stackoverflow.com/questions/54495711/async-await-vs-then-which-is-the-best-for-performance/54497100#54497100) if you want the detail.

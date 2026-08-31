@@ -70,7 +70,7 @@ This is a common thing you will do when writing React
 
 # The same function, written twice
 
-Components are not the only thing worth extracting. A pattern from previous cohorts, seen often enough to be worth naming: `const getCurrentUser = async () => …` defined once in `ProfileBar` and again in `Settings`, because both screens needed it and neither knew about the other.
+Components are not the only thing worth extracting. A common case: `const getCurrentUser = async () => …` defined once in `ProfileBar` and again in `Settings`, because both screens needed it and neither knew about the other.
 
 Two copies of a function are two things to fix when the backend changes, and they drift silently — one gets a null check, the other does not. Pull it into a **custom hook** (`useCurrentUser`) and both screens call the same code.
 

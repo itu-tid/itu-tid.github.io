@@ -10,6 +10,7 @@ There are three ways to write that. Here they all are on the same condition, bec
 
 ```jsx
 function TodoList({ todos }) {
+
   if (todos.length === 0) {
     return <p>Nothing to do. Enjoy the afternoon.</p>;
   }
@@ -22,7 +23,7 @@ function TodoList({ todos }) {
 }
 ```
 
-**2. The `? :` operator**, inside the JSX — when the surrounding markup is shared and repeating it would hide how little actually changes:
+**2. The `? : ` operator**, inside the JSX — when the surrounding markup is shared and repeating it would hide how little actually changes:
 
 ```jsx
 function TodoList({ todos }) {
@@ -50,7 +51,7 @@ function TodoList({ todos }) {
 }
 ```
 
-Now the difference is visible rather than asserted. The first two **choose between two things** — you get the message *or* the list. The third **adds a thing, or does not** — the `<ul>` is always rendered, and it happens to be invisible when empty.
+The first two **choose between two things** — you get the message *or* the list. The third **adds a thing, or does not** — the `<ul>` is always rendered, and it happens to be invisible when empty.
 
 So they are not three styles of one thing. `if` and `? :` answer *which of these two*; `&&` answers *is there anything here at all*. Reach for `&&` when a `? :` would have to end in an awkward `: null`.
 

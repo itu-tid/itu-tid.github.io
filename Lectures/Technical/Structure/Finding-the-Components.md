@@ -37,7 +37,7 @@ TodoApp
     └── TodoItem   (one per to-do)
 ```
 
-That is the whole exercise, and it takes two minutes on paper. It is worth doing precisely because it is not a coding activity — you are looking at what the thing *is*, not at what you have already typed.
+That is the whole exercise, and it takes two minutes on paper. Do it away from the editor: you are looking at what the thing *is*, not at what you have already typed.
 
 ## What earns a box
 
@@ -101,7 +101,7 @@ function AddTodo() {
 }
 ```
 
-That is the part worth pausing on. `useState` did not move into `TextInput`. If it had, `AddTodo` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
+`useState` did not move into `TextInput`. If it had, `AddTodo` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
 
 Two things improved, and neither is about saving typing.
 

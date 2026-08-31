@@ -1,11 +1,6 @@
 # Updater functions for state
 
-> **You will not need this in week 2.** `setTodos([...todos, item])` is correct wherever
-> you are reading the state and writing it back in the same breath — adding, deleting,
-> toggling. The updater form earns its keep only when the value you captured has gone
-> stale: two setter calls in one handler, or a callback that fires later — a response
-> arriving, a timer, a live query pushing a change. That is why this note sits with the
-> backend material rather than with `useState`.
+> **You do not need this yet.** `setTodos([...todos, item])` is correct wherever you read the state and write it back in the same breath — adding, deleting, toggling. The updater form earns its keep only when the value you captured has gone stale: two setter calls in one handler, or a callback that fires later — a response arriving, a timer, a live query pushing a change.
 
 State can be updated with either **updater functions** like in the first button below or by calling the setter function with an actual value, the second button below. One increments with three the value of the state var. The other with one.
 

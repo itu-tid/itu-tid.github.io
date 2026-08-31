@@ -74,7 +74,7 @@ function AddTodo({ onAdd }) {
 }
 ```
 
-Three things there are worth naming.
+Three things are happening there.
 
 **`onSubmit` fires for both** the button click and the Enter key, so you write the handler once. You also get the semantics for free: a screen reader announces a form, and a phone keyboard offers a **Go** key instead of a newline.
 

@@ -46,7 +46,7 @@ function TodoItem({ todo, onRemove }) {
 Read the two directions:
 
 - **Down, as props.** `TodoList` hands each row its `todo` — the data it needs to draw.
-- **Up, as a callback.** `TodoItem` is handed `onRemove` and calls it. It does not know what happens next, and that is the point: it is not deleting anything, it is *reporting a click*.
+- **Up, as a callback.** `TodoItem` is handed `onRemove` and calls it. It does not know what happens next: it is not deleting anything, it is *reporting a click*.
 
 `TodoItem` knows nothing about `filter`, about the array, or even that a list exists. Drop it into an app that archives items instead of deleting them, passing the same `onRemove`, and it works unchanged. That is what you get for keeping the arrow pointing one way.
 

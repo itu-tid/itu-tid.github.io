@@ -233,12 +233,11 @@ Now the same component takes anything:
 Note what `Panel` does **not** know: that there is a list, that there is a button, that either exists. It knows it has a title and a frame to draw around whatever it was handed. That is the whole idea, and it is why almost every layout component you write — containers, cards, modals, page wrappers — ends up taking `children`.
 
 > **The rule of thumb.** If it is data the component needs to *use* — a title, a count, a
-> user — make it a prop. If it is markup the component only needs to *place*, use
-> `children`.
+> user — make it a prop. If it is markup the component only needs to *place*, use `children`.
 
 ## Rendering Lists
 
-**The app now.** Three items, drawn from an array rather than typed out. Which is the point: the array is the app, and the screen is a picture of it.
+**The app now.** Three items, drawn from an array rather than typed out: the array is the app, and the screen is a picture of it.
 
 Most applications sooner or later rely on lists of things that you want to process.
 
@@ -342,7 +341,7 @@ Click the **×** and *both* handlers fire — the button's, then the row's — s
 
 ## Component State
 
-**The app now. This is the one to slow down for.** Add pushes a task onto the array — and nothing appears. The variable really did change; the screen simply does not care. That failure is the whole argument for state, and it is far more convincing having just watched it fail.
+**The app now.** Add pushes a task onto the array — and nothing appears on screen. The variable really did change; the screen simply does not care. That failure is the whole argument for state, so it is worth running before you read on.
 
 ### Every component can store local state 
 
@@ -426,9 +425,7 @@ In React, the dependents are not formulas, but UIs. When a state variable or a p
 
 So the loop the app now runs is:
 
-> you click **Add** → `handleAdd` calls `setTodos` with a new array → React notices the
-> state it is holding is not the array it had → it calls `TodoList()` again → `map` builds
-> one more `<TodoItem />` than last time → the new row appears.
+> you click **Add** → `handleAdd` calls `setTodos` with a new array → React notices the state it is holding is not the array it had → it calls `TodoList()` again → `map` builds one more `<TodoItem />` than last time → the new row appears.
 
 Nobody wrote "add a row to the screen" anywhere. You changed the data and described what the screen should look like for any data; React did the rest. That is the trade React asks you to make, and everything else this term is a consequence of it.
 
@@ -469,7 +466,7 @@ export default function TodoList() {
 }
 ```
 
-Forty lines, and every idea in this note is in there somewhere.
+Forty lines, and every idea above is in there somewhere.
 
 
 And deliberately silly: **Add** picks a task at random, because there is nothing to type into yet. Next week there is, and that is where forms come in — along with the first real bug, when deleting from the middle of the list shows you why keying by position was never going to hold.

@@ -33,7 +33,7 @@ Think about:
  - How many products did Google have? How many were eventually discontinued? (https://killedbygoogle.com/)
  - How many startups set out to disrupt and revolutionize the world? How many actually do this?
 
-> In Class Interactive Exercise: Think about a Shopping List app. What unique features would you add to it to make it stand out? 
+> In Class Interactive Exercise: Think about a Shopping List app. What unique features would you add to it to make it stand out?
 
 Every app is a point in a very large design and feature space. Both design and functionality have incredibly high dimensions. And many of the points in that space are unsuccessful. Finding the right point in that feature and behavior space is a difficult challenge. And ... it's better if you iterate.
 

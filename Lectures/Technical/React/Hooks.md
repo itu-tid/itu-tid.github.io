@@ -20,7 +20,7 @@ Not decoration — it is how React's linter recognises them and checks the rules
 | [`useEffect`](The-useEffect-Hook.md) | a way to reach *outside* React — storage, a backend, a timer | when the app has to stay in step with something React does not control |
 | [`useRef`](The-useRef-Hook.md) | a value that survives re-renders but does **not** cause one | when you start extracting components |
 
-The contrast in that last row is the useful one. State and refs both survive; only state redraws. You want a ref for something the screen does not depend on — the DOM node you need to focus, a timer's id, a counter nobody displays.
+State and refs both survive a re-render; only state causes one. You want a ref for something the screen does not depend on — the DOM node you need to focus, a timer's id, a counter nobody displays.
 
 ## The rules: top level, always, unconditionally
 

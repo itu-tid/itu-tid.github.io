@@ -46,7 +46,7 @@ That was not the main purpose of the function. It was a side effect.
 	
 **A fair objection: is *reading* a side effect?** In the functional-programming tradition, no — nothing changes, so nothing is affected. But it does make the function **impure**: its result depends on something other than its arguments, so two identical calls can return different things, and React can no longer assume that rendering the same props twice gives the same JSX.
 
-React sidesteps the argument by framing it differently, and the framing is the useful part:
+React frames it differently:
 
 ### Goal: synchronize your component with **some system outside of React**
 

@@ -234,4 +234,4 @@ Nothing above is a rule of JavaScript — `push`, `sort` and `splice` are perfec
 
 React decides whether to redraw by asking *is this the same object I had before?* — not by looking inside it. Hand it back the same array with one more item pushed onto it and the answer is yes, it is the same object, so nothing happens on screen even though the data changed. Hand it a new array and the answer is no, and it redraws.
 
-So in a React app you reach for the versions that **return something new** — `map`, `filter`, spread — and avoid the ones that change what they were given. Which is the whole reason this page exists.
+So in a React app you reach for the versions that **return something new** — `map`, `filter`, spread — and avoid the ones that change what they were given.

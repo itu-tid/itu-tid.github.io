@@ -1,6 +1,6 @@
 # `useEffect` Against a Live Backend
 
-Week 2 used `useEffect` to keep local storage in step with state, and a dependency list was all it needed. A backend is different in two ways: a live query is a resource that has to be released, and a careless effect now costs money rather than milliseconds.
+Keeping local storage in step with state needed nothing but a dependency list. A backend is different in two ways: a live query is a resource that has to be released, and a careless effect now costs money rather than milliseconds.
 
 ## Releasing Resources on Component Unmount
 
