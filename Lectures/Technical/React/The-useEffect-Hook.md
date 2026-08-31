@@ -1,17 +1,10 @@
 # The useEffect Hook 
 
-### Concept coming from functional programming
+## A side effect is anything besides the main calculation
 
-Functional programming - a powerful way of programming that is one of the main paradigms (ways of thinking):
-1. imperative
-2. functional
-3. declarative
+The term comes from functional programming, where the ideal is a **pure function**: give it the same arguments and it gives you the same answer, every time, and changes nothing else in the world.
 
-### Side effect = anything besides the main calculation needed for the result
-
-#### A pure function is a function that does one thing, and one thing only
-
-Conceptually the following function is free of side-effects:
+This one is pure:
 ```js
 
 function square(i) {
@@ -19,7 +12,7 @@ function square(i) {
 }
 ```
 
-however, if the function does something else than it's main goal, we call that a side effect.
+This one is not:
 
 ```js
 function square (i) {
@@ -30,30 +23,19 @@ function square (i) {
 
 In the above case `localStorage.setItem` writes the result somewhere. **`localStorage`** is a small key-value store the browser keeps for every site — a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
 
-That was not the main purpose of the function. It was a side effect.
+Writing to storage was not what `square` was for. It is a **side effect** — something the function does besides producing its answer.
 
 
 ## Side Effects in React with `useEffect`
 
-#### In the context of React, the main responsibility of every component function is to... render JSX.  
+A component function has one job: return JSX. Anything else it does — writing to storage, changing the page title, starting a timer, calling a backend — is a side effect, and belongs in an effect rather than in the body of the component.
 
-#### => Anything besides that is considered a side-effect
-- actions that a functional component does besides rendering the component.
-- what could they be?
-	- updating the DOM
-	- saving things to the DB
-	- we'll see a few examples later
-	
-**A fair objection: is *reading* a side effect?** In the functional-programming tradition, no — nothing changes, so nothing is affected. But it does make the function **impure**: its result depends on something other than its arguments, so two identical calls can return different things, and React can no longer assume that rendering the same props twice gives the same JSX.
+### The goal: keep your component in step with something outside React
 
-React frames it differently:
-
-#### Goal: synchronize your component with **some system outside of React**
-
-Reading and writing are both synchronisation. `localStorage`, the document title, a timer, a backend — anything React does not control is *outside*, and keeping your component in step with it is what effects are for.
+`localStorage`, the document title, a timer, a backend — anything React does not control is *outside*, and an effect is how you keep the two in step.
 
 
-### Defining side effects in React is done with the `useEffect` hook with two arguments
+### Writing one
 
 `useEffect` lets us hook into React and catch the moment a state variable changes, so we can do something about it. Below: a to-do list that writes itself to local storage whenever the list changes.
 
@@ -75,87 +57,87 @@ Read it as a sentence: **whenever `todos` changes, write it to local storage.** 
 
 `JSON.stringify` is there because local storage only holds **strings**. Hand it an array and you get back `"[object Object]"` on the next load, which is a confusing ten minutes if you have not been warned.
 
-##### Arg 1: What the side effect should do is defined by a  function
-- most of the times defined in-place as anonymous arrow function
-- but can just as well be a named function
+### The two arguments
 
-##### Arg 2: When to execute the side effect? 
-The second argument is an array that contains one or more state variables The (side-)effect would be run on any of those variables changing.
+**First, what to do** — a function, usually written in place as an arrow function, though a named one works just as well.
 
-#### Examples of using `useEffect`
-##### Changing the title of the page based on the state in a component 
+**Second, when to do it** — an array of the values the effect depends on. React re-runs the effect whenever any of them differs from last time. Props count as well as state; anything the effect reads should be in there.
 
-```js 
-useEffect(() => {  
-  window.title = "Saved Articles";  
-}, [articles]);
+The array has two special cases, both further down: leave it **empty** and the effect runs once, at mount. Leave it **out altogether** and it runs after every single render, which is almost never what you want.
+
+**And is *reading* from storage a side effect?** In the functional-programming sense, no — nothing changes, so nothing is affected. But it does make the function **impure**: its result depends on something other than its arguments, so two identical calls can return different answers. React's framing sidesteps the argument: reading and writing are both *synchronising with something outside*, and that is what effects are for.
+
+### Other things an effect is for
+
+**The page title**, so the browser tab says something useful:
+
+```jsx
+useEffect(() => {
+  document.title = `My To-Do (${todos.length})`;
+}, [todos]);
 ```
-##### Interacting with the DOM in some way
 
-```js
-useEffect(() => {  
-  if (errorMessage) {  
-    scrollToTop();  
-  }  
-}, [errorMessage]);
+**A timer**, which the browser owns and React does not:
+
+```jsx
+useEffect(() => {
+  const id = setInterval(() => setNow(Date.now()), 1000);
+}, []);
 ```
-- another example would be saving something to local storage as in the example above
 
-##### Updating some state when a prop or a state changes
+That second one has a bug — it starts a new timer every time the component mounts and never stops one. Fixing it needs a cleanup function, which is why cleanup exists; it is covered where it first matters, in [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md).
 
-e.g.
-```js
-useEffect(() => {  
-  setQuickFeedbackModal(false);  
-  setOpenFeedback(false);  
-  setHasProvidedQuickFeedback(false);  
-}, [exerciseBookmarks]);
-```
-IMO, In Mircea's Opinion: this should be called useReactive -- because defines a reactive relationship.
+**What an effect is *not* for** is computing something from state. If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. That is a common enough mistake to have a name: it makes two sources of truth where one would do, and they drift.
 
-### useEffect as one of the mechanisms of *reactive programming*
+`useEffect` might honestly have been called `useReactive`: what you write is a relationship, not an instruction.
+
+### An effect is a relationship, not an instruction
 
 You have already met this with `useState`: change the data, and React works out what the screen should look like — see [Reactive Programming](Intro-to-React.md#reactive-programming).
 
 `useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with your data; `useEffect` keeps *everything else* in step with it. Same dependency, same automatic re-run, different destination.
 
 
-## Special Case of `useEffect`: Empty dependencies list
+## The empty dependency list: run once, at mount
 
-#### If you call an effect with an **empty dependencies list**, **it is only run once, on component mount!**
+An effect with an **empty** array runs once, when the component first appears, and never again.
 
 **Mount** is React's word for a component appearing for the first time — its first render, when it goes from not being on screen to being on screen. The opposite is **unmount**, when it is taken off again. A component mounts once and can then re-render any number of times.
 
 An empty dependency list says *nothing to depend on*, so there is never a later change to react to, so it runs at mount and never again.
 
-###### Why would you want to run something only on mount? What kind of things would you want to do? 
+### What only happens once
 
-- Initialization.  Often there's special initializations that you want to have when a component is first time rendered - at least the top level component in your program - the screen -- it needs to remember the state from last time. In our case, it would be good if we could have our page remember
+**Loading.** The app saves the list on every change; it needs to read it back exactly once, when it starts. That is the whole to-do app made persistent:
 
+```jsx
+function loadTodos() {
+  const saved = localStorage.getItem("todos");
+  return saved ? JSON.parse(saved) : [];
+}
 
+export default function TodoList() {
+  const [todos, setTodos] = useState(loadTodos);
 
-###### A to-do list would want to load its items
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
-This is what `localStorage` is for. Two functions cover the whole of it, and the second is where the strings-only rule bites in the other direction:
-
-```js
-function saveList(key, list) {
-	localStorage.setItem(key, JSON.stringify(list)); 
- } 
-
-function loadList(key) { 
-	const data = localStorage.getItem(key); 
-	return data ? JSON.parse(data) : []; 
+  // …
 }
 ```
 
-In the upcoming lectures you will learn how to load things from the database and you will see that the patterns are going to be the same.
+Note where the load went. `useState(loadTodos)` — the function passed, not called — asks React to run it once, for the initial value, and never again. It could have been an effect with an empty array instead, but then the first render would show an empty list and the saved one would appear a moment later, which flickers.
 
-#### **Important:** During development, React runs the useEffect twice on mount
+`JSON.parse` is the other half of `JSON.stringify`: storage gave back the string you put in, and this turns it into an array again. The `saved ? … : []` matters on the very first visit, when there is nothing stored and `getItem` returns `null`.
 
-Why? if your code works in this situation, it means you're cleaning up nicely; and that's good!
+**In two weeks this same shape points at a backend instead of the browser** — the same hook, the same dependency array, a Parse query instead of `localStorage`. The swap is smaller than it sounds.
 
-if not, then you have to figure out why and cleanup correctly.
+### One thing that will confuse you: effects run twice in development
+
+React deliberately mounts every component twice while you are developing, to shake out effects that do not tolerate being run again. In production it happens once.
+
+So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. It *is* React pointing at effects that would misbehave — most often ones that start something without stopping it, like the timer above.
 
 
 ## Two more shapes of `useEffect`, later
@@ -163,16 +145,16 @@ if not, then you have to figure out why and cleanup correctly.
 There are two further cases — a cleanup function that runs when the component unmounts, and an effect with no dependency list at all. Neither is much use against local storage, and both are needed the moment an effect talks to a live backend: one to close a subscription, the other as a warning. They live in *Backend III · [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md)*.
 
 
-### Exam Questions
+## Exam Questions
 
-#### 1. Explain what this useEffect does, and when it runs:
+### 1. Explain what this useEffect does, and when it runs:
 ```js
 useEffect(() => {
   localStorage.setItem("todos", JSON.stringify(todos));
 }, [todos]);
 ```
 
-#### 2. What is the difference between these two useEffect calls?
+### 2. What is the difference between these two useEffect calls?
 ```js
 // Version A
 useEffect(() => {

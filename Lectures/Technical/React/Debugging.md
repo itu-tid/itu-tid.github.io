@@ -1,5 +1,11 @@
 # Debugging
 
+Three tools, roughly in the order you will reach for them: a `debugger;` statement, the React DevTools component tree, and a proper breakpoint in your editor.
+
+## Breakpoints in your editor
+
+In VS Code, this takes a one-off configuration. (WebStorm and the other JetBrains editors do it without any of this — run the dev server, then attach a JavaScript Debug configuration to `http://localhost:5173`.)
+
 1. Create the `.vscode` folder in your project
 2. Add the following configuration in the `launch.json` file
 ```json
@@ -18,12 +24,11 @@
 3. Set your breakpoints
 4. Select from the menu: `Run -> Start Debuggging`
 
-## Using the Browser DevTools
+## The browser's own debugger
 
-- You can add `debugger;` statements directly in your code
-- If Developer Tools is open, you'll get a breakpoint
+`debugger;` is a real JavaScript statement, not a library call. Put it anywhere in your code: it does nothing while nobody is watching, and pauses execution the moment DevTools is open.
 
-- `debugger;` is a real JavaScript statement, not a library call. It does nothing when nobody is watching and pauses execution the moment DevTools is open, which makes it the cheapest breakpoint there is: you can commit it by accident, but you cannot forget where you put it the way you forget a `console.log`.
+That makes it the cheapest breakpoint there is — and unlike a `console.log`, you cannot forget where you left it, because it stops the program and shows you.
 
 ## React DevTools
 

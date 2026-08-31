@@ -53,7 +53,9 @@ The button works. Now press **Enter** in the input.
 
 Nothing happens — and everybody expects Enter to work. 
 
-That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler:
+That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler.
+
+One new thing in the code below: `onAdd`. The form does not own the list of to-dos — `TodoList` does — so it cannot add anything itself. What it gets instead is a function to call, handed down by whoever does own the list. That arrangement has a name and a note of its own: [Patterns of Component Communication](Patterns-of-Component-Communication.md).
 
 ```jsx
 function NewTodoForm({ onAdd }) {
@@ -80,8 +82,6 @@ Three things are happening there.
 
 **`e.preventDefault()` is not boilerplate.** A form's default behaviour is to send its contents to the server and load whatever comes back — the way the web worked before JavaScript. That would throw away your entire app and reload the page. We are a single-page application: nothing should ever be sent anywhere or reloaded unless we say so. Take the line out and watch it happen once; the flash of the page reloading is worth seeing.
 
-Later, when the same `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](../Structure/Finding-the-Components.md).
-
 **The button needs no `type`.** Every `<button>` has one, and there are three:
 
 | `type` | what it does |
@@ -102,6 +102,8 @@ The default bites the first time you put a *second* button in a form. A **Clear*
 `type="button"` looks like it says nothing until you know the alternative it is refusing. It means *this is only a button* — do not submit anything.
 
 **`setText("")` clears the field**, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
+
+Later, when that `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](../Structure/Finding-the-Components.md).
 
 
 ## References
