@@ -6,53 +6,77 @@ Two topics in one note, because they arrive together: the moment you can add ite
 
 ## Connecting Inputs To State Via Event Handlers
 
-The strange story of how you connect a state variable to the content of an input control in React:
+An `<input>` normally keeps its own text. You type, the browser remembers, and React knows nothing about it — which is fine until the app needs to *use* what was typed.
 
-```js
-import { useState } from 'react';
+So we take that job away from the input and give it to state. Two attributes, and nothing else:
 
-export default function InputExample () {
-  const [answer, setAnswer] = useState('');
+```jsx
+import { useState } from "react";
 
-  async function handleSubmit(e) {
-    
-    e.preventDefault(); // prevent sending the page to the server. we're a single page application. we'll see more about that later.
-    
-    // do something with the answer 
-    // ... 
-  }
-
-  function handleTextareaChange(e) {
-    setAnswer(e.target.value);
-  }
+function AddTodo() {
+  const [text, setText] = useState("");
 
   return (
-    <>
-  
-	  <form onSubmit={handleSubmit}>
-
-		<textarea
-          value={answer}
-          onChange={handleTextareaChange}
-        />
-        <br />
-        
-        <button disabled={answer.length === 0}>
-          Submit
-        </button>
-      
-      </form>
-    </>
+    <input
+      value={text}
+      onChange={(e) => setText(e.target.value)}
+    />
   );
 }
 ```
 
-Notice `disabled={answer.length === 0}`: the button's state is *derived* from the answer, not stored separately. Nothing has to remember to switch it on and off — it is a function of the state, recomputed on every render. That is the pattern to reach for whenever you catch yourself about to add a second piece of state that is really about the first.
+Read the loop, because it is genuinely circular and that is what makes it feel strange at first:
 
-### This is called a `controlled component` 
-- because the form elements (i.e. the `textarea` in our example) are controlled by the React state. Should probably be *controlling component* ...
+1. The input shows whatever `text` says.
+2. You press a key. The input does **not** change itself — it calls `onChange`.
+3. `setText` updates the state, React re-renders, and the input shows the new `text`.
 
-The input has no memory of its own. It shows what state says, and every keystroke goes back through the setter — so there is exactly one place where the truth lives, and the screen cannot disagree with the app.
+Every keystroke goes out to state and comes back. Delete the `onChange` and try typing: nothing happens, because you have told the input to display `text` and given it no way to change it.
+
+### This is called a `controlled component`
+
+The form element is controlled by React state rather than by itself. (Should probably be *controlling component*, since the state is doing the controlling, but the name is what it is.)
+
+What you get for it is **one source of truth**. The input cannot disagree with the app, because there is only one copy of the answer. And because state is just a variable, you can now do things the browser could never do for you:
+
+```jsx
+<button disabled={text.length === 0}>Add</button>
+```
+
+The button's enabled-ness is *derived* from the text, not stored separately. Nothing has to remember to switch it on and off — it is recomputed on every render. Reach for that whenever you catch yourself about to add a second piece of state that is really about the first.
+
+## Wrapping it in a form
+
+The button works. Now press **Enter** in the input.
+
+Nothing happens — and everybody expects Enter to work. That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler:
+
+```jsx
+function AddTodo({ onAdd }) {
+  const [text, setText] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onAdd(text);
+    setText("");
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={text} onChange={(e) => setText(e.target.value)} />
+      <button disabled={text.length === 0}>Add</button>
+    </form>
+  );
+}
+```
+
+Three things there are worth naming.
+
+**`onSubmit` fires for both** the button click and the Enter key, so you write the handler once. You also get the semantics for free: a screen reader announces a form, and a phone keyboard offers a **Go** key instead of a newline.
+
+**`e.preventDefault()` is not boilerplate.** A form's default behaviour is to send its contents to the server and load whatever comes back — the way the web worked before JavaScript. That would throw away your entire app and reload the page. We are a single-page application: nothing should ever be sent anywhere or reloaded unless we say so. Take the line out and watch it happen once; the flash of the page reloading is worth seeing.
+
+**`setText("")` clears the field**, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the DOM to empty it.
 
 ## Conditional Rendering 
 
@@ -106,3 +130,7 @@ Read and see examples at: *Describing the UI > [Conditional Rendering](https://r
 ## Exam Questions
 
 ### 1. What is a controlled component in React?
+
+### 2. Why does a form need `e.preventDefault()` in a single-page application?
+
+### 3. The input shows nothing when you type. Give two different reasons this can happen.
