@@ -59,7 +59,11 @@ python3 tools/build-pdfs.py 1 2    # just these
 
 Output goes to **`$TID_PDF_OUT`** — a clone of [itu-tid/lecture-notes-pdf](https://github.com/itu-tid/lecture-notes-pdf), published at <https://itu-tid.github.io/lecture-notes-pdf/> — and to `./pdf` if that is unset. **The chapters are never committed to this repository.** Each rebuild is about a megabyte of new binary per week, and fourteen of them every time a note changes would bury the history in a term.
 
-`tools/publish-chapters.sh` pushes them, and it **rewrites that repository rather than appending to it**: every publish replaces its single commit and force-pushes, so the binaries never accumulate there either. Nothing in it deserves a history — the history lives here, with the source. It also regenerates `index.html` from whatever files are actually present, so a renamed week cannot leave a dead link behind.
+`tools/publish-chapters.sh` pushes them, and it **rewrites that repository rather than appending to it**: every publish replaces its single commit and force-pushes, so the binaries never accumulate there either. Nothing in it deserves a history — the history lives here, with the source.
+
+**The files are `Week-NN.pdf` and nothing else**, so that retitling a week does not break its URL. That matters more than it looks: learnIT links and student bookmarks would go, but so would the *latest version* link printed inside every earlier copy of that same chapter — in the one document whose job is to survive going stale. The titles therefore live in `chapters.json`, written beside the PDFs by `build-pdfs.py`; `publish-chapters.sh` inlines it into `index.html` rather than having the page fetch it, so the index still works opened straight off disk.
+
+A week that leaves the syllabus has its chapter deleted on the next build, since the index lists what the manifest says and a stray file would otherwise linger.
 
 iCloud was tried first and failed the only test that mattered: a shared-folder link shows non-Apple visitors a sign-in wall and no file listing at all. Asking a cohort to create an Apple ID to read the lecture notes was not a trade worth making.
 
@@ -72,6 +76,8 @@ The week → notes mapping is not written down anywhere in the tool: it is read 
 Post-commit rather than pre-commit precisely *because* the PDFs are not in the repository — they do not have to exist before the commit is made, so the commit returns instantly and the chapters catch up a minute later. Progress goes to `$TMPDIR/tid-pdf-rebuild.log`.
 
 **How it works, and why not LaTeX.** `tools/md-to-pdf.sh` runs pandoc to turn the notes into one HTML document, applies `tools/print.css`, and prints it with headless Chrome. The obvious route — pandoc straight to PDF — was tried first and lost: `pdflatex` dies on the box-drawing characters in the Vite project tree, `tectonic` survives those but drops the `→` in the VS Code menu paths, and both clip long code lines off the right margin. Chrome wraps code, renders every glyph, and lets the chapters use the same typefaces and palette as the published syllabus.
+
+Each chapter carries the commit it was built from, the date, and a link to the version the site is serving now; each note inside it links to its own file on GitHub, so a student who finds a mistake can open an issue or a pull request. The notes are copied to a temp directory to have that link spliced in, which is why every original directory joins `--resource-path` — without it the images stop resolving. The splice looks for the first `# ` *outside a code fence*, because `Parse-Server-Deployment-Guide.md` and `React-Starter-Kit.md` are full of shell comments that look exactly like headings.
 
 Known gaps: no page numbers (Chrome's headless PDF exposes no way to add them without also stamping a `file://` URL in the footer), and the Google Fonts import means the first build on a cold cache is slower.
 
