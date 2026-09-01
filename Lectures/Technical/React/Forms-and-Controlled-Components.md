@@ -28,7 +28,7 @@ function NewTodoForm() {
 ```
 
 - React calls your `onChange` with an [event object](Intro-to-React.md#handlers-receive-an-event-object), named `e` by convention.
-- `e.target` is the element that fired it — this input.
+- `e.target` is the element that fired it: this input.
 - `e.target.value` is the text now in it, *including* the key just pressed.
 
 Read the loop, because it is genuinely circular and that is what makes it feel strange at first:

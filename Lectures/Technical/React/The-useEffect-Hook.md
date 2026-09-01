@@ -2,7 +2,7 @@
 
 ## A pure function does not reach outside itself, in either direction
 
-The term comes from functional programming, where the ideal is a **pure function** — one that computes its result and does nothing else. It makes two promises:
+The term comes from functional programming, where the ideal is a **pure function**: one that computes its result and does nothing else. It makes two promises:
 
 1. **It changes nothing outside itself.** Nothing in the world is different afterwards.
 2. **It depends on nothing outside itself.** So the same arguments always give the same answer.
@@ -17,7 +17,7 @@ function square(i) {
 }
 ```
 
-This one breaks the first. It also writes the answer into **`localStorage`** — a small key-value store the browser keeps for every site, a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
+This one breaks the first. It also writes the answer into **`localStorage`**, a small key-value store the browser keeps for every site, a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
 
 ```js
 function square(i) {
@@ -26,7 +26,7 @@ function square(i) {
 }
 ```
 
-Writing to storage was not what `square` was for. That is reaching **outward**, and reaching outward has a name: a **side effect** — something the function does besides producing its answer.
+Writing to storage was not what `square` was for. That is reaching **outward**, and reaching outward has a name: a **side effect**: something the function does besides producing its answer.
 
 ### Reading from outside breaks the second promise
 
@@ -38,11 +38,11 @@ function lastSquare() {
 }
 ```
 
-Nothing is written, so nothing is *affected* — in the strict sense this is not a side effect at all. But call it twice with the same arguments (there are none) and you can get two different answers, because the answer was never in the arguments. It came from outside.
+Nothing is written, so nothing is *affected*, and in the strict sense this is not a side effect at all. But call it twice with the same arguments (there are none) and you can get two different answers, because the answer was never in the arguments. It came from outside.
 
 Which leaves us needing one word that covers both cases, and there is one:
 
-> **A function is impure when it reaches outside itself in either direction — when it changes something out there, or when its answer depends on something out there.**
+> **A function is impure when it reaches outside itself in either direction: when it changes something out there, or when its answer depends on something out there.**
 
 `square` reaches out, which makes it impure *and* a side effect. `lastSquare` reaches in, which makes it impure and not a side effect at all. Every side effect is impure; not every impure function is a side effect.
 
@@ -81,16 +81,16 @@ Read it as a sentence: **whenever `todos` changes, write it to local storage.** 
 
 ### The first argument says what to do, the second says when
 
-**First, what to do** — a function, usually written in place as an arrow function, though a named one works just as well.
+**First, what to do.** A function, usually written in place as an arrow function, though a named one works just as well.
 
-**Second, when to do it** — an array of the values the effect depends on. 
+**Second, when to do it.** An array of the values the effect depends on. 
 
 **Every effect runs once after the first render, whatever is in the array.** After that, React re-runs it whenever one of the dependencies differs from last time. Props count as well as state; anything the effect reads should be in there.
 
-That first run is easy to forget and it is half of most answers: `[todos]` means *once at the start, and again on every change* — not *only on change*.
+That first run is easy to forget and it is half of most answers: `[todos]` means *once at the start, and again on every change*, not *only on change*.
 
 The array has two special cases. 
-1. Leave it **empty** and the effect runs once, at mount — that is the next section. 
+1. Leave it **empty** and the effect runs once, at mount. That is the next section. 
 2. Leave it **out altogether** and it runs after every single render, which is almost never what you want and which is why it waits for [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), where it does real damage.
 
 ### Updating the page title is the same shape as saving to storage
@@ -105,7 +105,7 @@ useEffect(() => {
 
 ### An effect is not for computing something you already have
 
-If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. 
+If a value can be worked out from what you already have, work it out while rendering (`todos.filter(t => !t.done).length`) rather than storing it in state and syncing it with an effect. 
 
 That is a common enough mistake to have a name — **derived state**, kept *in state when it should have been derived*. It makes two sources of truth where one would do, and they drift.
 
@@ -113,7 +113,7 @@ You have met this already: `disabled={text.length === 0}` in [Forms and Controll
 
 ### An effect is a relationship, not an instruction
 
-You have already met this with `useState`: change the data, and React works out what the screen should look like — see [Reactive Programming](Intro-to-React.md#reactive-programming).
+You have already met this with `useState`: change the data, and React works out what the screen should look like. See [Reactive Programming](Intro-to-React.md#reactive-programming).
 
 `useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with your data; `useEffect` keeps *everything else* in step with it. Same dependency, same automatic re-run, different destination.
 
@@ -147,22 +147,22 @@ export default function TodoList() {
 }
 ```
 
-Note where the load went. `useState(loadTodos)` — the function passed, not called — asks React to run it once, for the initial value, and never again.
+Note where the load went. `useState(loadTodos)`, the function passed rather than called, asks React to run it once, for the initial value, and never again.
 
 It could have been an effect with an empty array instead, but then the first render would show an empty list and the saved one would appear a moment later, which flickers.
 
-**Notice the missing `()`.** Not a typo — and you have met the distinction already, on [passing a handler rather than calling it](Intro-to-React.md#passing-a-function-not-calling-it): `onClick={handleAdd}` hands over the function, `onClick={handleAdd()}` hands over whatever it returned.
+**Notice the missing `()`.** Not a typo, and you have met the distinction already: on [passing a handler rather than calling it](Intro-to-React.md#passing-a-function-not-calling-it): `onClick={handleAdd}` hands over the function, `onClick={handleAdd()}` hands over whatever it returned.
 
-Same thing here, and the consequence is the one you already know: the whole component function runs again on every render — every keystroke, every added to-do. So:
+Same thing here, and the consequence is the one you already know: the whole component function runs again on every render: every keystroke, every added to-do. So:
 
-- `useState(loadTodos())` — **you** call it, and you call it on every one of those renders. Storage gets read every time.
-- `useState(loadTodos)` — you hand React the function and let it do the calling. It calls it once, for the first render.
+- `useState(loadTodos())`: **you** call it, and you call it on every one of those renders. Storage gets read every time.
+- `useState(loadTodos)`: you hand React the function and let it do the calling. It calls it once, for the first render.
 
 Both versions work, which is exactly why this is worth a paragraph: the wasteful one never tells you it is wasteful.
 
 `JSON.parse` is the other half of `JSON.stringify`: storage gave back the string you put in, and this turns it into an array again. The `saved ? … : []` matters on the very first visit, when there is nothing stored and `getItem` returns `null`.
 
-**In two weeks this same shape points at a backend instead of the browser** — the same hook, the same dependency array, a Parse query instead of `localStorage`. The swap is smaller than it sounds.
+**In two weeks this same shape points at a backend instead of the browser**: the same hook, the same dependency array, a Parse query instead of `localStorage`. The swap is smaller than it sounds.
 
 ### Effects run twice in development, on purpose
 
@@ -170,16 +170,16 @@ React — specifically the `<StrictMode>` wrapper around your app in `main.jsx` 
 
 Which raises the fair question of why anyone would test against something that does not happen. It does happen: **a component mounts every time it appears, and plenty of components appear more than once.** Hide a section and show it again — which you can do already, with [conditional rendering](Conditional-Rendering.md) — and it mounts a second time. In a few weeks, when the app has pages, every navigation away and back is another mount.
 
-So the second mount is not an artificial condition. It is a rehearsal, run immediately at your desk, of something a user will do on their own in a fortnight — and it is a cheap way to find out now that your effect cannot survive it.
+So the second mount is not an artificial condition. It is a rehearsal, run immediately at your desk, of something a user will do on their own in a fortnight, and a cheap way to find out now that your effect cannot survive it.
 
-So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. Saving to local storage twice does no harm — it writes the same thing both times.
+So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. Saving to local storage twice does no harm: it writes the same thing both times.
 
 It is worth knowing what this is *for*, though. An effect that **sends** something — a message, an order, a payment — would have sent it twice, and that is exactly the bug the double mount is designed to make visible while you are still at your desk.
 
 
 ## Cleanup and the missing dependency list wait until there is a backend
 
-`useEffect` has two further forms — a **cleanup function**, and no dependency list at all. Neither does anything useful against local storage, and both matter once an effect talks to a live backend. They are in [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), with the problems that make them necessary.
+`useEffect` has two further forms: a **cleanup function**, and no dependency list at all. Neither does anything useful against local storage, and both matter once an effect talks to a live backend. They are in [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), with the problems that make them necessary.
 
 
 ## Exam Questions

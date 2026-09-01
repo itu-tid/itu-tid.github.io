@@ -10,7 +10,7 @@ Last week a to-do was a **string**, and the list was drawn straight from it:
 const [todos, setTodos] = useState(["Buy milk", "Call the landlord"]);
 ```
 
-That is enough right up until something can be removed. To delete one row you have to say *which* row, and a string cannot say — two people can both put "Buy milk" on the list, and [the index is not an answer either](Intro-to-React.md#every-item-needs-a-key), because the index of everything after the deleted row changes.
+That is enough right up until something can be removed. To delete one row you have to say *which* row, and a string cannot say. Two people can both put "Buy milk" on the list, and [the index is not an answer either](Intro-to-React.md#every-item-needs-a-key), because the index of everything after the deleted row changes.
 
 So each to-do becomes an object carrying its own name:
 
@@ -24,7 +24,7 @@ function handleAdd(text) {
 
 `crypto.randomUUID()` is built into the browser and needs no library. A counter that goes up by one works just as well.
 
-**The id is made once, when the to-do is made** — not worked out while rendering. That is the whole point of it: a key has to name the *same* item on every render, and anything computed at render time is a new answer each time. This is the one place in the course where deriving a value instead of storing it is the wrong move.
+**The id is made once, when the to-do is made**, not worked out while rendering. That is the whole point of it: a key has to name the *same* item on every render, and anything computed at render time is a new answer each time. This is the one place in the course where deriving a value instead of storing it is the wrong move.
 
 That `handleAdd` is also the missing half of the form from [Forms and Controlled Components](Forms-and-Controlled-Components.md). The form calls `onAdd(text)` with a string, because typing a name is all a form knows how to do; turning that string into a to-do is the list's job, and this is where it happens:
 
@@ -34,7 +34,7 @@ That `handleAdd` is also the missing half of the form from [Forms and Controlled
 
 ## Data goes down, as props
 
-The parent hands the child what it needs to draw itself — for a row, the `todo` object above. Data goes down.
+The parent hands the child what it needs to draw itself: for a row, the `todo` object above. Data goes down.
 
 ## Events come back up, as callbacks
 
