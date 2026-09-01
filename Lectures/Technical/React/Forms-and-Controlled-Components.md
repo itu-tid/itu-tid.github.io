@@ -224,9 +224,11 @@ copy.find((t) => t.id === id).done = true;     // ...holding the SAME objects
 setTodos(copy);
 ```
 
-Week 1 told you React compares what you hand the setter against what it had, and that handing back the same array means no change. That is true and this code obeys it: the array really is new, and the screen really does update. But the *to-do* inside it was never copied — it was edited in place, and it is the same object your `useEffect` is about to write to storage, the same object anything else holding a reference is looking at.
+Week 1 told you React compares what you hand the setter against what it had, and that handing back the same array means no change. This code obeys that rule: the array really is new, so the screen really does update. **It works.**
 
-**The rule is not "give the setter a new array". It is "do not change anything that is already in state."** A new array is only half of it when what you are changing lives inside one.
+Which is exactly why it is worth stopping on. What it did was reach into a to-do that React was already holding and edit it where it lay. Nothing complains, today. It starts costing you the moment anything else is holding that same to-do — a copy of the list you kept in order to offer undo, a comparison of what changed between renders, or one of React's own optimisations, all of which are built on the assumption that you never do this.
+
+**So treat everything already in state as read-only.** To change it, build the new version and hand *that* to the setter: a new array when the list changes, and a new object as well when the thing that changed lives inside one. `map` with a spread does both in one line, which is why it is the idiom you will see everywhere.
 
 ### A to-do is an object now, and that is what makes delete possible
 
