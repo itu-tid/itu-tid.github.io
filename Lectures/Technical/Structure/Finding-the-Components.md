@@ -39,23 +39,32 @@ TodoApp
 
 The labels are your names for the boxes, not anything the user sees. Boxes inside boxes give you the hierarchy for free.
 
-Notice what is *not* a box. The **Add** button and the **×** are drawn but unnamed: each appears in one place, inside one component, and nobody else needs them. **Draw a box when the thing repeats, or when something else will want it.** That is the stopping rule, and without one you can keep subdividing until every `<span>` is a component.
+Notice what is *not* a box. The **Add** button and the **×** are drawn but unnamed: each appears in exactly one place, inside one component. **Draw a box when the same thing appears more than once** — `TodoItem` once per to-do, `TextInput` wherever the app takes typing.
+
+That is the stopping rule, and you need one, because without it you can keep subdividing until every `<span>` is a component. When you are unsure, leave it where it is: pulling a component out later is a five-minute job, and one you did not need is permanent clutter.
 
 That is the whole exercise, and it takes two minutes on paper.
 
-## A box earns its name if you can say what it does without "and"
+## Two boxes if either half would be useful on its own
 
-The same test as for a function, with one refinement that matters: **say out loud what it draws. If the honest description needs an "and", it is two boxes — whatever you decided to call it.**
+It is not about how many parts the thing has. `NewTodoForm` above is a text input *and* a button, and it is rightly one box: a button with nothing to submit is useless, and a field with no way to submit it is useless. Two parts, one job.
 
-The name you chose will not catch you out, because you chose it. `ToDoPanel`, below, has no "and" in it and is still two components; described honestly it is *a to-do heading and a general-purpose container*, and there is the "and".
+`ToDoPanel` below is also two parts — and it *is* two components, because each part would be worth having without the other.
 
-And name it as a **thing, not an action**. A component is something on the screen, so it gets a noun: `TodoList`, `TodoItem`, `NewTodoForm`. Functions that *do* something get the verb — `handleAdd`, `handleRemove`. If you find yourself writing `AddTodo` as a component, you have named the button's job rather than the thing on the page.
+So the test is: **would either half be useful on its own? If yes, make them two. If neither means anything without the other, they are one.**
+
+Ask it of the thing, not of the name you gave it. The name cannot catch you out, because you chose it: `ToDoPanel` sounds like one thing and is two.
+
+Then name it as a **thing, not an action**. A component is something on the screen, so it gets a noun: `TodoList`, `TodoItem`, `NewTodoForm`. Functions that *do* something get the verb — `handleAdd`, `handleRemove`. If you find yourself writing `AddTodo` as a component, you have named the button's job rather than the thing on the page.
 
 - `TodoItem` — draws one to-do. One box.
 - `TodoList` — draws all of them. One box.
-- `TodoListAndForm` — draws every to-do *and* collects a new one. Two boxes, and this one admits it in the name.
+- `NewTodoForm` — an input and a button, neither any use without the other. Still one box.
+- `TodoListAndForm` — a list you would want on its own, and a form you would want on its own. Two boxes, and the name admits it.
 
-The commonest way to fail that test is to weld a **domain** component to a **layout** one — something that knows about to-dos *and* accepts arbitrary content:
+### The commonest way to fail that test is welding a **domain** component to a **layout** one
+
+Something that knows about to-dos, glued to something that would happily hold anything at all:
 
 ```jsx
 function ToDoPanel({ firstName, children }) { // two components
@@ -68,9 +77,9 @@ function ToDoPanel({ firstName, children }) { // two components
 }
 ```
 
-Neither half can be used without the other. Want the heading somewhere without a panel? Want a panel around something that is not a to-do list? You cannot have either, because they were glued together before anybody asked.
+Want the heading somewhere without a panel? Want a panel around something that is not a to-do list? You cannot have either, because they were glued together before anybody asked.
 
-**Those two questions are the test.** Ask them of anything you suspect: *can I use this half without that half?* Two noes means two components.
+**Both halves would be useful alone, and that is the whole argument** — the exact opposite of `NewTodoForm`, where neither half would be.
 
 Split, each half is usable on its own, and the caller says what it wants:
 
@@ -90,7 +99,7 @@ Two boxes on the drawing, two components in the file.
 
 Two other signals, both visible on the drawing rather than in the code:
 
-**It repeats.** `TodoItem` appears once per to-do. Anything you would draw more than once is a component, because otherwise you will copy the markup and then have to remember to change every copy.
+**It repeats.** `TodoItem` appears once per to-do. Anything you would draw more than once is a component. 
 
 **It matches the data.** Notice that the tree above looks like the array it renders: a list of things, and a thing. When the component hierarchy and the data have the same shape, the code is usually easy; when they disagree, something is being forced.
 
@@ -174,7 +183,7 @@ Steps three to five are about deciding where state should live. We get there a d
 
 ## Exam Questions
 
-### 1. How do you decide what should be its own component?
+### 1. `NewTodoForm` holds an input and a button and is one component. `ToDoPanel` holds a heading and a container and should be two. What is the difference?
 
 ### 2. What is wrong with a component that renders a to-do heading *and* accepts arbitrary `children`?
 
