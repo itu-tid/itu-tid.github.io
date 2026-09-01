@@ -4,7 +4,7 @@ Three tools, roughly in the order you will reach for them: a `debugger;` stateme
 
 ## Your editor can pause code that is running in the browser
 
-In VS Code, this takes a one-off configuration. (WebStorm and the other JetBrains editors do it without any of this — run the dev server, then attach a JavaScript Debug configuration to `http://localhost:5173`.)
+In VS Code, this takes a one-off configuration. 
 
 1. Create the `.vscode` folder in your project
 2. Add the following configuration in the `launch.json` file

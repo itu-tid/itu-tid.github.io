@@ -151,9 +151,9 @@ Note where the load went. `useState(loadTodos)` — the function passed, not cal
 
 It could have been an effect with an empty array instead, but then the first render would show an empty list and the saved one would appear a moment later, which flickers.
 
-**Notice the missing `()`.** That is not a typo, and it is the only place all term where you want it.
+**Notice the missing `()`.** Not a typo — and you have met the distinction already, on [passing a handler rather than calling it](Intro-to-React.md#passing-a-function-not-calling-it): `onClick={handleAdd}` hands over the function, `onClick={handleAdd()}` hands over whatever it returned.
 
-Remember that the whole component function runs again on every render — every keystroke, every added to-do. So:
+Same thing here, and the consequence is the one you already know: the whole component function runs again on every render — every keystroke, every added to-do. So:
 
 - `useState(loadTodos())` — **you** call it, and you call it on every one of those renders. Storage gets read every time.
 - `useState(loadTodos)` — you hand React the function and let it do the calling. It calls it once, for the first render.
