@@ -51,16 +51,13 @@ It is not about how many parts the thing has. `NewTodoForm` above is a text inpu
 
 So the test is: **would either half be useful on its own? If yes, make them two. If neither means anything without the other, they are one.**
 
-Ask it of the thing on the screen, not of the name you gave it. A name you chose yourself cannot catch you out.
-
 Then name it as a **thing, not an action**. A component is something on the screen, so it gets a noun: `TodoList`, `TodoItem`, `NewTodoForm`. Functions that *do* something get the verb: `handleAdd`, `handleRemove`. If you find yourself writing `AddTodo` as a component, you have named the button's job rather than the thing on the page.
 
 - `TodoItem` — draws one to-do. One box.
 - `TodoList` — draws all of them. One box.
 - `NewTodoForm` — an input and a button, neither any use without the other. Still one box.
-- `TodoListAndForm` — a list you would want on its own, and a form you would want on its own. Two boxes, and the name admits it.
 
-### The commonest way to fail that test is welding a **domain** component to a **layout** one
+### The common way to fail is welding a **domain** component to a **layout** one
 
 Something that knows about to-dos, glued to something that would happily hold anything at all:
 
