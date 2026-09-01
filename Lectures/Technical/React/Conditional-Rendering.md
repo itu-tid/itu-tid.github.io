@@ -8,10 +8,10 @@ You need this the moment the app can be in more than one situation, which is soo
 
 ### An `if` with an early return
 
-The one you already know from every other language you have written:
+The one you already know from every other language you have written. Note what it guards: the list, and only the list. Put an early return at the top of the component that also renders the form, and you get an app that says *nothing to do* with no way to add anything, for ever:
 
 ```jsx
-function TodoList({ todos }) {
+function TodoItems({ todos, onRemove }) {
 
 
   if (todos.length === 0) {
@@ -20,7 +20,7 @@ function TodoList({ todos }) {
 
   return (
     <ul>
-      {todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
+      {todos.map((todo) => <TodoItem key={todo.id} todo={todo} onRemove={onRemove} />)}
     </ul>
   );
 }
@@ -33,13 +33,13 @@ This works because your react component is a function that returns JSX. Just as 
 Writing that markup out twice would hide how little actually changes:
 
 ```jsx
-function TodoList({ todos }) {
+function TodoItems({ todos, onRemove }) {
   return (
     <section>
       <h2>Today</h2>
       {todos.length === 0
         ? <p>Nothing to do. Enjoy the afternoon.</p>
-        : <ul>{todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}</ul>}
+        : <ul>{todos.map((todo) => <TodoItem key={todo.id} todo={todo} onRemove={onRemove} />)}</ul>}
     </section>
   );
 }
@@ -48,11 +48,11 @@ function TodoList({ todos }) {
 ### An `&&`, when there is genuinely nothing to show in the other case
 
 ```jsx
-function TodoList({ todos }) {
+function TodoItems({ todos, onRemove }) {
   return (
     <section>
       {todos.length === 0 && <p>Nothing to do. Enjoy the afternoon.</p>}
-      <ul>{todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}</ul>
+      <ul>{todos.map((todo) => <TodoItem key={todo.id} todo={todo} onRemove={onRemove} />)}</ul>
     </section>
   );
 }

@@ -71,7 +71,7 @@ export default function TodoList() {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  // … the input, the list, the delete button: last week's component, unchanged
+  // … the form, the list, delete and check-off: unchanged from the form note
 }
 ```
 

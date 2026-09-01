@@ -48,15 +48,16 @@ Because `text` is an ordinary value you can read anywhere in the JSX, you can no
 <button disabled={text.length === 0}>Add</button>
 ```
 
-The button's enabled-ness is *derived* from the text, not stored separately in an `isEnabled` state variable, for example: 
+The button's enabled-ness is *derived* from the text, not stored separately in a second state variable:
 
 ```jsx
 const [text, setText] = useState("");
-const [isDisabled, setIsDisabled] = useState(true);
+const [isDisabled, setIsDisabled] = useState(true);   // don't
 
-// later
-setIsEnabled(...)
-// ... 
+function handleChange(e) {
+  setText(e.target.value);
+  setIsDisabled(e.target.value.length === 0);          // ...and never forget this
+}
 ```
 
 Now two things have to be kept in step by hand, and one day they will not be. Reach for the derived version whenever you catch yourself about to add a second piece of state that is really about the first.
@@ -79,7 +80,7 @@ Nothing happens — and everybody expects Enter to work.
 
 That is what a `<form>` is for, and it is the reason forms are still worth using in React rather than a naked input and a click handler.
 
-One new thing in the code below: `onAdd`. The form does not own the list of to-dos so it cannot add anything itself. `TodoList` does own the list, and what it does is that it hands down a function to be used by the child component to update the parent that a new element has to be added. That arrangement has a name and a note of its own: [Patterns of Component Communication](Patterns-of-Component-Communication.md).
+One new thing in the code below: `onAdd`. The form does not own the list of to-dos so it cannot add anything itself. `TodoList` owns it, so it hands the form a function to call when the user submits.
 
 ```jsx
 function NewTodoForm({ onAdd }) {
@@ -165,27 +166,67 @@ function TodoList() {
     setTodos(todos.filter((t) => t.id !== id));
   }
 
+  function handleToggle(id) {
+    setTodos(todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  }
+
   return (
     <>
       <NewTodoForm onAdd={handleAdd} />
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} onRemove={handleRemove} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onRemove={handleRemove}
+            onToggle={handleToggle}
+          />
         ))}
       </ul>
     </>
   );
 }
 
-function TodoItem({ todo, onRemove }) {
+function TodoItem({ todo, onToggle, onRemove }) {
   return (
     <li>
-      {todo.text}
+      <input
+        type="checkbox"
+        checked={todo.done}
+        onChange={() => onToggle(todo.id)}
+      />
+      <span className={todo.done ? "done" : ""}>{todo.text}</span>
       <button onClick={() => onRemove(todo.id)}>×</button>
     </li>
   );
 }
 ```
+
+### A checkbox is controlled by `checked`, not by `value`
+
+Everything above about controlled inputs still holds, with one substitution. A text input carries text, so its state prop is `value`. A checkbox carries a yes or a no, so its state prop is **`checked`**, and the thing to read off the event is **`e.target.checked`** rather than `e.target.value`.
+
+`TodoItem` above does not need to read the event at all — the row already knows which to-do it is, and `done` is just being flipped — so `onChange={() => onToggle(todo.id)}` ignores its argument entirely.
+
+Use `value` on a checkbox and you get the warning from earlier in this note, *"changing an uncontrolled input to be controlled"*, because `checked` was never given. It is the same warning with a different cause, and the cause is the one you are most likely to hit.
+
+### Changing one item in a list means a new object as well as a new array
+
+`handleAdd` builds a new array with `[...todos, x]`. `handleRemove` builds a new array with `filter`. Toggling is the third of these, and the only one that changes an item that is already there.
+
+`map` is what does it: walk the list, hand back every to-do unchanged except the one that matched, and for that one hand back **a copy with `done` flipped**.
+
+That copy is the part worth slowing down on, because the obvious alternative looks right and is not:
+
+```jsx
+const copy = [...todos];                       // a new array...
+copy.find((t) => t.id === id).done = true;     // ...holding the SAME objects
+setTodos(copy);
+```
+
+Week 1 told you React compares what you hand the setter against what it had, and that handing back the same array means no change. That is true and this code obeys it: the array really is new, and the screen really does update. But the *to-do* inside it was never copied — it was edited in place, and it is the same object your `useEffect` is about to write to storage, the same object anything else holding a reference is looking at.
+
+**The rule is not "give the setter a new array". It is "do not change anything that is already in state."** A new array is only half of it when what you are changing lives inside one.
 
 ### A to-do is an object now, and that is what makes delete possible
 
@@ -199,7 +240,7 @@ So each to-do carries its own name, made with `crypto.randomUUID()` — built in
 
 Look at what `TodoItem` was given: the `todo` to draw, and `onRemove` to call. It does not know what `onRemove` does. It is not deleting anything — it is *reporting a click*, and the list decides what that means.
 
-That is not an accident of this example, it is how the whole tree is wired, and it has a name and a note of its own later in the course: [Patterns of Component Communication](Patterns-of-Component-Communication.md).
+That is not an accident of this example, it is how the whole tree is wired: data down as props, events back up as functions to call.
 
 ## References
 
