@@ -8,7 +8,7 @@ Until now the app could only add random tasks from a list. Supporting the user t
 
 You type, the browser remembers, and React knows nothing about it.
 
-### Reading the value of the `input` from state, and intercepting keypresses
+### Bridging React with the DOM by intercepting keypresses
 
 We take the job of tracking the state of the input from the browser and give it to React. Two attributes do it -- `value` and `onChange`:
 
@@ -64,9 +64,9 @@ Now two things have to be kept in step by hand, and one day they will not be. Re
 
 ### The pattern has a name: controlled
 
-An input whose value comes from state is called **controlled**. The opposite is **uncontrolled**: do not set `value`, and the input keeps its own text.
+An input whose value comes from state is called **controlled**. An input left to keep its own text is **uncontrolled**.
 
-That is the whole of the terminology, and it is worth knowing mainly because it turns up in every answer you will find online — and in the warning React prints when a `value` arrives late: 
+You will not write an uncontrolled one in this course. You need the word anyway, because every answer online uses it, and because React puts it in the warning it prints when a `value` arrives late: 
 
 > *"A component is changing an uncontrolled input to be controlled."* 
 
@@ -143,7 +143,7 @@ The default bites the first time you put a *second* button in a form. A **Clear*
 
 ### A controlled input is one you can clear
 
-`setText("")` empties the field, which is only possible *because* the input is controlled. An uncontrolled input holds its own text and you would have to reach into the browser DOM to empty it.
+`setText("")` empties the field, and it is the controlled loop that makes that possible: the text lives in `text`, so clearing `text` clears the box. If the input were holding its own text, you would have to reach into the browser DOM to get at it.
 
 Later, when that `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](../Structure/Finding-the-Components.md).
 
@@ -228,7 +228,7 @@ So `map` produces a new array, and the spread produces a new object for the one 
 
 Last week a to-do was a string: `["Buy milk", "Call the landlord"]`. That works right up until a row can be removed, because to delete one you have to say *which* one, and a string cannot say. Two people can both put "Buy milk" on the list. [The index is not an answer either](Intro-to-React.md#every-item-needs-a-key): delete the first row and the index of every row after it changes.
 
-So each to-do carries its own name, made with `crypto.randomUUID()` — built into the browser, no library needed. A counter that goes up by one works just as well.
+So each to-do carries its own ID, made with `crypto.randomUUID()` — built into the browser, no library needed. A counter that goes up by one works just as well.
 
 **The id is made once, when the to-do is made**, not worked out while rendering. A key has to name the *same* item on every render, and anything computed at render time is a new answer each time. This is the one place in the course where deriving a value instead of storing it is the wrong move.
 
