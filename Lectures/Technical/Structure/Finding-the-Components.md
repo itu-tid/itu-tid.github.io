@@ -155,15 +155,15 @@ function NewTodoForm({ onAdd }) {
 }
 ```
 
-(The submit button and `handleSubmit` are still there in the real component — left out here so that the extraction is the only change on the page.)
 
 `useState` did not move into `TextInput`. If it had, `NewTodoForm` would have no idea what was typed, and could never clear the field or add the task. `TextInput` displays what it is given and reports what happened; it remembers nothing between renders.
 
 Two things improved, and neither is about saving typing.
 
-**The parent stopped touching `e.target.value`.** `TextInput` unwraps the event and hands up a plain string, so `NewTodoForm` can pass `setText` directly. The parent now works in the language of the app — a piece of text — instead of the language of the DOM.
+**The parent stopped touching `e.target.value`.** `TextInput` unwraps the event and hands up a plain string, so `NewTodoForm` can pass `setText` directly. The parent now works in the language of the app instead of the language of the DOM.
 
-**There is one place to change how inputs look.** The `className`, and anything you add later, lives here rather than in every screen that happens to need typing.
+**There is one place to change how inputs look.** The `className`, and anything you add later, lives h]
+ere rather than in every screen that happens to need typing.
 
 And look at the shape of it: `TextInput` takes the value it should show, and a way to report that something changed. Exactly what the raw `<input>` takes. The pattern travelled up a level without changing, so the word travels with it: a **controlled component** is any component whose important state is held by its parent — exactly as a [controlled input](../React/Forms-and-Controlled-Components.md) is an input whose value is held by the component around it.
 
