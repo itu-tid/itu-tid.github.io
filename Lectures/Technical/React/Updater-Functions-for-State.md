@@ -44,6 +44,33 @@ State can be updated with either **updater functions** like in the first button 
 - When a lambda function risks capturing a stale state
 
 
+## The other way the setter surprises you: editing what is already in state
+
+Since week 2 you have been building new arrays and new objects rather than editing the ones you had:
+
+```jsx
+setTodos(todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+```
+
+Here is what that habit was protecting you from. This is the version people write when they are in a hurry:
+
+```jsx
+const copy = [...todos];                       // a new array...
+copy.find((t) => t.id === id).done = true;     // ...holding the SAME objects
+setTodos(copy);
+```
+
+The array is genuinely new, so React sees a change and re-renders, and the screen is right. **This code works**, which is the whole problem with it: nothing tells you off, so the habit survives.
+
+What it did was reach into a to-do React was already holding and edit it where it lay. That costs you as soon as anything else is holding the same object:
+
+- **Anything that kept the previous list** — an undo stack, or a comparison of before and after — is now holding a list whose contents changed underneath it. The past was rewritten.
+- **Anything that skips work by comparing objects** — a memoised child, an effect with the item in its dependency array — sees the same object it saw last time and concludes nothing changed. The screen goes stale, and nothing looks wrong in your code.
+
+React is built on the assumption that what you put in state is never edited afterwards. So:
+
+**Treat everything already in state as read-only.** To change it, build the new version and hand *that* to the setter — which is what `map` with a spread has been doing all along.
+
 ## Exam Questions
 
 ### 1. What will happen when the button is clicked three times?
@@ -77,3 +104,10 @@ function Counter() {
 ```
 
 ### 3. When would you use an updater function vs. passing a direct value to setState?
+
+### 4. This code gives the setter a brand-new array, the screen updates, and it is still wrong. Why?
+```jsx
+const copy = [...todos];
+copy.find((t) => t.id === id).done = true;
+setTodos(copy);
+```

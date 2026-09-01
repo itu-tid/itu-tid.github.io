@@ -212,23 +212,17 @@ Use `value` on a checkbox and you get the warning from earlier in this note, *"c
 
 ### Changing one item in a list means a new object as well as a new array
 
-`handleAdd` builds a new array with `[...todos, x]`. `handleRemove` builds a new array with `filter`. Toggling is the third of these, and the only one that changes an item that is already there.
+`handleAdd` builds a new array with `[...todos, x]`. `handleRemove` builds a new array with `filter`. Toggling is the third of these, and the only one that changes an item that is already in the list.
 
-`map` is what does it: walk the list, hand back every to-do unchanged except the one that matched, and for that one hand back **a copy with `done` flipped**.
-
-That copy is the part worth slowing down on, because the obvious alternative looks right and is not:
+`map` is what does it:
 
 ```jsx
-const copy = [...todos];                       // a new array...
-copy.find((t) => t.id === id).done = true;     // ...holding the SAME objects
-setTodos(copy);
+todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t))
 ```
 
-Week 1 told you React compares what you hand the setter against what it had, and that handing back the same array means no change. This code obeys that rule: the array really is new, so the screen really does update. **It works.**
+Walk the list. Hand back every to-do unchanged, except the one whose `id` matched — and for that one, hand back **a copy**. Read `{ ...t, done: !t.done }` as *everything this to-do already had*, and then `done` set to the opposite of what it was.
 
-Which is exactly why it is worth stopping on. What it did was reach into a to-do that React was already holding and edit it where it lay. Nothing complains, today. It starts costing you the moment anything else is holding that same to-do — a copy of the list you kept in order to offer undo, a comparison of what changed between renders, or one of React's own optimisations, all of which are built on the assumption that you never do this.
-
-**So treat everything already in state as read-only.** To change it, build the new version and hand *that* to the setter: a new array when the list changes, and a new object as well when the thing that changed lives inside one. `map` with a spread does both in one line, which is why it is the idiom you will see everywhere.
+So `map` produces a new array, and the spread produces a new object for the one that changed. Both halves matter, and this line is the shape you will use every time a list item changes.
 
 ### A to-do is an object now, and that is what makes delete possible
 
