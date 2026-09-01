@@ -2,39 +2,11 @@
 
 Components are arranged in a tree, and information has to travel along it. There are only two directions, and they use different mechanisms.
 
-## A to-do has to become an object before any of this works
-
-Last week a to-do was a **string**, and the list was drawn straight from it:
-
-```jsx
-const [todos, setTodos] = useState(["Buy milk", "Call the landlord"]);
-```
-
-That is enough right up until something can be removed. To delete one row you have to say *which* row, and a string cannot say. Two people can both put "Buy milk" on the list, and [the index is not an answer either](Intro-to-React.md#every-item-needs-a-key), because the index of everything after the deleted row changes.
-
-So each to-do becomes an object carrying its own name:
-
-```jsx
-const [todos, setTodos] = useState([]);   // each one is { id, text, done }
-
-function handleAdd(text) {
-  setTodos([...todos, { id: crypto.randomUUID(), text, done: false }]);
-}
-```
-
-`crypto.randomUUID()` is built into the browser and needs no library. A counter that goes up by one works just as well.
-
-**The id is made once, when the to-do is made**, not worked out while rendering. That is the whole point of it: a key has to name the *same* item on every render, and anything computed at render time is a new answer each time. This is the one place in the course where deriving a value instead of storing it is the wrong move.
-
-That `handleAdd` is also the missing half of the form from [Forms and Controlled Components](Forms-and-Controlled-Components.md). The form calls `onAdd(text)` with a string, because typing a name is all a form knows how to do; turning that string into a to-do is the list's job, and this is where it happens:
-
-```jsx
-<NewTodoForm onAdd={handleAdd} />
-```
+You have been writing both since week 2, without the names. The to-do list hands each row a `todo` and an `onRemove`; the row calls `onRemove` and knows nothing about what happens next. This note is that arrangement, named, and the shortcut that looks easier and is not.
 
 ## Data goes down, as props
 
-The parent hands the child what it needs to draw itself: for a row, the `todo` object above. Data goes down.
+The parent hands the child what it needs to draw itself: for a row, the `todo` it should display. Data goes down.
 
 ## Events come back up, as callbacks
 
@@ -102,7 +74,3 @@ It works. It also means every row now knows the whole list, and the shape of it,
 ### 2. `TodoItem` has a delete button but cannot delete anything. Why is that the right arrangement?
 
 ### 3. What goes wrong if you pass `setTodos` to every row instead of an `onRemove` callback?
-
-### 4. Last week a to-do was a string. Why can the list not stay that way once rows can be deleted?
-
-### 5. Why is a to-do's `id` created in `handleAdd` rather than worked out while rendering? Everywhere else the course tells you to derive rather than store.

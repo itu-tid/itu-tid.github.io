@@ -147,6 +147,60 @@ The default bites the first time you put a *second* button in a form. A **Clear*
 Later, when that `<input>` turns up in more than one place, it is worth pulling into a component of your own — see [Finding the Components](../Structure/Finding-the-Components.md).
 
 
+## The list is what owns the to-dos
+
+`onAdd` has been arriving from somewhere all this time. Here is the somewhere.
+
+The form calls `onAdd(text)` with a **string**, because typing a name is all a form knows how to do. Turning that string into a to-do is the list's job:
+
+```jsx
+function TodoList() {
+  const [todos, setTodos] = useState([]);   // each one is { id, text, done }
+
+  function handleAdd(text) {
+    setTodos([...todos, { id: crypto.randomUUID(), text, done: false }]);
+  }
+
+  function handleRemove(id) {
+    setTodos(todos.filter((t) => t.id !== id));
+  }
+
+  return (
+    <>
+      <NewTodoForm onAdd={handleAdd} />
+      <ul>
+        {todos.map((todo) => (
+          <TodoItem key={todo.id} todo={todo} onRemove={handleRemove} />
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function TodoItem({ todo, onRemove }) {
+  return (
+    <li>
+      {todo.text}
+      <button onClick={() => onRemove(todo.id)}>×</button>
+    </li>
+  );
+}
+```
+
+### A to-do is an object now, and that is what makes delete possible
+
+Last week a to-do was a string: `["Buy milk", "Call the landlord"]`. That works right up until a row can be removed, because to delete one you have to say *which* one, and a string cannot say. Two people can both put "Buy milk" on the list. [The index is not an answer either](Intro-to-React.md#every-item-needs-a-key): delete the first row and the index of every row after it changes.
+
+So each to-do carries its own name, made with `crypto.randomUUID()` — built into the browser, no library needed. A counter that goes up by one works just as well.
+
+**The id is made once, when the to-do is made**, not worked out while rendering. A key has to name the *same* item on every render, and anything computed at render time is a new answer each time. This is the one place in the course where deriving a value instead of storing it is the wrong move.
+
+### `TodoItem` has a delete button and cannot delete anything
+
+Look at what `TodoItem` was given: the `todo` to draw, and `onRemove` to call. It does not know what `onRemove` does. It is not deleting anything — it is *reporting a click*, and the list decides what that means.
+
+That is not an accident of this example, it is how the whole tree is wired, and it has a name and a note of its own later in the course: [Patterns of Component Communication](Patterns-of-Component-Communication.md).
+
 ## References
 
 - *Adding Interactivity* > [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
@@ -164,3 +218,9 @@ Later, when that `<input>` turns up in more than one place, it is worth pulling 
 ### 4. Why can a controlled input be cleared after submitting, when an uncontrolled one cannot?
 
 ### 5. You add a **Clear** button next to **Add** and now clearing also adds a to-do. Why, and what is the fix?
+
+### 6. Last week a to-do was a string. Why can the list not stay that way once rows can be deleted?
+
+### 7. Why is a to-do's `id` created in `handleAdd` rather than worked out while rendering? Everywhere else the course says to derive rather than store.
+
+### 8. `TodoItem` renders the delete button but cannot delete anything. What does it do instead?
