@@ -1,13 +1,13 @@
 # The useEffect Hook
 
-## A pure function changes nothing, and always gives the same answer
+## A pure function does not reach outside itself, in either direction
 
 The term comes from functional programming, where the ideal is a **pure function** — one that computes its result and does nothing else. It makes two promises:
 
-1. **It changes nothing** outside itself.
-2. **The same arguments always give the same answer.**
+1. **It changes nothing outside itself.** Nothing in the world is different afterwards.
+2. **It depends on nothing outside itself.** So the same arguments always give the same answer.
 
-Keep those two apart, because the rest of this section is the two different ways to break them.
+One promise points outward, the other inward, and breaking each has its own name.
 
 This one keeps both:
 
@@ -26,11 +26,11 @@ function square(i) {
 }
 ```
 
-Writing to storage was not what `square` was for. It is a **side effect** — something the function does besides producing its answer.
+Writing to storage was not what `square` was for. That is reaching **outward**, and reaching outward has a name: a **side effect** — something the function does besides producing its answer.
 
 ### Reading from outside breaks the second promise
 
-Writing broke the first — the world changed. This one leaves the world alone and breaks the other:
+Writing reached outward. This one leaves the world alone and reaches **inward** instead:
 
 ```js
 function lastSquare() {
@@ -40,16 +40,22 @@ function lastSquare() {
 
 Nothing is written, so nothing is *affected* — in the strict sense this is not a side effect at all. But call it twice with the same arguments (there are none) and you can get two different answers, because the answer was never in the arguments. It came from outside.
 
-That is what **impure** means, and it is the more useful word here, because React makes no distinction between the two: saving your to-dos and loading them back are the same job, done in two directions. **From here on this note says *impure*, and means both.**
+Which leaves us needing one word that covers both cases, and there is one:
 
-Keep both functions in mind. Further down you will write each of them almost line for line — one to save your to-do list, one to read it back after a refresh.
+> **A function is impure when it reaches outside itself in either direction — when it changes something out there, or when its answer depends on something out there.**
+
+`square` reaches out, which makes it impure *and* a side effect. `lastSquare` reaches in, which makes it impure and not a side effect at all. Every side effect is impure; not every impure function is a side effect.
+
+React has no use for that distinction. Saving your to-dos and loading them back are the same job done in two directions, and neither belongs in the body of a component. **So from here on this note says *impure*, and means either direction.**
 
 
 ## The impure parts belong in an effect, not in the component body
 
+### Anything besides the rendering business belongs in an effect
+
 A component function has one job: return JSX. Anything else it does — writing to storage, reading it back, changing the page title, calling a backend — makes it impure, and belongs in an effect rather than in the body of the component.
 
-Put the `setItem` straight in the body and it runs on **every** render, including the ones that had nothing to do with your to-dos. An effect is how you say *when*.
+An effect is how you say *when*.
 
 ### An effect keeps your component in step with something outside React
 
