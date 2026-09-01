@@ -83,31 +83,35 @@ Read it as a sentence: **whenever `todos` changes, write it to local storage.** 
 
 **First, what to do** — a function, usually written in place as an arrow function, though a named one works just as well.
 
-**Second, when to do it** — an array of the values the effect depends on. **Every effect runs once after the first render, whatever is in the array.** After that, React re-runs it whenever one of the dependencies differs from last time. Props count as well as state; anything the effect reads should be in there.
+**Second, when to do it** — an array of the values the effect depends on. 
+
+**Every effect runs once after the first render, whatever is in the array.** After that, React re-runs it whenever one of the dependencies differs from last time. Props count as well as state; anything the effect reads should be in there.
 
 That first run is easy to forget and it is half of most answers: `[todos]` means *once at the start, and again on every change* — not *only on change*.
 
-The array has two special cases. Leave it **empty** and the effect runs once, at mount — that is the next section. Leave it **out altogether** and it runs after every single render, which is almost never what you want and which is why it waits for [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), where it does real damage.
+The array has two special cases. 
+1. Leave it **empty** and the effect runs once, at mount — that is the next section. 
+2. Leave it **out altogether** and it runs after every single render, which is almost never what you want and which is why it waits for [useEffect Against a Live Backend](../Backend/useEffect-Against-a-Live-Backend.md), where it does real damage.
 
-### The page title is the same shape as saving to storage
+### Updating the page title is the same shape as saving to storage
 
 So that the browser tab says something useful:
 
 ```jsx
 useEffect(() => {
-  document.title = `My To-Do (${todos.length})`;
+  document.title = `My To-Dos (${todos.length})`;
 }, [todos]);
 ```
 
 ### An effect is not for computing something you already have
 
-If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. That is a common enough mistake to have a name — **derived state**, kept in state when it should have been derived. It makes two sources of truth where one would do, and they drift.
+If a value can be worked out from what you already have, work it out while rendering — `todos.filter(t => !t.done).length` — rather than storing it in state and syncing it with an effect. 
 
-You have met this already: `disabled={text.length === 0}` in [Forms and Controlled Components](Forms-and-Controlled-Components.md) is the same rule, one note earlier.
+That is a common enough mistake to have a name — **derived state**, kept *in state when it should have been derived*. It makes two sources of truth where one would do, and they drift.
+
+You have met this already: `disabled={text.length === 0}` in [Forms and Controlled Components](Forms-and-Controlled-Components.md) is the correct way of tracking the enabled state of the button. 
 
 ### An effect is a relationship, not an instruction
-
-`useEffect` might honestly have been called `useReactive`.
 
 You have already met this with `useState`: change the data, and React works out what the screen should look like — see [Reactive Programming](Intro-to-React.md#reactive-programming).
 
@@ -118,7 +122,7 @@ You have already met this with `useState`: change the data, and React works out 
 
 An effect with an **empty** array runs once, when the component first appears, and never again.
 
-**Mount** is React's word for a component appearing for the first time — its first render, when it goes from not being on screen to being on screen. The opposite is **unmount**, when it is taken off again. A component mounts once and can then re-render any number of times.
+**Mount** is React's word for a component appearing for the first time. For its first render, when it goes from not being on screen to being on screen. The opposite is **unmount**, when it is taken off again. A component mounts once and can then re-render any number of times.
 
 An empty dependency list says *nothing to depend on*, so there is never a later change to react to, so it runs at mount and never again.
 
