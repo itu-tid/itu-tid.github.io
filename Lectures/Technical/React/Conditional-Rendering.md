@@ -1,19 +1,18 @@
 # Conditional Rendering
 
-A component returns JSX. Which JSX it returns can depend on what is in state, or on what it was handed as props — so the screen changes shape rather than only changing its contents.
+A component returns JSX. Which JSX it returns can depend on what is in state, or on what it was handed as props.
 
-You need this the moment the app can be in more than one situation, which is sooner than it sounds. A to-do list that can be added to and deleted from can also be **empty**, and an empty `<ul>` on screen looks like a bug rather than an achievement. So the list needs to say something else when there is nothing in it.
+You need this the moment the app can be in more than one situation, which is sooner than it sounds. A to-do list that can be added to and deleted from can also be **empty**, and an empty `<ul>` (stands for, unordered list) on screen looks like a bug rather than an achievement. So the list needs to say something else when there is nothing in it.
 
-## There are three ways to write it
+## There are three ways to implement conditional rendering
 
-Here they all are on the same condition, because writing the same thing three times is the only way to see what differs between the forms rather than between the examples.
-
-### An `if` with an early return, when the two versions read better apart
+### An `if` with an early return
 
 The one you already know from every other language you have written:
 
 ```jsx
 function TodoList({ todos }) {
+
 
   if (todos.length === 0) {
     return <p>Nothing to do. Enjoy the afternoon.</p>;
@@ -27,7 +26,9 @@ function TodoList({ todos }) {
 }
 ```
 
-### A `? :` inside the JSX, when the markup around it is shared
+This works because your react component is a function that returns JSX. Just as you can have early returns in a function, you can have also early returns in a component.
+
+### A `<cond>?<true>:<false>` inside the JSX, when the markup around it is shared
 
 Writing that markup out twice would hide how little actually changes:
 
@@ -63,7 +64,7 @@ The first two **choose between two things** — you get the message *or* the lis
 
 So they are not three styles of one thing. `if` and `? :` answer *which of these two*; `&&` answers *is there anything here at all*. Reach for `&&` when a `? :` would have to end in an awkward `: null`.
 
-A component can also [return `null`](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null), which renders nothing at all — the `if` form used to hide a component entirely rather than to choose what it shows.
+A component can also [return `null`](https://react.dev/learn/conditional-rendering#conditionally-returning-nothing-with-null), which renders nothing at all. The `if` form can be used to hide a component entirely if it returns `null`. 
 
 ## `&&` puts a literal 0 on the screen when the left side is a number
 
