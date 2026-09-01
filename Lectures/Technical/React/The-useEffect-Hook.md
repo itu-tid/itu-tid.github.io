@@ -51,16 +51,11 @@ React has no use for that distinction. Saving your to-dos and loading them back 
 
 ## The impure parts belong in an effect, not in the component body
 
-### Anything besides the rendering business belongs in an effect
-
 A component function has one job: return JSX. Anything else it does — writing to storage, reading it back, changing the page title, calling a backend — makes it impure, and belongs in an effect rather than in the body of the component.
 
-An effect is how you say *when*.
+Those four have something in common worth naming: none of them is under React's control. **Anything React does not control is *outside*, and an effect is how you keep your component and the outside in step.**
 
-### An effect keeps your component in step with something outside React
-
-`localStorage`, the document title, a timer, a backend — anything React does not control is *outside*, and an effect is how you keep the two in step.
-
+Leave the `setItem` in the body instead and it runs on *every* render, including the ones that had nothing to do with your to-dos. The effect is where you get to say **when**.
 
 ### You state the dependency, and React runs the function at the right moment
 
@@ -80,7 +75,7 @@ export default function TodoList() {
 }
 ```
 
-Read it as a sentence: **whenever `todos` changes, write it to local storage.** You never call that function yourself. You state the dependency, and React runs it at the right moment — which is the same bargain as `map`: describe the relationship, let React do the work.
+Read it as a sentence: **whenever `todos` changes, write it to local storage.** You never call that function yourself explicitly. You state the dependency, and React runs it at the right moment. You describe the relationship, let React do the work. 
 
 `JSON.stringify` is there because local storage only holds **strings**. Hand it an array and you get back `"[object Object]"` on the next load, which is a confusing ten minutes if you have not been warned.
 
