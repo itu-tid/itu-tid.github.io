@@ -151,7 +151,14 @@ Note where the load went. `useState(loadTodos)` — the function passed, not cal
 
 It could have been an effect with an empty array instead, but then the first render would show an empty list and the saved one would appear a moment later, which flickers.
 
-The missing `()` is deliberate, and this is the one place all week where it is. Write `useState(loadTodos())` instead and the app still works, which is what makes it worth pointing at: you would be reading from storage on **every** render, and never notice. React ignores the *argument* after the first render; it cannot stop you computing it.
+**Notice the missing `()`.** That is not a typo, and it is the only place all term where you want it.
+
+Remember that the whole component function runs again on every render — every keystroke, every added to-do. So:
+
+- `useState(loadTodos())` — **you** call it, and you call it on every one of those renders. Storage gets read every time.
+- `useState(loadTodos)` — you hand React the function and let it do the calling. It calls it once, for the first render.
+
+Both versions work, which is exactly why this is worth a paragraph: the wasteful one never tells you it is wasteful.
 
 `JSON.parse` is the other half of `JSON.stringify`: storage gave back the string you put in, and this turns it into an array again. The `saved ? … : []` matters on the very first visit, when there is nothing stored and `getItem` returns `null`.
 
@@ -159,7 +166,11 @@ The missing `()` is deliberate, and this is the one place all week where it is. 
 
 ### Effects run twice in development, on purpose
 
-React — specifically the `<StrictMode>` wrapper around your app in `main.jsx` — deliberately mounts every component twice while you are developing, to shake out effects that do not tolerate being run again. In production it happens once.
+React — specifically the `<StrictMode>` wrapper around your app in `main.jsx` — deliberately mounts every component twice while you are developing. In production it happens once.
+
+Which raises the fair question of why anyone would test against something that does not happen. It does happen: **a component mounts every time it appears, and plenty of components appear more than once.** Hide a section and show it again — which you can do already, with [conditional rendering](Conditional-Rendering.md) — and it mounts a second time. In a few weeks, when the app has pages, every navigation away and back is another mount.
+
+So the second mount is not an artificial condition. It is a rehearsal, run immediately at your desk, of something a user will do on their own in a fortnight — and it is a cheap way to find out now that your effect cannot survive it.
 
 So if you see two entries in the console where you expected one, that is why, and it is not a bug you introduced. Saving to local storage twice does no harm — it writes the same thing both times.
 
