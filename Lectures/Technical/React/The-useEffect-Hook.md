@@ -1,10 +1,15 @@
 # The useEffect Hook
 
-## A side effect is anything besides the main calculation
+## A pure function changes nothing, and always gives the same answer
 
-The term comes from functional programming, where the ideal is a **pure function**: give it the same arguments and it gives you the same answer, every time, and changes nothing else in the world.
+The term comes from functional programming, where the ideal is a **pure function** — one that computes its result and does nothing else. It makes two promises:
 
-This one is pure:
+1. **It changes nothing** outside itself.
+2. **The same arguments always give the same answer.**
+
+Keep those two apart, because the rest of this section is the two different ways to break them.
+
+This one keeps both:
 
 ```js
 function square(i) {
@@ -12,7 +17,7 @@ function square(i) {
 }
 ```
 
-This one is not. It also writes the answer into **`localStorage`** — a small key-value store the browser keeps for every site, a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
+This one breaks the first. It also writes the answer into **`localStorage`** — a small key-value store the browser keeps for every site, a handful of megabytes that survives a refresh, and the closest thing to a database you get without a server. It takes strings and gives strings back, and nothing else.
 
 ```js
 function square(i) {
@@ -23,9 +28,9 @@ function square(i) {
 
 Writing to storage was not what `square` was for. It is a **side effect** — something the function does besides producing its answer.
 
-### Reading from outside breaks the other half of the promise
+### Reading from outside breaks the second promise
 
-A pure function makes two promises: it changes nothing, and the same arguments give the same answer. Writing broke the first. This breaks the second:
+Writing broke the first — the world changed. This one leaves the world alone and breaks the other:
 
 ```js
 function lastSquare() {
