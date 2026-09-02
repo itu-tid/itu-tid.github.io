@@ -110,40 +110,46 @@ print(f"  contents: {dropped} boilerplate entries dropped", file=sys.stderr)
 # before, which is what the orphans/widows on `pre` are there for.
 body_at = html.index("</nav>") + len("</nav>") if "</nav>" in html else 0
 head, body = html[:body_at], html[body_at:]
-kept = 0
 
-def wrap(chunk, tag, stop_at):
-    """Wrap `tag` and everything under it, up to the next heading in stop_at."""
-    global kept
-    out = []
-    for part in re.split(rf'(?=<{tag}\b)', chunk):
-        if not part.startswith(f"<{tag}"):
-            out.append(part); continue
-        end = re.search(rf'<h[{stop_at}]\b', part)
-        inner, rest = (part[:end.start()], part[end.start():]) if end else (part, "")
-        out.append(f'<section class="keep-together">{inner}</section>{rest}')
-        kept += 1
-    return "".join(out)
-
-# A heading that will not fit with its opening material starts a new page rather
-# than breaking two lines in and stranding its lead-in sentence overleaf. Both
-# levels need it: h3 for a subsection, and h2 for whatever a section says before
-# its first subsection. Chrome ignores break-after:avoid entirely, so this works
-# by wrapping and keeping the wrapper whole -- break-inside is the one break
-# property Chrome implements. Anything taller than a page cannot be kept whole
-# and falls back to breaking as before, which the orphans/widows on `pre` cover.
-# First the smallest unit: a sentence ending in a colon is introducing the
-# listing under it, and the two must never be split. This is the fallback for a
-# section too tall to keep whole, where the break has to land somewhere.
+# First the smallest unit: a sentence ending in a colon introduces the listing
+# under it, and the two must never be split.
 body, pairs = re.subn(
     r'(<p>(?:(?!</p>).)*?:</p>)\s*(<div class="sourceCode".*?</div>)',
     r'<section class="keep-together">\1\2</section>', body, flags=re.S)
-print(f"  lead-ins bound to their listing: {pairs}", file=sys.stderr)
 
-body = wrap(body, "h3", "12")          # a subsection, up to the next h1 or h2
-body = wrap(body, "h2", "123")         # a section's preamble, up to its first h3
-html = head + body
-print(f"  headings kept with their content: {kept}", file=sys.stderr)
+def top_level(chunk):
+    """Split into top-level elements, tracking nesting so a div inside a
+    section does not end it early."""
+    out, depth, buf = [], 0, ""
+    for tok in re.split(r'(<[^>]+>)', chunk):
+        buf += tok
+        if tok.startswith("<") and not tok.startswith(("</", "<!")) and not tok.endswith("/>"):
+            if not re.match(r'<(br|hr|img|input|meta|link)\b', tok):
+                depth += 1
+        elif tok.startswith("</"):
+            depth -= 1
+            if depth == 0:
+                out.append(buf); buf = ""
+    if buf.strip():
+        out.append(buf)
+    return out
+
+# Then: a heading travels with the first two blocks under it. Keeping the whole
+# subsection together was tried and gives pages a fifth full -- books do not do
+# that. They keep a heading from being stranded and let the rest break.
+els = top_level(body)
+out, kept, i = [], 0, 0
+while i < len(els):
+    if re.match(r'\s*<h[234]\b', els[i]):
+        unit = els[i:i + 3]
+        i += len(unit)
+        out.append('<section class="keep-together">' + "".join(unit) + "</section>")
+        kept += 1
+    else:
+        out.append(els[i]); i += 1
+html = head + "".join(out)
+print(f"  lead-ins bound to their listing: {pairs}", file=sys.stderr)
+print(f"  headings kept with what follows: {kept}", file=sys.stderr)
 p.write_text(html, encoding="utf-8")
 PY
 
