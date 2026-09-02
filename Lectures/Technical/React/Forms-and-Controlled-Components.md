@@ -186,7 +186,11 @@ function TodoList() {
     </>
   );
 }
+```
 
+And the row it renders, which draws one to-do and reports what was done to it:
+
+```jsx
 function TodoItem({ todo, onToggle, onRemove }) {
   return (
     <li>

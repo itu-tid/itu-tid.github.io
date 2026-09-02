@@ -73,6 +73,10 @@ h3 a, h4 a{ color:inherit; border-bottom-color:rgba(35,87,122,.2); }
 
 /* --- body -------------------------------------------------------------- */
 p,li{ orphans:2; widows:2; }
+/* A sentence ending in a colon must not be left at the foot of a page with its
+   listing overleaf. break-after:avoid does nothing in Chrome's print path, so
+   md-to-pdf wraps the pair and this keeps the wrapper whole. */
+.keep-together{ break-inside:avoid; page-break-inside:avoid; }
 p{ margin:.65rem 0; }
 ul{ margin:.6rem 0; padding-left:1.35rem; }
 ol{ margin:.6rem 0; padding-left:1.9rem; }  /* room for a two-digit marker */
@@ -89,7 +93,11 @@ code,kbd{ font-family:'JetBrains Mono',ui-monospace,monospace; font-size:.86em;
   background:var(--code-bg); padding:.1em .34em; border-radius:4px; }
 pre{ background:var(--code-bg); border:1px solid var(--line-soft); border-radius:7px;
   padding:.75rem .9rem; margin:.85rem 0; overflow:visible;
-  break-inside:avoid; page-break-inside:avoid; }
+  break-inside:avoid; page-break-inside:avoid;
+  /* break-inside:avoid is ignored the moment a listing is taller than a page,
+     and then it breaks wherever it likes -- twice now leaving `);` and `}` alone
+     overleaf. These are the fallback for that case. */
+  orphans:4; widows:4; }
 pre code{ background:none; padding:0; font-size:.8rem; line-height:1.45;
   white-space:pre-wrap; word-break:break-word; }   /* wrap, never clip */
 
