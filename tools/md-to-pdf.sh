@@ -81,11 +81,11 @@ pandoc "${COPIES[@]}" \
 # The colophon goes inside the title block so it sits with the title at the foot
 # of page one. pandoc has no metadata field that would carry a link, so it is
 # spliced into the rendered header instead of templated in.
-python3 - "$TMP/chapter.html" "$CHAPTER_URL/$(basename "$OUT")" "$REV" "$BUILT" <<'PY'
+python3 - "$TMP/chapter.html" "$CHAPTER_URL/$(basename "$OUT")" "$REV" "$BUILT" "$ISSUE_URL" <<'PY'
 import re, sys
 from pathlib import Path
 from urllib.parse import quote
-page, url, rev, built = sys.argv[1:5]
+page, url, rev, built, issues = sys.argv[1:6]
 p = Path(page); html = p.read_text(encoding="utf-8")
 # The URL is the link text, because a printed chapter is the case this line
 # exists for and a printed link is unclickable. Typeable beats clickable here,
@@ -145,7 +145,33 @@ def top_level(chunk):
 # Then: a heading travels with the first two blocks under it. Keeping the whole
 # subsection together was tried and gives pages a fifth full -- books do not do
 # that. They keep a heading from being stranded and let the rest break.
-els = top_level(body)
+# A quiet way to report the section you are actually looking at. Placed at the
+# end of a section rather than under its heading: under the heading it would
+# come between the heading and its first sentence, which is the one join worth
+# protecting, and the end of a section is where a reader who lost the thread
+# arrives anyway.
+SKIP = ("references", "exam questions", "meta", "project work")
+def issue_link(note, section):
+    q = quote(f"{note} — {section}: ") if note else quote(section + ": ")
+    body = quote(f"Which part: \n\nWhat was unclear: \n\n---\n{note} at {rev}\n")
+    return (f'<p class="section-issue"><a href="{issues}?title={q}&body={body}">'
+            f'Something unclear in this section? Open an issue.</a></p>')
+
+els, out2, note, section = top_level(body), [], "", ""
+for el in els:
+    m_src = re.search(r'class="source">Source: <a[^>]*>([^<]+)</a>', el)
+    if m_src:
+        note = m_src.group(1)
+    m_h = re.match(r'\s*<(h[12])\b[^>]*>(.*?)</\1>', el, flags=re.S)
+    if m_h:
+        if section and section.lower() not in SKIP:
+            out2.append(issue_link(note, section))
+        text = re.sub(r"<[^>]+>", "", m_h.group(2))
+        section = re.sub(r"\s+", " ", text).strip() if m_h.group(1) == "h2" else ""
+    out2.append(el)
+if section and section.lower() not in SKIP:
+    out2.append(issue_link(note, section))
+els = out2
 out, kept, i = [], 0, 0
 while i < len(els):
     if re.match(r'\s*<h[234]\b', els[i]):

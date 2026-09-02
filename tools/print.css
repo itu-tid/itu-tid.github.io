@@ -40,6 +40,11 @@ header#title-block-header .colophon{
 header#title-block-header .colophon code{ background:none; padding:0;
   font-size:.95em; color:var(--ink-soft); }
 
+/* per section, and deliberately quiet: it should be findable when wanted and
+   invisible when not */
+.section-issue{ margin:1.1rem 0 0; font-size:.72rem; }
+.section-issue a{ color:var(--ink-faint); border-bottom:0; }
+
 /* the same, per note: where this part came from and where to fix it */
 .source{ display:block; font-size:.78rem; color:var(--ink-faint);
   margin:-.35rem 0 1.4rem; }
