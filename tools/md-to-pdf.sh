@@ -24,6 +24,7 @@ CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 SOURCE_URL="https://github.com/itu-tid/itu-tid.github.io/blob/main"
 CHAPTER_URL="https://itu-tid.github.io/lecture-notes-pdf"
+ISSUE_URL="https://github.com/itu-tid/itu-tid.github.io/issues/new"
 REV="$(git rev-parse --short HEAD)"
 BUILT="$(date '+%-d %B %Y')"
 
@@ -38,12 +39,19 @@ COPIES=()
 for note in "$@"; do
   rel="${note#$PWD/}"; rel="${rel#./}"   # build-pdfs hands us absolute paths
   copy="$TMP/$(echo "$rel" | tr '/' '_')"
-  python3 - "$note" "$copy" "$SOURCE_URL/$rel" "$rel" <<'PY'
+  python3 - "$note" "$copy" "$SOURCE_URL/$rel" "$rel" "$ISSUE_URL" "$REV" <<'PY'
 import sys
 from pathlib import Path
-src, dst, url, rel = sys.argv[1:5]
+from urllib.parse import quote
+src, dst, url, rel, issues, rev = sys.argv[1:7]
 lines = Path(src).read_text(encoding="utf-8").split("\n")
-link = f'<span class="source">Source: [{rel}]({url}) — issues and pull requests welcome.</span>'
+title = Path(rel).stem.replace("-", " ")
+# Prefilled, because the cost of reporting something is what decides whether it
+# gets reported at all -- and because the commit tells us which text they read.
+new_issue = (f'{issues}?title={quote(title + ": ")}'
+             f'&body={quote(f"Which part: \n\nWhat was unclear: \n\n---\n{rel} at {rev}\n")}')
+link = (f'<span class="source">Source: [{rel}]({url}) — something unclear? '
+        f'[Open an issue]({new_issue}), or send a pull request.</span>')
 fence = False
 for i, line in enumerate(lines):
     if line.lstrip().startswith("```"):
