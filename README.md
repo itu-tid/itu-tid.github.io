@@ -83,7 +83,7 @@ They are generated from the notes in this repository, so if the two ever disagre
 
 ## The app we build
 
-[itu-tid/todo-26](https://github.com/itu-tid/todo-26) — the reference to-do, tagged once per lecture (`git checkout week-01`). Teams fork it in week 3.
+[itu-tid/todo-26](https://github.com/itu-tid/todo-26) — the reference to-do, tagged once per lecture (`git checkout week-01`). Your group forks it as the starting point for your own app; the syllabus says in which week.
 
 ---
 

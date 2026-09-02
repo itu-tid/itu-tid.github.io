@@ -106,4 +106,4 @@ Images live in one `images/` per track, not one per subject folder — splitting
 
 ## The app we build
 
-[itu-tid/todo-26](https://github.com/itu-tid/todo-26), tagged once per lecture. Live-code into it, tidy afterwards, then tag — so the commits inside a week are the lecture as it happened and the tag is the version worth reading. Teams fork it in week 3, so it has to be genuinely good through `week-02` by then.
+[itu-tid/todo-26](https://github.com/itu-tid/todo-26), tagged once per lecture. Live-code into it, tidy afterwards, then tag — so the commits inside a week are the lecture as it happened and the tag is the version worth reading. Teams fork it as the seed of their own app, so it has to be genuinely good by the week the syllabus names for that.
