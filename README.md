@@ -26,6 +26,8 @@ The last two minutes of every lecture are yours: **[one anonymous question](http
 
 Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, not submissions marked line by line.
 
+**The project starts with people, not with code.** The first thing you produce is not a repository — it is a handful of interviews, the themes that keep coming up across them, and the tasks those themes turn into. Week 3 teaches how, and the first deliverable below is where you hand it in. What you build afterwards is shaped by what you find there, which is the whole argument of the course.
+
 | due | what |
 |---|---|
 | **Tue 8 Sep** | Teams registered on learnIT. **Four is the size we want**; if that does not work for you, email us before this date. Weeks 1 and 2 are individual. |
