@@ -230,7 +230,17 @@ So `map` produces a new array, and the spread produces a new object for the one 
 
 ### A to-do is an object now, and that is what makes delete possible
 
-Last week a to-do was a string: `["Buy milk", "Call the landlord"]`. That works right up until a row can be removed, because to delete one you have to say *which* one, and a string cannot say. Two people can both put "Buy milk" on the list. [The index is not an answer either](Intro-to-React.md#every-item-needs-a-key): delete the first row and the index of every row after it changes.
+Last week a to-do was a string: `["Buy milk", "Call the landlord"]`. That works right up until a row can be removed, because to delete one you have to say *which* one — and the obvious way to say it is by its text:
+
+```jsx
+setTodos(todos.filter((t) => t !== text));   // deletes every "Buy milk"
+```
+
+Two people can both put "Buy milk" on the list, and that line removes both of them. The row's own text cannot identify the row.
+
+The position in the array can, and `filter((t, i) => i !== index)` really does work today. It stops working the moment anything about the list is not a straight click on a rendered row — a reorder, or an update that arrives from a backend while the user is halfway through something. And the position is also what [makes a poor `key`](Intro-to-React.md#every-item-needs-a-key).
+
+So each to-do carries its own name, from the moment it is made.
 
 So each to-do carries its own ID, made with `crypto.randomUUID()` — built into the browser, no library needed. A counter that goes up by one works just as well.
 

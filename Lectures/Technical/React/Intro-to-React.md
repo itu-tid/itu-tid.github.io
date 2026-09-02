@@ -263,7 +263,11 @@ function TodoList() {
 - it is how React tells the items apart between renders — without it, it cannot know whether you added a row, removed one, or reordered them
 - if you don't do this, your console fills up with warnings
 
-We are using the array **index** above, which is the thing every beginner reaches for and which works perfectly — until items can be removed from the middle. Delete the first of three, and the item that was index 1 becomes index 0: React sees "the thing with key 0 changed its text" rather than "the first thing is gone". Once the app can delete, you will watch exactly that go wrong, and that is when indexes get swapped for real IDs.
+We are using the array **index** above, which is what everyone reaches for. While each row is nothing but text, it is genuinely fine: delete a row and React re-renders the list correctly, and you will see nothing wrong.
+
+It stops being fine the moment a row holds something of its own that React is expected to keep — text typed into an input on that row, which input has the cursor in it, a checkbox the row tracks itself. Then the key is how React decides *which row is which* between renders, and an index is a lie about that. Delete the first of three and the row that was index 1 becomes index 0, so React reads it as "the thing with key 0 changed its text" rather than "the first thing is gone" — and whatever the old row 0 was holding stays behind on the row that took its place.
+
+Put an input on every row and delete from the middle, and you can watch it happen. Until then the reason to give each to-do a real id of its own is a simpler one, and it arrives next week.
 
 Nice examples of rendering lists and filtering at: *Describing the UI* > [Rendering Lists](https://react.dev/learn/rendering-lists). Also nice exercises at the bottom of the page.
 
