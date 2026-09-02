@@ -141,7 +141,15 @@ els = top_level(body)
 out, kept, i = [], 0, 0
 while i < len(els):
     if re.match(r'\s*<h[234]\b', els[i]):
-        unit = els[i:i + 3]
+        # Stop at the next heading, whatever its level. Swallowing one would
+        # bury it in a break-inside:avoid wrapper, and a heading inside one of
+        # those loses its own break-before -- which is how a note stopped
+        # starting on a fresh page.
+        unit = [els[i]]
+        for nxt in els[i + 1:i + 3]:
+            if re.match(r'\s*<h[1-6]\b', nxt):
+                break
+            unit.append(nxt)
         i += len(unit)
         out.append('<section class="keep-together">' + "".join(unit) + "</section>")
         kept += 1
