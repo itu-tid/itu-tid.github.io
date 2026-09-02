@@ -3,7 +3,7 @@ Notes for **Technical Interaction Design** at the IT University of Copenhagen.
 ## Autumn 2026
 
 - **[Syllabus](syllabus.html)** — week by week: who teaches what, which notes back each lecture, and what is due when.
-- **[Working as a Team](Project-Collaboration.md)** — how the four of you divide the project
+- **[Working as a Team](Project-Collaboration.md)** — how a group divides the project
 - **[Report Structure](Report-Structure.md)** — what goes in the final report
 - **[Exam Structure](Exam-Structure.md)** — how the oral runs, and what you get asked
 - **[Coding Guidelines](Coding-Guidelines.md)**
@@ -12,7 +12,11 @@ Notes for **Technical Interaction Design** at the IT University of Copenhagen.
 
 **Mircea** teaches the technical track; **Konstantina** teaches the design track — weeks 3, 7, 8, 9 and 12. **Lea** runs the Figma clinic in week 7, **Anna** the Back4App walkthrough in week 4; both are in the exercise hours every week.
 
-Each Thursday: a lecture, then two hours of exercise — **one hour on your own**, one hour **with your group**. The solo hour is required but ungraded, and it piles up into a personal portfolio that is your exam preparation. Weeks 1 and 2 are entirely individual, because the teams do not exist yet.
+Each Thursday: a lecture, then two hours of exercise — **one hour on your own**, one hour **with your group**. Weeks 1 and 2 are entirely individual, because the teams do not exist yet.
+
+**This course has no mandatory activities**, in the [formal ITU sense](https://itustudent.itu.dk/Study-Administration/Rights-and-Requirements) of something you must pass to be allowed to sit the exam. Nothing here can cost you an exam attempt. The solo hour is not graded and not checked — it is simply where you learn this, and what it piles up into is a personal portfolio that is your exam preparation. The deadlines below are checkpoints you hit and get feedback on, not submissions marked line by line.
+
+**Use your personal GitHub account, not the ITU one.** Two reasons: what you build here is worth having in public under your own name after the course ends, and the ITU enterprise account is more restricted than a personal one.
 
 **70% individual exam, 30% group project**, with a hard floor: bomb the individual and you fail, however strong the group. The project is your exam curriculum — if you used it, you understand it.
 
@@ -24,7 +28,7 @@ Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, no
 
 | due | what |
 |---|---|
-| **Tue 8 Sep** | Teams registered — a group of four, on learnIT. Weeks 1 and 2 are individual. |
+| **Tue 8 Sep** | Teams registered on learnIT. **Four is the size we want**; if that does not work for you, email us before this date. Weeks 1 and 2 are individual. |
 | **Tue 22 Sep** | Themes → tasks — your population, three to five themes with quotes, each mapped to a [task](Lectures/Interaction-Design/Tasks.md), prioritised |
 | **Tue 20 Oct** | Wireframes, tested — the screens your population needs, what testing changed, and the extended ER diagram |
 | **Tue 10 Nov** | Visual & accessibility pass — the a11y audit, and what the visual pass changed |
@@ -60,6 +64,7 @@ Short self-study modules in [`TopUps/`](TopUps), covering the background a lectu
 
 | read before | module |
 |---|---|
+| now, if you want it | [0 · HTML, the little you need](TopUps/0-HTML-the-little-you-need.md) — assumed by week 1, and never taught. Nine tags and where JSX differs. |
 | week 1 | [3 · JavaScript, the Language](TopUps/3-Javascript-the-Language.md) |
 | the exercise hour | [React Starter Kit](Lectures/Technical/React/React-Starter-Kit.md) — scaffolding your own app with Vite |
 | week 2 | [1 · Basics of CSS](TopUps/1-Basics-of-CSS.md) |
