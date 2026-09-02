@@ -18,6 +18,10 @@ Each Thursday: a lecture, then two hours of exercise — **one hour on your own*
 
 **Use your personal GitHub account, not the ITU one.** Two reasons: what you build here is worth having in public under your own name after the course ends, and the ITU enterprise account is more restricted than a personal one.
 
+**Your group's repository goes in a free organisation your team creates**, with all four of you as owners — not on one member's account. A repository owned by a person can only be pinned to *that* person's profile, so three of you would end the course with nothing to show. In an organisation, everyone who has committed to it can pin it.
+
+While we are on it: **commit with the email address your GitHub account knows about.** Git takes whatever `git config user.email` says, and if that is an address GitHub does not recognise, your commits are not linked to you at all — no contribution graph, no credit, on the one repository you most want credit for. Check with `git config user.email`, and compare it against the addresses in your GitHub account settings.
+
 **70% individual exam, 30% group project**, with a hard floor: bomb the individual and you fail, however strong the group. The project is your exam curriculum — if you used it, you understand it.
 
 The last two minutes of every lecture are yours: **[one anonymous question](https://forms.gle/pse8zJNMQthy4UcFA)**, the same link every week. It gets read before the next lecture and answered at the start of it — which is the only reason it is worth your two minutes.
