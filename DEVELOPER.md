@@ -79,7 +79,17 @@ Post-commit rather than pre-commit precisely *because* the PDFs are not in the r
 
 Each chapter carries the commit it was built from, the date, and a link to the version the site is serving now; each note inside it links to its own file on GitHub, so a student who finds a mistake can open an issue or a pull request. The notes are copied to a temp directory to have that link spliced in, which is why every original directory joins `--resource-path` — without it the images stop resolving. The splice looks for the first `# ` *outside a code fence*, because `Parse-Server-Deployment-Guide.md` and `React-Starter-Kit.md` are full of shell comments that look exactly like headings.
 
-Known gaps: no page numbers (Chrome's headless PDF exposes no way to add them without also stamping a `file://` URL in the footer), and the Google Fonts import means the first build on a cold cache is slower.
+### Known gaps
+
+**Chapters only rebuild on Mircea's machine, and fail silently everywhere else.** `git-hooks/post-commit` exits immediately without `TID_VAULT`, and `tools/build-pdfs.py` needs it too, because the week → notes mapping is read out of the syllabus in the vault. So a note edited and pushed by anyone else leaves the published PDF quietly disagreeing with the markdown, with nothing to say so. **This matters from week 3 (10 Sep)**, the first lecture Konstantina teaches while Mircea is away.
+
+The fix is small and follows a pattern already here: have `build.py` write a `chapters.json` *into this repo* carrying week → title → note paths, staged by the pre-commit hook exactly as `syllabus.html` already is. A GitHub Action can then rebuild on any push with no access to the vault — install pandoc and Chrome, read the manifest, force-push to the chapters repo with a deploy key. Keep the local hook as well: it is faster and it updates Mircea's own copy of the PDFs, which an Action cannot.
+
+**A mermaid diagram prints as its own source.** `Authorization-and-ACL-in-Parse.md` has a ```mermaid block, and this pipeline has no mermaid: pandoc passes it through and Chrome prints it as a code listing, so week 5's chapter shows students `erDiagram / _User ||--o{ TodoItem : owns`. It is the only mermaid in the repo. Either convert it to an ASCII diagram like the others, or render mermaid at build time.
+
+**No page numbers.** Chrome's headless PDF exposes no way to add them without also stamping a `file://` URL in the footer.
+
+**The Google Fonts import** means the first build on a cold cache is slower.
 
 ## What else lives in the vault
 
