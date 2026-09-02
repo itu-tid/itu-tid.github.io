@@ -532,6 +532,46 @@ def check_new_list(text, doc):
                  f"{claimed} but weeks {actual} have a New: item")
 
 
+README = ROOT / "README.md" if "ROOT" in dir() else Path(__file__).parent / "README.md"
+WEEKS_START = "<!-- weeks:start -->"
+WEEKS_END = "<!-- weeks:end -->"
+
+
+def readme_table(doc):
+    """The week table on the repo's front page, generated.
+
+    It used to be kept by hand and it drifted: in one evening it needed syncing
+    three times, and it only ever carried half of what the syllabus says -- the
+    notes, but not the exercise, which is the thing students asked for when they
+    could not make a session. Both come from the same place now.
+    """
+    rows = []
+    for heading, body in doc["weeks"]:
+        m = re.match(r"Week 0*(\d+)\s+·\s+([^·]+)", heading)
+        if not m:
+            continue
+        f = dict(fields(body))
+        gh = f.get("GH", "").strip()
+        solo = f.get("Solo", "").strip()
+        solo = re.split(r"(?<=[.;])\s", solo)[0] if solo else "—"
+        rows.append(f"| **{m.group(1)}** · {m.group(2).strip()} | {gh or '—'} | {solo} |")
+    return ("\n".join(["| week | notes | the solo hour |", "|---|---|---|"] + rows))
+
+
+def write_readme(doc):
+    if not README.exists():
+        return
+    text = README.read_text(encoding="utf-8")
+    if WEEKS_START not in text or WEEKS_END not in text:
+        return
+    a = text.index(WEEKS_START) + len(WEEKS_START)
+    b = text.index(WEEKS_END)
+    updated = text[:a] + "\n\n" + readme_table(doc) + "\n\n" + text[b:]
+    if updated != text:
+        README.write_text(updated, encoding="utf-8")
+        print(f"{README}: week table regenerated")
+
+
 if __name__ == "__main__":
     raw = expand(SRC.read_text(encoding="utf-8"))
     for out, keep in ((OUT_INTERNAL, True), (OUT, False)):
@@ -542,3 +582,5 @@ if __name__ == "__main__":
         out.write_text(render(document), encoding="utf-8")
         print(f"{out}: {len(document['weeks'])} week rows, "
               f"{len(document['notes'])} notes, {len(document['spine'])} checkpoints")
+        if not keep:
+            write_readme(document)
