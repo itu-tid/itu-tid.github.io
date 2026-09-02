@@ -162,13 +162,6 @@ ere rather than in every screen that happens to need typing.
 
 And look at the shape of it: `TextInput` takes the value it should show, and a way to report that something changed. Exactly what the raw `<input>` takes. The pattern travelled up a level without changing, so the word travels with it: a **controlled component** is any component whose important state is held by its parent, exactly as a [controlled input](../React/Forms-and-Controlled-Components.md) is an input whose value is held by the component around it.
 
-## References
-
-- [Thinking in React](https://react.dev/learn/thinking-in-react) — the five steps, of which the first is the one worth keeping
-- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components) — once a component has its own name it usually wants its own file
-
-**Next**: deciding *where the state lives* once you have pulled components out is its own problem, and extraction is what creates it: [Refactoring by Extracting Components](Refactoring-by-Extracting-Components.md).
-
 ## Exam Questions
 
 ### 1. `NewTodoForm` holds an input and a button and is one component. `ToDoPanel` holds a heading and a container and should be two. What is the difference?
@@ -176,3 +169,11 @@ And look at the shape of it: `TextInput` takes the value it should show, and a w
 ### 2. What is wrong with a component that renders a to-do heading *and* accepts arbitrary `children`?
 
 ### 3. `TextInput` holds no state of its own. Why not, and what would break if it did?
+
+
+## References
+
+- [Thinking in React](https://react.dev/learn/thinking-in-react) — the five steps, of which the first is the one worth keeping
+- [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components) — once a component has its own name it usually wants its own file
+
+**Next**: deciding *where the state lives* once you have pulled components out is its own problem, and extraction is what creates it: [Refactoring by Extracting Components](Refactoring-by-Extracting-Components.md).

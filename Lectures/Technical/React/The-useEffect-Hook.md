@@ -113,7 +113,7 @@ You have met this already: `disabled={text.length === 0}` in [Forms and Controll
 
 ### An effect is a relationship, not an instruction
 
-You have already met this with `useState`: change the data, and React works out what the screen should look like. See [Reactive Programming](Intro-to-React.md#reactive-programming).
+You have already met this with `useState`: change the data, and React works out what the screen should look like. See [Reactive Programming](Component-State.md#reactive-programming).
 
 `useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with your data; `useEffect` keeps *everything else* in step with it. Same dependency, same automatic re-run, different destination.
 

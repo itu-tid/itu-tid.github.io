@@ -71,11 +71,6 @@ A component can also [return `null`](https://react.dev/learn/conditional-renderi
 `&&` returns its **left** side when the left side is falsy — so `{todos.length && <p>…</p>}` renders a literal **0** on the page when the list is empty, because `0` is falsy but is still something React will happily display. Compare explicitly (`=== 0`, `> 0`) and the problem disappears.
 
 
-## References
-
-- *Describing the UI* > [Conditional Rendering](https://react.dev/learn/conditional-rendering)
-
-
 ## Exam Questions
 
 ### 1. Give the three ways of rendering conditionally, and say when you would reach for each.
@@ -83,3 +78,8 @@ A component can also [return `null`](https://react.dev/learn/conditional-renderi
 ### 2. `{todos.length && <p>Nothing to do</p>}` puts a `0` on the screen. Why, and how do you fix it?
 
 ### 3. Which of the three cannot express an *else*, and what does that tell you about when to use it?
+
+
+## References
+
+- *Describing the UI* > [Conditional Rendering](https://react.dev/learn/conditional-rendering)

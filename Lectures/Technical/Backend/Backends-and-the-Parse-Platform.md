@@ -65,7 +65,6 @@ Offers
 	- SDKs for other languages and UI frontends (Android, iOS, etc.)
 
 
-
 ## You can rent a Parse server, or run your own
 ### Back4App hosts Parse for you, and you leave with three keys
 
@@ -182,7 +181,6 @@ gameScore.set("score", 1337);
 gameScore.set("playerName", "Sean Plott");
 gameScore.set("cheatMode", false);
 gameScore.set("skills", ["pwnage", "flying"]);
-
 
 
 gameScore.save().then((gameScore) => {
@@ -355,7 +353,6 @@ const userPosts = await query.find();
 // userPosts contains all of the posts by the current user.
 });
 ```
-
 
 
 More advanced features
@@ -588,32 +585,17 @@ No matter which notation you use, the most important aspect is being able to com
 - Start connecting your React application to your own Parse backend
 
 
-## References
+## Exam Questions
 
-The documentation on ParsePlatform.org
-- [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) - extensive reference for everything ParseJS
-- [Relationships](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
+### 1. What is the difference between front-end and back-end?
 
+### 2. List at least 5 responsibilities of a backend.
 
-## Meta
-### History
-- Oct '25 - Improved structure - made the page more stand-alone - less external references
-- Nov '24 - better organized the references
-### To Do
-- Nov'24 - make sure to spend more time discussing the Relationships
+### 3. What is Parse Platform and what does it provide?
 
+### 4. What does CRUD stand for and what do each of the letters represent?
 
-### Exam Questions
-
-#### 1. What is the difference between front-end and back-end?
-
-#### 2. List at least 5 responsibilities of a backend.
-
-#### 3. What is Parse Platform and what does it provide?
-
-#### 4. What does CRUD stand for and what do each of the letters represent?
-
-#### 5. Explain what this code does:
+### 5. Explain what this code does:
 ```js
 const TodoItem = Parse.Object.extend("TodoItem");
 const newItem = new TodoItem();
@@ -622,7 +604,7 @@ newItem.set("done", false);
 await newItem.save();
 ```
 
-#### 6. What is wrong with this query pattern?
+### 6. What is wrong with this query pattern?
 ```js
 const query = new Parse.Query("Post");
 const posts = await query.find();
@@ -634,12 +616,28 @@ for (let post of posts) {
 }
 ```
 
-#### 7. How do you get the currently logged-in user in Parse?
+### 7. How do you get the currently logged-in user in Parse?
 
-#### 8. Explain the difference between Pointers and Relations in Parse.
+### 8. Explain the difference between Pointers and Relations in Parse.
 
-#### 9. How would you query all TodoItems where done is false, ordered by creation date?
+### 9. How would you query all TodoItems where done is false, ordered by creation date?
 
-#### 10. Why are Join Tables often preferred over Parse Relations for many-to-many relationships?
+### 10. Why are Join Tables often preferred over Parse Relations for many-to-many relationships?
 
-#### 11. A component fetches its data in a `useEffect` and starts with `useState([])`. Before the data arrives, what does the user see, and why is that a problem? What are the three states the component actually has?
+### 11. A component fetches its data in a `useEffect` and starts with `useState([])`. Before the data arrives, what does the user see, and why is that a problem? What are the three states the component actually has?
+
+
+## References
+
+The documentation on ParsePlatform.org
+- [Getting Started Guide](https://docs.parseplatform.org/js/guide/#getting-started) - extensive reference for everything ParseJS
+- [Relationships](https://docs.parseplatform.org/js/guide/#relations) - this is very good and must be read attentively -- it will really help with modeling
+
+
+<!-- Staff notes, hidden from the published page and the chapter.
+History
+- Oct '25 - Improved structure - made the page more stand-alone - less external references
+- Nov '24 - better organized the references
+To do
+- Nov '24 - spend more time discussing the Relationships
+-->

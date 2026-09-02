@@ -238,12 +238,6 @@ Look at what `TodoItem` was given: the `todo` to draw, and `onRemove` to call. I
 
 That is not an accident of this example, it is how the whole tree is wired: data down as props, events back up as functions to call.
 
-## References
-
-- *Adding Interactivity* > [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
-- *Adding Interactivity* > [Responding to Events](https://react.dev/learn/responding-to-events)
-
-
 ## Exam Questions
 
 ### 1. What does it mean for an input to be *controlled*, and what is the alternative?
@@ -261,3 +255,9 @@ That is not an accident of this example, it is how the whole tree is wired: data
 ### 7. Why is a to-do's `id` created in `handleAdd` rather than worked out while rendering? Everywhere else the course says to derive rather than store.
 
 ### 8. `TodoItem` renders the delete button but cannot delete anything. What does it do instead?
+
+
+## References
+
+- *Adding Interactivity* > [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state)
+- *Adding Interactivity* > [Responding to Events](https://react.dev/learn/responding-to-events)
