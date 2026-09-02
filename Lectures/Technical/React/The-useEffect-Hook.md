@@ -115,7 +115,27 @@ You have met this already: `disabled={text.length === 0}` in [Forms and Controll
 
 You have already met this with `useState`: change the data, and React works out what the screen should look like. See [Reactive Programming](Component-State.md#reactive-programming).
 
-`useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with your data; `useEffect` keeps *everything else* in step with it. Same dependency, same automatic re-run, different destination.
+`useEffect` is the same idea pointed outwards. `useState` keeps the *screen* in step with your data; `useEffect` keeps *everything else* in step with it. Same dependency, same automatic re-run, different destination:
+
+```
+                        setTodos(…)
+                             │
+                             ▼
+                      ┌─────────────┐
+                      │    todos    │   the state React is holding
+                      └──────┬──────┘
+                             │  it changed
+                ┌────────────┴────────────┐
+                ▼                         ▼
+         React re-renders           your effect runs
+                │                         │
+                ▼                         ▼
+           the screen               local storage
+                                    the page title
+                                    a backend
+```
+
+You wrote neither arrow. You said what `todos` is, and what depends on it; React does the rest, in both directions.
 
 
 ## An empty dependency list means run once, at mount
