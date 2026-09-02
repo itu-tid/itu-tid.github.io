@@ -101,6 +101,7 @@ The split is by kind, not by course: this repo holds material other people write
     2026-redesign-handoff.md      the brief the 2026 redesign started from
     2026-lecture-1-opening.md     delivery notes for the first lecture
     2026-lecture-14-closing.md    and for the last one
+    2026-MUST-DO.md               dated, with consequences -- read it before each week
     2026-inbox.md · 2026-backlog.md
     2026-repo-history-before-purge.bundle
 
