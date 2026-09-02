@@ -106,4 +106,4 @@ Images live in one `images/` per track, not one per subject folder — splitting
 
 ## The app we build
 
-[itu-tid/todo-26](https://github.com/itu-tid/todo-26), tagged once per lecture. Live-code into it, tidy afterwards, then tag — so the commits inside a week are the lecture as it happened and the tag is the version worth reading. Teams start their own repo from it with **Use this template**, so it has to be genuinely good by the week the syllabus names for that. Template rather than fork: a fork is marked as one for ever, which is wrong for work students should be able to show, and it points their pull requests at this repository rather than their own.
+[itu-tid/todo-26](https://github.com/itu-tid/todo-26), tagged once per lecture. Live-code into it, tidy afterwards, then tag — so the commits inside a week are the lecture as it happened and the tag is the version worth reading. Teams do not start from it — they build their own repo from empty in week 6, against the ER diagram their user study produced. This one is for reading: the canonical version of everything the lectures do, to compare against.
