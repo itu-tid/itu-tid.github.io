@@ -87,6 +87,19 @@ colophon = (f'<p class="colophon">Built {built} · commit <code>{rev}</code><br>
 html, n = re.subn(r'(<p class="subtitle">.*?</p>)', r'\1' + colophon, html, count=1, flags=re.S)
 if not n:
     sys.exit("md-to-pdf: no subtitle in the rendered header to hang the colophon on")
+
+# Every note ends with the same two or three sections, so in a chapter of six
+# notes they are a third of the contents page and carry none of the argument.
+# They are also the sections nobody needs an index for: always last, always in
+# the same place. Dropped from the contents only -- the sections stay.
+# Matched on the anchor slug rather than the link text: pandoc hard-wraps the
+# generated markup, so "Exam Questions" can arrive as "Exam\nQuestions". The
+# -\d+ suffix is pandoc deduplicating ids across the concatenated notes.
+BOILERPLATE = ("references", "exam-questions", "meta", "project-work")
+html, dropped = re.subn(
+    r'<li>\s*<a\s[^>]*href="#(?:' + "|".join(BOILERPLATE) + r')(?:-\d+)?"[^>]*>.*?</a>\s*</li>\s*',
+    "", html, flags=re.S)
+print(f"  contents: {dropped} boilerplate entries dropped", file=sys.stderr)
 p.write_text(html, encoding="utf-8")
 PY
 
