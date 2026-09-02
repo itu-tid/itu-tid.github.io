@@ -55,12 +55,19 @@ h1:first-of-type{ break-before:auto; page-break-before:auto; border-top:0; paddi
 /* h3 was a rem apart from h2 in size, the same weight and the same colour, and
    the same size as body text -- so it read as a bold paragraph. Size now
    separates h2 from h3, and colour separates h3 from the prose around it. */
-h2{ font-size:1.34rem; font-weight:700; margin:2.3rem 0 .65rem;
+/* Space above a heading is measured in lines, not millimetres: body leading is
+   1.55rem, so these are ~2.5 and ~1.5 lines. They used to be 1.5 and 1 -- half a
+   line apart, which nobody reads as a difference in rank. Below each heading
+   stays small on purpose: a heading belongs to what follows it. */
+h2{ font-size:1.34rem; font-weight:700; margin:3.9rem 0 .7rem;
     letter-spacing:-.01em; }
-h3{ font-size:1.05rem; font-weight:600; margin:1.6rem 0 .4rem;
+h3{ font-size:1.05rem; font-weight:600; margin:2.4rem 0 .45rem;
     color:var(--accent); }
-h4{ font-size:.95rem; font-weight:600; margin:1.15rem 0 .3rem;
+h4{ font-size:.95rem; font-weight:600; margin:1.55rem 0 .3rem;
     color:var(--ink-soft); }
+/* ...except when one heading sits directly under its parent, where the full
+   gap would read as a missing paragraph rather than as a new section */
+h1 + h2, h2 + h3, h3 + h4{ margin-top:1rem; }
 /* a heading is not a link, even when it is blue */
 h3 a, h4 a{ color:inherit; border-bottom-color:rgba(35,87,122,.2); }
 
