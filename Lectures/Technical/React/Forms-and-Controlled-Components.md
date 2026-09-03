@@ -8,7 +8,9 @@ Until now the app could only add random tasks from a list. Supporting the user t
 
 You type, the browser remembers, and React knows nothing about it.
 
-### Bridging React with the DOM by intercepting keypresses
+### Bridging React with HTML by intercepting keypresses
+
+(more precise is DOM, but we don't care)
 
 We take the job of tracking the state of the input from the browser and give it to React. Two attributes do it -- `value` and `onChange`:
 
@@ -206,6 +208,46 @@ function TodoItem({ todo, onToggle, onRemove }) {
 }
 ```
 
+### Three names for one connection
+
+This is the part that trips everyone, and it is worth slowing down on. Look at what `handleAdd` is called in each of the three places it appears:
+
+| where | written as | what it is |
+|---|---|---|
+| in `TodoList` | `function handleAdd(text)` | the function that actually does the work |
+| at the call site | `onAdd={handleAdd}` | handing that function to the form |
+| inside `NewTodoForm` | `onAdd` | the name the form knows it by |
+
+They look like three things. They are one function, named twice — once by the component that owns it, once by the component that will call it.
+
+It is easier if you read it in the form's own voice:
+
+> I am a form with an Add button. I know how to collect text and I know when the button was pressed. What I do **not** know is what adding means, because the list is not mine. So: you who want to use me have to hand me a function, and I will call it when Add is pressed. In my own code I will refer to it as `onAdd`, because that is all I know about it.
+
+`TodoList` answers: *here is that function, it is called `handleAdd`, and what it does is put a new to-do on my list.*
+
+That is why the two names differ, and the difference is a convention worth following: **`on…` is what the prop is called, `handle…` is what the function is called.** `onAdd` describes the *event* from the child's side; `handleAdd` describes the *work* from the parent's side. React's own props follow it — `onChange`, `onSubmit`, `onClick` — and yours should too, so that a reader can tell at a glance which side of the connection they are looking at.
+
+### Why the arrow: `onClick={() => onRemove(todo.id)}`
+
+Look at that line in `TodoItem` and it seems to have an arrow function for no reason. Try removing it and you will see why.
+
+You already know that `onClick={handleRemove}` hands over the function while `onClick={handleRemove()}` calls it immediately, during render, and hands over whatever it returned. So far so good.
+
+But here you need to call it **with a particular to-do's id**, and the moment you write the brackets to pass an argument, you have called it:
+
+```jsx
+<button onClick={onRemove(todo.id)}>      // calls it while rendering. Every row. Immediately.
+```
+
+The arrow is how you get out of that. It is a function you are defining on the spot, which does nothing until it is called:
+
+```jsx
+<button onClick={() => onRemove(todo.id)}>   // hands over a function that, when run, calls onRemove
+```
+
+Read it as *"when clicked, call `onRemove` with this row's id"*. Any time you need a handler that takes an argument, this is the shape.
+
 ### A checkbox is controlled by `checked`, not by `value`
 
 Everything above about controlled inputs still holds, with one substitution. A text input carries text, so its state prop is `value`. A checkbox carries a yes or a no, so its state prop is **`checked`**, and the thing to read off the event is **`e.target.checked`** rather than `e.target.value`.
@@ -240,9 +282,7 @@ Two people can both put "Buy milk" on the list, and that line removes both of th
 
 The position in the array can, and `filter((t, i) => i !== index)` really does work today. It stops working the moment anything about the list is not a straight click on a rendered row — a reorder, or an update that arrives from a backend while the user is halfway through something. And the position is also what [makes a poor `key`](Intro-to-React.md#every-item-needs-a-key).
 
-So each to-do carries its own name, from the moment it is made.
-
-So each to-do carries its own ID, made with `crypto.randomUUID()` — built into the browser, no library needed. A counter that goes up by one works just as well.
+So each to-do carries its own name from the moment it is made, an ID made with `crypto.randomUUID()` — built into the browser, no library needed. A counter that goes up by one works just as well.
 
 **The id is made once, when the to-do is made**, not worked out while rendering. A key has to name the *same* item on every render, and anything computed at render time is a new answer each time. This is the one place in the course where deriving a value instead of storing it is the wrong move.
 

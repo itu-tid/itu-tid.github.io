@@ -74,6 +74,8 @@ Two things changed, and both matter:
 
 **The app now.** It works: **Add** appends a random sample task and the list grows. The question left over is *why the screen redrew at all* — nobody told it to.
 
+### When state changes, the component updates automatically; similar to Excel 
+
 When a state variable defined with `useState` changes with the help of the setter (and thus, not changing the variable directly!!) a redrawing of the whole component is triggered.
 
 This is *reactive programming*. And reactive programming is why React is called so.

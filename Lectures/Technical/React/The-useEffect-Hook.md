@@ -67,9 +67,10 @@ import { useState, useEffect } from "react";
 export default function TodoList() {
   const [todos, setTodos] = useState([]);   // each one is { id, text, done }
 
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+  useEffect(
+	  () => {localStorage.setItem("todos", JSON.stringify(todos))}, 
+	  [todos]
+	);
 
   // … the form, the list, delete and check-off: unchanged from the form note
 }
