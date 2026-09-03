@@ -6,32 +6,6 @@
 
 The difference from props is **ownership**. Props arrive from the parent and the component may only read them; state belongs to the component itself, which is the only thing that can change it. Props are what you were given; state is what you keep.
 
-### Nothing stops you changing a prop, and you must not
-
-Before reading on, predict the answer: your component is handed `todos` as a prop. Can it change that array?
-
-Most people say no, on the grounds that props are read-only. Try it:
-
-```jsx
-function TodoList({ todos }) {
-  function handleAdd() {
-    todos.push("Buy milk");
-    console.log(todos);        // the array really did grow
-  }
-  // …and the screen does not change
-}
-```
-
-No error, no warning, and the array is genuinely one longer. React freezes the props *object* while you are developing, so `todos = []` would fail — but the array **inside** it is not frozen, and `push` reaches straight into it.
-
-So the honest statement is not *you cannot*. It is **you must not**, and two different things go wrong when you do.
-
-The screen does not update, for the same reason as the local variable below: nothing told React anything happened.
-
-And worse, and invisibly: that array belongs to the **parent**. You have reached into another component's data and changed it without telling it. The parent still believes it holds the old list, and will go on rendering from that belief until something else happens to make it re-render — at which point your change appears, from nowhere, for no reason anyone can trace.
-
-This is worth meeting early because it is how React works throughout. **The rules are promises you keep, not walls React builds.** You will meet the same shape again with state: nothing physically stops you editing an object you already put there, and you must not do that either.
-
 First, the version that does **not** work — worth typing out, because the reason it fails is the reason state exists:
 
 ```jsx
@@ -156,6 +130,65 @@ export default function TodoList() {
 Forty lines, and every idea above is in there somewhere.
 
 And deliberately silly: **Add** picks a task at random, because there is nothing to type into yet. Giving it something to type into is [Forms and Controlled Components](Forms-and-Controlled-Components.md) — along with the first real bug, when deleting from the middle of the list shows you why keying by position was never going to hold.
+
+## What came up in the lecture
+
+Things that happened while this was coded live, rather than things that were planned. They are here because they were the parts people remembered.
+
+### Asked in class: can a component change a prop?
+
+Predict before you read on. Your component is handed `todos` as a prop. Can it change that array?
+
+The lecture voted, and the large majority said no, on the grounds that props are read-only. Then we tried it:
+
+```jsx
+function TodoList({ todos }) {
+  function handleAdd() {
+    todos.push("Buy milk");
+    console.log(todos);        // the array really did grow
+  }
+  // …and the screen does not change
+}
+```
+
+No error, no warning, and the array is genuinely one longer. React freezes the props *object* while you are developing, so `todos = []` would fail — but the array **inside** it is not frozen, and `push` reaches straight into it.
+
+So the honest statement is not *you cannot*. It is **you must not**, and two different things go wrong when you do.
+
+The screen does not update, for the same reason the plain variable at the top of this note did not: nothing told React that anything had happened.
+
+And worse, and invisibly: that array belongs to the **parent**. You have reached into another component's data and changed it without telling it. The parent still believes it holds the old list, and will go on rendering from that belief until something else happens to make it re-render — at which point your change appears, from nowhere, for no reason anyone can trace.
+
+The reason this is worth two minutes is that it is how React works throughout. **The rules are promises you keep, not walls React builds.** You meet the same shape again with state: nothing physically stops you editing an object you already put there, and you must not do that either.
+
+### `push` returns the length, not the list
+
+Somebody guessed, reasonably, that `todos.push(3)` gives you back the list with `3` on the end. It does not:
+
+```js
+> let todos = [1, 2]
+> todos.push(3)
+3                      // the new length
+> [...todos, 4]
+[ 1, 2, 3, 4 ]         // a new list
+```
+
+`push` changes the list it was given and hands back a number. The spread builds a new list and hands that back. That is the whole difference, and it is why one of them works with `setTodos` and the other does not.
+
+### You can try any of this in a terminal
+
+You installed Node to run Vite, and it is also a JavaScript interpreter. Type `node` in a terminal and you get a prompt where you can test what a language feature actually does, without a browser, a component or a page refresh in the way:
+
+```
+$ node
+> let todos = ["Buy milk"]
+> todos.push("Call the landlord")
+2
+> todos
+[ 'Buy milk', 'Call the landlord' ]
+```
+
+The browser's console does the same job and is one keystroke away while you are already looking at your app. Reach for either of them the moment you are *guessing* what a line does. Guessing is the slow way.
 
 ## Exam Questions
 

@@ -292,6 +292,51 @@ Look at what `TodoItem` was given: the `todo` to draw, and `onRemove` to call. I
 
 That is not an accident of this example, it is how the whole tree is wired: data down as props, events back up as functions to call.
 
+## What came up in the lecture
+
+Things that happened while this was coded live, rather than things that were planned.
+
+### The smallest thing that counts as a form
+
+Asked in class what a `<form>` actually is, and the answer that stuck was by analogy. A slice of bread is not a sandwich. Bread and cheese is a sandwich. In the same way: a button on its own is not a form, an input on its own is not a form, and an input with a button is.
+
+That is not a joke about the definition, it is the definition doing work. A form is the *grouping* — the thing that says these inputs and this button belong together, are submitted together, and are what Enter applies to. Which is exactly why the input had to go inside one before Enter did anything.
+
+### "Too many re-renders"
+
+Wiring the checkbox up produced this, immediately:
+
+```
+Too many re-renders. React limits the number of renders to prevent an infinite loop.
+```
+
+The cause was a missing arrow:
+
+```jsx
+<input type="checkbox" onChange={onToggle(todo.id)} />     // wrong
+<input type="checkbox" onChange={() => onToggle(todo.id)} />  // right
+```
+
+The first one calls `onToggle` *while rendering*. `onToggle` sets state. Setting state causes a render. That render calls `onToggle` again. React counts the loop and stops you.
+
+It is the same mistake as [the arrow above](#why-the-arrow-onclick-onremove-todo-id), and worth knowing in this louder form too: if you ever see *too many re-renders*, look for a handler you called instead of passed.
+
+### The file has to be `.jsx`
+
+Ten minutes went on this. A component in a file named `.js` gives you:
+
+```
+JSX syntax is disabled and should be enabled via parser options
+```
+
+which does not mention the filename at all. The fix is to rename the file. Vite decides whether to run the JSX transform by extension, so `TodoItem.js` is treated as ordinary JavaScript and the first `<li>` is a syntax error.
+
+### The point of extracting `TodoItem`
+
+Pulling the row out into its own component is not tidying for its own sake. Left alone, a file like this grows to five hundred lines of JSX, and at that size nobody can read it, nobody can find a bug in it, and every change is a risk.
+
+That is also worth knowing about the AI tools you will be using: they will cheerfully write you five hundred lines of JSX in one component, because you asked for a feature and that is a way to deliver it. The judgement about what should be its own component is still yours, and saying *no, pull that out, I want to be able to read this* is part of using the tool well rather than a nicety on top.
+
 ## Exam Questions
 
 ### 1. What does it mean for an input to be *controlled*, and what is the alternative?
