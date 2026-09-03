@@ -67,7 +67,7 @@ What it did was reach into a to-do React was already holding and edit it where i
 - **Anything that kept the previous list** — an undo stack, or a comparison of before and after — is now holding a list whose contents changed underneath it. The past was rewritten.
 - **Anything that skips work by comparing objects** — a memoised child, an effect with the item in its dependency array — sees the same object it saw last time and concludes nothing changed. The screen goes stale, and nothing looks wrong in your code.
 
-React is built on the assumption that what you put in state is never edited afterwards. So:
+You met this shape in week 2, with [props](Component-State.md#nothing-stops-you-changing-a-prop-and-you-must-not): nothing physically stopped you pushing onto an array a parent had handed you, and it was wrong anyway. React is built on the assumption that what you put in state is never edited afterwards. So:
 
 **Treat everything already in state as read-only.** To change it, build the new version and hand *that* to the setter — which is what `map` with a spread has been doing all along.
 

@@ -6,6 +6,32 @@
 
 The difference from props is **ownership**. Props arrive from the parent and the component may only read them; state belongs to the component itself, which is the only thing that can change it. Props are what you were given; state is what you keep.
 
+### Nothing stops you changing a prop, and you must not
+
+Before reading on, predict the answer: your component is handed `todos` as a prop. Can it change that array?
+
+Most people say no, on the grounds that props are read-only. Try it:
+
+```jsx
+function TodoList({ todos }) {
+  function handleAdd() {
+    todos.push("Buy milk");
+    console.log(todos);        // the array really did grow
+  }
+  // …and the screen does not change
+}
+```
+
+No error, no warning, and the array is genuinely one longer. React freezes the props *object* while you are developing, so `todos = []` would fail — but the array **inside** it is not frozen, and `push` reaches straight into it.
+
+So the honest statement is not *you cannot*. It is **you must not**, and two different things go wrong when you do.
+
+The screen does not update, for the same reason as the local variable below: nothing told React anything happened.
+
+And worse, and invisibly: that array belongs to the **parent**. You have reached into another component's data and changed it without telling it. The parent still believes it holds the old list, and will go on rendering from that belief until something else happens to make it re-render — at which point your change appears, from nowhere, for no reason anyone can trace.
+
+This is worth meeting early because it is how React works throughout. **The rules are promises you keep, not walls React builds.** You will meet the same shape again with state: nothing physically stops you editing an object you already put there, and you must not do that either.
+
 First, the version that does **not** work — worth typing out, because the reason it fails is the reason state exists:
 
 ```jsx
@@ -135,11 +161,13 @@ And deliberately silly: **Add** picks a task at random, because there is nothing
 
 ### 1. Explain the difference between props and state in React.
 
-### 2. What is *reactive* about programming in React?
+### 2. A component is handed `todos` as a prop and calls `todos.push("Buy milk")`. What happens on screen, what happens to the array, and what happens to the component that owns it?
 
-### 3. You push a new item onto an array and the screen does not change. Why not, and what do you do instead?
+### 3. What is *reactive* about programming in React?
 
-### 4. Why should you avoid mutating state objects and arrays directly in React?
+### 4. You push a new item onto an array and the screen does not change. Why not, and what do you do instead?
+
+### 5. Why should you avoid mutating state objects and arrays directly in React?
 
 ## References
 
