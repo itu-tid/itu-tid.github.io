@@ -163,15 +163,17 @@ The reason this is worth two minutes is that it is how React works throughout. *
 
 ### `push` returns the length, not the list
 
-None of us knew this, and it takes five seconds to check:
+None of us knew this, and the example we happened to try made it worse:
 
 ```js
-> let todos = ["Buy milk"]
-> todos.push("Call the landlord")
-2
+> let todos = ["one", "two"]
+> todos.push("three")
+3
 ```
 
-Not the list, and not the thing you just added — the new length. `push` changes the list it was given and hands back a number; `[...todos, x]` builds a new list and hands *that* back. Which is why one of them works with `setTodos` and the other does not.
+Everyone read that as *it gives you back what you pushed*. It does not. That is the number `3`, the new length of the list, which by pure coincidence is spelled the same as the string we had just added. Try it with `"Buy milk"` and you get `2`, and the coincidence disappears.
+
+So `push` changes the list it was given and hands back a number; `[...todos, x]` builds a new list and hands *that* back. Which is why one of them works with `setTodos` and the other does not.
 
 ### You can try any of this in a terminal
 
