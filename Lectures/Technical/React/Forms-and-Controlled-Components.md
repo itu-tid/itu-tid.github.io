@@ -321,15 +321,17 @@ The first one calls `onToggle` *while rendering*. `onToggle` sets state. Setting
 
 It is the same mistake as [the arrow above](#why-the-arrow-onclick-onremove-todo-id), and worth knowing in this louder form too: if you ever see *too many re-renders*, look for a handler you called instead of passed.
 
-### The file has to be `.jsx`
+### `JSX syntax is disabled` means the file is called `.js`
 
-Ten minutes went on this. A component in a file named `.js` gives you:
+Extracting the row into a new file produced an error that says nothing about the filename:
 
 ```
 JSX syntax is disabled and should be enabled via parser options
 ```
 
-which does not mention the filename at all. The fix is to rename the file. Vite decides whether to run the JSX transform by extension, so `TodoItem.js` is treated as ordinary JavaScript and the first `<li>` is a syntax error.
+The file was `TodoItem.js`. Renaming it to `TodoItem.jsx` fixed it.
+
+This is **Vite's rule, not React's** — Vite decides whether to run the JSX transform by looking at the extension, so a `.js` file is treated as ordinary JavaScript and the first `<` is a syntax error. Other React setups are less fussy; the older Create React App compiled JSX in `.js` files quite happily. Worth knowing only because the message points nowhere near the cause.
 
 ### The point of extracting `TodoItem`
 
