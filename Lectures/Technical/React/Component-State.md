@@ -66,7 +66,7 @@ function TodoList() {
 Two things changed, and both matter:
 
 1. `todos` now comes from `useState`, so React is the one holding it. The broken version above did survive — a variable outside the component persists perfectly well — but nothing connected it to the screen. Had we moved that `let` *inside* the component it would have been worse still, created fresh on every call.
-- `setTodos` is given a **new array** — `[...todos, randomTask()]` — rather than the old one mutated. **React decides whether to redraw by comparing what it was given with what it** **had**; hand it the same array object back and it sees no change, even if the contents differ. `push` would have done exactly that.
+2. `setTodos` is given a **new array** — `[...todos, randomTask()]` — rather than the old one mutated. **React decides whether to redraw by comparing what it was given against what it had** — not the contents, but whether it is *the same array*, the same one thing in memory. Hand back the array you already gave it and it sees no change, however different the contents. `push` would have done exactly that.
 
 *Optional*: See the [button with counter example](https://react.dev/learn#updating-the-screen) for a combination of state and events
 
@@ -163,7 +163,7 @@ The reason this is worth two minutes is that it is how React works throughout. *
 
 ### `push` returns the length, not the list
 
-None of us knew this, and the example we happened to try made it worse:
+None of us knew this:
 
 ```js
 > let todos = ["one", "two"]
@@ -171,9 +171,34 @@ None of us knew this, and the example we happened to try made it worse:
 3
 ```
 
-Everyone read that as *it gives you back what you pushed*. It does not. That is the number `3`, the new length of the list, which by pure coincidence is spelled the same as the string we had just added. Try it with `"Buy milk"` and you get `2`, and the coincidence disappears.
+That `3` is the new length. Not the list, and not the item you added.
 
-So `push` changes the list it was given and hands back a number; `[...todos, x]` builds a new list and hands *that* back. Which is why one of them works with `setTodos` and the other does not.
+`push` changes the list it was given and hands back a number; `[...todos, x]` builds a new list and hands *that* back. Which is why one of them works with `setTodos` and the other does not.
+
+### What does React actually compare?
+
+Asked in class, after *"React sees no change if it is the same array"*: same in what sense? The contents are different, so what is it looking at?
+
+The answer is **identity** — whether it is literally the same array, rather than one that looks like it. JavaScript has no way to print an object's identity, but `===` tests it, and that is enough to see the whole thing:
+
+```js
+> let x = [1, 2]
+> let y = [1, 2]
+> x === y
+false                  // identical contents, two different arrays
+
+> y = x
+> x === y
+true                   // now they are one array with two names
+
+> y = [...x]
+> x === y
+false                  // spreading built a new one
+```
+
+`===` on arrays and objects does not ask *are these the same to look at*. It asks *are these the same thing*. That last case is the one that matters: `[...x]` has the same contents and is a different array, which is exactly why it is the idiom you hand to a setter.
+
+So React's rule is not mysterious, it is cheap. Comparing contents would mean walking every to-do on every render; comparing identity is one check. The cost of that cheapness is the bargain you keep: give it a new array, or it will assume nothing happened.
 
 ### You can try any of this in a terminal
 
