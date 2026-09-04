@@ -163,17 +163,15 @@ The reason this is worth two minutes is that it is how React works throughout. *
 
 ### `push` returns the length, not the list
 
-Somebody guessed, reasonably, that `todos.push(3)` gives you back the list with `3` on the end. It does not:
+None of us knew this, and it takes five seconds to check:
 
 ```js
-> let todos = [1, 2]
-> todos.push(3)
-3                      // the new length
-> [...todos, 4]
-[ 1, 2, 3, 4 ]         // a new list
+> let todos = ["Buy milk"]
+> todos.push("Call the landlord")
+2
 ```
 
-`push` changes the list it was given and hands back a number. The spread builds a new list and hands that back. That is the whole difference, and it is why one of them works with `setTodos` and the other does not.
+Not the list, and not the thing you just added — the new length. `push` changes the list it was given and hands back a number; `[...todos, x]` builds a new list and hands *that* back. Which is why one of them works with `setTodos` and the other does not.
 
 ### You can try any of this in a terminal
 
