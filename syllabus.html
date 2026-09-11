@@ -442,8 +442,8 @@
       <div class="card">
         <div class="lec">
           <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Backend I</span></div>
-          <div class="ttl">Database &amp; login, together</div>
-          <div class="desc">Parse: the backend, the data model, login, and saving lists. Two weeks ago the to-do survived a refresh through local storage; now the same <code>useEffect</code> shape points at a real backend instead of the browser — a swap, not a new idea. Gating the app on the logged-in user needs no router — <code>Parse.User.current()</code> and the conditional rendering from week 2 are enough. And the modelling itself: entities, relationships, one-to-many with pointers, and the <b>ER diagram</b> you draw before you create a single table — Back4App will happily let you build the wrong schema fast. The core data model lands: owner → lists → items.</div>
+          <div class="ttl">Replacing local storage with a real database</div>
+          <div class="desc">Parse: the backend, the SDK, and the to-do list you already have, re-implemented on top of it. Two weeks ago the to-do survived a refresh through local storage; now it survives a different browser. The one <code>useEffect</code> that rewrote the whole array cannot survive the trip, and what replaces it — one call per change, behind a service layer — is the shape of every backend app you will write. The data does not arrive instantly any more either, which gives every fetching component <b>three states instead of one</b>. And then the modelling: entities, relationships, one-to-many with pointers, and the <b>ER diagram</b> you draw before you create a second table — Back4App will happily let you build the wrong schema fast.</div>
         </div>
         <div class="lanes">
           <div class="lane exercise">
@@ -457,7 +457,7 @@
             <div class="split"><span class="h solo">starting</span>Nothing new — this is the week the whole team learns the same thing separately, which is what the individual exam is asking for</div>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Backends-and-the-Parse-Platform.md" target="_blank" rel="noopener">Backends &amp; the Parse Platform</a> (login included)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/tree/main/Lectures/Technical/Backend/Backends-and-the-Parse-Platform.md#modeling-relationships-in-parse" target="_blank" rel="noopener">§ Modeling Relationships in Parse</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/tree/main/Lectures/Technical/Backend/Backends-and-the-Parse-Platform.md#entity-relationship-diagrams" target="_blank" rel="noopener">§ Entity-Relationship Diagrams</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Parse-Configuration-for-Vite.md" target="_blank" rel="noopener">Parse Configuration for Vite</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Debugging.md" target="_blank" rel="noopener">Debugging</a></li></ul></div></div></div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Backends-Low-Code-Backends-and-the-Parse-Platform.md" target="_blank" rel="noopener">Backends, Low-Code Backends &amp; the Parse Platform</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/The-Three-States-of-Remote-Data.md" target="_blank" rel="noopener">The Three States of Remote Data</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Debugging.md" target="_blank" rel="noopener">Debugging</a></li></ul></div></div></div>
         <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/6-Async-Programming-and-Promises.md" target="_blank" rel="noopener">6 · Async Programming &amp; Promises</a> — read before this week: your first real awaits against a backend.</span></div>
       </div>
     </div>
@@ -467,13 +467,13 @@
       <div class="card">
         <div class="lec">
           <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Backend II</span></div>
-          <div class="ttl">Sharing: ACLs, roles, private vs shared</div>
-          <div class="desc">Authorization and ACL in Parse — the group mechanism. A private list is owner-only; a shared list is a team role. <b>Sharing is by email address, and both parties must already have accounts</b>: no invitations, no pending states, no half-members. The constraint is deliberate — it keeps the model small enough to hold in your head and defend. This is also the collection layer: items point to a List, sharing lives at the list level, and the entity-relationship model grows a join worth drawing.</div>
+          <div class="ttl">Accounts and sharing: authentication, ACLs, roles</div>
+          <div class="desc">Two words that sound alike and mean different things, which is why they are one lecture. <b>Authentication</b> first — <code>Parse.User</code>, signup, login, and the current user, with the app gated on <code>Parse.User.current()</code> and the conditional rendering from week 2, because the router is still two weeks away. Then <b>authorization</b>, the group mechanism. A private list is owner-only; a shared list is a team role. <b>Sharing is by email address, and both parties must already have accounts</b>: no invitations, no pending states, no half-members. The constraint is deliberate — it keeps the model small enough to hold in your head and defend. This is also the collection layer: items point to a List, sharing lives at the list level, and the entity-relationship model grows a join worth drawing.</div>
         </div>
         <div class="lanes">
           <div class="lane exercise">
             <div class="lane-h"><span class="mk"></span>Exercise</div>
-            <div class="split"><span class="h solo">1h solo</span>Set an ACL on an object; create and assign a role.</div>
+            <div class="split"><span class="h solo">1h solo</span>Add signup and login to your own app; set an ACL on an object; create and assign a role.</div>
             <div class="split"><span class="h grp">1h project</span>Still no group code. The user study is in, so now decide what you are building: turn your tasks into an <b>ER diagram</b> for your own domain, and a first list of features.</div>
           </div>
           <div class="lane project">
@@ -482,7 +482,7 @@
             <span class="due">Due Tue 22 Sep · <a class="rl lit" href="https://learnit.itu.dk/mod/assign/view.php?id=228499" target="_blank" rel="noopener">themes → tasks</a></span>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Authorization-and-ACL-in-Parse.md" target="_blank" rel="noopener">Authorization &amp; ACL in Parse</a> (ToDo25)</li></ul></div></div></div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Authorization-and-ACL-in-Parse.md" target="_blank" rel="noopener">Authentication &amp; Authorization in Parse</a> (ToDo26)</li></ul></div></div></div>
       </div>
     </div>
 

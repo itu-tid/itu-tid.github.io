@@ -1,4 +1,156 @@
-# Authorization (in Parse)
+# Authentication and Authorization (in Parse)
+
+Two words that sound alike and mean different things, which is why they belong in the same lecture:
+
+- **Authentication** — proving that a user is who they say they are. *Who are you?*
+- **Authorization** — deciding what that user is then allowed to do. *What are you allowed to touch?*
+
+The first half of today gives your app accounts. The second half stops those accounts from reading each other's data. Neither half is worth much without the other: accounts that everyone can read through are theatre, and permissions with nobody to attach them to are unusable.
+
+# Part 1: Authentication
+
+## Parse gives you accounts, login and the current user without your writing any of it
+
+The Javascript Parse SDK helps you manage user accounts and track the logged in user. `_User` is a class that already exists in your database, with `username`, `password` and `email` already on it, and with the password already being hashed for you.
+
+### Signing up and logging in
+
+```jsx
+import { useState } from 'react';
+import Parse from 'parse';
+
+export default function AuthPage({ onAuthenticated }) {
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+
+	async function handleSignUp(e) {
+		e.preventDefault();
+		setError('');
+		try {
+			const user = new Parse.User();
+			user.set('username', username);
+			user.set('password', password);
+			await user.signUp();
+			onAuthenticated(user);
+		} catch (err) {
+			setError(err.message);
+		}
+	}
+
+	async function handleLogin(e) {
+		e.preventDefault();
+		setError('');
+		try {
+			const user = await Parse.User.logIn(username, password);
+			onAuthenticated(user);
+		} catch (err) {
+			setError(err.message);
+		}
+	}
+
+	return (
+		<div>
+			<h1>Welcome</h1>
+			{error && <p style={{ color: 'red' }}>{error}</p>}
+
+			<form>
+				<input
+					type="text"
+					placeholder="Username"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+				/>
+				<input
+					type="password"
+					placeholder="Password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				<button onClick={handleSignUp}>Sign Up</button>
+				<button onClick={handleLogin}>Log In</button>
+			</form>
+		</div>
+	);
+}
+```
+
+What happens:
+- `user.signUp()` creates a new user, and logs them in
+- `Parse.User.logIn()` logs in an existing one
+- Both of them manage the session for you
+- Log out with `await Parse.User.logOut()`
+
+### Showing the login page, without a router
+
+Both handlers finish by calling `onAuthenticated`. They do *not* navigate anywhere, because we have no router yet — that is week 6. We do not need one:
+
+```jsx
+function App() {
+	const [user, setUser] = useState(Parse.User.current());
+
+	if (!user) {
+		return <AuthPage onAuthenticated={setUser} />;
+	}
+
+	return <ToDoList user={user} onLogOut={() => Parse.User.logOut().then(() => setUser(null))} />;
+}
+```
+
+This is [conditional rendering](../React/Conditional-Rendering.md) again, in its whole-screen form: either the app, or the way in. A router will later give each of these its own URL, which is a real improvement — but notice that what a router adds here is *addressability*, not the gating. The gating is this `if`.
+
+### Getting the current user
+
+It would be silly if the user had to login every time they opened the app, so Parse stores the logged-in user in `localStorage` and hands them back to you:
+
+```jsx
+const currentUser = Parse.User.current();
+if (currentUser) {
+	// do stuff with the user
+} else {
+	// show the signup or login page
+}
+```
+
+This is why `useState(Parse.User.current())` above is safe as a `useState` initializer while `fetchTodos()` was not: `current()` reads from `localStorage` and is synchronous. No network, no waiting, no third state.
+
+### Logging out
+
+```jsx
+await Parse.User.logOut();
+// Parse.User.current() is now null
+```
+
+### Associating the to-dos with their owner
+
+A to-do now belongs to somebody. That is one more pointer, exactly like the `list` pointer from last week:
+
+```js
+item.set("owner", Parse.User.current());
+```
+
+and then the query that fetches them says so:
+
+```js
+const query = new Parse.Query(TodoItem);
+query.equalTo("owner", Parse.User.current());
+const results = await query.find();
+```
+
+**Why is this critical?**
+- It allows the query "show me only *my* todos"
+- It is what data privacy will be built on
+- It is what the access control in Part 2 attaches to
+
+**But it is not yet security.** That `equalTo` is a convenience for the client, not a rule on the server. A user who opens the developer tools, or who talks to the REST API directly, can simply not send that constraint — and today your server would happily answer. Which is what the rest of the lecture is about.
+
+More advanced features, for later
+- [Email Verification](https://docs.parseplatform.org/js/guide/#verifying-emails)
+- [Security of User Objects](https://docs.parseplatform.org/js/guide/#security-for-other-objects) - only a user can modify their own data
+- [Resetting Passwords](https://docs.parseplatform.org/js/guide/#resetting-passwords)
+
+# Part 2: Authorization
+
 
 ### Motivation
 
@@ -52,10 +204,6 @@ The image below shows the Parse UI for setting Class-level permissions
 ###### Practical Implication: For your applications, you can prevent non-authenticated users to access your tables
 
 
-##### Obs: mappings from OO lingo to DB lingo
-- table = class
-- row = object
-
 #### 2. Object-Level Permissions
 
 Even if now you only allow logged in users, it would still not be desirable that an unfriendly user creates an account and then
@@ -82,7 +230,7 @@ In the following example, a logged in user, creates a private note and ensures t
 const Counter = Parse.Object.extend("Counter");
 const privateCounter = new Counter();
 privateCounter.set("name", "Times Checked Twitter");
-privateCounter.set("counte", "42");
+privateCounter.set("count", 42);
 privateCounter.setACL(
 	new Parse.ACL(Parse.User.current()));
 privateCounter.save();
@@ -116,151 +264,67 @@ The methods above should be combined together to strengthen the DB access for  y
 
 In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application.
 
-### Case Study: ToDo25
+### Case Study: ToDo26
 
-#### The simplest possible DB Model
+#### The model we are hardening
 
 ```mermaid
 erDiagram
     _User ||--o{ TodoItem : owns
+    List ||--o{ TodoItem : contains
     _User {
         objectId string PK
-        username  string
-        email     string
+        username string
+        email    string
+    }
+    List {
+        objectId string PK
+        name     string
     }
     TodoItem {
-        objectId  string  PK
-        name      string
-        category  string
-        userId    pointer FK
+        objectId string  PK
+        text     string
+        done     boolean
+        list     pointer FK
+        owner    pointer FK
     }
 ```
 
-One table and one pointer. Parse adds `objectId`, `createdAt` and `updatedAt` to every class for free, so the only fields we declare are the three that mean something. Note that there is no `List` here: a to-do belongs directly to a user, which is as small as the model can get — and it is the thing the sharing layer has to change.
+Two pointers. Parse adds `objectId`, `createdAt` and `updatedAt` to every class for free, so the only fields we declare are the ones that mean something. The `owner` pointer is the one that arrived today, and everything that follows hangs off it.
 
-an important field **userId**:
-```js
-item.set("userId", Parse.User.current());
-```
-**Why is this critical?**
+#### The query that looks like security, and is not
 
-- Allows querying: "Show me only MY todos"
-- Provides data privacy
-- Enables access control
-
-#### Define constants for our category values 
+`fetchTodos` from last week lives in `src/services/todoService.js`. Now that a to-do has an owner, it grows one more constraint:
 
 ```js
-export const CATEGORIES = {
-	IMPORTANT_URGENT: "Important & Urgent",
-	IMPORTANT_NOT_URGENT: "Important & Not Urgent",
-	NOT_IMPORTANT_URGENT: "Not Important & Urgent",
-	NOT_IMPORTANT_NOT_URGENT: "Not Important & Not Urgent"
-};
-```
+export async function fetchTodosByList(list) {
+  const query = new Parse.Query(TodoItem);
+  query.equalTo("list", list);
+  query.equalTo("owner", Parse.User.current());
+  query.ascending("createdAt");   // oldest first
 
-For the future, and a more flexible app, it would be nice to allow users to define their own categories.
-
-#### Creating a service layer for the functions that interact with the DB 
-
-##### Why a Service Layer?
-
-Instead of calling Parse directly from our UI components, we create a **service layer**:
-
-
-###### Without a Service Layer code is more of a mess
-
-- Components do not respect the **Single Responsibility Principle**: rendering the ui and talking to the DB
-
-- Larger more complicated components
-- Duplicated code
-```js
-// In component - messy, duplicated code
-const TodoItem = Parse.Object.extend("TodoItem");
-
-const item = new TodoItem();
-item.set("name", name);
-item.set("category", category);
-item.set("userId", Parse.User.current());
-await item.save();
-```  
-
-###### With a service layer code is simpler in the component
-```js
-// In component - clean, simple
-await createTodoItem(name, category);
-```
-
-##### Service layer folder
-
-We have two files at the moment:
-- `src/services/auth.js` - authentication functions
-- `src/services/todoService.js` - handling of todo items
-
-
-##### Defining the TodoItem related services
-```js
-const TodoItem = Parse.Object.extend("TodoItem");
-
-```
-###### Helper function to convert Parse Todo object to plain JS object
-
-- React works better with plain JS objects so it's nicer if we convert
-- Also, we unify the treatment of the **id** and the other fields
-```js
-function todoItemToPlainObject(parseObj) {
-  return {
-    id: parseObj.id,
-    name: parseObj.get("name"),
-    done: parseObj.get("done"),
-    totalTime: parseObj.get("totalTime") || 0,
-    currentSessionStart: parseObj.get("currentSessionStart"),
-    category: parseObj.get("category"),
-    createdAt: parseObj.get("createdAt"),
-    updatedAt: parseObj.get("updatedAt"),
-  };
+  const results = await query.find();
+  return results.map(toPlainObject);
 }
 ```
-###### Fetching items for user and category
+
 - Note the multiple query conditions
 - Note the ordering constraint
-```js
-export async function fetchTodosByCategory(category) {
-  const currentUser = Parse.User.current();
 
-  const query = new Parse.Query(TodoItem);
-  query.equalTo("category", category);
-  query.equalTo("userId", currentUser);
-
-  // Oldest first
-  query.ascending("createdAt");
-
-  try {
-    const results = await query.find();
-    return results.map(todoItemToPlainObject);
-  } catch (error) {
-    console.error("Error fetching todos:", error);
-    throw error;
-  }
-}
-```
-
-**But there's a problem**: A malicious user could use Parse's REST API directly or modify the client code to read other users' todos! The query filter is just client-side convenience—it doesn't enforce security.
+**But there's a problem**: a malicious user could use Parse's REST API directly, or modify the client code, to read other users' todos. The query filter is a convenience for *our* client — it is not a rule on the server, and nothing obliges anyone to send it.
 
 #### Access Controls when creating a new Todo item
 
 ```js
-export const createTodoItem = async (name, category) => {
+export const createTodoItem = async (text, list) => {
 
-	// Although it's not essential, we're using the getCurrentUser that we've defined in the auth.js
-	const currentUser = getCurrentUser();
+	const currentUser = Parse.User.current();
 
 	const item = new TodoItem();
-	item.set("name", name);
-	item.set("category", category);
+	item.set("text", text);
+	item.set("list", list);
 	item.set("done", false);
-	item.set("totalTime", 0);
-	item.set("userId", currentUser); // ← Links to user!
+	item.set("owner", currentUser); // ← Links to user!
 	
 	
 	// Set ACL so only creator can read and write
@@ -273,17 +337,8 @@ export const createTodoItem = async (name, category) => {
 	try {
 		const result = await item.save();
 		
-		// Return plain JavaScript object
-		return {
-			id: result.id,
-			name: result.get("name"),
-			done: result.get("done"),
-			totalTime: result.get("totalTime"),
-			currentSessionStart: result.get("currentSessionStart"),
-			category: result.get("category"),
-			createdAt: result.get("createdAt"),
-			updatedAt: result.get("updatedAt")
-		};
+		// the same plain-object conversion as everywhere else
+		return toPlainObject(result);
 	} catch (error) {
 		console.error("Error creating todo:", error);
 		throw error;
@@ -360,7 +415,7 @@ export const createTodoItem = async (name, category) => {
 ```js
   // This does NOT work - you can't set different permissions per field
   const todo = new TodoItem();
-  todo.set("name", "Write report");           // want this PUBLIC
+  todo.set("text", "Write report");           // want this PUBLIC
   todo.set("done", false);                    // want this PUBLIC  
   todo.set("totalTime", 3600000);            // want this PRIVATE
   todo.set("currentSessionStart", new Date()); // want this PRIVATE
@@ -376,9 +431,9 @@ export const createTodoItem = async (name, category) => {
 ```js
   const TodoItem = Parse.Object.extend("TodoItem");
   const todo = new TodoItem();
-  todo.set("name", "Write report");
+  todo.set("text", "Write report");
   todo.set("done", false);
-  todo.set("userId", currentUser);
+  todo.set("owner", currentUser);
 
   // Public read, owner write
   const acl = new Parse.ACL(currentUser);
@@ -395,7 +450,7 @@ export const createTodoItem = async (name, category) => {
   timeTracking.set("todoId", todo);  // Pointer to the TodoItem
   timeTracking.set("totalTime", 3600000);
   timeTracking.set("currentSessionStart", new Date());
-  timeTracking.set("userId", currentUser);
+  timeTracking.set("owner", currentUser);
 
   // Private - only owner can read and write
   const acl = new Parse.ACL(currentUser);
@@ -444,15 +499,6 @@ From the ParsePlatform.org Guide:
 - [Object-level Access Control](https://docs.parseplatform.org/js/guide/#object-level-access-control)
 
 
-## Further reading
-- SOLID principles
-	- **Single Responsibility Principle -**
-	- Open-closed Principle -
-	- Liskov Substitution -
-	- Interface Segregation -
-	- **Dependency Injection Principle** -
-
-
 ### Exam Questions
 
 #### 1. Why can't Parse API keys be kept secret in a web application?
@@ -473,25 +519,21 @@ await privateNote.save();
 
 #### 6. How would you make an object publicly readable but only writable by the owner?
 
-#### 7. What's the problem with this code if we only validate name length on the client?
+#### 7. What's the problem with this code if we only validate the length on the client?
 ```js
 // Client-side validation
-if (name.length > 200) {
-  alert("Name too long!");
+if (text.length > 200) {
+  alert("Too long!");
   return;
 }
 await todoItem.save();
 ```
 
-#### 8. What are two benefits of placing this code in a separate service file rather than directly in a React component?
+#### 8. This query returns only the current user's to-dos. Explain why it is nevertheless not a security measure, and what is.
 ```js
-export async function fetchTodosByCategory(category) {
-  const query = new Parse.Query(TodoItem);
-  query.equalTo("category", category);
-  query.equalTo("userId", Parse.User.current());
-  const results = await query.find();
-  return results.map(todoItemToPlainObject);
-}
+const query = new Parse.Query(TodoItem);
+query.equalTo("owner", Parse.User.current());
+const results = await query.find();
 ```
 
 #### 9. What are the two types of roles in Parse and how do they differ?
