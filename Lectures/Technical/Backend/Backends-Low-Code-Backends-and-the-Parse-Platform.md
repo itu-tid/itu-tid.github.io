@@ -86,15 +86,15 @@ SDK
 
 ### Parse has an answer for every line of that list
 
-| The backend owns...          | Parse gives you                                        |
-| ---------------------------- | ------------------------------------------------------ |
-| Authentication               | `Parse.User` — signup, login, sessions (*next week*)   |
-| Authorization                | class-level permissions and ACLs (*next week*)         |
-| Session management           | handled by the SDK, and remembered across page reloads |
-| Business logic and DB access | the JavaScript SDK — the subject of today              |
-| Scheduled jobs               | cloud jobs                                             |
-| API endpoints                | REST and GraphQL, generated from your classes          |
-| Data validation              | cloud code triggers                                    |
+| The backend owns...          | Parse gives you                                                                          |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| Authentication               | `Parse.User` — signup, login, sessions (*next week*)                                     |
+| Authorization                | class-level permissions and ACLs (*next week*)                                           |
+| Session management           | completely free (handled by the SDK, and remembered across page reloads)                 |
+| Business logic and DB access | the JavaScript SDK — the subject of today                                                |
+| Scheduled jobs               | cloud jobs                                                                               |
+| API endpoints                | REST and GraphQL, generated from your classes (although not needed when you use the SDK) |
+| Data validation              | cloud code triggers (*week 11*)                                                 |
 
 And two more that were never on the list, because the browser never had them to lose: **file storage**, and an interactive **dashboard** for looking at and editing your database by hand.
 

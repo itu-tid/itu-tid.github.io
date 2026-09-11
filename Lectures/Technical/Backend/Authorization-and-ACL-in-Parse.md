@@ -311,7 +311,9 @@ export async function fetchTodosByList(list) {
 - Note the multiple query conditions
 - Note the ordering constraint
 
-**But there's a problem**: a malicious user could use Parse's REST API directly, or modify the client code, to read other users' todos. The query filter is a convenience for *our* client — it is not a rule on the server, and nothing obliges anyone to send it.
+**But there's a problem**: the query filter is a convenience for *our* client. It is not a rule on the server, and nothing obliges anyone to send it.
+
+And they do not need to tamper with your client to leave it out. They do not need your client at all: `npm install parse`, twenty lines of Node, and the App ID and JavaScript key they read out of the bundle you shipped them. Then they run whatever query they like, against the same server, with the same keys — and today it answers.
 
 #### Access Controls when creating a new Todo item
 
