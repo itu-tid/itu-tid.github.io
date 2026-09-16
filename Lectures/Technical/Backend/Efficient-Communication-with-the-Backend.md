@@ -305,7 +305,17 @@ Parse implements this through the LiveQuery [protocol](https://github.com/parse-
 
 ### 1. What is the N+1 select problem and why is it important?
 
-### 2. How do you solve the N+1 problem in Parse?
+### 2. How do you solve the N+1 problem in Parse? What is wrong with this query pattern, and which single line fixes it?
+```js
+const query = new Parse.Query("TodoItem");
+const todos = await query.find();
+
+for (let todo of todos) {
+  const list = todo.get("list");
+  await list.fetch();
+  console.log(list.get("name"));
+}
+```
 
 ### 3. What is the difference between polling and event-driven (LiveQuery) approaches for real-time updates?
 

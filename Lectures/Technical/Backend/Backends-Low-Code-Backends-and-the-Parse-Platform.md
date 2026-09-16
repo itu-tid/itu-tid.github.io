@@ -1,15 +1,16 @@
 # Backends, Low-Code Backends, and the Parse Platform
 
-Motivation - we want to be full-stack web developers :) But we don't have much time.
+Motivation: we want to be full-stack web developers :) But we don't have much time.
+
+> **Read before the lecture:** [Async Programming and Promises](../../../TopUps/6-Async-Programming-and-Promises.md). Everything you ask a backend for arrives later, which in JavaScript means a **promise**. From the first `save()` onwards this lecture assumes you have met one, and knows the difference between `.then()`, `.catch()` and `await`.
+>
+> **Also before the lecture:** run `node --version` and make sure it says 20, 22 or 24. Parse 8 needs one of those, and on an older Node `npm install parse` quietly installs an old release instead of failing.
 
 ## What a backend is
 
 ### "Backend" only means something relative to a front-end
-- **Relative term** - defined in opposition to the *front-end*
-	- **Front-end** -- code that runs in the user's browser and handles presentation and user interaction
-	- **Back-end** -- handles data processing, storage, and security
-
-*Note:* Client / front-end are going to be used interchangeably in this lecture
+- **Front-end** -- code that runs in the user's browser and handles presentation and user interaction
+- **Back-end** -- handles data processing, storage, and security
 
 ### Client-server is the arrangement, and the backend is the server half
 
@@ -21,147 +22,165 @@ The **client** runs on the user's machine and asks for things; the **server** ru
 
 The detail that matters is the one the picture shows and the phrase does not: **there are many clients and one server.** Nearly everything in the next three weeks follows from that asymmetry.
 
-- **The server is the only shared thing**, so it is the only place where two users can meet. Sharing a to-do list is possible because there is one copy of it and both browsers are talking to that copy.
-- **The server is the only trusted thing.** Every client runs on somebody else's computer, in code they can read and change. Anything you need to be *true* has to be enforced on the server — which is next week's lecture in one sentence.
+- **The server is the only shared thing**, so it is the only place where two users can meet. Sharing a to-do list is possible because there is one copy of it and both clients are talking to that copy.
+- **The server is the only trusted thing.** Every client runs on somebody else's computer, in code they can read and change. Anything you need to be *true* *has to be enforced on the server* — which is next week's lecture in one sentence.
 - **The server is far away.** Between the asking and the answering there is a network, and your interface has to have something to show meanwhile.
 
 
-### The backend owns everything the browser cannot be trusted with
-- Authentication (proving that a user is who they say they are)
-- Authorization (checking what a user is allowed to do)
-- Session management (tracking a user across requests, so they don't log in again on every click)
-- Business logic and DB access
-- Scheduled jobs (e.g., `cron`, backups, etc.)
-- API endpoints / request handling (since the backend receives and responds to requests)
-- Data validation (ensuring incoming data is correct/safe)
+*Note:* Client / front-end are going to be used interchangeably in this course. 
 
-### A traditional backend is eight pieces of infrastructure before a line of your own code
+
+### Backend Responsibilities: The backend takes care of everything the browser cannot be trusted with
+
+1. Authentication (proving that a user is who they say they are)
+2. Authorization (checking what a user is allowed to do)
+3. Session management (tracking a user across requests, so they don't log in again on every click -- this is a result of HTTP being a stateless protocol)
+4. Business logic and DB access (because it's the one central place, as per above)
+5. Scheduled jobs (e.g., `cron`, backups, etc.)
+6. API endpoints / request handling (since the backend receives and responds to requests)
+7. Data validation (ensuring incoming data is correct/safe)
+
+### A traditional backend needs that you configure many pieces of infrastructure before writing even a line of your own code
 
 1. **Machine** setup (or create a VM with a cloud provider)
 2. **Operating system** installation & configuration
 3. Security & **firewall** configuration
 4. **Database** management system (DBMS)
-5. **Web server** (e.g. nginx, apache2)
-6. **Application server** / runtime environment
-7. **Logging, monitoring & analytics**
+5. **Web server** -- application that listens to HTTP requests and serves pages to clients (e.g. nginx, apache2)
+6. **Application server** -- runtime environment in which your application will be executed
+7. **Logging, monitoring & analytics** -- supper essential for a service that has to be available non-stop
 8. **Backup** system
 
 Note that none of the eight is on the previous list. That list was about *responsibilities*; this one is about the *machinery* you would have to assemble before you could discharge a single one of them.
 
-## A low-code backend hands you some of the eight, already built
+## Low-code backends and Backends-as-a-service
+### A low-code backend hands you (some of) the eight responsibilities already built
 
-The infrastructure arrives already assembled, and what you get is an API: pre-built solutions for the needs that every application has, so that the only code you write is the code particular to yours.
+The responsibilities arrive already assembled, and what you get is a **pre-built solution** for the needs that every application has, so that the only code you write is the code particular to your application domain. 
 
-The term you will meet in industry is **backend-as-a-service** (BaaS), and it is *not* a synonym for *low-code backend*. **Low-code** says how much you have to write. **As-a-service** says who runs it. Two different questions — and the three names you will hear answer them differently:
+**Low-code** says how much you have to write to implement your backend. 
 
-- **Parse Platform** is **low-code** — open-source software. You rent a virtual machine in the cloud and install it there, or you run it on your own laptop while you are developing.
-- **Firebase** is **as-a-service** — proprietary, hosted by Google; renting it is the only way to have it.
-- **Back4App** is **Parse-as-a-service** — somebody else running the low-code backend you could have run yourself.
+### Backend-as-a-service (BaaS) gives you a low-code backend with the infrastructure also pre-built 
 
-They are not three of the same kind of thing. Parse is a *program*. Firebase is a *service*. Back4App is a *service that runs the program*.
+**As-a-service** says that it is somebody else that owns the infrastructure. All you are responsible with is writing the application. 
 
-Which is also why the code you write against Parse does not care: rent it or host it, only the URL changes.
+### The two are independent and can be combined
 
-**Supabase** and **Pocketbase** belong in the same conversation — open source, and deliberately Firebase-shaped alternatives to it. Same idea as Parse, different lineage.
+- **Parse Platform** is **a low-code backend**. 
+	- Open-source software
+	- You rent a virtual machine in the cloud and install it there, or you run it on your own laptop while you are developing
+	- You pay a fixed price for renting the VM 
+	- Or you pay electricity for the machine in your basement / data center
+- **Firebase** is a **backend-as-a-service**. 
+	- Proprietary, hosted by Google
+	- Renting it is the only way to have it - you pay for the usage of the firebase backend
+	- However, open source alternatives exist
+- **Back4App** is **backend-as-a-service** that comes with Parse pre-installed on it. 
+	- Somebody else running the low-code backend you could have run yourself
+	- You don't have to rent a VM
+	- You just pay for the usage of the backend 
+
+### The code you write that communicates with a Parse server, does not care whether the server is hosted on your own VM or is a service hosted by somebody else
+
+The only thing that your code needs to know is that there's a Parse backend. And what's the URL where it can communicate with that backend. 
+
+### It will be the same with any kind of backend. The frontend talks to a given IP address or URL. 
+
+That backend can be running on your local machine, then you connect to `localhost:1337` e.g., or `127.0.0.1:1337`. Or you can connect to a staging server. Or to the main server. 
 
 
-## Parse is an open-source low-code backend
+## Parse as a low-code backend
 
-### It is open source now, but Parse started as a startup, then got bought by Facebook, and is now opened
+### Is open source
+Now. It started as a startup, got bought by Facebook, and is now opened again
 
-Startup => Facebook => [Open Source](https://github.com/parse-community)
+### The Parse server is implemented in Node
+Implemented in JS. And as we've discussed in the past, you can run JS in the browser, or on any machine with the help of the `node` Javascript interpreter that does not need a browser.
 
-### Parse is a Node server
+### Parse has an answer for every line of the requirements of a backend 
 
-Implemented in JS - runs on Node (remember that JS can run in the browser or on the server via `node`)
+| The backend is responsible with ... | Parse gives you                                                                          |
+| ----------------------------------- | ---------------------------------------------------------------------------------------- |
+| Authentication                      | `Parse.User` — signup, login, sessions (*next week*)                                     |
+| Authorization                       | class-level permissions and ACLs (*next week*)                                           |
+| Session management                  | completely free (handled by the SDK, and remembered across page reloads)                 |
+| Business logic and DB access        | the JavaScript SDK — the subject of today                                                |
+| Scheduled jobs                      | cloud jobs                                                                               |
+| API endpoints                       | REST and GraphQL, generated from your classes (although not needed when you use the SDK) |
+| Data validation                     | cloud code triggers (*week 11*)                                                          |
 
-### Parse also offers you an easy to use Javascript SDK so it's easier for your front-end to communicate with the backend
+And two more that were never on the list, because the browser never had them to lose: 
+- **file storage**, and 
+- an interactive **dashboard** for looking at and editing your database
+
+
+### For your frontend/client code, Parse provides you with an easy to use Javascript SDK
 
 SDK
 - stands for (software development kit)
-- represents a library that makes it easy for you to communicate from the frontend to the backend
+- is a library that makes it easy for you to communicate from the frontend to the backend
+- without this SDK, you would have to communicate with the backend with the HTTP protocol, and that's more clumsy
 
-### Everything you do to Parse goes through the JavaScript SDK
-- There are also SDKs for other languages than JS (Kotlin for Android, Swift for iOS, etc.)
+Everything you do to Parse goes through the JavaScript SDK. There are also SDKs for other languages than JS (Kotlin for Android, Swift for iOS, etc.). 
 
-### Parse has an answer for every line of that list
+*Note:* The full documentation of the SDK is in the [Parse.js Javascript Guide](https://docs.parseplatform.org/js/guide/#saving-objects). Use it as reference -- that is, search for things as you need them. Don't read it as a book. 
 
-| The backend owns...          | Parse gives you                                                                          |
-| ---------------------------- | ---------------------------------------------------------------------------------------- |
-| Authentication               | `Parse.User` — signup, login, sessions (*next week*)                                     |
-| Authorization                | class-level permissions and ACLs (*next week*)                                           |
-| Session management           | completely free (handled by the SDK, and remembered across page reloads)                 |
-| Business logic and DB access | the JavaScript SDK — the subject of today                                                |
-| Scheduled jobs               | cloud jobs                                                                               |
-| API endpoints                | REST and GraphQL, generated from your classes (although not needed when you use the SDK) |
-| Data validation              | cloud code triggers (*week 11*)                                                 |
 
-And two more that were never on the list, because the browser never had them to lose: **file storage**, and an interactive **dashboard** for looking at and editing your database by hand.
 
-That is the argument for a low-code backend. Most of the infrastructure is handled, every responsibility on the list has an answer waiting, and what is left for you to write is the part that is actually yours.
+## Making our TODO app save tasks in a  real database instead of localStorage
 
-## You can rent a Parse server, or run your own
-### Back4App hosts Parse for you, and you leave with three keys
 
-Steps to start working with the Back4App Parse deployment
+### Creating the backend for our app on Back4App
 1. Create an account on Back4App
-2. Create a backend (app) for your react application in Back4App
+2. Create a app for your react application in Back4App (this is the backend of your application)
 3. Somewhere in settings find `APP_ID` and `JAVASCRIPT_KEY` and `PARSE_SERVER_URL` and save them for later
 
-### You can host it yourself, and the client code is identical, the only thing that changes is that your client will talk to your own server IP or Domain (e.g. `api.zeeguu.org`) instead of `back4app.com`
-
-- You can also [deploy your own server on DigitalOcean](Parse-Server-Deployment-Guide.md)
-- I don't recommend it for this course, but if you want you can
-
-
-## Replacing localStorage with a real database
-
-*Note:* The full documentation is in the [Parse.js Javascript Guide](https://docs.parseplatform.org/js/guide/#saving-objects): use it as reference.
-
-### Installing the SDK
+### Installing the Javascript SDK so we can use it from React
 
 ```bash
-npm install parse events
+npm install parse@8.6.0 events
 npm list parse
 ```
 
-Check what the second command prints. It should say **`parse@8.6.0`** — the version we use in the course.
+Check what the second command prints. It should say **`parse@8.6.0`** — the version we use in the course. Asking for the version by name is what keeps everyone on the same one: with a bare `npm install parse`, `npm` is free to hand you an older release instead.
 
-If it prints something older, npm has quietly handed you an old release, because Parse 8 wants Node 20, 22 or 24 and yours is not one of them. npm does not treat that as an error. Run `node --version`, fix Node, delete `node_modules`, and install again.
-
-`parse` is the SDK. `events` provides the browser with `EventEmitter`, a class that Node has built in and the browser does not. Parse's code asks for it; if nobody answers, `Parse.initialize()` fails with `Emitter is not a constructor`. Installing `events` answers.
+`parse` is the SDK. `events` is a library that Parse needs in order to run in the browser; without it, `Parse.initialize()` fails with `Emitter is not a constructor`.
 
 That failure has a shape you will meet again: `npm run build` **succeeds**, with at most a warning in the output. The app only dies when someone loads it. A green build is not evidence that anything works.
 
-### One initialization at the top of the app, and every Parse call knows where to go
+### Initializing the connection to the backend 
+
+We put the following lines as early in the application as possible, e.g., in `App.jsx`. 
 
 ```js
 import Parse from 'parse';
 
-Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
 Parse.serverURL = "https://parseapi.back4app.com/"; // your PARSE_SERVER_URL
+Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
 ```
 
-- By top of the app we mean either `main.jsx` or `App.jsx`
-- This is sufficient because `Parse` is a singleton object — every other file that imports `parse` receives the same, already-configured object
-- The initialization configures your react application to connect to
+The initialization configures your react application to connect to
 	- the server (`Parse.serverURL`)
 	- the corresponding app (`YOUR_APP_ID`), because there might be multiple apps on the server
 
-### Create and Save An Object to the Database
+### Creating and Saving An Object to the Database
 
 ```js
 import Parse from 'parse';
 
+// This next line is super advanced - it creates a Class! 
+// How we do know, look on the next line, we create an object of that class there! 
 const TodoItem = Parse.Object.extend("TodoItem");
-
 const newItem = new TodoItem();
+
 newItem.set("text", "Call the landlord");
 newItem.set("done", false);
 
-newItem.save().then(onSave, onError);
+newItem.save()
+	.then(onSuccessfulSave)
+	.catch(onError);
 
-function onSave(savedItem) {
+function onSuccessfulSave(savedItem) {
 	alert("saved a todo with id: " + savedItem.id);
 }
 
@@ -173,29 +192,62 @@ function onError(error) {
 Steps:
 1. `Parse.Object.extend("TodoItem")` creates a class for the object
 2. `save()` - sends the data to the server
-3. `save()` returns a *promise*, so we hand it two functions: one for when it worked, one for when it did not
-4. The `TodoItem` class is automatically created in the database if it didn't exist - behavior that can be turned off, and which we *will* turn off next week, once you have met your first column created by a typo
+3. `save()` returns a *promise*: `.then()` runs if it worked, `.catch()` runs if it did not
 
-The two functions are given names here on purpose. The same code is more often written with both of them inline, and that is how you will see it in the Parse documentation:
+This code does not float somewhere in the component: it goes **in the event handler** — the function that already runs when the user submits the form. Adding a to-do is something the user *does*, and the save is part of doing it.
+
+The callback is called `onSuccessfulSave` rather than `onSave` on purpose: `save` in the app means the button the user pressed, and `save()` here means the round trip to the database. `onSuccessfulSave` also says the thing that matters about it — it runs only if the database said yes.
+
+#### Classes created with `Parse.Object.extend`  correspond to tables in the database 
+
+Thus in JS you create an object of that class and when you save it it gets automatically saved in the database. 
+
+#### If a class created with ``Parse.Object.extend`` does not exist in the database, it is automatically created
+
+The `TodoItem` class is automatically created in the database if it didn't exist. This behavior can be turned off, and we *will* turn off next week. You will see why. 
+
+#### The promise can be written also with anonymous functions 
+The two functions are given names on purpose. Written inline it is the same code, and that is the form you will meet often, especially in the examples, tutorials, and AI-generated code. 
 
 ```js
-newItem.save().then(
-	(savedItem) => { alert("saved a todo with id: " + savedItem.id); },
-	(error) => { alert(error.message); }
-);
+newItem.save()
+	.then((savedItem) => alert("saved a todo with id: " + savedItem.id))
+	.catch((error) => alert(error.message));
 ```
 
-It is the same thing. It is easier to read when the two branches have names, and harder to forget that the second one exists.
+Names make it easier to read. Compare the above once more with the code below: 
 
-### A query is a class, some constraints, and a `find()`
+```js
+newItem.save()
+	.then(onSuccessfulSave)
+	.catch(onError);
+
+function onSuccessfulSave(savedItem) {
+	alert("saved a todo with id: " + savedItem.id);
+}
+
+function onError(error) {
+	alert(error.message);
+}
+```
+
+### Reading Objects from the Database
+
+The simplest type of query 
+- is created **for a specific class** 
+- given some **some constraints**
+- then **executed with `find()`**
 
 ```js
 const TodoItem = Parse.Object.extend("TodoItem");
+
+// we are creating a query object for objects of type TodoItem
 const query = new Parse.Query(TodoItem);
 
 query.equalTo("done", false);
 query.ascending("createdAt");
 
+// await 
 const results = await query.find();
 
 for (const item of results) {
@@ -203,25 +255,24 @@ for (const item of results) {
 }
 ```
 
-Steps:
-- Create a class reference
-- Create a query object
-- Add constraints on the query object
-- call `.find()`
 
 `find()` returns a promise as well. From here on we use `await` rather than `.then()`, because the code then reads in the order in which it happens.
 
+> **`await` and `.then()` are the same promise, handled two ways.**
+> `.then(f)` says *when the answer arrives, call `f` with it* — and the lines after it run immediately, before `f` ever does.
+> `await` says *stop here until the answer arrives, then carry on with it in hand* — so the next line is the next thing that happens.
+>
+> Nothing changes on the network; what changes is whether your code reads top to bottom or is cut into callbacks. The price of `await` is that it is only allowed inside a function marked `async`, which is why `async` starts appearing on our handlers below.
+
+
+
 References:
 - [Query Constraints](https://docs.parseplatform.org/js/guide/#query-constraints)
-- [Queries on Arrays](https://docs.parseplatform.org/js/guide/#queries-on-array-values)
 - [Queries on Strings](https://docs.parseplatform.org/js/guide/#queries-on-string-values)
 
-Advanced Parse features, for when you need them
-- [Atomic counters](https://docs.parseplatform.org/js/guide/#counters)
-- [Atomic arrays](https://docs.parseplatform.org/js/guide/#arrays)
 
 
-## Re-implementing the to-do list on top of Parse
+### Putting the snippets into the app
 
 You already have a working app. It has a list, a form, a checkbox and a delete button, and at the bottom of `ToDoList.jsx` it has this:
 
@@ -233,7 +284,7 @@ useEffect(() => {
 
 One line, and everything is saved. Whenever anything about any to-do changes, the entire array is serialized and written again.
 
-### The whole-array write is the first thing that has to go
+#### The whole-array write is the first thing that has to go
 
 With `localStorage` that line is free. It is the same machine, the list is a few kilobytes, and nobody notices.
 
@@ -250,9 +301,179 @@ So the single effect that wrote everything becomes **one call per change**:
 
 This is not a Parse rule. It is what having a backend means.
 
-### Where the Parse calls go: a service layer
+We now go through that table one row at a time. All four end up in the same file, `ToDoList.jsx`, in the handlers that are already there.
 
-Instead of calling Parse directly from our UI components, we put those calls in their own file — a **service layer**.
+#### Creating: in the handler that adds a to-do
+
+```jsx
+const TodoItem = Parse.Object.extend("TodoItem");
+
+async function handleAdd(newTask) {
+	const item = new TodoItem();
+	item.set("text", newTask);
+	item.set("done", false);
+	const saved = await item.save();
+
+	setTodos([...todos, { id: saved.id, text: saved.get("text"), done: saved.get("done") }]);
+}
+```
+
+Two things happen, and the order matters: **first the database, then the state**. If the save fails, the to-do never appears on the screen — which is the truth.
+
+What `save()` gives back is a Parse object, and the component has been working with plain `{ id, text, done }` all along, so we unpack it on the way into the state. Note that `id` is the one thing that is not a field: it lives on the object itself, not behind `get()`.
+
+#### Reading: once, when the page opens
+
+The effect that *wrote* everything is replaced by an effect that *reads* everything, once:
+
+```jsx
+useEffect(() => {
+	async function load() {
+		const query = new Parse.Query(TodoItem);
+		query.ascending("createdAt");
+		const results = await query.find();
+
+		setTodos(results.map((each) => ({
+			id: each.id,
+			text: each.get("text"),
+			done: each.get("done"),
+		})));
+	}
+	load();
+}, []);
+```
+
+The empty `[]` is essential. The old effect ran after every change to `todos`; this one has to run once, or each load would set the state, which would run the effect, which would load again.
+
+##### Why the `async` function *inside* the effect, and not `useEffect(async () => ...)`
+
+Because React reads whatever an effect returns as its **cleanup function** — the thing to call when the component goes away. An `async` function always returns a promise, so React would be handed a promise where it expects a function.
+
+So the asynchronous work goes into a function declared inside the effect; the effect calls it and returns nothing. It looks like a workaround, and it is one, but it is the standard one — you will see it in every codebase that fetches.
+
+#### Updating: only the field that changed
+
+Ticking a checkbox means changing one field of one row. We do **not** need to download the row first:
+
+```jsx
+async function handleToggle(id) {
+	const todo = todos.find((each) => each.id === id);
+
+	const item = TodoItem.createWithoutData(id);
+	item.set("done", !todo.done);
+	await item.save();
+
+	setTodos(todos.map((each) => (each.id === id ? { ...each, done: !each.done } : each)));
+}
+```
+
+`createWithoutData(id)` deserves the objection: **why don't we look the object up first?**
+
+The obvious version is this, and it works:
+
+```js
+const item = await new Parse.Query(TodoItem).get(id);   // ask the server for the to-do
+item.set("done", done);
+await item.save();                                      // ask it again, to change one field
+```
+
+Two round trips, and the first one downloads a to-do we already have on screen only to throw it away.
+
+The thing to unlearn is that a Parse object is a *copy of a row*. It is a **handle to a row** — and a handle needs only the id. `createWithoutData(id)` builds one out of thin air, and `save()` sends only the fields you actually changed, so what crosses the network is `{done: true}` and an id.
+
+You do not have to read a row in order to write to it, any more than you have to open a file in order to rename it.
+
+#### Deleting: the same handle, destroyed
+
+To destroy a row you need to know *which* row, and nothing else:
+
+```jsx
+async function handleDelete(idToDelete) {
+	const item = TodoItem.createWithoutData(idToDelete);
+	await item.destroy();
+
+	setTodos(todos.filter((each) => each.id !== idToDelete));
+}
+```
+
+#### The four of them, in one file
+
+```jsx
+import { useState, useEffect } from "react";
+import Parse from "parse";
+
+const TodoItem = Parse.Object.extend("TodoItem");
+
+export default function ToDoList({ firstName }) {
+	const [todos, setTodos] = useState([]);
+
+	useEffect(() => {
+		async function load() {
+			const query = new Parse.Query(TodoItem);
+			query.ascending("createdAt");
+			const results = await query.find();
+
+			setTodos(results.map((each) => ({
+				id: each.id,
+				text: each.get("text"),
+				done: each.get("done"),
+			})));
+		}
+		load();
+	}, []);
+
+	async function handleAdd(newTask) {
+		const item = new TodoItem();
+		item.set("text", newTask);
+		item.set("done", false);
+		const saved = await item.save();
+
+		setTodos([...todos, { id: saved.id, text: saved.get("text"), done: saved.get("done") }]);
+	}
+
+	async function handleToggle(id) {
+		const todo = todos.find((each) => each.id === id);
+
+		const item = TodoItem.createWithoutData(id);
+		item.set("done", !todo.done);
+		await item.save();
+
+		setTodos(todos.map((each) => (each.id === id ? { ...each, done: !each.done } : each)));
+	}
+
+	async function handleDelete(idToDelete) {
+		const item = TodoItem.createWithoutData(idToDelete);
+		await item.destroy();
+
+		setTodos(todos.filter((each) => each.id !== idToDelete));
+	}
+
+	// ... the JSX is unchanged
+}
+```
+
+The `useEffect` that used to synchronize the app with `localStorage` is gone, because there is nothing left for it to synchronize. Every handler does the same two things in the same order: **change the database, then change the state**.
+
+The app now works against a real database, and two people opening it see the same list.
+
+#### What we have just written has a name: CRUD
+
+Four operations, and between them they are most of what any application does to its data:
+
+| CRUD       | The user...           | In Parse                                            |
+| ---------- | --------------------- | --------------------------------------------------- |
+| **C**reate | adds a to-do          | `new TodoItem()`, `set()`, `save()`                 |
+| **R**ead   | opens the page        | `new Parse.Query(TodoItem)`, `find()`               |
+| **U**pdate | ticks a checkbox      | `createWithoutData(id)`, `set()`, `save()`          |
+| **D**elete | presses Delete        | `createWithoutData(id)`, `destroy()`                |
+
+You will meet the acronym in documentation, in job ads, and in the exam. It is worth noticing how little there is to it: you have now written all four, and the rest of the course is mostly about doing them *safely* (next week) and *efficiently* (the week after).
+
+## Code organization
+
+Look at the one file above once more. `TodoItem` is set up there, the three-line unpacking of a Parse object into `{ id, text, done }` appears twice, and the component that draws a list of to-dos is also the component that knows a field is called `"text"`. It works, and it is already getting hard to read — and this is one class and four operations.
+
+So, instead of calling Parse directly from our UI components, we put those calls in their own file — a **service layer**.
 
 Without one, a component both renders the UI *and* talks to the database, which are two responsibilities (see the **Single Responsibility Principle**, in the further reading). Components get longer, and the same four lines of Parse setup get copied into every one of them:
 
@@ -304,7 +525,6 @@ export async function createTodo(text) {
 }
 
 export async function setTodoDone(id, done) {
-	// we have the id, so we don't need to fetch the object before changing it
 	const item = TodoItem.createWithoutData(id);
 	item.set("done", done);
 	return toPlainObject(await item.save());
@@ -318,11 +538,11 @@ export async function deleteTodo(id) {
 
 `toPlainObject` is the only place in the whole app that knows a field is called `"text"`. Everywhere else, a to-do is `{ id, text, done }` — the same shape it had when it lived in `localStorage`, which is why the components barely change.
 
-`createWithoutData(id)` builds a reference to an object that already exists on the server, without fetching it. You can then set a field and save, or destroy it, and only that travels over the network.
+`createWithoutData(id)` is the same handle-to-a-row trick we used in the handlers above: `setTodoDone` and `deleteTodo` never read the row they are about to change.
 
 ### And the component
 
-The effect that *wrote* everything is replaced by an effect that *reads* everything, once:
+The component keeps exactly the shape it had a page ago. What changes is that no line of it mentions Parse any more — each handler says *what it wants*, and the service says how:
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -358,7 +578,7 @@ export default function ToDoList({ firstName }) {
 }
 ```
 
-Every handler now does the same two things in the same order: **change the database, then change the state**. The `useEffect` that used to synchronize the two is gone, because there is nothing left for it to synchronize.
+Same two things in the same order as before — **change the database, then change the state** — but a handler is now three lines you can read at a glance, and `"text"`, `"done"` and `TodoItem` appear in exactly one file in the whole app.
 
 The version above is not finished: it assumes the data arrives.
 
@@ -383,15 +603,17 @@ During that moment, `useState([])` gives an empty array, so the list renders —
 
 Fetched data does not arrive as one state; it arrives as several, and all of them have to be rendered. That is [The Three States of Remote Data](../React/The-Three-States-of-Remote-Data.md), and every component you write from here on has them.
 
-## Model your domain before you create a second table
+## Relationships Between Object Classes 
 
-So far there is one class, and no modeling was required: a to-do has a text and a done flag, and that is the whole design. You need to think ahead about the database model as soon as there is more than one kind of thing in your application.
+So far there is one class, and no modeling was required: a to-do has a text and a done flag, and that is the whole design. 
+
+You need to think ahead about the database model as soon as there is more than one kind of thing in your application.
 
 The main questions are
 1. What are the types of objects in my domain model?
 2. What are the relationships between them?
 
-### A second class: to-dos belong to lists
+### Todos belong to lists
 
 A single flat pile of to-dos stops being useful somewhere around thirty items. What people actually want is *Personal*, *Apartment*, *Bachelor project* — several lists, each with a name. So:
 
@@ -410,25 +632,37 @@ erDiagram
     }
 ```
 
-Note what we did *not* do: we did not add a `list` string field to `TodoItem`. A string would be enough to group them on screen today, and it would be useless the moment anyone wants to rename a list — or share one, which is next week's whole subject.
+Note what we did *not* do: we did not add a `list` string field to `TodoItem`. 
 
-And note the three names now in play, each in its own layer: `List` is a class in the database, `ToDoList` is the React component that draws one, and an *array* is a JavaScript value. Different things, so different names.
+#### A string would be enough to group them on screen today, and it would be inefficient the moment anyone wants to rename a list.
 
-##### Obs: the same idea has three names, depending on who is talking
+This is called `normalization` in databases. 
 
-| In a relational database | In Parse           | In OO lingo |
-| ------------------------ | ------------------ | ----------- |
-| table                    | class              | class       |
-| row                      | object             | object      |
-| column                   | field              | attribute   |
-| foreign key              | **pointer**        | a reference |
-| join table               | a class with two pointers | — |
+If a concept is expressed in a single place, it's easy to change. In our case, renaming a list: we rename it in a single place. 
 
-So yes: **a pointer is Parse's foreign key.** It holds which object in which class, and nothing else.
+#### Benefit of a class/table over an attribute is that the class/table can be enriched with more properties later
 
-### Every relationship you will model is one-to-many or many-to-many
+Our lists could get new properties: priority, etc. Moreover, next week we will want to share a list with other users. If a list is a first class entity in the DB that becomes easily possible. 
 
-#### One-to-many relationships are done with pointers
+#### Note: The table name in the DB does not have to match the component in the react app
+
+And note the three names now in play, each in its own layer: `List` is a class in the database, `ToDoList` is the React component that draws one.
+
+
+
+### The same idea has three names, depending on the context 
+
+| In a relational database | In Parse                  | In OO lingo |
+| ------------------------ | ------------------------- | ----------- |
+| table                    | class                     | class       |
+| row                      | object                    | object      |
+| column                   | field                     | attribute   |
+| foreign key              | **pointer**               | a reference |
+| join table               | a class with two pointers | —           |
+
+So **a pointer is Parse's foreign key.** It holds which object in which class, and nothing else.
+
+### One-to-many relationships are done with pointers
 
 Set a pointer by handing `set()` the whole object, not its id:
 
@@ -468,7 +702,7 @@ results[0].get("list").get("name");   // now this works
 
 One request instead of one-per-to-do. We will have more to say about this in the lecture on efficient communication with the backend.
 
-#### Many-to-many relationships are done with a join table
+### Many-to-many relationships are done with a join table
 
 Say a to-do can be tagged with several labels, and a label applies to many to-dos. Create a class whose job is to represent one pairing:
 
@@ -495,9 +729,11 @@ todoLabel.set("order", 1);
 
 The moment you need *when* the label was added, or *who* added it, or in *what order*, a join table already has room for it and the alternatives do not.
 
+### Note: do not model relationships with `Parse.Relation`
+
 > *You will meet `Parse.Relation` in the documentation*, which is Parse's built-in way of doing many-to-many. It is less typing and it cannot carry any information about the relationship, so we are not going to use it. Knowing that it exists is enough.
 
-#### Do not model relationships with arrays
+### Note: do not model relationships with arrays
 
 Parse lets you store an array of objects in a field, and it is tempting for small collections. Resist it: an array has no room for information about the relationship, it has to be rewritten in full to add one element — the whole-array problem from the beginning of this lecture, all over again — and it gets slow and awkward as soon as it is not tiny. Pointers for one-to-many, a join table for many-to-many. Those two cover everything you need this semester.
 
@@ -520,12 +756,7 @@ No matter which notation you use, the most important aspect is being able to com
 
 
 ## Further reading
-- SOLID principles
-	- **Single Responsibility Principle** - the one behind the service layer
-	- Open-closed Principle
-	- Liskov Substitution
-	- Interface Segregation
-	- **Dependency Injection Principle**
+- **Single Responsibility Principle** -- one of the SOLID principles, and the one behind the service layer
 
 
 ## Exam Questions
@@ -547,7 +778,7 @@ newItem.set("done", false);
 await newItem.save();
 ```
 
-### 6. This code was fine when the to-dos were in `localStorage`. Why is it no longer acceptable once they live on a server, and what replaces it?
+### 6. Once the to-dos live on a server, this one line has to become several separate calls. For each thing the user can do in the app, name the database operation that replaces it.
 ```jsx
 useEffect(() => {
   localStorage.setItem("todos", JSON.stringify(todos));
@@ -564,21 +795,9 @@ export async function fetchTodos() {
 }
 ```
 
-### 8. What is wrong with this query pattern, and which single line fixes it?
-```js
-const query = new Parse.Query("TodoItem");
-const todos = await query.find();
+### 8. How would you query all TodoItems where done is false, ordered by creation date?
 
-for (let todo of todos) {
-  const list = todo.get("list");
-  await list.fetch();
-  console.log(list.get("name"));
-}
-```
-
-### 9. How would you query all TodoItems where done is false, ordered by creation date?
-
-### 10. Why is a join table preferred over an array field for a many-to-many relationship?
+### 9. Why is a join table preferred over an array field for a many-to-many relationship?
 
 
 ## References
@@ -600,5 +819,8 @@ History
 - Nov '24 - better organized the references
 To do
 - Nov '24 - spend more time discussing the Relationships
-- Sep '26 - todo-26 still needs the matching commit: `npm install parse events`, per-item service calls, the three states.
+- Sep '26 - todo-26 still needs the matching commit: `npm install parse@8.6.0 events`, per-item CRUD in the component, the three states.
+- Sep '26 - demo each snippet twice: first in the `node` REPL against the backend (so they see they can test without the UI), then moved into the React app. Worth doing for create and read; implied after that.
+- Sep '26 - the service layer at the end is the time-permitting tail. If time runs short, stop after CRUD-in-one-file and do the refactoring next time. Do not start the account creation instead - the pain has to be felt before the refactoring lands.
+- Sep '26 - mail the students before the lecture: check `node --version`, install Node 20/22/24.
 -->
