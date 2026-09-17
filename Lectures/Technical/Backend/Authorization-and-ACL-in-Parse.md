@@ -154,9 +154,35 @@ More advanced features, for later
 
 ### Motivation
 
-##### **Why can you not keep the Parse API keys perfectly secret?** 
+##### **Why can you not keep the Parse API keys perfectly secret?**
 - Remember the architectural diagram from the beginning of the course? bundle.js is sent to the browser...
 - The JavaScript code of your web application can be inspected by another web programmer.
+
+###### See it, rather than take my word for it
+
+Open your own to-do app, open the developer tools on the **Network** tab, and tick a checkbox. One request appears. Click it, and look at what your app sent:
+
+```
+POST https://parseapi.back4app.com/parse/classes/TodoItem/AbC123xY
+
+{"done":true, "_method":"PUT",
+ "_ApplicationId":"YOUR_APP_ID",
+ "_JavaScriptKey":"YOUR_JS_KEY",
+ "_SessionToken":"r:aBcD1234..."}
+```
+
+There they are. Not hidden in the bundle, not obfuscated — **written in plain text in the body of every single request**, by your own code, because the server has no other way of knowing who is calling.
+
+Anybody who can open your app can read them. That is not a bug in Parse, and there is no setting that fixes it: a key that the browser must send is a key the browser's owner can read.
+
+Now look at the two credentials in there, because the difference between them is this entire lecture:
+
+- `_ApplicationId` and `_JavaScriptKey` say **which application is calling**. Every visitor has them. They identify your app, and they prove nothing about the person using it.
+- `_SessionToken` appeared when you logged in an hour ago. It says **who is calling**. It is yours, it is secret, and it is the only thing in this request that the server can use to tell you from anybody else.
+
+Everything we build today hangs off that second line. The keys cannot protect anything, so the protection has to be attached to the user.
+
+And two more things are visible in that same request, both of which matter shortly: the **class name** (`TodoItem`) and the **object id** — so a stranger now knows what your tables are called, and can address individual rows in them.
 
 ##### **What happens if I access your repository and find your AppID and JSKey?**
 - Read info that is not meant for me

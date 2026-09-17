@@ -292,12 +292,12 @@ Now put a network in the middle. Ticking one checkbox would upload every to-do y
 
 So the single effect that wrote everything becomes **one call per change**:
 
-| In the app the user does | In the database            |
-| ------------------------ | -------------------------- |
-| adds a to-do             | create one object          |
-| ticks a checkbox         | save one object            |
-| presses Delete           | destroy one object         |
-| opens the page           | find all the objects, once |
+| User action      | In the database            |
+| ---------------- | -------------------------- |
+| adds a to-do     | create one object          |
+| ticks a checkbox | save one object            |
+| presses Delete   | destroy one object         |
+| opens the page   | find all the objects, once |
 
 This is not a Parse rule. It is what having a backend means.
 
@@ -320,11 +320,19 @@ async function handleAdd(newTask) {
 
 Two things happen, and the order matters: **first the database, then the state**. If the save fails, the to-do never appears on the screen — which is the truth.
 
-What `save()` gives back is a Parse object, and the component has been working with plain `{ id, text, done }` all along, so we unpack it on the way into the state. Note that `id` is the one thing that is not a field: it lives on the object itself, not behind `get()`.
+What `save()` gives back is a Parse object, and the component has been working with plain `{ id, text, done }` all along, so we unpack it on the way into the state. 
+
+**Note:** that `id` is the one thing that is not a field: it lives on the object itself, not behind `get()`.
 
 #### Reading: once, when the page opens
 
-The effect that *wrote* everything is replaced by an effect that *reads* everything, once:
+Reading already happened once, when the component mounted — but it happened *while* it mounted:
+
+```jsx
+let [todos, setTodos] = useState(loadTodos);   // reads localStorage, synchronously
+```
+
+`localStorage` could answer inside that line. A database cannot: `find()` hands back a promise, and `useState` needs a value now. So the read moves out of the initial state and into an effect that runs once, after the first render:
 
 ```jsx
 useEffect(() => {
@@ -343,7 +351,9 @@ useEffect(() => {
 }, []);
 ```
 
-The empty `[]` is essential. The old effect ran after every change to `todos`; this one has to run once, or each load would set the state, which would run the effect, which would load again.
+The empty `[]` is essential: it says *run this once, when the component first appears*. Without it the effect would run after every change to `todos` — and since it ends by setting `todos`, each load would trigger the next one.
+
+Notice what the state now starts as: `useState([])`, an empty list. Not because the list is empty, but because we do not know yet. We will come back to that.
 
 ##### Why the `async` function *inside* the effect, and not `useEffect(async () => ...)`
 
@@ -379,9 +389,12 @@ await item.save();                                      // ask it again, to chan
 
 Two round trips, and the first one downloads a to-do we already have on screen only to throw it away.
 
-The thing to unlearn is that a Parse object is a *copy of a row*. It is a **handle to a row** — and a handle needs only the id. `createWithoutData(id)` builds one out of thin air, and `save()` sends only the fields you actually changed, so what crosses the network is `{done: true}` and an id.
 
-You do not have to read a row in order to write to it, any more than you have to open a file in order to rename it.
+#### A Parse object is not a *copy of a row* but rather a handle to a row.
+
+The intuition tells us that a Parse object is a *copy of a row*. It is not. It is a handle to a row. A reference to it. 
+
+An object is a **handle to a row** — and a handle needs only the id. `createWithoutData(id)` builds one out of thin air, and `save()` sends only the fields you actually changed, so what crosses the network is `{done: true}` and an id.
 
 #### Deleting: the same handle, destroyed
 
@@ -585,15 +598,11 @@ The version above is not finished: it assumes the data arrives.
 
 ## A backend is slow, and your components have to show when the user has to wait for data to be retrieved
 
-Everything you have fetched so far was instant. `localStorage` is synchronous — the data is already on the machine, so the line after `getItem` has it. That is why this worked:
+We left something open at the read: `useState([])`, an empty list standing in for *we do not know yet*.
 
-```jsx
-let [todos, setTodos] = useState(loadTodos);
-```
+`localStorage` never needed such a stand-in. It is synchronous — the data is already on the machine, so the line after `getItem` has it, which is why `useState(loadTodos)` could be the whole of it. A backend is on the other side of a network, and the round trip is somewhere between fifty milliseconds and, on a bad train connection, several seconds. So there is now a moment that did not exist before: the component has rendered, and the data has not arrived.
 
-A backend is on the other side of a network, and the round trip is somewhere between fifty milliseconds and, on a bad train connection, several seconds. Which means there is now a moment that did not exist before: the component has rendered, and the data has not arrived.
-
-During that moment, `useState([])` gives an empty array, so the list renders — and your app already contains the line that will lie about it:
+During that moment the list renders from an empty array — and your app already contains the line that turns that into a false statement:
 
 ```jsx
 {todos.length === 0 ? <>Nothing to do</> : ( ... )}

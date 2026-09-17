@@ -161,7 +161,6 @@ Session secret key is generated after login on the server, stored in the cookie,
 
 
 ## Not discussed in the course
-- role-based access control
 
 
 
