@@ -39,11 +39,13 @@ COPIES=()
 for note in "$@"; do
   rel="${note#$PWD/}"; rel="${rel#./}"   # build-pdfs hands us absolute paths
   copy="$TMP/$(echo "$rel" | tr '/' '_')"
-  python3 - "$note" "$copy" "$SOURCE_URL/$rel" "$rel" "$ISSUE_URL" "$REV" <<'PY'
+  python3 - "$note" "$copy" "$SOURCE_URL/$rel" "$rel" "$ISSUE_URL" "$REV" "$SOURCE_URL" <<'PY'
+import posixpath
+import re
 import sys
 from pathlib import Path
 from urllib.parse import quote
-src, dst, url, rel, issues, rev = sys.argv[1:7]
+src, dst, url, rel, issues, rev, source_root = sys.argv[1:8]
 lines = Path(src).read_text(encoding="utf-8").split("\n")
 title = Path(rel).stem.replace("-", " ")
 # Prefilled, because the cost of reporting something is what decides whether it
@@ -52,6 +54,29 @@ new_issue = (f'{issues}?title={quote(title + ": ")}'
              f'&body={quote(f"Which part: \n\nWhat was unclear: \n\n---\n{rel} at {rev}\n")}')
 link = (f'<span class="source">Source: [{rel}]({url}) — something unclear? '
         f'[Open an issue]({new_issue}), or send a pull request.</span>')
+# A relative link like ../React/Foo.md addresses the file tree, and a PDF has no
+# file tree around it -- so every cross-note link in every chapter was dead. Send
+# them to the source they were written against instead, resolved against this
+# note's own path. Images are left alone: pandoc embeds those via --resource-path.
+LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+\.md(?:#[^)\s]*)?)\)")
+
+def absolutize(match):
+    text, target = match.group(1), match.group(2)
+    if re.match(r"^(https?:|mailto:|#)", target):
+        return match.group(0)
+    path, _, anchor = target.partition("#")
+    full = posixpath.normpath(posixpath.join(posixpath.dirname(rel), path))
+    return f"[{text}]({source_root}/{full}" + (f"#{anchor}" if anchor else "") + ")"
+
+rewritten, fence = [], False
+for line in lines:
+    if line.lstrip().startswith("```"):
+        fence = not fence
+    elif not fence:
+        line = LINK.sub(absolutize, line)
+    rewritten.append(line)
+lines = rewritten
+
 fence = False
 for i, line in enumerate(lines):
     if line.lstrip().startswith("```"):
