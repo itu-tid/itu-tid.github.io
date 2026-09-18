@@ -40,7 +40,7 @@ The detail that matters is the one the picture shows and the phrase does not: **
 6. API endpoints / request handling (since the backend receives and responds to requests)
 7. Data validation (ensuring incoming data is correct/safe)
 
-### A traditional backend needs that you configure many pieces of infrastructure before writing even a line of your own code
+### Infrastructure: A traditional backend needs that you configure many pieces of infrastructure before writing even a line of your own code
 
 1. **Machine** setup (or create a VM with a cloud provider)
 2. **Operating system** installation & configuration
@@ -128,7 +128,6 @@ Everything you do to Parse goes through the JavaScript SDK. There are also SDKs 
 
 
 ## Making our TODO app save tasks in a  real database instead of localStorage
-
 
 ### Creating the backend for our app on Back4App
 1. Create an account on Back4App
@@ -231,6 +230,10 @@ function onError(error) {
 }
 ```
 
+
+
+
+
 ### Reading Objects from the Database
 
 The simplest type of query 
@@ -299,7 +302,7 @@ So the single effect that wrote everything becomes **one call per change**:
 | presses Delete   | destroy one object         |
 | opens the page   | find all the objects, once |
 
-This is not a Parse rule. It is what having a backend means.
+### This is not a Parse rule. It is what having a backend means!
 
 We now go through that table one row at a time. All four end up in the same file, `ToDoList.jsx`, in the handlers that are already there.
 
@@ -324,6 +327,8 @@ What `save()` gives back is a Parse object, and the component has been working w
 
 **Note:** that `id` is the one thing that is not a field: it lives on the object itself, not behind `get()`.
 
+That `id` also retires something. Until now each to-do got its React key from `crypto.randomUUID()`, a value invented in the browser purely to stop React warning about a list without keys. The database has a better one. `objectId` is unique because the database guarantees uniqueness, it is the same value on every device that loads the list, and it survives a refresh, which a generated key never did. From here on the key in the JSX is the row's real identity instead of a number we made up.
+
 #### Reading: once, when the page opens
 
 Reading already happened once, when the component mounted — but it happened *while* it mounted:
@@ -336,6 +341,7 @@ let [todos, setTodos] = useState(loadTodos);   // reads localStorage, synchronou
 
 ```jsx
 useEffect(() => {
+
 	async function load() {
 		const query = new Parse.Query(TodoItem);
 		query.ascending("createdAt");
@@ -347,7 +353,9 @@ useEffect(() => {
 			done: each.get("done"),
 		})));
 	}
+	
 	load();
+	
 }, []);
 ```
 
@@ -355,11 +363,29 @@ The empty `[]` is essential: it says *run this once, when the component first ap
 
 Notice what the state now starts as: `useState([])`, an empty list. Not because the list is empty, but because we do not know yet. We will come back to that.
 
-##### Why the `async` function *inside* the effect, and not `useEffect(async () => ...)`
+#### Why not `useEffect(async () => ...)`
 
 Because React reads whatever an effect returns as its **cleanup function** — the thing to call when the component goes away. An `async` function always returns a promise, so React would be handed a promise where it expects a function.
 
-So the asynchronous work goes into a function declared inside the effect; the effect calls it and returns nothing. It looks like a workaround, and it is one, but it is the standard one — you will see it in every codebase that fetches.
+So the asynchronous work goes into a *separate* function; the effect calls it and returns nothing. Where you declare that function is then up to you. Above, it sits inside the effect, which is what most codebases that fetch will show you: it is used nowhere else, so it lives where it is used.
+
+The other option is to declare it in the component body:
+
+```jsx
+async function loadTodos() {
+	// ... the same body
+}
+
+useEffect(() => {
+	loadTodos();
+}, []);
+```
+
+which is what `todo-26` does, and what the room preferred when we put both on screen. It reads as a function and a call to it — a plainer shape than declaring a function and invoking it on the next line, and one you can copy out on its own. The cost is that the loading logic no longer sits beside the `[]` that says when it runs.
+
+Either is correct. The only rule is that **the effect itself must not be `async`**.
+
+A footnote if you run the linter: with the function declared outside, `react-hooks/set-state-in-effect` warns about `setTodos`. The warning is wrong — that `setTodos` is behind an `await`, so it is not synchronous — but the rule cannot see through the declaration to find out. Inside the effect it stays quiet; outside, it is noise you should recognise rather than obey.
 
 #### Updating: only the field that changed
 
@@ -367,6 +393,7 @@ Ticking a checkbox means changing one field of one row. We do **not** need to do
 
 ```jsx
 async function handleToggle(id) {
+
 	const todo = todos.find((each) => each.id === id);
 
 	const item = TodoItem.createWithoutData(id);
@@ -376,6 +403,10 @@ async function handleToggle(id) {
 	setTodos(todos.map((each) => (each.id === id ? { ...each, done: !each.done } : each)));
 }
 ```
+
+The order is the same as in the create, and here the reason is sharper. Suppose the state went first: the checkbox ticks immediately, then the save fails — server down, network gone — and the screen now shows a to-do as done while the database says it is not. The app has told the user something untrue, and they will find out the next time they open it somewhere else.
+
+You can watch this happen. Turn the network off in the browser's devtools and tick a checkbox: `save()` rejects, the line below it never runs, and the checkbox stays where it was. Nothing changes on screen, which is the truth.
 
 `createWithoutData(id)` deserves the objection: **why don't we look the object up first?**
 
@@ -395,6 +426,8 @@ Two round trips, and the first one downloads a to-do we already have on screen o
 The intuition tells us that a Parse object is a *copy of a row*. It is not. It is a handle to a row. A reference to it. 
 
 An object is a **handle to a row** — and a handle needs only the id. `createWithoutData(id)` builds one out of thin air, and `save()` sends only the fields you actually changed, so what crosses the network is `{done: true}` and an id.
+
+The handle has one blind spot, worth knowing before the group project. Because we never read the row, we never learn what it says *now*: `!todo.done` is computed from our own copy, which was accurate when the page loaded. If somebody else has ticked the same to-do since — your flatmate, on their phone, against the same database — you are flipping a value that is already stale. With one person and one list this never bites. With two people writing to the same row, the round trip you saved is the price of being right, and `new Parse.Query(TodoItem).get(id)` is how you pay it.
 
 #### Deleting: the same handle, destroyed
 
@@ -482,9 +515,13 @@ Four operations, and between them they are most of what any application does to 
 
 You will meet the acronym in documentation, in job ads, and in the exam. It is worth noticing how little there is to it: you have now written all four, and the rest of the course is mostly about doing them *safely*, and against [more than one class at a time](Relationships-Between-Object-Classes.md) (both next week), and *efficiently* (the week after).
 
+
+
 ## Code organization
 
 Look at the one file above once more. `TodoItem` is set up there, the three-line unpacking of a Parse object into `{ id, text, done }` appears twice, and the component that draws a list of to-dos is also the component that knows a field is called `"text"`. It works, and it is already getting hard to read — and this is one class and four operations.
+
+### Rendering the UI and talking to the database are two different jobs
 
 So, instead of calling Parse directly from our UI components, we put those calls in their own file — a **service layer**.
 
@@ -505,6 +542,8 @@ With a service layer the component says what it wants:
 // in the component - clean, simple
 await createTodo(text);
 ```
+
+### Only one file should know that a field is called `text`
 
 Our services folder starts with a single file, `src/services/todoService.js`:
 
@@ -553,7 +592,7 @@ export async function deleteTodo(id) {
 
 `createWithoutData(id)` is the same handle-to-a-row trick we used in the handlers above: `setTodoDone` and `deleteTodo` never read the row they are about to change.
 
-### And the component
+### The component keeps its shape, and loses every mention of Parse
 
 The component keeps exactly the shape it had a page ago. What changes is that no line of it mentions Parse any more — each handler says *what it wants*, and the service says how:
 
@@ -596,6 +635,39 @@ Same two things in the same order as before — **change the database, then chan
 The version above is not finished: it assumes the data arrives. What a component has to show while it has not arrived — and when it never does — is [The Three States of Remote Data](../React/The-Three-States-of-Remote-Data.md), which every component you write from here on will need.
 
 
+## What came up in the lecture
+
+Things that happened while this was coded live, rather than things that were planned.
+
+### `todos.map is not a function`
+
+The read did not work first time, and it broke twice in a row for two different reasons.
+
+The first `loadTodos` ended with `return saved` — the shape any other function would have. Nothing appeared, and then the list broke outright with *todos.map is not a function*. Returning a value out of a function that an effect calls does nothing at all: nobody is waiting for it. The list is drawn from state, so the load has to **end in `setTodos`**, not in a `return`. If you catch yourself returning data from a function called inside `useEffect`, that is the bug.
+
+The second failure was quieter. The rows arrived from the database and rendered blank, because `item.text` is `undefined` — every field except the id has to come through `get()`. The id being the exception is exactly what makes the rule easy to forget.
+
+Both are worth provoking on purpose once, at home, so that you recognise them the third time.
+
+### `Parse.Object.extend` is not how you declare a class
+
+Asked in class what that line actually is, given that it is plainly not JavaScript class syntax. It is not. It is closer to a small language of its own, built out of function calls, which produces a class *at runtime*. You can tell it really is a class, because `new TodoItem()` works and `new` only works on classes.
+
+The same magic maps it onto a table you never created. That is the deal Parse offers, and it is worth naming it as a deal: a great deal of typing disappears, and in exchange you do not know exactly how your class became a table. Most of the time that is fine. It stops being fine on the day the mapping does something you did not expect.
+
+### A word about the exam
+
+Said in the room, and repeated here for whoever was not: `useState` and `useEffect` are the floor. There is nothing more basic in React than those two. `useEffect(..., [])` meaning *run once, when the component first appears* is the kind of thing you will be asked to explain, and not being able to is the sort of gap that fails an exam by itself. If the empty array is still mysterious, go back to [The useEffect Hook](../React/The-useEffect-Hook.md) before next week.
+
+### "API" turned out to mean four different things
+
+`save()` prompted the question of what an API actually is, and answering it took a quarter of the lecture, because the word is doing at least four jobs at once: the **browser API** (`history.back()`, speech recognition — the functions and classes the browser hands your code), an **SDK** like the Parse one you are using, an **HTTP API** whose operations are URLs you send requests to, and a **REST API**, a strict subset of that with firm rules about naming — rules most projects claim to follow and quietly do not.
+
+The part that belongs to this note: your `item.save()` becomes an HTTP request. The app id and the JavaScript key travel in the headers of *every* call, because HTTP is stateless and the server remembers nothing about you between requests; the object goes up as JSON and comes back as JSON. The SDK exists so that you never write that by hand.
+
+It is next week's material, asked a week early because this is exactly the right place to wonder about it — see [Web Service APIs](Web-Service-APIs.md).
+
+
 ## Exam Questions
 
 ### 1. What is the difference between front-end and back-end?
@@ -634,6 +706,10 @@ export async function fetchTodos() {
 
 ### 8. How would you query all TodoItems where done is false, ordered by creation date?
 
+### 9. Your `loadTodos` queries the database, builds an array of to-dos, and ends with `return todos`. It is called from a `useEffect`, and nothing appears on screen. Why does returning the data achieve nothing here, and what must the function end with instead?
+
+### 10. A query returns the right number of rows, but every to-do renders blank. What is wrong, and why does `id` keep working when `text` does not?
+
 
 
 ## References
@@ -650,6 +726,9 @@ History
             Modeling appears only where relationships appear. Arrays and Parse.Relation demoted to warnings.
             Vite detour deleted: `npm install parse events` + a bare `import Parse from 'parse'` works in dev
             and in a production build (verified against parse 8.6.0 / vite 7.3.6).
+- Sep '26 - Relationships moved out to its own note and into the following week, where it is actually taught.
+            Material from the 17 Sep session folded in: four fixes in the body where the gap was, the rest
+            under "What came up in the lecture".
 - Oct '25 - Improved structure - made the page more stand-alone - less external references
 - Nov '24 - better organized the references
 To do
