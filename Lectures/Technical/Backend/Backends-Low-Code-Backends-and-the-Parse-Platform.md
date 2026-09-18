@@ -127,14 +127,12 @@ Everything you do to Parse goes through the JavaScript SDK. There are also SDKs 
 
 
 
-## Making our TODO app save tasks in a  real database instead of localStorage
-
-### Creating the backend for our app on Back4App
+## Creating the backend for our app on Back4App
 1. Create an account on Back4App
 2. Create a app for your react application in Back4App (this is the backend of your application)
 3. Somewhere in settings find `APP_ID` and `JAVASCRIPT_KEY` and `PARSE_SERVER_URL` and save them for later
 
-### Installing the Javascript SDK so we can use it from React
+## Installing the Javascript SDK so we can use it from React
 
 ```bash
 npm install parse@8.6.0 events
@@ -147,7 +145,7 @@ Check what the second command prints. It should say **`parse@8.6.0`** — the ve
 
 That failure has a shape you will meet again: `npm run build` **succeeds**, with at most a warning in the output. The app only dies when someone loads it. A green build is not evidence that anything works.
 
-### Initializing the connection to the backend 
+## Initializing the connection to the backend
 
 We put the following lines as early in the application as possible, e.g., in `App.jsx`. 
 
@@ -162,7 +160,7 @@ The initialization configures your react application to connect to
 	- the server (`Parse.serverURL`)
 	- the corresponding app (`YOUR_APP_ID`), because there might be multiple apps on the server
 
-### Creating and Saving An Object to the Database
+## Creating and Saving An Object to the Database
 
 ```js
 import Parse from 'parse';
@@ -197,15 +195,15 @@ This code does not float somewhere in the component: it goes **in the event hand
 
 The callback is called `onSuccessfulSave` rather than `onSave` on purpose: `save` in the app means the button the user pressed, and `save()` here means the round trip to the database. `onSuccessfulSave` also says the thing that matters about it — it runs only if the database said yes.
 
-#### Classes created with `Parse.Object.extend`  correspond to tables in the database 
+### Classes created with `Parse.Object.extend`  correspond to tables in the database
 
 Thus in JS you create an object of that class and when you save it it gets automatically saved in the database. 
 
-#### If a class created with ``Parse.Object.extend`` does not exist in the database, it is automatically created
+### If a class created with ``Parse.Object.extend`` does not exist in the database, it is automatically created
 
 The `TodoItem` class is automatically created in the database if it didn't exist. This behavior can be turned off, and we *will* turn off next week. You will see why. 
 
-#### The promise can be written also with anonymous functions 
+### The promise can be written also with anonymous functions
 The two functions are given names on purpose. Written inline it is the same code, and that is the form you will meet often, especially in the examples, tutorials, and AI-generated code. 
 
 ```js
@@ -234,7 +232,7 @@ function onError(error) {
 
 
 
-### Reading Objects from the Database
+## Reading Objects from the Database
 
 The simplest type of query 
 - is created **for a specific class** 
@@ -275,7 +273,7 @@ References:
 
 
 
-### Putting the snippets into the app
+## Putting the snippets into the app
 
 You already have a working app. It has a list, a form, a checkbox and a delete button, and at the bottom of `ToDoList.jsx` it has this:
 
@@ -287,7 +285,7 @@ useEffect(() => {
 
 One line, and everything is saved. Whenever anything about any to-do changes, the entire array is serialized and written again.
 
-#### The whole-array write is the first thing that has to go
+### The whole-array write is the first thing that has to go
 
 With `localStorage` that line is free. It is the same machine, the list is a few kilobytes, and nobody notices.
 
@@ -302,11 +300,11 @@ So the single effect that wrote everything becomes **one call per change**:
 | presses Delete   | destroy one object         |
 | opens the page   | find all the objects, once |
 
-### This is not a Parse rule. It is what having a backend means!
+## This is not a Parse rule. It is what having a backend means!
 
 We now go through that table one row at a time. All four end up in the same file, `ToDoList.jsx`, in the handlers that are already there.
 
-#### Creating: in the handler that adds a to-do
+## Creating: in the handler that adds a to-do
 
 ```jsx
 const TodoItem = Parse.Object.extend("TodoItem");
@@ -329,7 +327,7 @@ What `save()` gives back is a Parse object, and the component has been working w
 
 That `id` also retires something. Until now each to-do got its React key from `crypto.randomUUID()`, a value invented in the browser purely to stop React warning about a list without keys. The database has a better one. `objectId` is unique because the database guarantees uniqueness, it is the same value on every device that loads the list, and it survives a refresh, which a generated key never did. From here on the key in the JSX is the row's real identity instead of a number we made up.
 
-#### Reading: once, when the page opens
+## Reading: once, when the page opens
 
 Reading already happened once, when the component mounted — but it happened *while* it mounted:
 
@@ -363,7 +361,7 @@ The empty `[]` is essential: it says *run this once, when the component first ap
 
 Notice what the state now starts as: `useState([])`, an empty list. Not because the list is empty, but because we do not know yet. We will come back to that.
 
-#### Why not `useEffect(async () => ...)`
+### Why not `useEffect(async () => ...)`
 
 Because React reads whatever an effect returns as its **cleanup function** — the thing to call when the component goes away. An `async` function always returns a promise, so React would be handed a promise where it expects a function.
 
@@ -387,7 +385,7 @@ Either is correct. The only rule is that **the effect itself must not be `async`
 
 A footnote if you run the linter: with the function declared outside, `react-hooks/set-state-in-effect` warns about `setTodos`. The warning is wrong — that `setTodos` is behind an `await`, so it is not synchronous — but the rule cannot see through the declaration to find out. Inside the effect it stays quiet; outside, it is noise you should recognise rather than obey.
 
-#### Updating: only the field that changed
+## Updating: only the field that changed
 
 Ticking a checkbox means changing one field of one row. We do **not** need to download the row first:
 
@@ -421,7 +419,7 @@ await item.save();                                      // ask it again, to chan
 Two round trips, and the first one downloads a to-do we already have on screen only to throw it away.
 
 
-#### A Parse object is not a *copy of a row* but rather a handle to a row.
+### A Parse object is not a *copy of a row* but rather a handle to a row.
 
 The intuition tells us that a Parse object is a *copy of a row*. It is not. It is a handle to a row. A reference to it. 
 
@@ -429,7 +427,7 @@ An object is a **handle to a row** — and a handle needs only the id. `createWi
 
 The handle has one blind spot, worth knowing before the group project. Because we never read the row, we never learn what it says *now*: `!todo.done` is computed from our own copy, which was accurate when the page loaded. If somebody else has ticked the same to-do since — your flatmate, on their phone, against the same database — you are flipping a value that is already stale. With one person and one list this never bites. With two people writing to the same row, the round trip you saved is the price of being right, and `new Parse.Query(TodoItem).get(id)` is how you pay it.
 
-#### Deleting: the same handle, destroyed
+## Deleting: the same handle, destroyed
 
 To destroy a row you need to know *which* row, and nothing else:
 
@@ -442,7 +440,7 @@ async function handleDelete(idToDelete) {
 }
 ```
 
-#### The four of them, in one file
+## The four of them, in one file
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -502,7 +500,7 @@ The `useEffect` that used to synchronize the app with `localStorage` is gone, be
 
 The app now works against a real database, and two people opening it see the same list.
 
-#### What we have just written has a name: CRUD
+## What we have just written has a name: CRUD
 
 Four operations, and between them they are most of what any application does to its data:
 
