@@ -300,7 +300,7 @@ So the single effect that wrote everything becomes **one call per change**:
 | presses Delete   | destroy one object         |
 | opens the page   | find all the objects, once |
 
-## This is not a Parse rule. It is what having a backend means!
+**This is not a Parse rule. It is what having a backend means.**
 
 We now go through that table one row at a time. All four end up in the same file, `ToDoList.jsx`, in the handlers that are already there.
 
