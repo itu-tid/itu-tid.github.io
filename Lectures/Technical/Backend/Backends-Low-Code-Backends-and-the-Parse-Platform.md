@@ -7,12 +7,18 @@ one operation at a time, in the app we already have. It assumes
 assumes you have met a promise: from the first `save()` onwards, everything you
 ask the backend for arrives later.
 
-## Creating the backend for our app on Back4App
+## Connecting the app to a backend
+
+Three steps, and none of them mentions a to-do: an app on Back4App, which hands you
+the keys; the SDK in the project; and the connection configured with those keys. At
+the end of them the app can reach a database, and has not yet put anything in it.
+
+### Creating the backend for our app on Back4App
 1. Create an account on Back4App
 2. Create a app for your react application in Back4App (this is the backend of your application)
 3. Somewhere in settings find `APP_ID` and `JAVASCRIPT_KEY` and `PARSE_SERVER_URL` and save them for later
 
-## Installing the Javascript SDK so we can use it from React
+### Installing the Javascript SDK so we can use it from React
 
 ```bash
 npm install parse@8.6.0 events
@@ -25,7 +31,7 @@ Check what the second command prints. It should say **`parse@8.6.0`** — the ve
 
 That failure has a shape you will meet again: `npm run build` **succeeds**, with at most a warning in the output. The app only dies when someone loads it. A green build is not evidence that anything works.
 
-## Initializing the connection to the backend
+### Initializing the connection to the backend
 
 We put the following lines as early in the application as possible, e.g., in `App.jsx`. 
 
