@@ -639,16 +639,6 @@ The version above is not finished: it assumes the data arrives. What a component
 
 Things that happened while this was coded live, rather than things that were planned.
 
-### `todos.map is not a function`
-
-The read did not work first time, and it broke twice in a row for two different reasons.
-
-The first `loadTodos` ended with `return saved` — the shape any other function would have. Nothing appeared, and then the list broke outright with *todos.map is not a function*. Returning a value out of a function that an effect calls does nothing at all: nobody is waiting for it. The list is drawn from state, so the load has to **end in `setTodos`**, not in a `return`. If you catch yourself returning data from a function called inside `useEffect`, that is the bug.
-
-The second failure was quieter. The rows arrived from the database and rendered blank, because `item.text` is `undefined` — every field except the id has to come through `get()`. The id being the exception is exactly what makes the rule easy to forget.
-
-Both are worth provoking on purpose once, at home, so that you recognise them the third time.
-
 ### `Parse.Object.extend` is not how you declare a class
 
 Asked in class what that line actually is, given that it is plainly not JavaScript class syntax. It is not. It is closer to a small language of its own, built out of function calls, which produces a class *at runtime*. You can tell it really is a class, because `new TodoItem()` works and `new` only works on classes.
