@@ -27,6 +27,8 @@ npm list parse
 
 Check what the second command prints. It should say **`parse@8.6.0`** — the version we use in the course. Asking for the version by name is what keeps everyone on the same one: with a bare `npm install parse`, `npm` is free to hand you an older release instead.
 
+**Your Node version.** Run `node --version`: anything from **20.19 onwards** is fine. That floor comes from Vite rather than Parse — on an older Node `npm run dev` will not start at all, so you find out immediately. Parse itself declares support only for the long-term-support releases, so on Node 25 `npm` prints an `EBADENGINE` warning when you install it. It installs and works anyway; the warning is advisory and you can ignore it.
+
 `parse` is the SDK. `events` is a library that Parse needs in order to run in the browser; without it, `Parse.initialize()` fails with `Emitter is not a constructor`.
 
 That failure has a shape you will meet again: `npm run build` **succeeds**, with at most a warning in the output. The app only dies when someone loads it. A green build is not evidence that anything works.

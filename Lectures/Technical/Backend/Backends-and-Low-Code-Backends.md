@@ -3,8 +3,6 @@
 Motivation: we want to be full-stack web developers :) But we don't have much time.
 
 > **Read before the lecture:** [Async Programming and Promises](../../../TopUps/6-Async-Programming-and-Promises.md). Everything you ask a backend for arrives later, which in JavaScript means a **promise**. From the first `save()` onwards this lecture assumes you have met one, and knows the difference between `.then()`, `.catch()` and `await`.
->
-> **Also before the lecture:** run `node --version` and make sure it says 20, 22 or 24. Parse 8 needs one of those, and on an older Node `npm install parse` quietly installs an old release instead of failing.
 
 ## What a backend is
 
