@@ -13,3 +13,7 @@ syllabus-internal.html
 # Chapters are built to $TID_PDF_OUT (shared iCloud), never committed --
 # a rebuild is a megabyte of new binary per week.
 pdf/
+
+# Nothing in here is an npm project. A node_modules/ appears only when something
+# was installed in the repo root by accident, and it is never worth committing.
+node_modules/

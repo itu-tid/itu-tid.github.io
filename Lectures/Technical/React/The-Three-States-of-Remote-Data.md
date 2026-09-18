@@ -1,6 +1,6 @@
 # The Three States of Remote Data
 
-Up to now, every component that had data simply had it. This note is about what happens to a component when its data lives somewhere else, and the answer is not "it waits" — components cannot wait. It renders anyway, and you have to decide what it renders.
+Up to now, every component that had data simply had it. This note is about what happens to a component when its data lives somewhere else — on the far side of a network, fifty milliseconds away on a good day and several seconds from a bad train connection — and the answer is not "it waits", because components cannot wait. It renders anyway, and you have to decide what it renders.
 
 ## The synchronous case hid the pattern
 
