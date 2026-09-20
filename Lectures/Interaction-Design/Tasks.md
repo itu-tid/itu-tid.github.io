@@ -1,8 +1,10 @@
-# Tasks
+# Tasks, as Lauesen means them
 
-Interviews give you what people said. Thematic analysis gives you what keeps coming up. Neither of those is something an app can do. **Tasks** are the step in between: they turn a finding into something you could build, and they are what the user-study deliverable asks you to hand in.
+Interviews give you what people said. Analysing them gives you what keeps coming up. Neither of those is something an app can do, so something has to turn a finding into something you could build.
 
-The word comes from Søren Lauesen, who uses it in a specific sense worth learning.
+There are several ways to write that down: user stories, the task table from the user-research lecture, and this one. This note is Søren Lauesen's version, and the word **task** means something specific in it.
+
+It is the strictest of the three, and useful for one reason: it asks what people were doing *before* your app existed, which is how it can tell you the answer was not the thing you assumed. Use it if it helps you. Nothing requires it — what the hand-in asks for, and in which format, is on learnIT.
 
 ## The coffee test
 
@@ -72,17 +74,8 @@ You will end up with more tasks than you can build. Rank them, and say why. Two 
 
 Frequent and painful goes first. Rare and painful is where the interesting design problems live, but it is not where you start. Frequent and fine is a trap: it looks like a big win and changes nothing.
 
-## Tasks, not user stories
+That is Lauesen's criterion, and it ranks *problems*. The hand-in asks you to rank by something else — see learnIT. They are not the same question.
 
-You have probably met *user stories* — "As a flatmate, I want to share a list, so that we do not buy milk twice." They are not wrong, and industry uses them everywhere. **This course says tasks**, for one reason: a user story has the solution built into it. The sentence above already decided there is a shared list. A task does not decide anything — it records what someone is trying to do, and leaves you free to find out that the answer was not a shared list at all.
+## How this differs from a user story
 
-Use the word *task* in your hand-in, so we are all talking about the same object.
-
-## What to hand in
-
-- Your population, and how many people you interviewed
-- Three to five themes, each with a quote that earned it
-- Each theme mapped to at least one task, in the four fields above
-- The tasks, prioritised, with a sentence on why that order
-
-Feedback comes back a couple of weeks later, with time to act on it before wireframing starts — and the wireframing lecture assumes you have. The syllabus has the dates.
+You have probably met *user stories* — "As a flatmate, I want to share a list, so that we do not buy milk twice." They are not wrong, and industry uses them everywhere. The difference worth knowing is that a user story has the solution built into it. The sentence above already decided there is a shared list. A task does not decide anything — it records what someone is trying to do, and leaves you free to find out that the answer was not a shared list at all.
