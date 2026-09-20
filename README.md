@@ -35,7 +35,7 @@ Every one is a **Tuesday at 23:59**. Checkpoints you hit and dogfood against, no
 | due | what |
 |---|---|
 | **Tue 8 Sep** | Teams registered on learnIT. **Four is the size we want**; if that does not work for you, email us before this date. Weeks 1 and 2 are individual. |
-| **Tue 29 Sep** | Themes → tasks — your population, three to five themes with quotes, each mapped to a [task](Lectures/Interaction-Design/Tasks.md), prioritised |
+| **Tue 29 Sep** | Interviews → what to build — your population, how you analysed the interviews, what the app has to do (any format, traceable and prioritised), and the feature you will build. The brief is on learnIT. |
 | **Tue 20 Oct** | Wireframes, tested — the screens your population needs, what testing changed, and the extended ER diagram |
 | **Tue 10 Nov** | Visual & accessibility pass — the a11y audit, and what the visual pass changed |
 | **Tue 24 Nov** | Chosen features working — your feature-menu picks, live in the app |
@@ -55,7 +55,7 @@ Course order, as the 2026 syllabus runs it — generated from it, so the two can
 |---|---|---|
 | **1** · Aug 27 | [Intro to React](Lectures/Technical/React/Intro-to-React.md) · [Component State](Lectures/Technical/React/Component-State.md) · [Hooks](Lectures/Technical/React/Hooks.md) | Scaffold your own app with Vite, following the [starter kit](Lectures/Technical/React/React-Starter-Kit.md) — `npm create`, `npm install`, `npm run dev` — and look at what appeared: package.json, node_modules, and what “a package” actually is. |
 | **2** · Sep 3 | [Forms & Controlled Components](Lectures/Technical/React/Forms-and-Controlled-Components.md) · [Conditional Rendering](Lectures/Technical/React/Conditional-Rendering.md) · [The useEffect Hook](Lectures/Technical/React/The-useEffect-Hook.md) | Build one controlled form from scratch; |
-| **3** · Sep 10 | [The Interaction Design Process](Lectures/Interaction-Design/The-Interaction-Design-Process.md) · [Tasks, as Lauesen means them](Lectures/Interaction-Design/Tasks.md) | CSS, on the app you already have — layout, type, spacing, colour. |
+| **3** · Sep 10 | [The Interaction Design Process](Lectures/Interaction-Design/The-Interaction-Design-Process.md) · [Tasks, as Lauesen means them](Lectures/Interaction-Design/Tasks-Lauesen.md) | CSS, on the app you already have — layout, type, spacing, colour. |
 | **4** · Sep 17 | [Backends and Low-Code Backends](Lectures/Technical/Backend/Backends-and-Low-Code-Backends.md) · [Replacing localStorage with a Real Database](Lectures/Technical/Backend/Backends-Low-Code-Backends-and-the-Parse-Platform.md) · [The Three States of Remote Data](Lectures/Technical/React/The-Three-States-of-Remote-Data.md) · [Debugging](Lectures/Technical/React/Debugging.md) | Replication — set up your *own* Parse app in your personal repo, following the lecture steps, with a TA in the room. |
 | **5** · Sep 24 | [Authentication & Authorization in Parse](Lectures/Technical/Backend/Authorization-and-ACL-in-Parse.md) (ToDo26) · [Web Service APIs](Lectures/Technical/Backend/Web-Service-APIs.md) · [Relationships Between Object Classes](Lectures/Technical/Backend/Relationships-Between-Object-Classes.md) | Add signup and login to your own app; |
 | **6** · Oct 1 | [Web App Architectures](Lectures/Technical/Routing/Web-App-Architectures.md) · [Routing in React](Lectures/Technical/Routing/Routing-in-React.md) · [Protecting Routes If Not Logged In](Lectures/Technical/Routing/Protecting-Routes.md) | Add a route with a URL parameter; |
