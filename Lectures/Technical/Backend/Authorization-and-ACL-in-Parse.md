@@ -373,64 +373,9 @@ If your design has **named groups of users that are reused** across many objects
 
 Next, in [Relationships Between Object Classes](Relationships-Between-Object-Classes.md), we give every to-do an owner and query for "only mine" explicitly. That query is useful. It is not what protects anybody: a filter like `equalTo("owner", …)` is something *our* client chooses to send, and nothing obliges anyone else to send it. They do not even need your client: `npm install parse`, twenty lines of Node, and the App ID and JavaScript key they read out of the bundle you shipped them. Then they run whatever query they like — and what stops them is the ACL, on the server.
 
-# For week 12: when one object needs two different ACLs
+## Field-level permissions
 
-## ACL does not work at the field level
-
-  In Parse, **ACLs work at the object level, not at the field/column level**. This means you cannot make some fields public and other fields private within the same object.
-  
-  **Example scenario**
-  - You want everyone to **see your todo task name** and done status (public read)
-  - But you want to **keep your time tracking data private** (only you can read)
-
-##### Problem: You can not set some fields private and some public 
-```js
-  // This does NOT work - you can't set different permissions per field
-  const todo = new TodoItem();
-  todo.set("text", "Write report");           // want this PUBLIC
-  todo.set("done", false);                    // want this PUBLIC  
-  todo.set("totalTime", 3600000);            // want this PRIVATE
-  todo.set("currentSessionStart", new Date()); // want this PRIVATE
-
-  const acl = new Parse.ACL(currentUser);
-  acl.setPublicReadAccess(true); // This makes ALL fields public!
-  todo.setACL(acl);
-
-```
-##### Solution: Split data into two tables with a 1-to-1 relationships
-
-###### Table 1: TodoItem (Public)
-```js
-  const TodoItem = Parse.Object.extend("TodoItem");
-  const todo = new TodoItem();
-  todo.set("text", "Write report");
-  todo.set("done", false);
-  todo.set("owner", currentUser);
-
-  // Public read, owner write
-  const acl = new Parse.ACL(currentUser);
-  acl.setPublicReadAccess(true);
-  todo.setACL(acl);
-  await todo.save();
-  ```
-######  Table 2: TodoTimeTracking (Private)
-```js
-  const TodoTimeTracking = Parse.Object.extend("TodoTimeTracking");
-  
-  const timeTracking = new TodoTimeTracking();
-  
-  timeTracking.set("todoId", todo);  // Pointer to the TodoItem
-  timeTracking.set("totalTime", 3600000);
-  timeTracking.set("currentSessionStart", new Date());
-  timeTracking.set("owner", currentUser);
-
-  // Private - only owner can read and write
-  const acl = new Parse.ACL(currentUser);
-  timeTracking.setACL(acl);
-  await timeTracking.save();
-```
-
-
+An ACL covers a whole object, so it cannot make one field public and another private. When you need that — a to-do whose text is shared but whose time-tracking is not — the data has to be split across two classes. That is week 12's subject: [Field-Level Permissions, and the Two-Table Workaround](Field-Level-Permissions.md).
 
 ## Reading
 From the ParsePlatform.org Guide:
@@ -482,5 +427,3 @@ const results = await query.find();
 ```
 
 #### 12. When would you reach for a role instead of listing users in an ACL?
-
-#### 13. Why can't ACLs be set at the field level, and what's the workaround?
