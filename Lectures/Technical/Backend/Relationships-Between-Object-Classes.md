@@ -1,48 +1,33 @@
 # Relationships Between Object Classes
 
-So far there is one class, and no modeling was required: a to-do has a text and a done flag, and that is the whole design. This note is about what you have to decide the moment there is a second kind of thing in the application — lists that to-dos belong to, users who own them — because how two classes refer to each other is the decision that is hardest to undo once there is data in the database. It assumes you have already written [the four operations against one class](Backends-Low-Code-Backends-and-the-Parse-Platform.md).
+Until today there was one class, and no modeling was required: a to-do has a text and a done flag, and that is the whole design. This note is about what you have to decide the moment there is a second kind of thing in the application — users who own to-dos, lists that to-dos belong to — because how two classes refer to each other is the decision that is hardest to undo once there is data in the database. It assumes you have already written [the four operations against one class](Backends-Low-Code-Backends-and-the-Parse-Platform.md), and it follows straight on from [Authentication and Authorization](Authorization-and-ACL-in-Parse.md).
 
 You need to think ahead about the database model as soon as there is more than one kind of thing in your application. The main questions are:
 
 1. What are the types of objects in my domain model?
 2. What are the relationships between them?
 
-## Todos belong to lists
+## The first relationship: a to-do has an owner
 
-A single flat pile of to-dos stops being useful somewhere around thirty items. What people actually want is *Personal*, *Apartment*, *Bachelor project* — several lists, each with a name. So:
+After the authorization lecture every to-do has an ACL that says Ada may read it. Does that mean the database knows the to-do is *Ada's*?
 
-```mermaid
-erDiagram
-    List ||--o{ TodoItem : contains
-    List {
-        objectId string PK
-        name     string
-    }
-    TodoItem {
-        objectId string  PK
-        text     string
-        done     boolean
-        list     pointer FK
-    }
+Not in any way you can use. The ACL is a permission, not a relationship: you cannot write a query that says "the to-dos whose ACL mentions Ada". The ACL only filters, silently, what comes back. If the app wants to *ask* for Ada's to-dos, the to-do needs a field that says whose it is:
+
+```js
+item.set("owner", Parse.User.current());
 ```
 
-Note what we did *not* do: we did not add a `list` string field to `TodoItem`. 
+and then the query can say it out loud:
 
-### A string would be enough to group them on screen today, and it would be inefficient the moment anyone wants to rename a list.
+```js
+const query = new Parse.Query(TodoItem);
+query.equalTo("owner", Parse.User.current());
+const results = await query.find();
+```
 
-This is called `normalization` in databases. 
+Run it in the two-browser setup from last lecture and notice the difference from before: until now Anka saw her own to-dos *plus* the old ones nobody had put an ACL on. Now she sees only the ones that are hers, because now she is asking for exactly those.
 
-If a concept is expressed in a single place, it's easy to change. In our case, renaming a list: we rename it in a single place. 
-
-### Benefit of a class/table over an attribute is that the class/table can be enriched with more properties later
-
-Our lists could get new properties: priority, etc. Moreover, next week we will want to share a list with other users. If a list is a first class entity in the DB that becomes easily possible. 
-
-### Note: The table name in the DB does not have to match the component in the react app
-
-And note the three names now in play, each in its own layer: `List` is a class in the database, `ToDoList` is the React component that draws one.
-
-
+Remember which of the two is the security, though. The query is a convenience that our client chooses to send. The ACL is what the server enforces on everyone.
 
 ## The same idea has three names, depending on the context 
 
@@ -56,7 +41,31 @@ And note the three names now in play, each in its own layer: `List` is a class i
 
 So **a pointer is Parse's foreign key.** It holds which object in which class, and nothing else.
 
-## One-to-many relationships are done with pointers
+A to-do's `owner` field holds a pointer to a `_User`. A pointer holds **which object in which class**, and nothing else.
+
+## To-dos belong to lists
+
+A single flat pile of to-dos stops being useful somewhere around thirty items. What people actually want is *Personal*, *Apartment*, *Bachelor project* — several lists, each with a name.
+
+Note what we do *not* do: we do not add a `list` string field to `TodoItem`.
+
+### A string would be enough to group them on screen today, and it would be inefficient the moment anyone wants to rename a list.
+
+This is called `normalization` in databases.
+
+If a concept is expressed in a single place, it's easy to change. In our case, renaming a list: we rename it in a single place.
+
+### Benefit of a class/table over an attribute is that the class/table can be enriched with more properties later
+
+Our lists could get new properties: priority, etc. Moreover, you may want to share a list with other users. If a list is a first class entity in the DB that becomes easily possible.
+
+### Create the first list by hand
+
+Before writing any code for lists, open the dashboard, create a `List` class, and add one row by hand: *Apartment*.
+
+The dashboard and your app talk to the same server, so a list created there is exactly as real as one created from code. That is a genuinely useful habit for your project: **not every class needs a create screen in version one.** Seed the things that rarely change by hand, and build screens for what your users actually create. A create screen is worth building when creating that thing is part of the use case you are designing for.
+
+### One-to-many relationships are done with pointers
 
 Set a pointer by handing `set()` the whole object, not its id:
 
@@ -94,9 +103,105 @@ const results = await query.find();
 results[0].get("list").get("name");   // now this works
 ```
 
-One request instead of one-per-to-do. We will have more to say about this in the lecture on efficient communication with the backend.
+Open the network tab and compare: one request instead of one-per-to-do.
 
-## Many-to-many relationships are done with a join table
+### Note: The table name in the DB does not have to match the component in the react app
+
+`List` is a class in the database, `ToDoList` is the React component that draws one. Each name lives in its own layer.
+
+## Refactoring the schema: the owner moves to the list
+
+Now look at the model again. The list belongs to Ada; every to-do in it belongs to Ada. The `owner` on each to-do says the same thing a hundred times. So the owner moves to the list, and the to-do reaches its owner through it:
+
+```mermaid
+erDiagram
+    _User ||--o{ List : owns
+    List ||--o{ TodoItem : contains
+    _User {
+        objectId string PK
+        username string
+    }
+    List {
+        objectId string PK
+        name     string
+        owner    pointer FK
+    }
+    TodoItem {
+        objectId string  PK
+        text     string
+        done     boolean
+        list     pointer FK
+    }
+```
+
+Then drop the `owner` column from `TodoItem` in the dashboard. It is gone, instantly. Nothing complains, because nothing is enforcing anything: the existing rows simply lose the field. Schema changes are this easy in Parse *precisely because* the database checks nothing — freedom and footgun, same coin.
+
+The ACLs stay where they are, on every object — lists and to-dos alike. **Parse does not pass an ACL down from a list to its to-dos**; if the to-dos should follow their list, your code sets the same ACL on both. That matters the day you share a list: it is the list *and* its to-dos that have to change.
+
+### Creating lists from the app
+
+The cheapest honest version: one text input and a *New list* button at the bottom of the page.
+
+```js
+export const createList = async (name) => {
+	const currentUser = Parse.User.current();
+
+	const list = new List();
+	list.set("name", name);
+	list.set("owner", currentUser);
+	list.setACL(new Parse.ACL(currentUser));
+
+	return await list.save();
+};
+```
+
+We have no router yet, so every list renders on the same page, one block per list — and each block gets its **own** new-to-do input. Which list a new to-do belongs to is decided by where the input sits: the list object is already in scope when you render its block, so there is no dropdown and no "selected list" state to keep in sync.
+
+### Loading the page, the simple way
+
+```js
+const listQuery = new Parse.Query(List);
+listQuery.equalTo("owner", Parse.User.current());
+const lists = await listQuery.find();
+
+// and then, inside each list's block:
+const todoQuery = new Parse.Query(TodoItem);
+todoQuery.equalTo("list", list);
+const todos = await todoQuery.find();
+```
+
+It works. Now open the network tab and count the requests: **one** for the lists, and then **one more for every list**. Ten lists, eleven round trips. This is called the **N+1 problem**, and we are not fixing it today — only noticing it. It is the same lesson as `include()` above: the shape of the query decides the number of round trips. The fix comes in [Efficient Communication with the Backend](Efficient-Communication-with-the-Backend.md).
+
+The page is also getting crowded. That is the problem routing solves, next week.
+
+## A pointer is a foreign key that nobody checks
+
+In your database course, a foreign key came with a promise: the database will not let it point at a row that does not exist. Parse makes no such promise. Delete a list, and its to-dos are still there, each with a `list` pointer to nothing.
+
+This does not change if your Parse Server runs on Postgres instead of MongoDB: Parse stores the pointer as a plain id, not as a foreign-key constraint. It is the abstraction, not the storage engine, that decides the semantics. And `Parse.Relation`, below, has the same problem.
+
+If you want the guarantee, you write it yourself, on the server, in a trigger that runs whenever a list is deleted — see `beforeDelete` in [Running Code Server-Side](Running-Code-Server-Side.md). The guarantee moves out of the database and into your code.
+
+## Checking the model against the screens: the CRUD matrix
+
+Write your classes down the side and your screens across the top. In each cell, note whether that screen lets the user **C**reate, **R**ead, **U**pdate or **D**elete that class.
+
+| | Main page |
+|---|---|
+| `TodoItem` | C R U D |
+| `List` | C R |
+
+Every class your users own should be fully covered *somewhere*. Here the gap is obvious: a list can be created and shown, but never renamed or deleted.
+
+And the moment you add *delete list*, the previous section comes back: what happens to its to-dos? Decide — delete them too, or refuse to delete a non-empty list — and then enforce it on the server.
+
+Do this for your project model, against your wireframes. It is the cheapest way to find the screen you forgot.
+
+## Further reading: many-to-many, and what not to use
+
+You will need these the day your model has a many-to-many relationship. We do not build one in class.
+
+### Many-to-many relationships are done with a join table
 
 Say a to-do can be tagged with several labels, and a label applies to many to-dos. Create a class whose job is to represent one pairing:
 
@@ -123,13 +228,13 @@ todoLabel.set("order", 1);
 
 The moment you need *when* the label was added, or *who* added it, or in *what order*, a join table already has room for it and the alternatives do not.
 
-## Note: do not model relationships with `Parse.Relation`
+### Note: do not model relationships with `Parse.Relation`
 
 > *You will meet `Parse.Relation` in the documentation*, which is Parse's built-in way of doing many-to-many. It is less typing and it cannot carry any information about the relationship, so we are not going to use it. Knowing that it exists is enough.
 
-## Note: do not model relationships with arrays
+### Note: do not model relationships with arrays
 
-Parse lets you store an array of objects in a field, and it is tempting for small collections. Resist it: an array has no room for information about the relationship, it has to be rewritten in full to add one element — the whole-array problem from the beginning of this lecture, all over again — and it gets slow and awkward as soon as it is not tiny. Pointers for one-to-many, a join table for many-to-many. Those two cover everything you need this semester.
+Parse lets you store an array of objects in a field, and it is tempting for small collections. Resist it: an array has no room for information about the relationship, it has to be rewritten in full to add one element, and it gets slow and awkward as soon as it is not tiny. Pointers for one-to-many, a join table for many-to-many. Those two cover everything you need this semester.
 
 ## The notation matters less than being able to explain your model
 
@@ -147,12 +252,17 @@ No matter which notation you use, the most important aspect is being able to com
 
 ### 1. What are the two questions you have to answer about your domain before you create any classes?
 
-### 2. Your app has lists and to-dos. Which class gets the pointer, and why not the other one?
+### 2. A to-do already has an ACL that only lets its creator read it. Why does it still need an `owner` pointer?
 
-### 3. Why is a join table preferred over an array field for a many-to-many relationship?
+### 3. Your app has lists and to-dos. Which class gets the pointer, and why not the other one?
 
 ### 4. Why model a list as its own class rather than as a string field on each to-do?
 
+### 5. You delete a list. What happens to its to-dos in Parse, and how would it differ in the relational database from your database course? How would you get the guarantee back?
+
+### 6. Your page queries the user's lists, and then the to-dos of each list. How many requests does that make for ten lists, and what is this problem called?
+
+### 7. Why is a join table preferred over an array field for a many-to-many relationship?
 
 ## References
 

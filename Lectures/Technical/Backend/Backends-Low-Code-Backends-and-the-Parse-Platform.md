@@ -541,7 +541,7 @@ Said in the room, and repeated here for whoever was not: `useState` and `useEffe
 
 The part that belongs to this note: your `item.save()` becomes an HTTP request. The app id and the JavaScript key travel in the headers of *every* call, because HTTP is stateless and the server remembers nothing about you between requests; the object goes up as JSON and comes back as JSON. The SDK exists so that you never write that by hand.
 
-It is next week's material, asked a week early because this is exactly the right place to wonder about it — see [Web Service APIs](Web-Service-APIs.md).
+We went into it far enough in the room for now; the rest, including calling the same server with `curl` and `fetch` instead of the SDK, is in [Web Service APIs](Web-Service-APIs.md), which comes back later in the course next to efficient communication with the backend.
 
 ## Exam Questions
 

@@ -121,38 +121,20 @@ await Parse.User.logOut();
 // Parse.User.current() is now null
 ```
 
-### Associating the to-dos with their owner
+### How the server knows it is still you
 
-A to-do now belongs to somebody. That is one more pointer, exactly like the `list` pointer from last week:
+Open the developer tools right after logging in, and look in **Application → Local Storage**. Parse has stored the current user there, and inside it a `sessionToken`: a long random string that the server handed out when your password checked out.
 
-```js
-item.set("owner", Parse.User.current());
-```
+The reason it exists: **HTTP is stateless.** The server forgets you the moment it has answered a request. So from now on every call your app makes carries that token, and the token is what proves who is calling. Your password was sent once, at login; the token is sent every time instead.
 
-and then the query that fetches them says so:
+Two things worth being precise about:
 
-```js
-const query = new Parse.Query(TodoItem);
-query.equalTo("owner", Parse.User.current());
-const results = await query.find();
-```
-
-**Why is this critical?**
-- It allows the query "show me only *my* todos"
-- It is what data privacy will be built on
-- It is what the access control in Part 2 attaches to
-
-**But it is not yet security.** That `equalTo` is a convenience for the client, not a rule on the server. A user who opens the developer tools, or who talks to the REST API directly, can simply not send that constraint — and today your server would happily answer. Which is what the rest of the lecture is about.
-
-More advanced features, for later
-- [Email Verification](https://docs.parseplatform.org/js/guide/#verifying-emails)
-- [Security of User Objects](https://docs.parseplatform.org/js/guide/#security-for-other-objects) - only a user can modify their own data
-- [Resetting Passwords](https://docs.parseplatform.org/js/guide/#resetting-passwords)
+- The token is **not encrypted**. It is random, and meaningless to anyone who does not have the database. What protects it on its way to the server is **HTTPS**, which encrypts the whole connection.
+- Whoever has it, *is you*. Copy it out of this browser into another one, and the server cannot tell the difference. This is called **session hijacking**, and it is why `logOut()` does not merely delete the token from your browser: it destroys the session **on the server**, so the copied token stops working too.
 
 # Part 2: Authorization
 
-
-### Motivation
+## Motivation
 
 ##### **Why can you not keep the Parse API keys perfectly secret?**
 - Remember the architectural diagram from the beginning of the course? bundle.js is sent to the browser...
@@ -195,59 +177,68 @@ That is - **only if you have made your tables public**
 - Now it's time to harden the security of our database
 
 
-### **What can we do if the API keys can't be made secret?** 
+## What can we do if the API keys can't be made secret?
 
-Use access control in such a way that even with the keys, no harm can be done
+Use access control in such a way that even with the keys, no harm can be done. Parse gives you three layers, and we take them from the most concrete to the coarsest:
 
-1. Limit access to tables
-2. Limit access to individual objects
-3. Restrict class creation
+1. **Object level** — who can read and write *this row* (ACLs)
+2. **Class level** — who can touch *this table* at all (class-level permissions)
+3. **Schema level** — who can create *new tables* (client class creation)
 
-Let us take each of these in turn.
+## 1. Object-Level Permissions: Access Control Lists
 
-#### 1. Limiting Access to Tables
+### See the problem first
 
-##### For every table you can choose who has access to it and what privileges they have
+Open your app in two windows side by side: a normal one and an incognito one. Their local storage is separate, so you can be logged in as two different users at once. Log in as Ada on the left, as Anka on the right.
 
-###### Who has access can be specified with multiple levels of granularity
-  - Public (anyone, even unauthenticated)
-  - Authenticated users (requiresAuthentication)
-  - Specific users
-  - Roles
+Ada creates a to-do. Refresh Anka's window: **Anka can see it.** Every user sees every to-do, because nothing in the database says whose it is or who may read it.
 
-###### Privileges for the entire class
- - Get - retrieve individual objects by ID
- - Find - query for objects
- - Create - create new objects
- - Update - modify existing objects
- - Delete - delete objects
- - Add Fields - add new fields to the schema
+### The fix: an ACL on every object
 
+An **Access Control List** is attached to one object, and says who may do what to it. They allow you to set **fine-grained permissions** for every row in your table. Usually they are **created at the same time** as the object.
 
-The image below shows the Parse UI for setting Class-level permissions
-![](../images/class-level-permissions-in-parse.png)
+```js
+export const createTodoItem = async (text) => {
+	const currentUser = Parse.User.current();
 
-###### Practical Implication: For your applications, you can prevent non-authenticated users to access your tables
+	const item = new TodoItem();
+	item.set("text", text);
+	item.set("done", false);
 
+	item.setACL(new Parse.ACL(currentUser)); // ← only the creator can read and write
 
-#### 2. Object-Level Permissions
+	const result = await item.save();
+	return toPlainObject(result);
+};
+```
 
-Even if now you only allow logged in users, it would still not be desirable that an unfriendly user creates an account and then
-- reads other users data
-- or even starts deleting other people's data!
+Ada creates another to-do, Anka refreshes, and this one does not appear.
 
-This is where the **Access Control Lists** concept come into play. They allow you to set **fine-grained permissions** for every row in your table. Usually they are **created at the same time** as the object.
+**But the old one still does.** An ACL is set on an object when it is saved; it does not reach back to objects saved before your code changed. The to-dos created without an ACL are still readable and writable by everybody, and will stay so until you give them one. You will meet this in your own project, as old test data that behaves differently from new data.
 
-##### Who can ACL permissions apply to? 
+##### Who can ACL permissions apply to?
   - Public
   - Specific users
   - Roles
 
-  #### Privileges per object
+##### Privileges per object
   - Read - can retrieve/query this object
   - Write - can update or delete this object
 
-##### Examples
+### `new Parse.ACL(user)` is shorthand 
+```js
+	const acl = new Parse.ACL();
+	acl.setReadAccess(currentUser, true);
+	acl.setWriteAccess(currentUser, true);
+	item.setACL(acl);
+	
+	// is equivalent to
+	
+	const acl = new Parse.ACL(currentUser);
+	item.setACL(acl);
+```
+
+### More examples
 ###### User creates a private note
 
 In the following example, a logged in user, creates a private note and ensures that it is only himself that can access that note:
@@ -274,121 +265,7 @@ publicPost.save();
 ```
 Access control lists can be modified every time an object is saved.
 
-#### 3. Restricting Class Creation
-
-Surely, not all users should be allowed to create classes either!
-
-Under `App Settings > Server Settings > Client Class Creation` you can specify if your expect users to be allowed to create new classes in your database. Probably you do not want that.
-
-
-
-#### 4. Combining Authorization Methods to Harden the Security of an Application
-
-The methods above should be combined together to strengthen the DB access for  your application.
-
-![](../images/parse-server-access-control.png)
-
-In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application.
-
-### Case Study: ToDo26
-
-#### The model we are hardening
-
-```mermaid
-erDiagram
-    _User ||--o{ TodoItem : owns
-    List ||--o{ TodoItem : contains
-    _User {
-        objectId string PK
-        username string
-        email    string
-    }
-    List {
-        objectId string PK
-        name     string
-    }
-    TodoItem {
-        objectId string  PK
-        text     string
-        done     boolean
-        list     pointer FK
-        owner    pointer FK
-    }
-```
-
-Two pointers. Parse adds `objectId`, `createdAt` and `updatedAt` to every class for free, so the only fields we declare are the ones that mean something. The `owner` pointer is the one that arrived today, and everything that follows hangs off it.
-
-#### The query that looks like security, and is not
-
-`fetchTodos` from last week lives in `src/services/todoService.js`. Now that a to-do has an owner, it grows one more constraint:
-
-```js
-export async function fetchTodosByList(list) {
-  const query = new Parse.Query(TodoItem);
-  query.equalTo("list", list);
-  query.equalTo("owner", Parse.User.current());
-  query.ascending("createdAt");   // oldest first
-
-  const results = await query.find();
-  return results.map(toPlainObject);
-}
-```
-
-- Note the multiple query conditions
-- Note the ordering constraint
-
-**But there's a problem**: the query filter is a convenience for *our* client. It is not a rule on the server, and nothing obliges anyone to send it.
-
-And they do not need to tamper with your client to leave it out. They do not need your client at all: `npm install parse`, twenty lines of Node, and the App ID and JavaScript key they read out of the bundle you shipped them. Then they run whatever query they like, against the same server, with the same keys — and today it answers.
-
-#### Access Controls when creating a new Todo item
-
-```js
-export const createTodoItem = async (text, list) => {
-
-	const currentUser = Parse.User.current();
-
-	const item = new TodoItem();
-	item.set("text", text);
-	item.set("list", list);
-	item.set("done", false);
-	item.set("owner", currentUser); // ← Links to user!
-	
-	
-	// Set ACL so only creator can read and write
-	const acl = new Parse.ACL();
-	acl.setReadAccess(currentUser, true);
-	acl.setWriteAccess(currentUser, true);
-	item.setACL(acl);
-	
-	
-	try {
-		const result = await item.save();
-		
-		// the same plain-object conversion as everywhere else
-		return toPlainObject(result);
-	} catch (error) {
-		console.error("Error creating todo:", error);
-		throw error;
-	}
-
-};
-
-```
-###### Observation: A more concise way 
-```js
-	const acl = new Parse.ACL();
-	acl.setReadAccess(currentUser, true);
-	acl.setWriteAccess(currentUser, true);
-	item.setACL(acl);
-	
-	// is equivalent to
-	
-	const acl = new Parse.ACL(currentUser);
-	item.setACL(acl);
-```
-
-##### Other object-level configurations
+### Sharing, and public read
 
 ###### Sharing with another user
 
@@ -402,6 +279,64 @@ export const createTodoItem = async (text, list) => {
   const acl = new Parse.ACL(currentUser); // owner has full access
   acl.setPublicReadAccess(true);  // anyone can read
 ```
+## 2. Class-Level Permissions
+
+ACLs decide *which rows* a user can open. Class-level permissions sit in front of them and decide whether a user may touch the class *at all*.
+
+For every class you choose who has access and with which privileges.
+
+###### Who has access can be specified with multiple levels of granularity
+  - Public (anyone, even unauthenticated)
+  - Authenticated users (requiresAuthentication)
+  - Specific users
+  - Roles
+
+###### Privileges for the entire class
+ - Get - retrieve individual objects by ID
+ - Find - query for objects
+ - Create - create new objects
+ - Update - modify existing objects
+ - Delete - delete objects
+ - Add Fields - add new fields to the schema
+
+The image below shows the Parse UI for setting Class-level permissions
+![](../images/class-level-permissions-in-parse.png)
+
+### Try it: only logged-in users may create to-dos
+
+Somebody without an account has no business creating to-dos. In the dashboard, open the class-level permissions of `TodoItem` and require authentication for **Create**. Then log out, and try to save a to-do: the server refuses.
+
+One toggle, and one layer of the lecture becomes visible. Class level says who may knock; the ACL says which rows open.
+
+### The exception: `_User`
+
+Every other class tightens. One class cannot: **`_User` must keep Create public**, because signing up *is* creating a user, and the person signing up is by definition not logged in yet.
+
+What must not stay public on `_User` is everything else. By default a user can only modify their own user object, but user objects can be read by anyone — so with the keys from your bundle, a stranger could list every account in your app. Turn **Find** off for the public in the `_User` class-level permissions. Create stays open; the rest does not.
+
+<!-- TODO before Thursday: check on Back4App exactly which _User CLP columns can be turned off without breaking login and Parse.User.current(). -->
+
+## 3. Restricting Class Creation
+
+Surely, not all users should be allowed to create classes either!
+
+Under `App Settings > Server Settings > Client Class Creation` you can specify if your expect users to be allowed to create new classes in your database. Very handy in week one, when saving to a class that does not exist yet simply creates it. Very dangerous in production, where anyone with your keys can do the same. Turn it off.
+
+## Combining the three
+
+The methods above should be combined together to strengthen the DB access for your application.
+
+![](../images/parse-server-access-control.png)
+
+In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application.
+
+## Roles, in one sentence
+
+If your design has **named groups of users that are reused** across many objects — a family, a team, the moderators — look up **roles**: a role is an object that holds users, and you can put a role into an ACL instead of listing the users one by one. For one-off sharing with a person or two, putting them in the ACL directly is simpler.
+
+<details>
+<summary>More on roles, for when your project needs them</summary>
+
 ###### Role-Based Access
 ```js
   const acl = new Parse.ACL(currentUser);
@@ -431,7 +366,16 @@ export const createTodoItem = async (text, list) => {
 
   await role.save();
 ```
-#### ACL does not work at the field level
+
+</details>
+
+## The query is a convenience; the ACL is the security
+
+Next, in [Relationships Between Object Classes](Relationships-Between-Object-Classes.md), we give every to-do an owner and query for "only mine" explicitly. That query is useful. It is not what protects anybody: a filter like `equalTo("owner", …)` is something *our* client chooses to send, and nothing obliges anyone else to send it. They do not even need your client: `npm install parse`, twenty lines of Node, and the App ID and JavaScript key they read out of the bundle you shipped them. Then they run whatever query they like — and what stops them is the ACL, on the server.
+
+# For week 12: when one object needs two different ACLs
+
+## ACL does not work at the field level
 
   In Parse, **ACLs work at the object level, not at the field/column level**. This means you cannot make some fields public and other fields private within the same object.
   
@@ -488,39 +432,6 @@ export const createTodoItem = async (text, list) => {
 
 
 
-#### Folder Structure
-
-##### Separate Pages and Reusable Components 
-
-My favorite way of organizing
-- **pages**  -- One file per page/view
-- **components** -- Reusable UI components
-- **services** -- API/backend logic
-- **utilities** -- a catch all for things that we don't know where to put yet
-
-```bash
-  src/
-  ├── assets/       
-  ├── pages/              
-  │   ├── LoginPage.jsx
-  │   └── HomePage.jsx
-  ├── components/         
-  │   ├── TodoList/    
-  │   │   ├── TodoList.jsx
-  │   │   ├── TodoItem.jsx
-  ├── services/           
-  │   ├── authService.js
-  │   └── todoService.js
-  ├── constants/
-  ├── utilities/
-  └── App.jsx
-
-```
-
-Also, refactor, refactor, refactor. When you find a better organization, go with that.
-
-
-
 ## Reading
 From the ParsePlatform.org Guide:
 - [Class-level Permissions](https://docs.parseplatform.org/js/guide/#class-level-permissions)
@@ -533,11 +444,13 @@ From the ParsePlatform.org Guide:
 
 #### 2. What is the difference between authentication and authorization?
 
-#### 3. What are the three methods of access control in Parse?
+#### 3. HTTP is stateless. How does the server know, on your tenth request, that it is still you? What happens if someone copies that thing into their own browser?
 
-#### 4. What is an ACL and at what level does it operate?
+#### 4. What are the three layers of access control in Parse, and what does each one protect?
 
-#### 5. Explain what this code does:
+#### 5. What is an ACL and at what level does it operate?
+
+#### 6. Explain what this code does:
 ```js
 const privateNote = new Note();
 privateNote.set("content", "My secret");
@@ -545,9 +458,13 @@ privateNote.setACL(new Parse.ACL(Parse.User.current()));
 await privateNote.save();
 ```
 
-#### 6. How would you make an object publicly readable but only writable by the owner?
+#### 7. How would you make an object publicly readable but only writable by the owner?
 
-#### 7. What's the problem with this code if we only validate the length on the client?
+#### 8. User B, logged in, can see a to-do that user A created. Give every reason that could be the case.
+
+#### 9. Why must the `_User` class keep Create public, when every other class should not?
+
+#### 10. What's the problem with this code if we only validate the length on the client?
 ```js
 // Client-side validation
 if (text.length > 200) {
@@ -557,13 +474,13 @@ if (text.length > 200) {
 await todoItem.save();
 ```
 
-#### 8. This query returns only the current user's to-dos. Explain why it is nevertheless not a security measure, and what is.
+#### 11. This query returns only the current user's to-dos. Explain why it is nevertheless not a security measure, and what is.
 ```js
 const query = new Parse.Query(TodoItem);
 query.equalTo("owner", Parse.User.current());
 const results = await query.find();
 ```
 
-#### 9. What are the two types of roles in Parse and how do they differ?
+#### 12. When would you reach for a role instead of listing users in an ACL?
 
-#### 10. Why can't ACLs be set at the field level, and what's the workaround?
+#### 13. Why can't ACLs be set at the field level, and what's the workaround?

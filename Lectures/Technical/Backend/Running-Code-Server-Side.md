@@ -171,6 +171,21 @@ Parse.Cloud.afterSave("TodoItem", async (request) => {
 - What other actions might you want to trigger when a task is completed?
 
 
+### beforeDelete: The Integrity a Pointer Does Not Give You
+
+A Parse pointer is not a checked foreign key (see [Relationships Between Object Classes](Relationships-Between-Object-Classes.md#a-pointer-is-a-foreign-key-that-nobody-checks)): delete a list, and its to-dos stay behind, pointing at nothing. A trigger on delete is where you put that rule back:
+
+```js
+Parse.Cloud.beforeDelete("List", async (request) => {
+	const query = new Parse.Query("TodoItem");
+	query.equalTo("list", request.object);
+	const todos = await query.find({ useMasterKey: true });
+	await Parse.Object.destroyAll(todos, { useMasterKey: true });
+});
+```
+
+The alternative policy is to refuse: `throw` from the trigger if the list still has to-dos, and the delete does not happen. Either way, the rule now lives on the server, where no client can skip it.
+
 ## Exam Questions
 
 ### 1. When should you run code on the server instead of the client?
