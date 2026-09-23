@@ -201,3 +201,13 @@ Parse.Cloud.beforeSave("TodoItem", (request) => {
 ```
 
 ### 3. What is the difference between `afterSave` and `beforeSave` triggers?
+
+### 4. What's the problem with this code if we only validate the length on the client?
+```js
+// Client-side validation
+if (text.length > 200) {
+  alert("Too long!");
+  return;
+}
+await todoItem.save();
+```

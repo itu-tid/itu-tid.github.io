@@ -25,9 +25,11 @@ query.equalTo("owner", Parse.User.current());
 const results = await query.find();
 ```
 
-Run it in the two-browser setup from last lecture and notice the difference from before: until now Anka saw her own to-dos *plus* the old ones nobody had put an ACL on. Now she sees only the ones that are hers, because now she is asking for exactly those.
+Run it in the two-browser setup from last lecture and notice the difference from before: until now Armin saw his own to-dos *plus* the old ones nobody had put an ACL on. Now he sees only the ones that are his, because now he is asking for exactly those.
 
-Remember which of the two is the security, though. The query is a convenience that our client chooses to send. The ACL is what the server enforces on everyone.
+Remember which of the two is the security, though. The query is something *our* client chooses to send, and nothing obliges anyone else to send it. They do not even need your client: `npm install parse`, twenty lines of Node, and the App ID and JavaScript key they read out of the bundle you shipped them. Then they run whatever query they like, and what stops them is the ACL, on the server ([Authentication and Authorization](Authorization-and-ACL-in-Parse.md)).
+
+That does not make the query a mere convenience. It is also the app's logic: it says what this screen is *for*. "My to-dos" should show Ada's to-dos, and it should keep showing only those even on the day an ACL is set wrong, or once lists start being shared with her. The ACL decides what Ada *may* see; the query decides what she *asked* to see.
 
 ## The same idea has three names, depending on the context 
 
@@ -244,6 +246,8 @@ Use whichever notation you prefer. Two that I like are:
 	- attributes are listed in the box
 2. On the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
 
+%%ML: Can we re-render these two with our own domain model? %%
+
 ![](../images/alterantive-er-diagrams.png)
 
 No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database.
@@ -254,15 +258,22 @@ No matter which notation you use, the most important aspect is being able to com
 
 ### 2. A to-do already has an ACL that only lets its creator read it. Why does it still need an `owner` pointer?
 
-### 3. Your app has lists and to-dos. Which class gets the pointer, and why not the other one?
+### 3. This query returns only the current user's to-dos. Explain why it is nevertheless not a security measure, and what is. Why do we still write it?
+```js
+const query = new Parse.Query(TodoItem);
+query.equalTo("owner", Parse.User.current());
+const results = await query.find();
+```
 
-### 4. Why model a list as its own class rather than as a string field on each to-do?
+### 4. Your app has lists and to-dos. Which class gets the pointer, and why not the other one?
 
-### 5. You delete a list. What happens to its to-dos in Parse, and how would it differ in the relational database from your database course? How would you get the guarantee back?
+### 5. Why model a list as its own class rather than as a string field on each to-do?
 
-### 6. Your page queries the user's lists, and then the to-dos of each list. How many requests does that make for ten lists, and what is this problem called?
+### 6. You delete a list. What happens to its to-dos in Parse, and how would it differ in the relational database from your database course? How would you get the guarantee back?
 
-### 7. Why is a join table preferred over an array field for a many-to-many relationship?
+### 7. Your page queries the user's lists, and then the to-dos of each list. How many requests does that make for ten lists, and what is this problem called?
+
+### 8. Why is a join table preferred over an array field for a many-to-many relationship?
 
 ## References
 

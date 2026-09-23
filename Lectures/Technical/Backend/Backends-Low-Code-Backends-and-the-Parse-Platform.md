@@ -539,7 +539,23 @@ Said in the room, and repeated here for whoever was not: `useState` and `useEffe
 
 `save()` prompted the question of what an API actually is, and answering it took a quarter of the lecture, because the word is doing at least four jobs at once: the **browser API** (`history.back()`, speech recognition — the functions and classes the browser hands your code), an **SDK** like the Parse one you are using, an **HTTP API** whose operations are URLs you send requests to, and a **REST API**, a strict subset of that with firm rules about naming — rules most projects claim to follow and quietly do not.
 
-The part that belongs to this note: your `item.save()` becomes an HTTP request. The app id and the JavaScript key travel in the headers of *every* call, because HTTP is stateless and the server remembers nothing about you between requests; the object goes up as JSON and comes back as JSON. The SDK exists so that you never write that by hand.
+The part that belongs to this note: your `item.save()` becomes an HTTP request. The app id and the JavaScript key travel with *every* call, because HTTP is stateless and the server remembers nothing about you between requests; the object goes up as JSON and comes back as JSON. The SDK exists so that you never write that by hand.
+
+### The keys are written in plain text in every request your app sends
+
+Open your own to-do app, open the developer tools on the **Network** tab, and tick a checkbox. One request appears. Click it, and look at what your app sent:
+
+```
+POST https://parseapi.back4app.com/parse/classes/TodoItem/AbC123xY
+
+{"done":true, "_method":"PUT",
+ "_ApplicationId":"YOUR_APP_ID",
+ "_JavaScriptKey":"YOUR_JS_KEY"}
+```
+
+There they are. Not hidden in the bundle, not obfuscated: **in the body of every single request**, put there by your own code. `_ApplicationId` and `_JavaScriptKey` say **which application is calling**. Every visitor has them. They identify your app, and they prove nothing about the person using it.
+
+Anybody who can open your app can read them. That is not a bug in Parse, and there is no setting that fixes it: a key that the browser must send is a key the browser's owner can read. The request also shows the **class name** (`TodoItem`) and the **object id**, so a stranger now knows what your tables are called, and can address individual rows in them. What to do about that is the subject of [next week](Authorization-and-ACL-in-Parse.md).
 
 We went into it far enough in the room for now; the rest, including calling the same server with `curl` and `fetch` instead of the SDK, is in [Web Service APIs](Web-Service-APIs.md), which comes back later in the course next to efficient communication with the backend.
 

@@ -5,13 +5,20 @@ Two words that sound alike and mean different things, which is why they belong i
 - **Authentication** — proving that a user is who they say they are. *Who are you?*
 - **Authorization** — deciding what that user is then allowed to do. *What are you allowed to touch?*
 
-The first half of today gives your app accounts. The second half stops those accounts from reading each other's data. Neither half is worth much without the other: accounts that everyone can read through are theatre, and permissions with nobody to attach them to are unusable.
+The first half of this note gives your app accounts. The second half stops those accounts from reading each other's data. Neither half is worth much without the other. But together they can ensure that user data remains private. 
 
 # Part 1: Authentication
 
 ## Parse gives you accounts, login and the current user without your writing any of it
 
-The Javascript Parse SDK helps you manage user accounts and track the logged in user. `_User` is a class that already exists in your database, with `username`, `password` and `email` already on it, and with the password already being hashed for you.
+### On the backend, there's a separate class for user accounts
+
+`_User` is a class that already exists in your database, with `username`, `password` and `email` already on it, and with the password already being hashed for you.
+
+
+### On the front-end we have `logIn`, `signUp`, that create accounts and verify authentication
+
+The Javascript Parse SDK helps you manage user accounts and track the logged in user. 
 
 ### Signing up and logging in
 
@@ -79,27 +86,60 @@ What happens:
 - `user.signUp()` creates a new user, and logs them in
 - `Parse.User.logIn()` logs in an existing one
 - Both of them manage the session for you
-- Log out with `await Parse.User.logOut()`
 
-### Showing the login page, without a router
+### Information about whether the user is authenticated has to be kept as state the App level not in the authentication component
 
-Both handlers finish by calling `onAuthenticated`. They do *not* navigate anywhere, because we have no router yet — that is week 6. We do not need one:
+Thus
+- we declare a state
+- we initialize it with `Parse.User.current()` 
+- we pass a callback to `AuthPage` (`handleAuthenticated`) that it will call in case it has a logged in user 
+- then we can use  [conditional rendering](../React/Conditional-Rendering.md) **with an early return** again to either render the Auth page or the actual application 
 
 ```jsx
 function App() {
+
 	const [user, setUser] = useState(Parse.User.current());
 
+    function handleAuthenticated(loggedInUser) {  
+         setUser(loggedInUser);  
+    }
+
+	// conditional early return
 	if (!user) {
-		return <AuthPage onAuthenticated={setUser} />;
+		return <AuthPage onAuthenticated={handleAuthenticated} />;
 	}
 
 	return <ToDoList user={user} onLogOut={() => Parse.User.logOut().then(() => setUser(null))} />;
 }
 ```
 
-This is [conditional rendering](../React/Conditional-Rendering.md) again, in its whole-screen form: either the app, or the way in. A router will later give each of these its own URL, which is a real improvement — but notice that what a router adds here is *addressability*, not the gating. The gating is this `if`.
 
-### Getting the current user
+
+### Logging out
+
+- the Parse API is offering us `Parse.User.logOut()`
+- we add a button
+- and attach the handler
+
+```jsx
+
+function handleLogout() {  
+  Parse.User.logOut().then(() => setUser(null));  
+
+}
+
+// ... 
+
+return (
+	<>
+		{/* ... */}
+		<button onClick={handleLogout}>Logout</button>
+	</>
+);
+```
+
+
+### The current user information is stored in the localStorage
 
 It would be silly if the user had to login every time they opened the app, so Parse stores the logged-in user in `localStorage` and hands them back to you:
 
@@ -114,35 +154,18 @@ if (currentUser) {
 
 This is why `useState(Parse.User.current())` above is safe as a `useState` initializer while `fetchTodos()` was not: `current()` reads from `localStorage` and is synchronous. No network, no waiting, no third state.
 
-### Logging out
+### How the server knows it is you
 
-```jsx
-await Parse.User.logOut();
-// Parse.User.current() is now null
-```
 
-### How the server knows it is still you
+#### After you login in your localStorage a session token identifies you -- the same sessionToken that you can find in the backend database
 
 Open the developer tools right after logging in, and look in **Application → Local Storage**. Parse has stored the current user there, and inside it a `sessionToken`: a long random string that the server handed out when your password checked out.
 
+
+#### The sessionToken is the thing that compensates the fact that HTTP is stateless 
 The reason it exists: **HTTP is stateless.** The server forgets you the moment it has answered a request. So from now on every call your app makes carries that token, and the token is what proves who is calling. Your password was sent once, at login; the token is sent every time instead.
 
-Two things worth being precise about:
-
-- The token is **not encrypted**. It is random, and meaningless to anyone who does not have the database. What protects it on its way to the server is **HTTPS**, which encrypts the whole connection.
-- Whoever has it, *is you*. Copy it out of this browser into another one, and the server cannot tell the difference. This is called **session hijacking**, and it is why `logOut()` does not merely delete the token from your browser: it destroys the session **on the server**, so the copied token stops working too.
-
-# Part 2: Authorization
-
-## Motivation
-
-##### **Why can you not keep the Parse API keys perfectly secret?**
-- Remember the architectural diagram from the beginning of the course? bundle.js is sent to the browser...
-- The JavaScript code of your web application can be inspected by another web programmer.
-
-###### See it, rather than take my word for it
-
-Open your own to-do app, open the developer tools on the **Network** tab, and tick a checkbox. One request appears. Click it, and look at what your app sent:
+You can watch it travel. Open the **Network** tab, tick a checkbox, and click the request that appears. It is the same request as [last week](Backends-Low-Code-Backends-and-the-Parse-Platform.md), with one line more:
 
 ```
 POST https://parseapi.back4app.com/parse/classes/TodoItem/AbC123xY
@@ -153,33 +176,36 @@ POST https://parseapi.back4app.com/parse/classes/TodoItem/AbC123xY
  "_SessionToken":"r:aBcD1234..."}
 ```
 
-There they are. Not hidden in the bundle, not obfuscated — **written in plain text in the body of every single request**, by your own code, because the server has no other way of knowing who is calling.
+The app id and the JavaScript key say **which application** is calling, and every visitor has them. `_SessionToken` appeared when you logged in, and says **who** is calling. It is the only thing in this request that lets the server tell you apart from anybody else.
 
-Anybody who can open your app can read them. That is not a bug in Parse, and there is no setting that fixes it: a key that the browser must send is a key the browser's owner can read.
+Two things worth being precise about:
 
-Now look at the two credentials in there, because the difference between them is this entire lecture:
+1. The token is **not encrypted**. 
+	- It is random, and long, so it can't be guessed 
+	- Is meaningless to anyone who does not have the database. 
+	- What protects it on its way to the server is **HTTPS**, which encrypts the whole connection.
 
-- `_ApplicationId` and `_JavaScriptKey` say **which application is calling**. Every visitor has them. They identify your app, and they prove nothing about the person using it.
-- `_SessionToken` appeared when you logged in an hour ago. It says **who is calling**. It is yours, it is secret, and it is the only thing in this request that the server can use to tell you from anybody else.
+2. Whoever has the token, *is you* from server's POV 
+	- Copy token out of this browser into another one, and the server cannot tell the difference. 
+	- This is called **session hijacking**, and it is why `logOut()` does not merely delete the token from your browser: it destroys the session **on the server too**. 
 
-Everything we build today hangs off that second line. The keys cannot protect anything, so the protection has to be attached to the user.
+# Part 2: Authorization
 
-And two more things are visible in that same request, both of which matter shortly: the **class name** (`TodoItem`) and the **object id** — so a stranger now knows what your tables are called, and can address individual rows in them.
+## The API keys are public, so the protection has to be attached to the user
 
-##### **What happens if I access your repository and find your AppID and JSKey?**
-- Read info that is not meant for me
-- Delete useful information
-- Store my movie collection in your tables
-- etc.
+[Last week](Backends-Low-Code-Backends-and-the-Parse-Platform.md) we saw the app id and the JavaScript key written in plain text in every request your app sends. Anybody who opens your app can read them, and no setting changes that. What the server *can* tell apart is the user, through the session token from Part 1. Everything in this half hangs off that.
 
-That is - **only if you have made your tables public**
-- When we created the DB we were asked about access control and we agreed to make everything public because we're working on an MVP.
-- Now it's time to harden the security of our database
+### With your keys, anyone can do whatever your public tables allow
 
+- Read information that is not meant for them
+- Delete your data
+- Store their movie collection in your tables
 
-## What can we do if the API keys can't be made secret?
+When we created the database we agreed to make everything public, because we were building an MVP. Now it is time to harden it.
 
-Use access control in such a way that even with the keys, no harm can be done. Parse gives you three layers, and we take them from the most concrete to the coarsest:
+### Parse gives you three layers of access control
+
+Use access control in such a way that even with the keys, no harm can be done. We take the layers from the most concrete to the coarsest:
 
 1. **Object level** — who can read and write *this row* (ACLs)
 2. **Class level** — who can touch *this table* at all (class-level permissions)
@@ -189,9 +215,9 @@ Use access control in such a way that even with the keys, no harm can be done. P
 
 ### See the problem first
 
-Open your app in two windows side by side: a normal one and an incognito one. Their local storage is separate, so you can be logged in as two different users at once. Log in as Ada on the left, as Anka on the right.
+If you now open the app in two windows side by side: a normal one and an incognito one. Their local storage is separate, so you can be logged in as two different users at once. Log in as Ada on the left, as Armin on the right.
 
-Ada creates a to-do. Refresh Anka's window: **Anka can see it.** Every user sees every to-do, because nothing in the database says whose it is or who may read it.
+Ada creates a to-do. Refresh Armin's window: **Armin can see it!** Every user sees every to-do, because nothing in the database says whose it is or who may read it.
 
 ### The fix: an ACL on every object
 
@@ -205,16 +231,19 @@ export const createTodoItem = async (text) => {
 	item.set("text", text);
 	item.set("done", false);
 
-	item.setACL(new Parse.ACL(currentUser)); // ← only the creator can read and write
+    // only the creator can read and write
+	item.setACL(new Parse.ACL(currentUser)); 
 
 	const result = await item.save();
 	return toPlainObject(result);
 };
 ```
 
-Ada creates another to-do, Anka refreshes, and this one does not appear.
+Ada creates another to-do, Armin refreshes, and this one does not appear.
 
-**But the old one still does.** An ACL is set on an object when it is saved; it does not reach back to objects saved before your code changed. The to-dos created without an ACL are still readable and writable by everybody, and will stay so until you give them one. You will meet this in your own project, as old test data that behaves differently from new data.
+**But the old one still does.** An ACL is set on an object when it is saved; it does not reach back to objects saved before your code changed. The to-dos created without an ACL are still readable and writable by everybody, and will stay so until you give them one. 
+
+You will meet this in your own project, as old test data that behaves differently from new data.
 
 ##### Who can ACL permissions apply to?
   - Public
@@ -225,7 +254,7 @@ Ada creates another to-do, Anka refreshes, and this one does not appear.
   - Read - can retrieve/query this object
   - Write - can update or delete this object
 
-### `new Parse.ACL(user)` is shorthand 
+### `new Parse.ACL(user)` is shorthand for read / write for the given user  
 ```js
 	const acl = new Parse.ACL();
 	acl.setReadAccess(currentUser, true);
@@ -238,48 +267,63 @@ Ada creates another to-do, Anka refreshes, and this one does not appear.
 	item.setACL(acl);
 ```
 
-### More examples
-###### User creates a private note
+### Public read, owner write: Ada's list is visible to everyone, but only Ada can change it
 
-In the following example, a logged in user, creates a private note and ensures that it is only himself that can access that note:
-
-```js
-const Counter = Parse.Object.extend("Counter");
-const privateCounter = new Counter();
-privateCounter.set("name", "Times Checked Twitter");
-privateCounter.set("count", 42);
-privateCounter.setACL(
-	new Parse.ACL(Parse.User.current()));
-privateCounter.save();
-```
-
-###### Read for public but write only for owner
-It is sometimes desirable that an object can be **read by other users**, but just **can not be written by them**. For such a case the `Parse.ACL` object offers the `setPublicReadAccess(true)` method call:
-```js
-const Post = Parse.Object.extend("Post");
-const publicPost = new Post();
-publicPost.set("content", "I love technical interaction design");
-publicPost.setACL(new Parse.ACL(Parse.User.current()));
-publicPost.setPublicReadAccess(true);
-publicPost.save();
-```
-Access control lists can be modified every time an object is saved.
-
-### Sharing, and public read
-
-###### Sharing with another user
+Sometimes an object should be **read by other users** but **not written by them**. Ada wants her packing list visible to everyone she travels with, but she does not want anybody else ticking things off. `setPublicReadAccess(true)` opens reading, and leaves writing to whoever the ACL already names:
 
 ```js
-  const acl = new Parse.ACL(currentUser); // owner has full access
-  acl.setReadAccess(otherUser, true);   // other user can read
-  acl.setWriteAccess(otherUser, true);  // other user can write
+export const createTodoItem = async (text) => {
+	const currentUser = Parse.User.current();
+
+	const item = new TodoItem();
+	item.set("text", text);
+	item.set("done", false);
+
+	const acl = new Parse.ACL(currentUser); // Ada can read and write
+	acl.setPublicReadAccess(true);          // everybody can read
+	item.setACL(acl);
+
+	const result = await item.save();
+	return toPlainObject(result);
+};
 ```
-###### Public read - owner write
+
+Armin refreshes, and Ada's to-do appears in his list. He ticks its checkbox. What happens?
+
+- **The app does not crash.** `save()` rejects, the line that updates the state never runs, and the checkbox stays unticked. It is the same thing you saw with the network turned off [last week](Backends-Low-Code-Backends-and-the-Parse-Platform.md): nothing changes on screen, which is the truth.
+- **The error is not "permission denied".** It is error 101, **"Object not found"**. The server does not even admit that a row Armin may not write to exists. Look for it in the console, where it shows up as an uncaught promise rejection, because our `handleToggle` does not catch anything.
+- **The server is protected, but the interface is not honest.** Armin was offered a checkbox that could never work. The ACL comes back with every object, so the client can ask it before drawing the checkbox. `toPlainObject` could add a `canWrite` field, computed from `item.getACL().getWriteAccess(Parse.User.current())`. For Armin it would be `false`, and the checkbox could be disabled, or not drawn at all. (An object with no ACL returns `null` from `getACL()`, and means everyone may write.)
+
+An ACL can be changed every time the object is saved, so Ada can open the list up, or close it again, later.
+
+### Sharing with another user
+
 ```js
-  const acl = new Parse.ACL(currentUser); // owner has full access
-  acl.setPublicReadAccess(true);  // anyone can read
+const acl = new Parse.ACL(currentUser); // owner has full access
+acl.setReadAccess(otherUser, true);     // other user can read
+acl.setWriteAccess(otherUser, true);    // other user can write
 ```
+
+`otherUser` is a `Parse.User`, and if all you have is their id, `Parse.User.createWithoutData(id)` makes one. How your app learns that id in the first place (an invitation, a share link, a user who accepts a shared list) is a design question, and we come back to it. It gets harder, not easier, once you lock down the `_User` class below.
+
 ## 2. Class-Level Permissions
+
+
+### Our login page protects nothing: anyone can skip the app and talk to the server directly
+
+Our app now shows nothing but the login page to a visitor who is not logged in. That conditional render feels like a lock, but it only locks our own interface. The server is one HTTP request away, and the keys that request needs are the ones we ship to every visitor. So skip the app entirely, and create a to-do from the terminal, without ever logging in:
+
+```bash
+curl -X POST "$PARSE_SERVER_URL/classes/TodoItem" \
+  -H "X-Parse-Application-Id: $APP_ID" \
+  -H "X-Parse-Javascript-Key: $JS_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"text":"I never logged in","done":false}'
+```
+
+It works. The server answers with the `objectId` of a new row, and because nobody attached an ACL to it, the row is public: it shows up in the list of every user of your app. (The same request can be written with `fetch` just as easily; [Web Service APIs](Web-Service-APIs.md) does that properly later in the course.)
+
+ACLs cannot stop this, because an ACL belongs to a row that already exists. Stopping the *creation* is a job for the next layer.
 
 ACLs decide *which rows* a user can open. Class-level permissions sit in front of them and decide whether a user may touch the class *at all*.
 
@@ -304,7 +348,7 @@ The image below shows the Parse UI for setting Class-level permissions
 
 ### Try it: only logged-in users may create to-dos
 
-Somebody without an account has no business creating to-dos. In the dashboard, open the class-level permissions of `TodoItem` and require authentication for **Create**. Then log out, and try to save a to-do: the server refuses.
+Somebody without an account has no business creating to-dos. In the dashboard, open the class-level permissions of `TodoItem` and require authentication for **Create**. Then run the same `curl` again: this time the server refuses.
 
 One toggle, and one layer of the lecture becomes visible. Class level says who may knock; the ACL says which rows open.
 
@@ -330,7 +374,11 @@ The methods above should be combined together to strengthen the DB access for yo
 
 In practice, there's no real reason to have any public tables. If it's a public list of objects, they can be hardcoded in the application.
 
-## Roles, in one sentence
+## Field-level permissions
+
+An ACL covers a whole object, so it cannot make one field public and another private. When you need that — a to-do whose text is shared but whose time-tracking is not — the data has to be split across two classes. That is week 12's subject: [Field-Level Permissions, and the Two-Table Workaround](Field-Level-Permissions.md).
+
+## Advanced: roles, for groups of users you reuse
 
 If your design has **named groups of users that are reused** across many objects — a family, a team, the moderators — look up **roles**: a role is an object that holds users, and you can put a role into an ACL instead of listing the users one by one. For one-off sharing with a person or two, putting them in the ACL directly is simpler.
 
@@ -369,14 +417,6 @@ If your design has **named groups of users that are reused** across many objects
 
 </details>
 
-## The query is a convenience; the ACL is the security
-
-Next, in [Relationships Between Object Classes](Relationships-Between-Object-Classes.md), we give every to-do an owner and query for "only mine" explicitly. That query is useful. It is not what protects anybody: a filter like `equalTo("owner", …)` is something *our* client chooses to send, and nothing obliges anyone else to send it. They do not even need your client: `npm install parse`, twenty lines of Node, and the App ID and JavaScript key they read out of the bundle you shipped them. Then they run whatever query they like — and what stops them is the ACL, on the server.
-
-## Field-level permissions
-
-An ACL covers a whole object, so it cannot make one field public and another private. When you need that — a to-do whose text is shared but whose time-tracking is not — the data has to be split across two classes. That is week 12's subject: [Field-Level Permissions, and the Two-Table Workaround](Field-Level-Permissions.md).
-
 ## Reading
 From the ParsePlatform.org Guide:
 - [Class-level Permissions](https://docs.parseplatform.org/js/guide/#class-level-permissions)
@@ -409,21 +449,4 @@ await privateNote.save();
 
 #### 9. Why must the `_User` class keep Create public, when every other class should not?
 
-#### 10. What's the problem with this code if we only validate the length on the client?
-```js
-// Client-side validation
-if (text.length > 200) {
-  alert("Too long!");
-  return;
-}
-await todoItem.save();
-```
-
-#### 11. This query returns only the current user's to-dos. Explain why it is nevertheless not a security measure, and what is.
-```js
-const query = new Parse.Query(TodoItem);
-query.equalTo("owner", Parse.User.current());
-const results = await query.find();
-```
-
-#### 12. When would you reach for a role instead of listing users in an ACL?
+#### 10. When would you reach for a role instead of listing users in an ACL?
