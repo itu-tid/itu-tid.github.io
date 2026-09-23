@@ -111,6 +111,11 @@ pre code{ background:none; padding:0; font-size:.8rem; line-height:1.45;
    language as .sourceCode, and leaves a plain fence -- which is what the
    diagrams use -- without it. */
 pre:not(.sourceCode){ line-height:1.05; }
+/* Once mermaid has run, the <pre> holds an SVG rather than text, and the code
+   box would be a frame around a picture. */
+pre.mermaid{ background:none; border:none; padding:0; text-align:center;
+  line-height:normal; }
+pre.mermaid svg{ max-width:100%; height:auto; }
 
 /* --- tables ------------------------------------------------------------ */
 table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.9rem;

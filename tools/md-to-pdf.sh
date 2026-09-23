@@ -147,7 +147,8 @@ head, body = html[:body_at], html[body_at:]
 # First the smallest unit: a sentence ending in a colon introduces the listing
 # under it, and the two must never be split.
 body, pairs = re.subn(
-    r'(<p>(?:(?!</p>).)*?:</p>)\s*(<div class="sourceCode".*?</div>)',
+    r'(<p>(?:(?!</p>).)*?:</p>)\s*'
+    r'((?:<div class="sourceCode".*?</div>)|(?:<pre class="mermaid">.*?</pre>))',
     r'<section class="keep-together">\1\2</section>', body, flags=re.S)
 
 def top_level(chunk):
@@ -218,6 +219,37 @@ html = head + "".join(out)
 print(f"  lead-ins bound to their listing: {pairs}", file=sys.stderr)
 print(f"  headings kept with what follows: {kept}", file=sys.stderr)
 p.write_text(html, encoding="utf-8")
+PY
+
+# A mermaid block is a code listing to pandoc, so the ER diagram used to print
+# to students as its own source. Chrome is already the renderer, so mermaid runs
+# here, inlined from tools/vendor: a CDN script would let an offline build go
+# quietly back to printing source, and the small ESM build on the CDN is only a
+# loader that fetches its own chunks at run time.
+python3 - "$TMP/chapter.html" "$PWD/tools/vendor/mermaid.min.js" <<'PY'
+import html as h, re, sys
+from pathlib import Path
+page, mermaid_js = sys.argv[1:3]
+p = Path(page); doc = p.read_text(encoding="utf-8")
+
+# pandoc renders the fence as <pre class="mermaid"><code>…escaped text…</code>.
+# mermaid wants the diagram as the text of the .mermaid element itself.
+doc, n = re.subn(r'<pre class="mermaid"><code>(.*?)</code></pre>',
+                 lambda m: '<pre class="mermaid">' + h.unescape(m.group(1)) + '</pre>',
+                 doc, flags=re.S)
+print(f"  mermaid diagrams rendered: {n}", file=sys.stderr)
+if n:
+    js = Path(mermaid_js)
+    if not js.exists():
+        # A clone without the vendored bundle still builds -- printing the source
+        # listing it printed before, and saying so rather than failing.
+        print(f"  mermaid: {js} is missing, diagrams print as source", file=sys.stderr)
+        sys.exit(0)
+    boot = ("<script>" + js.read_text(encoding="utf-8") + "</script>\n"
+            "<script>mermaid.initialize({startOnLoad:false, theme:\"neutral\"});"
+            "mermaid.run();</script>\n")
+    doc = doc.replace("</body>", boot + "</body>", 1)
+    p.write_text(doc, encoding="utf-8")
 PY
 
 "$CHROME" --headless --disable-gpu --no-pdf-header-footer \
