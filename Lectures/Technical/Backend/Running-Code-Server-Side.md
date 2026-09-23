@@ -97,6 +97,8 @@ Parse allows you to automatically run functions when data is saved to the databa
 
 ### beforeSave: Running Code Before Writes
 
+<!-- From week 5 (Auth note), maybe to talk about here: preventing abuse of the public Create on _User. Email confirmation (verifyUserEmails + preventLoginWithUnverifiedEmail; signUp then returns no session, so AuthPage must say "check your email" instead of calling onAuthenticated; login before verifying fails with 205). Sign-up can set any field on the new user (e.g. isAdmin), so never decide permissions from _User fields, untick Add field for the public, and strip unexpected fields in a beforeSave on _User. CAPTCHA check in beforeSave. -->
+
 You can automatically run a function on the server before a user makes a write to the database using the `beforeSave` method of `Parse.Cloud`.
 
 #### Example: Validating Todo Names

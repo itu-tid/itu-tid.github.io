@@ -407,6 +407,8 @@ Unticking **Write** for the public takes away Create, Update and Delete together
 
 One toggle, and one layer of the lecture becomes visible. Class level says who may knock; the ACL says which rows open.
 
+
+
 ### The exception: `_User`
 
 Every other class tightens. One class cannot: **`_User` must keep Create public**, because signing up *is* creating a user, and the person signing up is by definition not logged in yet.
@@ -414,6 +416,8 @@ Every other class tightens. One class cannot: **`_User` must keep Create public*
 What must not stay public on `_User` is everything else. By default a user can only modify their own user object, but user objects can be read by anyone — so with the keys from your bundle, a stranger could list every account in your app. In the `_User` class-level permissions, switch to the detailed view with the gear icon, and untick **Find** in the **Public** row. Create stays open.
 
 <!-- TODO before Thursday: check on Back4App exactly which _User CLP columns can be turned off without breaking login and Parse.User.current(). -->
+
+<!-- Preventing abuse of the public Create on _User (email confirmation etc.): staff note in Running-Code-Server-Side.md, for the Cloud Code lecture. -->
 
 ## 3. Restricting Class Creation
 
@@ -437,42 +441,42 @@ An ACL covers a whole object, so it cannot make one field public and another pri
 
 If your design has **named groups of users that are reused** across many objects — a family, a team, the moderators — look up **roles**: a role is an object that holds users, and you can put a role into an ACL instead of listing the users one by one. For one-off sharing with a person or two, putting them in the ACL directly is simpler.
 
-<details>
-<summary>More on roles, for when your project needs them</summary>
+### A role goes into an ACL like a user does
 
-###### Role-Based Access
 ```js
-  const acl = new Parse.ACL(currentUser);
-  acl.setRoleReadAccess("TeamMembers", true);
-  acl.setRoleWriteAccess("TeamMembers", true); 
+const acl = new Parse.ACL(currentUser);
+acl.setRoleReadAccess("TeamMembers", true);
+acl.setRoleWriteAccess("TeamMembers", true);
 ```
-###### Two types of roles
-###### **Application-level roles** (Moderators, Admins, Premium Users)
+
+### Two types of roles
+
+**Application-level roles** (Moderators, Admins, Premium Users)
+
 - Created manually in Parse Dashboard or via Cloud Code
 - Managed by the app administrators, not end users
 - Public read of the role is normal - users should see who the moderators are
 
-###### **User-created roles** (e.g. Family, MyTeam, ProjectX)
+**User-created roles** (e.g. Family, MyTeam, ProjectX)
+
 - Created programmatically by regular users from the app
 - Each user manages their own teams
 - Private - no reason for others to see them
 
 ```js
-  // Say user creates a "TeamMembers" role.
-  // Role names are unique across the whole app, so a real app would add an id to the name.
-  
-  const roleACL = new Parse.ACL(currentUser);
-  
-  const role = new Parse.Role("TeamMembers", roleACL);
+// Say user creates a "TeamMembers" role.
+// Role names are unique across the whole app, so a real app would add an id to the name.
 
-  // Later our user can add other users to this role
-  // (user1 is a Parse.User, e.g. from Parse.User.createWithoutData(id))
-  role.getUsers().add(user1);
+const roleACL = new Parse.ACL(currentUser);
 
-  await role.save();
+const role = new Parse.Role("TeamMembers", roleACL);
+
+// Later our user can add other users to this role
+// (user1 is a Parse.User, e.g. from Parse.User.createWithoutData(id))
+role.getUsers().add(user1);
+
+await role.save();
 ```
-
-</details>
 
 ## Reading
 From the ParsePlatform.org Guide:
