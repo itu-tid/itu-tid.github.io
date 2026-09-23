@@ -246,7 +246,7 @@ Use whichever notation you prefer. Two that I like are:
 	- attributes are listed in the box
 2. On the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
 
-%%ML: Can we re-render these two with our own domain model? %%
+<!-- ML: Can we re-render these two with our own domain model? -->
 
 ![](../images/alterantive-er-diagrams.png)
 
