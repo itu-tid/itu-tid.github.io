@@ -43,7 +43,7 @@ That does not make the query a mere convenience. It is also the app's logic: it 
 
 So **a pointer is Parse's foreign key.** It holds which object in which class, and nothing else.
 
-A to-do's `owner` field holds a pointer to a `_User`. A pointer holds **which object in which class**, and nothing else.
+A to-do's `owner` field holds a pointer to a `_User`, Parse's built-in class for user accounts.
 
 ## To-dos belong to lists
 
@@ -63,17 +63,22 @@ Our lists could get new properties: priority, etc. Moreover, you may want to sha
 
 ### Create the first list by hand
 
-Before writing any code for lists, open the dashboard, create a `List` class, and add one row by hand: *Apartment*.
+Before writing any code for lists, open the dashboard, create a `List` class with a `name` column (String) and an `owner` column (Pointer to `_User`), and add one row by hand: *Apartment*, with `owner` set to your own user's `objectId`. Without the owner, the list will not show up once the app loads "my lists" further down.
 
 The dashboard and your app talk to the same server, so a list created there is exactly as real as one created from code. That is a genuinely useful habit for your project: **not every class needs a create screen in version one.** Seed the things that rarely change by hand, and build screens for what your users actually create. A create screen is worth building when creating that thing is part of the use case you are designing for.
 
 ### One-to-many relationships are done with pointers
+
+One list has many to-dos; each to-do belongs to exactly one list. That is a **one-to-many** relationship, and the pointer goes on the *many* side: each to-do stores one pointer to its list. The other way round, the list would need an array of to-dos, and the note on arrays at the end says why not. The rule of thumb: **pointers for one-to-many, a join table for many-to-many.**
 
 Set a pointer by handing `set()` the whole object, not its id:
 
 ```js
 const List = Parse.Object.extend("List");
 const TodoItem = Parse.Object.extend("TodoItem");
+
+// the list you created in the dashboard, by its objectId
+const apartmentList = await new Parse.Query(List).get("<objectId from the dashboard>");
 
 const item = new TodoItem();
 item.set("text", "Call the landlord");
@@ -136,9 +141,24 @@ erDiagram
     }
 ```
 
+Read `||--o{` as "one to many": one user owns many lists, one list contains many to-dos. The notation is explained at the end of this note.
+
 Then drop the `owner` column from `TodoItem` in the dashboard. It is gone, instantly. Nothing complains, because nothing is enforcing anything: the existing rows simply lose the field. Schema changes are this easy in Parse *precisely because* the database checks nothing — freedom and footgun, same coin.
 
-The ACLs stay where they are, on every object — lists and to-dos alike. **Parse does not pass an ACL down from a list to its to-dos**; if the to-dos should follow their list, your code sets the same ACL on both. That matters the day you share a list: it is the list *and* its to-dos that have to change.
+Two things stop working when the column goes. The "my to-dos" query from the start of this note (`equalTo("owner", …)` on `TodoItem`) now returns nothing: to find Ada's to-dos, the app now finds her lists, and then the to-dos in each (below). And to-dos created before lists existed have no `list` pointer, so no list shows them. Give them one in the dashboard, or delete them.
+
+The ACLs stay where they are, on every object — lists and to-dos alike. **Parse does not pass an ACL down from a list to its to-dos**; if the to-dos should follow their list, your code sets the same ACL on both. That matters the day you share a list: it is the list *and* its to-dos that have to change. So a new to-do copies the ACL of its list:
+
+```js
+export const createTodo = async (text, list) => {
+	const item = new TodoItem();
+	item.set("text", text);
+	item.set("done", false);
+	item.set("list", list);
+	item.setACL(list.getACL());   // the to-do follows its list
+	return toPlainObject(await item.save());
+};
+```
 
 ### Creating lists from the app
 
@@ -258,7 +278,7 @@ No matter which notation you use, the most important aspect is being able to com
 
 ### 2. A to-do already has an ACL that only lets its creator read it. Why does it still need an `owner` pointer?
 
-### 3. This query returns only the current user's to-dos. Explain why it is nevertheless not a security measure, and what is. Why do we still write it?
+### 3. At the start of this note, this query returned only the current user's to-dos. Explain why it was nevertheless not a security measure, and what is. Why do we still write it?
 ```js
 const query = new Parse.Query(TodoItem);
 query.equalTo("owner", Parse.User.current());
