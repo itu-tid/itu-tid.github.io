@@ -139,9 +139,7 @@ return (
 ```
 
 
-### The current user information is stored in the localStorage
-
-It would be silly if the user had to login every time they opened the app, so Parse stores the logged-in user in `localStorage` and hands them back to you:
+### The current user information is always available in `Parse.User.current()`
 
 ```jsx
 const currentUser = Parse.User.current();
@@ -156,14 +154,13 @@ This is why `useState(Parse.User.current())` above is safe as a `useState` initi
 
 ### How the server knows it is you
 
-
 #### After you log in, a session token in your localStorage identifies you: the same sessionToken you can find in the backend database
 
 Open the developer tools right after logging in, and look in **Application → Local Storage**. Parse has stored the current user there, and inside it a `sessionToken`: a long random string that the server handed out when your password checked out.
 
-
 #### The sessionToken is the thing that compensates for the fact that HTTP is stateless 
-The reason it exists: **HTTP is stateless.** The server forgets you the moment it has answered a request. So from now on every call your app makes carries that token, and the token is what proves who is calling. Your password was sent once, at login; the token is sent every time instead.
+
+The reason the sessionToken exists: **HTTP is stateless.** The server forgets you the moment it has answered a request. So from now on every call your app makes carries that token, and the token is what proves who is calling. Your password was sent once, at login; the token is sent every time instead.
 
 You can watch it travel. Open the **Network** tab, tick a checkbox, and click the request that appears. It is the same request as [last week](Backends-Low-Code-Backends-and-the-Parse-Platform.md), with one line more:
 
@@ -178,16 +175,14 @@ POST https://parseapi.back4app.com/parse/classes/TodoItem/AbC123xY
 
 The app id and the JavaScript key say **which application** is calling, and every visitor has them. `_SessionToken` appeared when you logged in, and says **who** is calling. It is the only thing in this request that lets the server tell you apart from anybody else.
 
-Two things worth being precise about:
+#### The token is not encrypted
+- It is random, and long, so it can't be guessed 
+- Is meaningless to anyone who does not have the database. 
+- What protects it on its way to the server is **HTTPS**, which encrypts the whole connection.
 
-1. The token is **not encrypted**. 
-	- It is random, and long, so it can't be guessed 
-	- Is meaningless to anyone who does not have the database. 
-	- What protects it on its way to the server is **HTTPS**, which encrypts the whole connection.
-
-2. Whoever has the token, *is you*, from the server's point of view 
-	- Copy token out of this browser into another one, and the server cannot tell the difference. 
-	- This is called **session hijacking**, and it is why `logOut()` does not merely delete the token from your browser: it destroys the session **on the server too**. 
+#### Whoever has the token, *is you*, from the server's point of view 
+- Copy token out of this browser into another one, and the server cannot tell the difference. 
+- This is called **session hijacking**, and it is why `logOut()` does not merely delete the token from your browser: it destroys the session **on the server too**. 
 
 # Part 2: Authorization
 
@@ -195,7 +190,7 @@ Two things worth being precise about:
 
 [Last week](Backends-Low-Code-Backends-and-the-Parse-Platform.md) we saw the app id and the JavaScript key written in plain text in every request your app sends. Anybody who opens your app can read them, and no setting changes that. What the server *can* tell apart is the user, through the session token from Part 1. Everything in this half hangs off that.
 
-### With your keys, anyone can do whatever your public tables allow
+### With your app keys, anyone can do whatever your public tables allow
 
 - Read information that is not meant for them
 - Delete your data
@@ -255,6 +250,13 @@ You will meet this in your own project, as old test data that behaves differentl
   - Write - can update or delete this object
 
 ### `new Parse.ACL(user)` is shorthand for read / write for the given user  
+
+```js
+item.setACL(new Parse.ACL(currentUser));
+```
+
+is equivalent to: 
+
 ```js
 const acl = new Parse.ACL();
 acl.setReadAccess(currentUser, true);
@@ -262,11 +264,6 @@ acl.setWriteAccess(currentUser, true);
 item.setACL(acl);
 ```
 
-is equivalent to
-
-```js
-item.setACL(new Parse.ACL(currentUser));
-```
 
 ### Public read, owner write: Ada's to-dos are visible to everyone, but only Ada can change them
 
@@ -291,11 +288,55 @@ export const createTodo = async (text) => {
 
 Armin refreshes, and Ada's to-do appears in his list. He ticks its checkbox. What happens?
 
-- **The app does not crash.** `save()` rejects, the line that updates the state never runs, and the checkbox stays unticked. It is the same thing you saw with the network turned off [last week](Backends-Low-Code-Backends-and-the-Parse-Platform.md): nothing changes on screen, which is the truth.
-- **The error is not "permission denied".** It is error 101, **"Object not found"**. The server does not even admit that a row Armin may not write to exists. Look for it in the console, where it shows up as an uncaught promise rejection, because our `handleToggle` does not catch anything.
-- **The server is protected, but the interface is not honest.** Armin was offered a checkbox that could never work. The ACL comes back with every object, so the client can ask it before drawing the checkbox. `toPlainObject` could add a `canWrite` field, computed from `item.getACL().getWriteAccess(Parse.User.current())`. For Armin it would be `false`, and the checkbox could be disabled, or not drawn at all. (An object with no ACL returns `null` from `getACL()`, and means everyone may write.)
+- **The database does not change. The screen says it did.** Open the **Network** tab and look at the response to Armin's request: `{"updatedAt": "…"}`, the same answer a successful save gets. `save()` resolves, the state updates, and the checkbox shows a tick. Refresh, and the tick is gone: the ACL did its job, and the row was never written. The server just did not tell anybody. (Back4App answers every update this way when it matches no row, even an update to an id that does not exist.)
+- **Delete is more honest.** Try deleting Ada's to-do from Armin's window: the server refuses with error 101, **"Object not found"**. Not "permission denied": the server does not even admit that a row Armin may not touch exists.
+- **The server is protected, but the interface is not honest.** Armin was offered a checkbox that could never work, and because the server reports success, the app cannot even find out afterwards. It has to know *before*.
 
 An ACL can be changed every time the object is saved, so Ada can open her to-dos up, or close them again, later.
+
+### Ask the ACL before drawing the checkbox
+
+Every object comes back from the server with its ACL, so the client can find out, before drawing anything, whether the current user may change it. The place for that is `toPlainObject`, from [last week's services file](Backends-Low-Code-Backends-and-the-Parse-Platform.md): it already decides what a to-do looks like to React, so it gets one more field.
+
+```js
+function canWrite(parseObject) {
+	const acl = parseObject.getACL();
+	if (!acl) return true;              // no ACL at all: everybody may write
+
+	const user = Parse.User.current();
+	return acl.getPublicWriteAccess() || acl.getWriteAccess(user);
+}
+
+function toPlainObject(parseObject) {
+	return {
+		id: parseObject.id,
+		text: parseObject.get("text"),
+		done: parseObject.get("done"),
+		canWrite: canWrite(parseObject),
+	};
+}
+```
+
+Both checks are needed. `getWriteAccess(user)` only looks for the user's *own* entry in the ACL, so on an object that is writable by everyone it still says `false`.
+
+Then the component uses it. A disabled checkbox still shows whether Ada has done the to-do; Armin just cannot change it. A button that could never work is better not drawn at all:
+
+```jsx
+<li>
+	<input
+		type="checkbox"
+		checked={elem.done}
+		disabled={!elem.canWrite}
+		onChange={() => onChange(elem.id)}
+	/>
+	{elem.text}
+	{elem.canWrite && (
+		<button type="button" onClick={() => onDelete(elem.id)}>Delete</button>
+	)}
+</li>
+```
+
+This is for the interface only. The client is running on Armin's computer, and nothing stops him from sending the request anyway, with `curl` or with the dev tools. What refuses it is still the ACL on the server. `canWrite` does not protect anything; it only stops the app from offering something it cannot do. (It also ignores roles. If your app puts roles in ACLs, `canWrite` has to check those too.)
 
 ### Sharing with another user
 
@@ -337,15 +378,19 @@ For every class you choose who has access and with which privileges.
   - Roles
 
 ###### Privileges for the entire class
- - Get - retrieve individual objects by ID
- - Find - query for objects
- - Create - create new objects
- - Update - modify existing objects
- - Delete - delete objects
- - Add Fields - add new fields to the schema
 
-The image below shows the Parse UI for setting Class-level permissions
+The dashboard's *Edit Class Level Permissions* dialog opens in a simple view, with three columns:
+
 ![](../images/class-level-permissions-in-parse.png)
+
+- **Read** — retrieve objects of this class
+- **Write** — create, change and delete objects of this class
+- **Add field** — add new fields to the schema
+
+Read and Write are each a group of finer privileges. The gear icon in the top right corner switches to the detailed view, with one checkbox for each:
+
+- Read = **Get** (one object, by its id) + **Find** (queries) + **Count**
+- Write = **Create** + **Update** + **Delete**
 
 ### Try it: only logged-in users may create to-dos
 
@@ -358,7 +403,7 @@ Somebody without an account has no business creating to-dos. In the dashboard:
 
 Then run the same `curl` again: this time the server refuses. The app still works for Ada and Armin, because they are logged in.
 
-The simple dialog groups privileges: **Write** covers Create, Update and Delete. The gear icon in its top right corner switches to the detailed view, with one checkbox per privilege.
+Unticking **Write** for the public takes away Create, Update and Delete together. To take away only Create, use the detailed view.
 
 One toggle, and one layer of the lecture becomes visible. Class level says who may knock; the ACL says which rows open.
 
