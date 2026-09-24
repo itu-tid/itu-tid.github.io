@@ -18,7 +18,7 @@ Which means it has to stand on its own. Link to your Figma if you have one, but 
 
   A finding nobody acted on is worth reporting too, as long as you say why not.
 
-- **The data model** (one page) — the ER diagram, and a paragraph on the parts of it that were not obvious: what you made a pointer and what you made a relation, where sharing lives, anything you modelled one way and then changed.
+- **The data model** (one page) — the ER diagram, and a paragraph on the parts of it that were not obvious: what you made a pointer and what you made a join table, where sharing lives, anything you modelled one way and then changed.
 
 - **Visual design and accessibility** (one or two pages) — the design language you chose and why, plus the accessibility audit and what it made you fix.
 

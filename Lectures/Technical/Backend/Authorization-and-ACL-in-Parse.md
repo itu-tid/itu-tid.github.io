@@ -240,15 +240,6 @@ Ada creates another to-do, Armin refreshes, and this one does not appear.
 
 You will meet this in your own project, as old test data that behaves differently from new data.
 
-##### Who can ACL permissions apply to?
-  - Public
-  - Specific users
-  - Roles (named groups of users; see the end of this note)
-
-##### Privileges per object
-  - Read - can retrieve/query this object
-  - Write - can update or delete this object
-
 ### `new Parse.ACL(user)` is shorthand for read / write for the given user  
 
 ```js
@@ -348,6 +339,8 @@ acl.setWriteAccess(otherUser, true);    // other user can write
 
 `otherUser` is a `Parse.User`, and if all you have is their id, `Parse.User.createWithoutData(id)` makes one. How your app learns that id in the first place (an invitation, a share link, a user who accepts a shared list) is a design question for your own app. It gets harder, not easier, once you lock down the `_User` class below.
 
+Sharing a whole list, rather than one object, also needs the database to *know* who it is shared with, which an ACL cannot tell you: [Many-to-many: sharing a list](Relationships-Between-Object-Classes.md#many-to-many-sharing-a-list).
+
 ## 2. Class-Level Permissions
 
 
@@ -356,16 +349,12 @@ acl.setWriteAccess(otherUser, true);    // other user can write
 Our app now shows nothing but the login page to a visitor who is not logged in. That conditional render feels like a lock, but it only locks our own interface. The server is one HTTP request away, and the keys that request needs are the ones we ship to every visitor. So skip the app entirely, and create a to-do from the terminal, without ever logging in:
 
 ```bash
-curl -X POST "$PARSE_SERVER_URL/classes/TodoItem" \
-  -H "X-Parse-Application-Id: $APP_ID" \
-  -H "X-Parse-Javascript-Key: $JS_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"text":"I never logged in","done":false}'
+curl -X POST "$PARSE_SERVER_URL/classes/TodoItem" -H "X-Parse-Application-Id: $APP_ID" -H "X-Parse-Javascript-Key: $JS_KEY" -H "Content-Type: application/json" -d '{"text":"I never logged in","done":false}'
 ```
 
 `curl` sends an HTTP request from the terminal. Replace `$PARSE_SERVER_URL`, `$APP_ID` and `$JS_KEY` with the three values from your `.env.local`.
 
-It works. The server answers with the `objectId` of a new row, and because nobody attached an ACL to it, the row is public: it shows up in the list of every user of your app. (The same request can be written with `fetch` just as easily; [Web Service APIs](Web-Service-APIs.md) does that properly later in the course.)
+It works. The server answers with the `objectId` of a new row, and because nobody attached an ACL to it, the row is public: it shows up in the list of every user of your app.
 
 ACLs cannot stop this, because an ACL belongs to a row that already exists. Stopping the *creation* is a job for the next layer: class-level permissions sit in front of the ACLs and decide whether a user may touch the class *at all*.
 
@@ -441,13 +430,27 @@ An ACL covers a whole object, so it cannot make one field public and another pri
 
 If your design has **named groups of users that are reused** across many objects — a family, a team, the moderators — look up **roles**: a role is an object that holds users, and you can put a role into an ACL instead of listing the users one by one. For one-off sharing with a person or two, putting them in the ACL directly is simpler.
 
-### A role goes into an ACL like a user does
+### Create the role once, then use it in as many ACLs as you like
+
+Ada wants her family to see and change her shopping to-dos. Instead of naming every family member in every ACL, she creates a role for the family, and puts the role in the ACLs:
 
 ```js
+// 1. The role. Its own ACL says who may change who is in it: only Ada.
+//    Role names are unique across the whole app, hence the id in the name.
+const family = new Parse.Role("Family-" + currentUser.id, new Parse.ACL(currentUser));
+family.getUsers().add(armin);   // armin is a Parse.User
+await family.save();
+
+// 2. A to-do that the whole family may read and change
 const acl = new Parse.ACL(currentUser);
-acl.setRoleReadAccess("TeamMembers", true);
-acl.setRoleWriteAccess("TeamMembers", true);
+acl.setRoleReadAccess(family, true);
+acl.setRoleWriteAccess(family, true);
+item.setACL(acl);
+await item.save();
 ```
+
+The payoff comes later. When Ada adds her sister to the role, her sister can see every to-do with `family` in its ACL at once, and not a single ACL has to change :)
+
 
 ### Two types of roles
 
@@ -457,26 +460,11 @@ acl.setRoleWriteAccess("TeamMembers", true);
 - Managed by the app administrators, not end users
 - Public read of the role is normal - users should see who the moderators are
 
-**User-created roles** (e.g. Family, MyTeam, ProjectX)
+**User-created roles** (e.g. the family above, a team, a project group)
 
-- Created programmatically by regular users from the app
-- Each user manages their own teams
+- Created by regular users from the app, as above
+- Each user manages their own
 - Private - no reason for others to see them
-
-```js
-// Say user creates a "TeamMembers" role.
-// Role names are unique across the whole app, so a real app would add an id to the name.
-
-const roleACL = new Parse.ACL(currentUser);
-
-const role = new Parse.Role("TeamMembers", roleACL);
-
-// Later our user can add other users to this role
-// (user1 is a Parse.User, e.g. from Parse.User.createWithoutData(id))
-role.getUsers().add(user1);
-
-await role.save();
-```
 
 ## Reading
 From the ParsePlatform.org Guide:
