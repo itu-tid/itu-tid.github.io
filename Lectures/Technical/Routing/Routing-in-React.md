@@ -28,313 +28,152 @@ The browser still loads one `index.html`. So the app itself has to notice every 
 
 ## Routing with `react-router-dom`
 
-### `BrowserRouter` wraps the app, and `Routes` picks one `Route` per URL
-
-- Install `react-router-dom` via npm/yarn
-- Wrap the app with `<BrowserRouter>`
-- Use `<Routes>` and `<Route>` to define routes
-
-```js
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+```bash
+npm install react-router-dom
 ```
 
-### `Link` changes the URL without asking the server; `<a>` reloads everything
+Everything below is from `todo-26`, or would fit into it.
 
-- Use `<Link>` for client-side navigation (avoids full page reloads)
-- This is as opposite to `<a>` elements - who go to the server and trigger a full page re-render
-
-```javascript
-import React from 'react'; 
-import { Link } from 'react-router-dom';  
-const Header = () => { 
-    return ( 
-        <div className="App"> 
-             <Link to="/" >  Home  </Link> 
-             <Link to="/about" >  About </Link> 
-             <a href="/about">dont' use this!</a>
-        </div> 
-    ); 
-};
-```
-
-### `useNavigate` changes the URL from code
-
-- Use the `useNavigate` hook for programmatic navigation
-```js
-import React from "react" 
-import {useNavigate} from "react-router-dom" 
-  
-export default function Profile() { 
-   let navigate = useNavigate() 
-   return ( 
-	   <div> 
-	         <h2> Go to profile </h2> 
-	         <button onClick={()=>{ navigate("/about")}}> About 
-	         </button> 
-	   </div> 
-	);
-```
-
-
-### A `:name` in a path is a parameter, and `useParams` reads it
-
-- Sometimes you want to pass parameters to the url, e.g. ``/users/:id``
-- Use `:param` in the path to define dynamic segments
-```js
-// Route definition
-<Route path="/users/:userId" element={<UserProfile />} />
-```
-
-- Access the parameter with `useParams` hook
-```js
-// Accessing the parameter
-function UserProfile() {
-  const { userId } = useParams();
-  return <div>User ID: {userId}</div>;
-}
-
-```
-
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-routing)). Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live with routes*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
-
-### A route matches the whole URL, unless you say otherwise
-
-`<Route path="/about" …>` matches `/about`, and not `/about/team`. To give a whole group of URLs one component, nest routes under it (next section), or end the path with `/*`.
-
-Older tutorials write `exact` and `component=`. That is React Router 5; since version 6 neither exists, and matching is exact by default.
-
-### Nested routes share a layout, and `<Outlet>` marks where the child goes
-
-Most often than not, you will want to have nested routes.
-
-- you can define them inside of each other
-- you can use the `<Outlet>` element to render the children elements inside of the layout of the main
-
-
-```js
-// Parent route
-<Route path="/dashboard" element={<DashboardLayout />}>
-  <Route index element={<DashboardHome />} />
-  <Route path="stats" element={<DashboardStats />} />
-</Route>
-
-// DashboardLayout.jsx
-function DashboardLayout() {
-  return (
-    <div>
-	  <title> The greatest dashboard </title>
-      <Sidebar />
-      <Outlet /> {/* Child routes render here */}
-    </div>
-  );
-}
-```
-- Note the `index` - that this is what gets rendered inside of the `<Outlet>`
-
-
-### A protected route sends whoever is not logged in elsewhere
-
-- How to protect routes (e.g., redirect unauthenticated users).
-- Use `<Navigate>` for redirects
-- Create wrapper component for auth checks
-
-
-```js
-// Define a wrapper component
-function PrivateRoute({ children }) {
-  const isAuthenticated = checkAuth(); // Your auth logic
-  return isAuthenticated ? children : <Navigate to="/login" />;
-}
-
-// Usage
-<Route
-  path="/profile"
-  element={
-    <PrivateRoute>
-      <Profile />
-    </PrivateRoute>
-  }
-/>
-
-```
-### Search parameters, like `?sort=name`, are read with `useSearchParams`
-
-- Search params are query strings that can exist appended at the end of your URL, e.g.
-```
-/dashboard?sort=name&filter=active
-/profile?tab=settings
-/products?page=2&category=electronics
-```
-
-- To access them from within the appropriate component you have to use the `useSearchParams` hook
+### `BrowserRouter` wraps the app once, in `main.jsx`
 
 ```jsx
-import { useSearchParams } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 
-function DashboardHome() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const sort = searchParams.get('sort'); // 'name'
-  const filter = searchParams.get('filter'); // 'active'
-  
-}
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
+);
 ```
 
-### A `*` route catches every URL nothing else matched
+It watches the address bar, and every component inside it can ask what the URL is. (`basename` is for [going live](#going-live-with-routes); leave it out and nothing changes on `localhost`.)
 
-- Use a wildcard route (*) to catch all unmatched paths
-```js
-<Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="*" element={<NotFound />} />
-</Routes>
+### `Routes` picks one `Route` per URL
 
+At the end of `App`, after the login check, the app no longer returns one page. It returns the list of pages, each with the path it answers to:
+
+```jsx
+return (
+  <Routes>
+    <Route path="/" element={home} />
+    <Route path="/lists/:listId" element={<ListPage />} />
+    <Route path="*" element={<Link to="/">No such page. Back to your lists</Link>} />
+  </Routes>
+);
 ```
-### A bigger example: a top bar everywhere, a sidebar in one section
 
-#### App.js
-```js
-import { Routes, Route } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import About from './components/About';
-import MainLayout from './components/MainLayout';
-import Feed from './components/Feed';
-import Profile from './components/Profile';
+`element` takes any JSX. `home` is the page we already had, the lists and the forms, kept in a variable; `ListPage` is new. The `*` route catches every URL nothing else matched: a mistyped link gets an answer instead of an empty page.
 
-function App() {
+A path matches the whole URL. `/lists/:listId` matches `/lists/Xk3v9QaB2c`, and not `/lists/Xk3v9QaB2c/edit`. (Older tutorials write `exact` and `component=`. That is React Router 5; since version 6 neither exists, and matching is exact by default.)
+
+### `:listId` is a parameter, and `useParams` reads it
+
+The part of the path after a colon is a placeholder. On `/lists/Xk3v9QaB2c`, `useParams()` gives `{ listId: "Xk3v9QaB2c" }`: the `objectId` of the list, straight from the database into the address bar. The page loads its own list:
+
+```jsx
+export default function ListPage() {
+  const { listId } = useParams();
+
+  const [list, setList] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function loadList() {
+      try {
+        setList(await new Parse.Query(List).get(listId));
+      } catch (err) {
+        // "Object not found": no such list, or its ACL does not let me read it
+        setError(err.message);
+      }
+    }
+    loadList();
+  }, [listId]);
+
   return (
     <>
-      {/* Top navigation (shared everywhere) */}
-      <NavBar />
-
-      {/* Routes */}
-      <Routes>
-        <Route path="/about" element={<About />} />
-        <Route path="/main" element={<MainLayout />}>
-          <Route path="feed" element={<Feed />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
-      </Routes>
+      <Link to="/">← All lists</Link>
+      {error ? <p>{error}</p> : !list ? <p>Loading…</p> : <ToDoList list={list} />}
     </>
   );
 }
 ```
 
-#### NavBar.js - top navigation
+The three states of remote data again: loading, error, the list. The error state matters more than it looks. Send somebody the link to a list that is not shared with them, and `get()` fails with *Object not found*. **A URL is not a permission**: anyone can type any address, and the ACL still decides what comes back.
 
-```js
-import { Link } from 'react-router-dom';
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-routing)). Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live with routes*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
 
-export default function NavBar() {
-  return (
-    <nav style={{ background: '#333', color: 'white', padding: '10px' }}>
-      <ul style={{ display: 'flex', gap: '20px', listStyle: 'none' }}>
-        <li><Link to="/about" style={{ color: 'white' }}>About</Link></li>
-        <li><Link to="/main/feed" style={{ color: 'white' }}>Feed</Link></li>
-        <li><Link to="/main/profile" style={{ color: 'white' }}>Profile</Link></li>
-      </ul>
-    </nav>
-  );
-}
+### `Link` changes the URL without asking the server; `<a>` reloads everything
 
+On the home page, every list name is a link to its page:
+
+```jsx
+<Link to={`/lists/${item.id}`}>{item.get("name")}</Link>
 ```
 
-or better yet, using the `NavLink` from the framework you can do:
+It renders as an ordinary `<a>`, but a click changes the URL in the browser, and the router draws the new page. Nothing is fetched but the list. Write `<a href="/lists/…">` instead, and the browser asks the server for a new page: the whole app starts again from `index.html`, with every piece of state gone.
 
-```js
-import { NavLink } from 'react-router-dom';
+### `useNavigate` changes the URL from code
 
-export default function NavBar() {
-  return (
-    <nav style={{ background: '#333', color: 'white', padding: '10px' }}>
-      <ul style={{ display: 'flex', gap: '20px', listStyle: 'none' }}>
-        <li><NavLink to="/about" style={{ color: 'white' }}>About</NavLink></li>
-        <li><NavLink to="/main/feed" style={{ color: 'white' }}>Feed</NavLink></li>
-        <li><NavLink to="/main/profile" style={{ color: 'white' }}>Profile</NavLink></li>
-      </ul>
-    </nav>
-  );
+A link is for the user to click. When the *code* decides where to go, for instance to open a list right after creating it, ask for `navigate`:
+
+```jsx
+const navigate = useNavigate();
+
+async function handleAddList(name) {
+  // … create and save the list, as before …
+  const savedList = await list.save();
+  navigate(`/lists/${savedList.id}`);   // straight to the new list's page
 }
 ```
 
-and add the following CSS:
-```css
-.active {
-  font-weight: bold;
-  text-decoration: underline;
-}
+(Not in `todo-26`. A good first thing to try.)
+
+### Nested routes share a layout, and `<Outlet>` marks where the child goes
+
+Every page will want the same frame: the app's name, a link back to *My lists*, *Logout*. Instead of repeating it in each page, give the routes a parent with no path of its own:
+
+```jsx
+<Routes>
+  <Route element={<Layout />}>
+    <Route path="/" element={home} />
+    <Route path="/lists/:listId" element={<ListPage />} />
+  </Route>
+</Routes>
 ```
 
-because the framework (`react-router-dom`) automatically adds the `.active` class to the link that matches the current URL.
-
-#### MainLayout.js - the sidebar
-
-```js
-import { Outlet } from 'react-router-dom';
-
-export default function MainLayout() {
+```jsx
+function Layout() {
   return (
-    <div style={{ display: 'flex' }}>
-      {/* Sidebar (shared for /main/* routes) */}
-      <div style={{ width: '200px', background: '#f0f0f0', padding: '10px' }}>
-        <h3>Main Menu</h3>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li><a href="/main/feed">Feed</a></li>
-          <li><a href="/main/profile">Profile</a></li>
-        </ul>
-      </div>
-
-      {/* Dynamic content for child routes */}
-      <div style={{ flex: 1, padding: '20px' }}>
-        <Outlet />  {/* Feed or Profile renders here */}
-      </div>
-    </div>
-  );
-}
-
-```
-
-Note: you can also use the `NavLink` here to highlight the currently selected element
-
-#### About.js 
-
-```js
-export default function About() {
-  return (
-    <div style={{ padding: '20px' }}>
-      <h1>About Us</h1>
-      <p>This is a standalone page with only the top navigation.</p>
-    </div>
+    <>
+      <header>
+        <Link to="/">My lists</Link>
+      </header>
+      <Outlet />   {/* the matched child route renders here */}
+    </>
   );
 }
 ```
 
-#### Feed.js and Child.js
+(Not in `todo-26` either. Worth doing the day you have a third page.)
 
-```js
-// Feed.js
-export default function Feed() {
-  return <h2>Your Feed Content</h2>;
-}
+### Search parameters, like `?show=open`, are read with `useSearchParams`
 
-// Profile.js
-export default function Profile() {
-  return <h2>Your Profile Content</h2>;
-}
+Some state belongs in the URL, so that a link carries it: which to-dos a list page shows, say. `/lists/Xk3v9QaB2c?show=open` shows only the open ones:
 
+```jsx
+const [searchParams, setSearchParams] = useSearchParams();
+const onlyOpen = searchParams.get("show") === "open";
+const visible = onlyOpen ? todos.filter((todo) => !todo.done) : todos;
+
+// …
+<button onClick={() => setSearchParams({ show: "open" })}>Only open</button>
 ```
 
+### Pages only for logged-in users are a note of their own
+
+`todo-26` still shows the login page to anybody who is not logged in, with the early return from week 5, before any route is drawn. Doing it per route is [Protecting Routes If Not Logged In](Protecting-Routes.md).
 
 ## Going live with routes
 
@@ -379,37 +218,23 @@ The fix: make every unknown path load the app anyway, so the router gets to read
 
 ### Exam Questions
 
-#### 1. Why is client-side routing necessary in SPAs?
+#### 1. Why does a single-page app need routing in the browser, when a classic website does not?
 
-#### 2. What is the difference between `<Link>` and `<a>` tags in React Router?
+#### 2. What is the difference between `<Link>` and `<a>` in React Router? What happens to the app's state with each?
 
-#### 3. Explain what this routing setup does:
-```js
+#### 3. Explain what this routing setup does, for the URLs `/`, `/lists/abc`, and `/lists/abc/edit`:
+```jsx
 <Routes>
-  <Route path="/dashboard" element={<DashboardLayout />}>
-    <Route index element={<DashboardHome />} />
-    <Route path="stats" element={<DashboardStats />} />
+  <Route element={<Layout />}>
+    <Route path="/" element={home} />
+    <Route path="/lists/:listId" element={<ListPage />} />
   </Route>
+  <Route path="*" element={<NotFound />} />
 </Routes>
 ```
 
-#### 4. What does this protected route component do?
-```js
-function PrivateRoute({ children }) {
-  const isAuthenticated = checkAuth();
-  return isAuthenticated ? children : <Navigate to="/login" />;
-}
-```
+#### 4. On `/lists/abc`, how does `ListPage` find out which list to show? And what does it show when the list exists, but is not shared with you?
 
-#### 5. How do you access URL parameters in React Router?
-```js
-// Route: <Route path="/users/:userId" element={<UserProfile />} />
-// URL: /users/123
-```
+#### 5. How would you read `show` from `/lists/abc?show=open`, and why keep it in the URL rather than in `useState`?
 
-#### 6. How do you access query string parameters?
-```js
-// URL: /dashboard?sort=name&filter=active
-```
-
-#### 7. What happens if a user reloads the page on `/about` in an SPA?
+#### 6. Your app is on GitHub Pages. Clicking to `/lists/abc` works; refreshing that page gives a 404. Why, and how do you fix it?
