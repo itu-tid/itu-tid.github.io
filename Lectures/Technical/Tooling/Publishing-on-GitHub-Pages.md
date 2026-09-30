@@ -10,7 +10,9 @@ Until today the app has lived on `localhost:5173`, on your laptop, where nobody 
 npm run build
 ```
 
-which writes a folder `dist/`: an `index.html`, and next to it the JavaScript and CSS that Vite bundled. No server code at all. Your backend is Parse, and it has been on the internet since week 4; only the frontend was on your laptop. So anything that can hand out files can host the app. `npm run preview` serves `dist/` locally, if you want to see the built version first.
+which writes a folder `dist/`: an `index.html`, and next to it the JavaScript and CSS that Vite bundled. 
+
+No server code at all. Your backend is Parse, and it has been on the internet since week 4; only the frontend was on your laptop. So anything that can hand out files can host the app. `npm run preview` serves `dist/` locally, if you want to see the built version first.
 
 ## GitHub Pages hands out those files, from your repository, for free
 
@@ -49,7 +51,7 @@ and run it:
 npm run deploy
 ```
 
-It builds, then pushes the contents of `dist/` to a branch called `gh-pages`, separate from your code. The first time, tell GitHub to serve that branch: **Settings → Pages → Build and deployment → Deploy from a branch → `gh-pages`, `/ (root)`**. The first deployment takes a minute or two; the Pages settings show the address when it is live.
+It builds, then pushes the contents of `dist/` to a branch called `gh-pages`, separate from your code. The first time, tell GitHub to serve that branch, in the **repository's** settings (the organisation has a *Settings* tab and a *Pages* page too, but that one is only about domains): **Settings → Pages → Build and deployment → Deploy from a branch → `gh-pages`, `/ (root)`**. The first deployment takes a minute or two; the Pages settings show the address when it is live.
 
 From then on, every change goes out with `npm run deploy`.
 

@@ -96,7 +96,6 @@ That does not let Armin change or delete Ada's account. The class only says who 
 
 ![Class-level permissions on _User: Public may only create; Authenticated may do everything but add fields](../images/user-class-level-permissions.webp)
 
-One consequence: a user can now delete their own account, and their lists and memberships go on pointing at nobody. Cleaning that up is a job for the server, like every other [pointer nobody checks](Relationships-Between-Object-Classes.md#a-pointer-is-a-foreign-key-that-nobody-checks).
 
 ### Protected fields hide every column except the username
 
