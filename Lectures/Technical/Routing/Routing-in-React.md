@@ -1,22 +1,14 @@
 # Routing in React
 
-### On a classic website, every URL is a page the server sends
-- On the server side
+## One page is getting crowded, and people expect URLs anyway
 
-### A single-page app draws its pages in the browser, so routing moves there too
-- You don't want to go to the server for the pages, but generate them locally
-- So the routing has to be done on the client side
+Our app shows every list on one page, and it is getting crowded. What people want is a page per list, and they want each page to have its own address:
 
-### Without URLs, users lose links, bookmarks and the back button
-- Usability principle? (conventions that are familiar to the user)
-- Deep linking
-- Browser functionality
+- **a link** Ada can send Armin, that opens *Apartment* and nothing else;
+- **a bookmark** that comes back to the same list tomorrow;
+- **the back button**, taking them to where they just were.
 
-
-### The app intercepts every navigation and draws the matching page
-- On the client side (i.e. in the browser)
-- Every URL request is intercepted by the our SPA
-
+The browser still loads one `index.html`. So the app itself has to notice every change of address, and draw the page that belongs to it. That is client-side routing.
 
 ## React does not route; a library does
 
@@ -116,7 +108,7 @@ function UserProfile() {
 
 ```
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing`. Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-routing)). Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
 
 ### A route matches the whole URL, unless you say otherwise
 
@@ -357,7 +349,7 @@ After `npm run build`, the app is a folder of plain files in `dist/`. Any host t
 - **Publish:** `npm install --save-dev gh-pages`, add a script `"deploy": "npm run build && gh-pages -d dist"`, and run `npm run deploy`. Then on GitHub: **Settings → Pages → Branch: `gh-pages`**. A free organisation can do this for public repositories only.
 - The build runs on your laptop, so the Parse keys from `.env.local` end up in the published files. They are in every visitor's browser anyway: that is what the `curl` in [Authentication and Authorization](../Backend/Authorization-and-ACL-in-Parse.md) showed.
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-deploy`. Look at `base` in `vite.config.js`, and the `deploy` script in `package.json`.
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-deploy` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-deploy)). Look at `base` in `vite.config.js`, and the `deploy` script in `package.json`.
 
 ### A refresh asks the server, and GitHub Pages answers 404
 
@@ -373,7 +365,7 @@ The fix: make every unknown path load the app anyway, so the router gets to read
 
 (`node` rather than `cp`, so that it works on Windows too.) The response still carries the status 404. Browsers do not care; a search engine would. The alternative is `HashRouter`: the URLs become `/<repo>/#/lists/Xk3v9QaB2c`, and the server never sees the part after the `#`. It works, and the URLs are uglier.
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06`. Look at the `build` script in `package.json`. This is the app as it stood at the end of the lecture.
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06)). Look at the `build` script in `package.json`. This is the app as it stood at the end of the lecture.
 
 ## Notes
 

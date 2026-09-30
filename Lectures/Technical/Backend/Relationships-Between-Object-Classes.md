@@ -155,7 +155,7 @@ export const createList = async (name) => {
 
 We have no router yet, so every list renders on the same page, one block per list. Each block gets its **own** new-to-do input. Which list a new to-do belongs to is decided by where the input sits: the list object is already in scope when you render its block, so there is no dropdown and no "selected list" state to keep in sync.
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-05-homework`. Look at `handleAddList` in `App.jsx` (an owner and an owner-only ACL, then `setLists([...lists, savedList])`), the *New list* form reusing `NewTodoForm` with a `buttonLabel`, and the one line in `ToDoList.jsx` that gives a new to-do its list's ACL.
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-05-homework` ([browse it](https://github.com/itu-tid/todo-26/tree/week-05-homework)). Look at `handleAddList` in `App.jsx` (an owner and an owner-only ACL, then `setLists([...lists, savedList])`), the *New list* form reusing `NewTodoForm` with a `buttonLabel`, and the one line in `ToDoList.jsx` that gives a new to-do its list's ACL.
 
 ### Loading the page, the simple way
 

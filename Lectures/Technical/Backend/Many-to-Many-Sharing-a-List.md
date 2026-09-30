@@ -161,7 +161,7 @@ await membership.destroy();
 
 The same shape fits any many-to-many: labels on to-dos would be a `TodoLabel` class, with a `todo` and a `label` pointer.
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-05-sharing`. Look at `App.jsx`: `handleShare` writes both copies of the fact, the ACLs on the list and its to-dos and the `ListMember` row, in one `saveAll`; `loadLists` asks for my lists and my memberships; `handleLeave` deletes my row. And in `AuthPage.jsx`, sign-up makes the new user's row readable, so others can find it.
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-05-sharing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-05-sharing)). Look at `App.jsx`: `handleShare` writes both copies of the fact, the ACLs on the list and its to-dos and the `ListMember` row, in one `saveAll`; `loadLists` asks for my lists and my memberships; `handleLeave` deletes my row. And in `AuthPage.jsx`, sign-up makes the new user's row readable, so others can find it.
 
 
 ## Leaving is recorded in the data; access is still decided by the ACL
