@@ -59,7 +59,7 @@ If a concept is expressed in a single place, it's easy to change. In our case, r
 
 ### Benefit of a class/table over an attribute is that the class/table can be enriched with more properties later
 
-Our lists could get new properties: priority, etc. Moreover, you may want to share a list with other users. If a list is a first class entity in the DB that becomes easily possible ([Many-to-many: sharing a list](#many-to-many-sharing-a-list), below).
+Our lists could get new properties: priority, etc. Moreover, you may want to share a list with other users. If a list is a first class entity in the DB that becomes easily possible ([Many-to-many: sharing a list](#sharing-a-list-is-a-many-to-many-relationship), below).
 
 ### Create the first list by hand
 
@@ -104,23 +104,20 @@ erDiagram
     _User ||--o{ List : owns
     List ||--o{ TodoItem : contains
     _User {
-        objectId string PK
         username string
     }
     List {
-        objectId string PK
         name     string
         owner    pointer FK
     }
     TodoItem {
-        objectId string  PK
         text     string
         done     boolean
         list     pointer FK
     }
 ```
 
-Read `||--o{` as "one to many": one user owns many lists, one list contains many to-dos. The notation is explained at the end of this note.
+Read `||--o{` as "one to many": one user owns many lists, one list contains many to-dos. The notation is explained at the end of this note. Every class also has an `objectId`, which Parse creates for you, so the diagrams leave it out. It is what a pointer points at.
 
 Then drop the `owner` column from `TodoItem` in the dashboard. It is gone, instantly. Nothing complains, because nothing is enforcing anything: the existing rows simply lose the field. Schema changes are this easy in Parse *precisely because* the database checks nothing. Freedom and footgun, same coin.
 
@@ -158,6 +155,8 @@ export const createList = async (name) => {
 
 We have no router yet, so every list renders on the same page, one block per list. Each block gets its **own** new-to-do input. Which list a new to-do belongs to is decided by where the input sits: the list object is already in scope when you render its block, so there is no dropdown and no "selected list" state to keep in sync.
 
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-05-homework`. Look at `handleAddList` in `App.jsx` (an owner and an owner-only ACL, then `setLists([...lists, savedList])`), the *New list* form reusing `NewTodoForm` with a `buttonLabel`, and the one line in `ToDoList.jsx` that gives a new to-do its list's ACL.
+
 ### Loading the page, the simple way
 
 ```js
@@ -181,30 +180,60 @@ If you want the guarantee, you write it yourself, on the server, in a trigger th
 
 
 
-## Many-to-many: sharing a list
+## Sharing a list is a many-to-many relationship
 
-Ada wants to share *Apartment* with Armin, who is moving in with her. A list can be shared with many users, and a user can have many lists shared with them. That is a **many-to-many** relationship. Every project in this course has one, because sharing at the list level is part of the required core.
+Ada is moving, and wants to share *Apartment* with Armin, who is helping her. A list can be shared with many users, and a user can have many lists shared with them. That is a **many-to-many** relationship. Every project in this course has one, because sharing at the list level is part of the required core.
 
-### Sharing with the ACL alone
+On a whiteboard it is one line, with *many* at both ends. Read it left to right, a user is a member of many lists, and back, a list has many members:
 
-The simplest version needs no new class. Sharing is [Sharing with another user](Authorization-and-ACL-in-Parse.md#sharing-with-another-user), applied to the list *and* its to-dos, because [Parse does not pass an ACL down](#refactoring-the-schema-the-owner-moves-to-the-list):
-
-```js
-export const shareList = async (list, friend) => {
-	const acl = list.getACL();
-	acl.setReadAccess(friend, true);   // Armin may read, not change
-	list.setACL(acl);
-
-	const todos = await new Parse.Query(TodoItem).equalTo("list", list).find();
-	todos.forEach((todo) => todo.setACL(acl));
-
-	await Parse.Object.saveAll([list, ...todos]);
-};
+```mermaid
+erDiagram
+    _User }o--o{ List : "is member / has member"
 ```
 
-#### Finding the friend: by their exact username
+A database cannot store that line as it is. A pointer holds exactly one object, so it can only ever be the *one* end of a relationship. Where the line goes instead is the whole question of this section.
 
-`shareList` needs Armin as a `Parse.User`. The smallest way to get him: one text input where Ada types his username, exactly.
+The ACL cannot be that place either. It can let Armin *read* the list, but it is a permission, not a relationship, as at the [start of this note](#the-first-relationship-a-to-do-has-an-owner): nobody can ask it "which lists are shared with me?". And it belongs to the list, which is Ada's. When the move is done and Armin wants *Apartment* off his screen, he cannot take himself off; with write access he could, but that is also the right to rename the list, delete it, or remove Ada.
+
+So the membership gets a row of its own: one that Armin may delete, without being allowed to touch the list. A row also has room for anything you need to *store* about the membership: whether he may edit, an invitation he has to accept first.
+
+### The line becomes a table: the join table `ListMember`
+
+Create a class whose job is to represent one membership: one row says *this user is on this list*.
+
+```mermaid
+erDiagram
+    _User ||--o{ List : owns
+    _User ||--o{ ListMember : "is member"
+    List ||--o{ ListMember : "has member"
+    List ||--o{ TodoItem : contains
+    _User {
+        username string
+    }
+    List {
+        name     string
+        owner    pointer FK
+    }
+    ListMember {
+        list     pointer FK
+        user     pointer FK
+    }
+    TodoItem {
+        text     string
+        done     boolean
+        list     pointer FK
+    }
+```
+
+The line from the whiteboard has become a table. Two pointers, one per side. That is all a join table is: two one-to-many relationships, meeting in the middle.
+
+You will also meet it as a *junction*, *association* or *mapping* table, named after its two sides: `UserListMap`, or `lists_users` in Rails. That name says how the table works. Once it stores something about the relationship, like whether this member may edit, name it after what one row *is*: a membership. "Armin left the list" deletes a `ListMember`; nobody says they deleted a mapping.
+
+Create the class in the dashboard first, the way you created `List`: a `ListMember` class with two Pointer columns, `list` to `List` and `user` to `_User`. Whether the client may create a class by saving to it depends on how your app is set up. Creating it by hand means you never have to find out in front of anybody.
+
+### Ada finds Armin by his exact username, if his row lets her
+
+Sharing needs Armin as a `Parse.User`. The smallest way to get him: one text input where Ada types his username, exactly.
 
 ```js
 const friend = await new Parse.Query(Parse.User)
@@ -218,82 +247,85 @@ if (!friend) {
 await shareList(list, friend);
 ```
 
-No search, no autocomplete, no list of everybody who has an account. That is less code, and it is also better privacy: Ada can only find someone whose username she already knows. It needs **Find** on `_User` for the **Authenticated** row. The [Auth note](Authorization-and-ACL-in-Parse.md#the-exception-_user) takes Find away from the public, not from logged-in users.
+No search, no autocomplete: less code, and better privacy, because Ada can only find someone whose username she already knows.
 
-#### Showing it: every list I can see
+For the lookup to find Armin, three settings on `_User` have to agree.
 
-The page drops the `owner` filter. It asks for every list, and the ACL decides which ones come back: Ada's own, and the ones shared with her. The owner, brought along with `include()`, tells them apart:
+#### A new user's row is private, so sign-up makes it readable
+
+Out of the box, a user's row is readable only by that user, and the lookup finds nobody. Sign-up makes it readable:
 
 ```js
-const query = new Parse.Query(List);   // no owner filter: the ACL decides
-query.include("owner");                // bring the owner object along, not only its id
-const lists = await query.find();
+await user.signUp();
 
-// for each list:
-const mine = list.get("owner").id === Parse.User.current().id;
-// mine ? "Mine" : `Shared by ${list.get("owner").get("username")}`
+const acl = new Parse.ACL(user);   // I may change my row
+acl.setPublicReadAccess(true);     // others may find me
+user.setACL(acl);
+await user.save();
 ```
 
-This is a legitimate design, and for many apps it is enough. Know what it costs, though. The query no longer says what the screen is for, so **every ACL mistake is now on screen**. Take a list created in the dashboard without an ACL. It is publicly readable, so it shows up for every user of your app, as "shared by" whoever owns it.
+Users who signed up earlier need **Public Read** ticked by hand, in the dashboard:
 
-### When the relationship needs to become a class: Armin wants to leave
+![A user's ACL in the dashboard: Public may read, only the user may write](../images/user-row-acl-public-read.png)
 
-Armin is done with the apartment, and wants *Apartment* off his screen. He cannot do it. The fact "Armin may read this list" lives inside the list's ACL. The list is Ada's, and Armin only has read access to it. Only Ada can take him off.
+#### The class lets only logged-in users ask
 
-That is the sign. **When someone other than the owner needs to change a relationship, the relationship needs a row of its own.** That someone can then be given the right to change the row. The same goes for anything you need to *store* about the relationship: an invitation Armin has to accept first, who added him, whether he may edit.
+An ACL cannot say "logged-in users", so the class-level permissions do. **Public** keeps only **Create**, because signing up is creating a user, and whoever signs up is not logged in yet. **Authenticated** gets everything except *Add field*.
 
-### A join table: `ListMember`
+That does not let Armin change or delete Ada's account. The class only says who may *try*; each row's ACL says who may read or write it, and a user's row names only that user as a writer. Leave the class closed instead, and nobody could save even their own row, which sign-up does above.
 
-Create a class whose job is to represent one membership: one row says *this user is on this list*.
+![Class-level permissions on _User: Public may only create; Authenticated may do everything but add fields](../images/user-class-level-permissions.webp)
 
-```mermaid
-erDiagram
-    _User ||--o{ List : owns
-    _User ||--o{ ListMember : "is member"
-    List ||--o{ ListMember : "has member"
-    List ||--o{ TodoItem : contains
-    List {
-        objectId string PK
-        name     string
-        owner    pointer FK
-    }
-    ListMember {
-        objectId string  PK
-        list     pointer FK
-        user     pointer FK
-        addedBy  pointer FK
-    }
-    TodoItem {
-        objectId string  PK
-        text     string
-        done     boolean
-        list     pointer FK
-    }
-```
+One consequence: a user can now delete their own account, and their lists and memberships go on pointing at nobody. Cleaning that up is a job for the server, like every other [pointer nobody checks](#a-pointer-is-a-foreign-key-that-nobody-checks).
 
-Two pointers, one per side. That is all a join table is: two one-to-many relationships, meeting in the middle. Sharing now also writes a membership. It has an ACL of its own, which lets **both** of them change it:
+#### Protected fields hide every column except the username
+
+*Protected Fields* hides `email` by default. Add every column you put on `_User` yourself. Never add `username`: the lookup would stop working.
+
+![Edit Protected Fields on _User: email is hidden from everybody; username, offered in the list below it, must stay off](../images/user-protected-fields.webp)
+
+#### Anything more public about a person gets a `Profile` row
+
+If people in your app need more public than a username (a display name, an avatar), give that part a row of its own: a public `Profile`, pointing at the private `_User`.
+
+### Sharing writes the fact twice: a membership row, and the ACLs
+
+The row is the data: it says Armin is on the list. It has an ACL of its own, which lets **both** of them change it. But a row opens nothing. What lets Armin read the list is still the ACL, on the list *and* on each of its to-dos, because [Parse does not pass an ACL down](#refactoring-the-schema-the-owner-moves-to-the-list):
 
 ```js
 const ListMember = Parse.Object.extend("ListMember");
 
-const member = new ListMember();
-member.set("list", list);
-member.set("user", friend);
-member.set("addedBy", Parse.User.current());
-const memberAcl = new Parse.ACL(Parse.User.current());   // Ada
-memberAcl.setReadAccess(friend, true);                   // and Armin
-memberAcl.setWriteAccess(friend, true);
-member.setACL(memberAcl);
-await member.save();
+export const shareList = async (list, friend) => {
+	// the data: a row that says Armin is on the list
+	const member = new ListMember();
+	member.set("list", list);
+	member.set("user", friend);
+	const memberAcl = new Parse.ACL(Parse.User.current());   // Ada
+	memberAcl.setReadAccess(friend, true);                   // and Armin
+	memberAcl.setWriteAccess(friend, true);
+	member.setACL(memberAcl);
+
+	// the security: Armin may read the list, and every to-do in it
+	const acl = list.getACL();
+	acl.setReadAccess(friend, true);   // may read, not change
+	list.setACL(acl);
+	const todos = await new Parse.Query(TodoItem).equalTo("list", list).find();
+	todos.forEach((todo) => todo.setACL(acl));
+
+	await Parse.Object.saveAll([member, list, ...todos]);   // one request, not a transaction
+};
 ```
 
-Armin's shared lists and Ada's members are now ordinary queries. And leaving is one line, which Armin is allowed to run:
+### Armin's lists and Ada's members are ordinary queries
+
+The home page asks for two things: the lists I own (`owner` is me), and the lists I am a member of. It says what the screen is for, so a list someone forgot to give an ACL does not turn up on everybody's home page. And leaving is one line, which Armin is allowed to run:
 
 ```js
 // Armin: the lists shared with me
 const shared = new Parse.Query(ListMember);
 shared.equalTo("user", Parse.User.current());
 shared.include("list");
+shared.include("list.owner");   // through the list, to its owner: "shared by ada"
 const memberships = await shared.find();
 
 // Ada: who is on this list?
@@ -308,6 +340,7 @@ await membership.destroy();
 
 The same shape fits any many-to-many: labels on to-dos would be a `TodoLabel` class, with a `todo` and a `label` pointer.
 
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-05-sharing`. Look at `App.jsx`: `handleShare` writes both copies of the fact, the ACLs on the list and its to-dos and the `ListMember` row, in one `saveAll`; `loadLists` asks for my lists and my memberships; `handleLeave` deletes my row. And in `AuthPage.jsx`, sign-up makes the new user's row readable, so others can find it.
 
 
 ### Leaving is recorded in the data; access is still decided by the ACL
@@ -318,19 +351,14 @@ So the same fact now lives in two places: `ListMember` says who is on the list, 
 
 Keeping the two in step needs code with authority over Ada's objects, even when Armin is the one acting. That is the server. An `afterDelete` on `ListMember` that takes Armin out of the ACLs is exactly what [Running Code Server-Side](Running-Code-Server-Side.md) is for. Until then, the client does its best, and you know where the gap is.
 
-### Is `owner` still needed?
+### Keeping `owner` next to `ListMember` is a choice you defend
 
 Once `ListMember` exists, Ada could be a member of her own list too, and the `owner` pointer would go. Or `owner` stays, because *the one who may delete the list and share it* is a different thing from *a member who reads it*. Both are defensible; which one is right depends on what your users do. It is exactly the kind of decision the data-model page of your report asks you to explain.
 
-### Where sharing grows from here, and why to keep it small
 
-Everything past this point gets expensive quickly: a list of members, removing one, co-owners, members who may invite others, handing a list over, groups of people you share with again and again. 
+## Modelling Your Application Domain
 
-Each of them is mostly **interface work**: screens to find, add, show and remove people. And each of them has to keep the memberships and every ACL in step. The tools exist: [roles](Authorization-and-ACL-in-Parse.md#advanced-roles-for-groups-of-users-you-reuse) put one group in an ACL instead of every person, and server code keeps the copies agreeing. But none of it is in the required core.
-
-> Sharing is the most expensive feature in your app, and almost all of the cost is the interface. Build the smallest version your user study supports: share by username, and show who shared it. Treat everything beyond that as an optional feature you pick and defend.
-
-## The notation matters less than being able to explain your model
+### The notation matters less than being able to explain your model
 
 Use whichever notation you prefer. Two that I like are:
 1. On the left hand side is the most popular way of showing attributes
@@ -344,7 +372,7 @@ Use whichever notation you prefer. Two that I like are:
 
 No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database.
 
-## Checking the model against the screens: the CRUD matrix
+### Checking the model against the screens: the CRUD matrix
 
 Write your classes down the side and your screens across the top. In each cell, note whether that screen lets the user **C**reate, **R**ead, **U**pdate or **D**elete that class.
 
@@ -361,7 +389,7 @@ Do this for your project model, against your wireframes. It is the cheapest way 
 
 
 
-## Restrictions about Parse
+## Final Notes About Modeling With Parse
 
 ### Do not model relationships with `Parse.Relation`
 
@@ -394,7 +422,7 @@ const results = await query.find();
 
 ### 7. Why is a join table preferred over an array field or a `Parse.Relation` for list membership?
 
-### 8. Ada shared a list with Armin through its ACL. Armin wants to leave it. Why can he not, what does a `ListMember` class change, and what does it still not change?
+### 8. Why is list membership a `ListMember` row, and not only an entry in the list's ACL? After Armin deletes his row, why can he still read the list?
 
 ### 9. Once `ListMember` exists, do you still need an `owner` pointer on `List`? Argue for one answer.
 

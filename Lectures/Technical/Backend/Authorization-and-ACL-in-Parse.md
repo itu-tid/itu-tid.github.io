@@ -339,7 +339,7 @@ acl.setWriteAccess(otherUser, true);    // other user can write
 
 `otherUser` is a `Parse.User`, and if all you have is their id, `Parse.User.createWithoutData(id)` makes one. How your app learns that id in the first place (an invitation, a share link, a user who accepts a shared list) is a design question for your own app. It gets harder, not easier, once you lock down the `_User` class below.
 
-Sharing a whole list, rather than one object, also needs the database to *know* who it is shared with, which an ACL cannot tell you: [Many-to-many: sharing a list](Relationships-Between-Object-Classes.md#many-to-many-sharing-a-list).
+Sharing a whole list, rather than one object, also needs the database to *know* who it is shared with, which an ACL cannot tell you: [Many-to-many: sharing a list](Relationships-Between-Object-Classes.md#sharing-a-list-is-a-many-to-many-relationship).
 
 ## 2. Class-Level Permissions
 
@@ -402,9 +402,16 @@ One toggle, and one layer of the lecture becomes visible. Class level says who m
 
 Every other class tightens. One class cannot: **`_User` must keep Create public**, because signing up *is* creating a user, and the person signing up is by definition not logged in yet.
 
-What must not stay public on `_User` is everything else. By default a user can only modify their own user object, but user objects can be read by anyone — so with the keys from your bundle, a stranger could list every account in your app. In the `_User` class-level permissions, switch to the detailed view with the gear icon, and untick **Find** in the **Public** row. Create stays open.
+What must not stay public on `_User` is everything else. Out of the box, the class lets the public do all of it. The rows are more careful: in a recent Parse Server, a new user's row is readable and writable **only by that user**. So a stranger with the keys from your bundle can ask for every account, and gets back an empty list.
 
-<!-- TODO before Thursday: check on Back4App exactly which _User CLP columns can be turned off without breaking login and Parse.User.current(). -->
+That lasts only until your app needs one user to find another. Sharing a list does, and it makes user rows readable ([Finding the friend](Relationships-Between-Object-Classes.md#ada-finds-armin-by-his-exact-username-if-his-row-lets-her)). So close the class now, before that day. In the `_User` class-level permissions, switch to **Advanced**:
+
+- **Public**: only **Create**.
+- **Authenticated**: everything except *Add field*. The row ACLs still decide which rows: a user's row names only that user as a writer, so nobody can change or delete anybody else's account.
+
+Class level says who may knock; the ACL says which rows open. For `_User`, that means: nobody who is not logged in may ask, and what a logged-in user gets back is decided row by row.
+
+<!-- TODO before Thursday: confirm on Back4App that sign-up, login, logout and Parse.User.current() all still work with Public reduced to Create only. If login breaks, tick Public Get back on and say so here. -->
 
 <!-- Preventing abuse of the public Create on _User (email confirmation etc.): staff note in Running-Code-Server-Side.md, for the Cloud Code lecture. -->
 

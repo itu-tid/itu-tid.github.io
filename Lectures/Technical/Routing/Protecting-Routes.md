@@ -1,6 +1,6 @@
-# Protecting routes if a user is not logged in 
+# Protecting routes if a user is not logged in
 
-### Example: How to improve the code below? 
+### Checking the login inside every page repeats itself
 ```js
 // App.js 
 // ... 
@@ -28,7 +28,7 @@ const EventDetailPage = () => {
     }
     
 ```
-## With a Higher-Order Component
+## A wrapper component guards one route at a time
 
 Creating another React component named `RequireAuth` that redirects to the Login page if the user is not logged in.
 ```js
@@ -56,7 +56,7 @@ This component can be then used in the router like this:
 	/>
 ```
 
-## With Two Different Routers
+## Two sets of routes: one for visitors, one for logged-in users
 
 ```js
 // inside App.js or wherever you do your routing

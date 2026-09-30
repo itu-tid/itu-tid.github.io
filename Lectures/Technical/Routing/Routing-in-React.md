@@ -1,44 +1,44 @@
-# Routing in Single Page Applications (SPA)
+# Routing in React
 
-### Where is routing traditionally implemented in web applications?
+### On a classic website, every URL is a page the server sends
 - On the server side
 
-### However, when you have a SPA? 
+### A single-page app draws its pages in the browser, so routing moves there too
 - You don't want to go to the server for the pages, but generate them locally
 - So the routing has to be done on the client side
 
-### Why would it be bad if we didn't have URLs anymore in our SPA web applications? 
+### Without URLs, users lose links, bookmarks and the back button
 - Usability principle? (conventions that are familiar to the user)
 - Deep linking
 - Browser functionality
 
 
-### How do we implement routing in SPAS?
+### The app intercepts every navigation and draws the matching page
 - On the client side (i.e. in the browser)
 - Every URL request is intercepted by the our SPA
 
 
-## Routing in React
+## React does not route; a library does
 
-#### Is Routing the responsibility of React?
+#### React only renders
 - You'd think so... but, nope. React does not care
 - React is responsible with the rendering of components
 - Routing has to be implemented by a 3rd party library
 
-#### How would a 3rd party library work? 
+#### A router intercepts the intent to navigate
 - **Intercepting the intent of navigating to a different page** and rendering the corresponding page
 - How can it intercept?
 
-#### How to find a routing library? 
+#### Pick the popular library: popularity buys support
 - Look on `npm`
 - Choose the most popular
 - Why is this a good idea?
 	- popularity is proportional to support
 	- *many eyes catch all the bugs*
 
-## Example routing with `react-router-dom` 
+## Routing with `react-router-dom`
 
-### 1. Basic Routing Setup
+### `BrowserRouter` wraps the app, and `Routes` picks one `Route` per URL
 
 - Install `react-router-dom` via npm/yarn
 - Wrap the app with `<BrowserRouter>`
@@ -59,7 +59,7 @@ function App() {
 }
 ```
 
-### 2. Navigation 
+### `Link` changes the URL without asking the server; `<a>` reloads everything
 
 - Use `<Link>` for client-side navigation (avoids full page reloads)
 - This is as opposite to `<a>` elements - who go to the server and trigger a full page re-render
@@ -78,7 +78,7 @@ const Header = () => { 
 };
 ```
 
-### When you need to change URL url from JS
+### `useNavigate` changes the URL from code
 
 - Use the `useNavigate` hook for programmatic navigation
 ```js
@@ -97,7 +97,7 @@ export default function Profile() { 
 ```
 
 
-### Dynamic Routes 
+### A `:name` in a path is a parameter, and `useParams` reads it
 
 - Sometimes you want to pass parameters to the url, e.g. ``/users/:id``
 - Use `:param` in the path to define dynamic segments
@@ -116,30 +116,15 @@ function UserProfile() {
 
 ```
 
-### Exact vs. Partial Matching
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing`. Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
 
-#### Partial matching as default
+### A route matches the whole URL, unless you say otherwise
 
-- By default, a route uses partial matching, it will **match if the beginning of the URL matches the path**
+`<Route path="/about" …>` matches `/about`, and not `/about/team`. To give a whole group of URLs one component, nest routes under it (next section), or end the path with `/*`.
 
-```js
-<Route path="/about" component={About} />
-```
+Older tutorials write `exact` and `component=`. That is React Router 5; since version 6 neither exists, and matching is exact by default.
 
-- This will match `/about`, `/about/team`, `/about/us`, etc.
-
-#### Exact matching as an option
-
-- When you use the **exact** prop on a `<Route>`, the path must match the entire URL for the route to render
-```js
-<Route exact path="/about" component={About} />
-```
-- This will only match `/about`.
-- It will not match `/about/team`, `/about/us`, etc.
-
-- Use this when you want a component to render for a group of related routes (e.g. sidebar for all the logged in routes)
-
-### Nested routes
+### Nested routes share a layout, and `<Outlet>` marks where the child goes
 
 Most often than not, you will want to have nested routes.
 
@@ -168,7 +153,7 @@ function DashboardLayout() {
 - Note the `index` - that this is what gets rendered inside of the `<Outlet>`
 
 
-### Protected Routes
+### A protected route sends whoever is not logged in elsewhere
 
 - How to protect routes (e.g., redirect unauthenticated users).
 - Use `<Navigate>` for redirects
@@ -193,7 +178,7 @@ function PrivateRoute({ children }) {
 />
 
 ```
-### URL search parameters 
+### Search parameters, like `?sort=name`, are read with `useSearchParams`
 
 - Search params are query strings that can exist appended at the end of your URL, e.g.
 ```
@@ -216,7 +201,7 @@ function DashboardHome() {
 }
 ```
 
-### Handling unknown routes
+### A `*` route catches every URL nothing else matched
 
 - Use a wildcard route (*) to catch all unmatched paths
 ```js
@@ -226,7 +211,7 @@ function DashboardHome() {
 </Routes>
 
 ```
-### An example with Navbar and Sidebar
+### A bigger example: a top bar everywhere, a sidebar in one section
 
 #### App.js
 ```js
@@ -361,14 +346,38 @@ export default function Profile() {
 ```
 
 
+## Going live
+
+### GitHub Pages serves the built app, once you tell it where the app lives
+
+After `npm run build`, the app is a folder of plain files in `dist/`. Any host that serves files can serve it, and GitHub Pages is free and already has your repository.
+
+- **The app does not live at the root.** It lives at `https://<org>.github.io/<repo>/`. Tell Vite, in `vite.config.js`: `base: "/<repo>/"`. Without it the page is blank, because every script and stylesheet is looked for in the wrong place.
+- **Tell the router too:** `<BrowserRouter basename={import.meta.env.BASE_URL}>`. `BASE_URL` is that same `base`, so the routes live under `/<repo>/` as well.
+- **Publish:** `npm install --save-dev gh-pages`, add a script `"deploy": "npm run build && gh-pages -d dist"`, and run `npm run deploy`. Then on GitHub: **Settings → Pages → Branch: `gh-pages`**. A free organisation can do this for public repositories only.
+- The build runs on your laptop, so the Parse keys from `.env.local` end up in the published files. They are in every visitor's browser anyway: that is what the `curl` in [Authentication and Authorization](../Backend/Authorization-and-ACL-in-Parse.md) showed.
+
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-deploy`. Look at `base` in `vite.config.js`, and the `deploy` script in `package.json`.
+
+### A refresh asks the server, and GitHub Pages answers 404
+
+Click from the home page to a list, and it works. Refresh, and GitHub answers with its 404 page.
+
+The refresh asked the *server* for `/<repo>/lists/Xk3v9QaB2c`. The server has one page, `index.html`. The list page never existed anywhere but in the browser, where the router drew it. That is what client-side routing *is*, and you only really believe it once it has bitten you. Opening a link to a list from a chat message fails the same way.
+
+The fix: make every unknown path load the app anyway, so the router gets to read the URL. Many hosts have a setting for that. GitHub Pages does not, but for any path it does not know it serves `404.html`. So the build copies `index.html` there:
+
+```json
+"build": "vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\""
+```
+
+(`node` rather than `cp`, so that it works on Windows too.) The response still carries the status 404. Browsers do not care; a search engine would. The alternative is `HashRouter`: the URLs become `/<repo>/#/lists/Xk3v9QaB2c`, and the server never sees the part after the `#`. It works, and the URLs are uglier.
+
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06`. Look at the `build` script in `package.json`. This is the app as it stood at the end of the lecture.
+
 ## Notes
-### If the user does a reload on your `/about` page? 
 
-The request will go the server. However, we only have an `index.html` on the server, we do not have an about!
-- The solution in this kind of situations is that normally, the web host will redirect all the page-not-found to the `index.html` such that tis' still the react app that gets to handle the request. And the react app will parse the url of the page, and handle it again.
-
-
-### But this is only one library... how do we do routing with others
+### Other routers solve the same problems
 - if you understand the concepts here you will have a much easier time understanding other similar libraries
 - the problems described above are the same
 
