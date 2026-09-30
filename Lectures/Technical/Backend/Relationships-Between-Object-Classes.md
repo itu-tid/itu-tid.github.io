@@ -117,7 +117,7 @@ erDiagram
     }
 ```
 
-Read `||--o{` as "one to many": one user owns many lists, one list contains many to-dos. The notation is explained at the end of this note. Every class also has an `objectId`, which Parse creates for you, so the diagrams leave it out. It is what a pointer points at.
+Read `||--o{` as "one to many": one user owns many lists, one list contains many to-dos. Every class also has an `objectId`, which Parse creates for you, so the diagrams leave it out. It is what a pointer points at.
 
 Then drop the `owner` column from `TodoItem` in the dashboard. It is gone, instantly. Nothing complains, because nothing is enforcing anything: the existing rows simply lose the field. Schema changes are this easy in Parse *precisely because* the database checks nothing. Freedom and footgun, same coin.
 
@@ -183,39 +183,6 @@ If you want the guarantee, you write it yourself, on the server, in a trigger th
 ## Sharing a list needs a many-to-many relationship, and it has a note of its own
 
 A list shared with many people, each of whom has many lists: the next relationship is a different shape, and it is [Sharing a List Is a Many-to-Many Relationship](Many-to-Many-Sharing-a-List.md).
-
-## Modelling Your Application Domain
-
-### The notation matters less than being able to explain your model
-
-Use whichever notation you prefer. Two that I like are:
-1. On the left hand side is the most popular way of showing attributes
-	- crow's feet show cardinality
-	- attributes are listed in the box
-2. On the right hand side is a compressed approach proposed by Søren Lauesen, ex-professor at ITU
-
-<!-- ML: Can we re-render these two with our own domain model? -->
-
-![](../images/alterantive-er-diagrams.png)
-
-No matter which notation you use, the most important aspect is being able to communicate the way all the relevant data for your application domain is saved in the database.
-
-### Checking the model against the screens: the CRUD matrix
-
-Write your classes down the side and your screens across the top. In each cell, note whether that screen lets the user **C**reate, **R**ead, **U**pdate or **D**elete that class.
-
-| | Main page |
-|---|---|
-| `TodoItem` | C R U D |
-| `List` | C R |
-
-Every class your users own should be fully covered *somewhere*. Here the gap is obvious: a list can be created and shown, but never renamed or deleted.
-
-And the moment you add *delete list*, the previous section comes back: what happens to its to-dos? Decide: delete them too, or refuse to delete a non-empty list. Then enforce it on the server.
-
-Do this for your project model, against your wireframes. It is the cheapest way to find the screen you forgot.
-
-
 
 ## Exam Questions
 

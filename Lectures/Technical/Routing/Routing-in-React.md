@@ -12,14 +12,12 @@ The browser still loads one `index.html`. So the app itself has to notice every 
 
 ## React does not route; a library does
 
-#### React only renders
-- You'd think so... but, nope. React does not care
-- React is responsible with the rendering of components
+#### React is only responsible with the rendering of components
 - Routing has to be implemented by a 3rd party library
+- React does not care! 
 
 #### A router intercepts the intent to navigate
 - **Intercepting the intent of navigating to a different page** and rendering the corresponding page
-- How can it intercept?
 
 #### Pick the popular library: popularity buys support
 - Look on `npm`
@@ -108,7 +106,7 @@ function UserProfile() {
 
 ```
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-routing)). Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-routing)). Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live with routes*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
 
 ### A route matches the whole URL, unless you say otherwise
 
@@ -338,18 +336,19 @@ export default function Profile() {
 ```
 
 
-## Going live
+## Going live with routes
 
-### GitHub Pages serves the built app, once you tell it where the app lives
+Publishing the app is in [Publishing Your App on GitHub Pages](../Tooling/Publishing-on-GitHub-Pages.md). Routes add two things to it.
 
-After `npm run build`, the app is a folder of plain files in `dist/`. Any host that serves files can serve it, and GitHub Pages is free and already has your repository.
+### The router has to know the app lives under `/<repo>/` too
 
-- **The app does not live at the root.** It lives at `https://<org>.github.io/<repo>/`. Tell Vite, in `vite.config.js`: `base: "/<repo>/"`. Without it the page is blank, because every script and stylesheet is looked for in the wrong place.
-- **Tell the router too:** `<BrowserRouter basename={import.meta.env.BASE_URL}>`. `BASE_URL` is that same `base`, so the routes live under `/<repo>/` as well.
-- **Publish:** `npm install --save-dev gh-pages`, add a script `"deploy": "npm run build && gh-pages -d dist"`, and run `npm run deploy`. Then on GitHub: **Settings → Pages → Branch: `gh-pages`**. A free organisation can do this for public repositories only.
-- The build runs on your laptop, so the Parse keys from `.env.local` end up in the published files. They are in every visitor's browser anyway: that is what the `curl` in [Authentication and Authorization](../Backend/Authorization-and-ACL-in-Parse.md) showed.
+`base` in `vite.config.js` told Vite; `basename` tells the router, so that `/lists/abc` in your routes means `/<repo>/lists/abc` in the address bar:
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-deploy` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-deploy)). Look at `base` in `vite.config.js`, and the `deploy` script in `package.json`.
+```jsx
+<BrowserRouter basename={import.meta.env.BASE_URL}>
+```
+
+`import.meta.env.BASE_URL` is that same `base`, so there is only one place to change it.
 
 ### A refresh asks the server, and GitHub Pages answers 404
 
