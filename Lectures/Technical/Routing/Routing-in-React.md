@@ -12,25 +12,15 @@ The browser still loads one `index.html`. So the app itself has to notice every 
 
 ## React does not route; a library does
 
-#### React is only responsible with the rendering of components
-- Routing has to be implemented by a 3rd party library
-- React does not care! 
+React draws components, and has no idea what a URL is. Routing comes from a library that sits between the address bar and your components. When somebody clicks a link or presses *back*, it catches the navigation before the browser can ask the server for a new page, changes the address itself, and tells React which page to draw.
 
-#### A router intercepts the intent to navigate
-- **Intercepting the intent of navigating to a different page** and rendering the corresponding page
-
-#### Pick the popular library: popularity buys support
-- Look on `npm`
-- Choose the most popular
-- Why is this a good idea?
-	- popularity is proportional to support
-	- *many eyes catch all the bugs*
-
-## Routing with `react-router-dom`
+Which library? Look on npm and take the one everybody uses. Popularity is not a matter of taste here: it buys documentation, answers to the question you are about to search for, and many eyes on its bugs. For React, that is `react-router-dom`:
 
 ```bash
 npm install react-router-dom
 ```
+
+## Routing with `react-router-dom`
 
 Everything below is from `todo-26`, or would fit into it.
 
