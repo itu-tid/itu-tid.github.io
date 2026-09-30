@@ -52,19 +52,31 @@ It watches the address bar, and every component inside it can ask what the URL i
 
 ### `Routes` picks one `Route` per URL
 
-At the end of `App`, after the login check, the app no longer returns one page. It returns the list of pages, each with the path it answers to:
+At the end of `App`, after the login check, the app no longer returns one page. What it used to return, the lists and the forms, moves into its own component, `Home`, in `Home.jsx`. `App` keeps the state and the handlers, and passes them down as props. Then it returns the list of pages, each with the path it answers to:
 
 ```jsx
 return (
   <Routes>
-    <Route path="/" element={home} />
+    <Route
+      path="/"
+      element={
+        <Home
+          lists={lists}
+          memberships={memberships}
+          onAddList={handleAddList}
+          onShare={handleShare}
+          onLeave={handleLeave}
+          onLogout={handleLogout}
+        />
+      }
+    />
     <Route path="/lists/:listId" element={<ListPage />} />
-    <Route path="*" element={<Link to="/">No such page. Back to your lists</Link>} />
+    <Route path="*" element={<Link to="/">No such page</Link>} />
   </Routes>
 );
 ```
 
-`element` takes any JSX. `home` is the page we already had, the lists and the forms, kept in a variable; `ListPage` is new. The `*` route catches every URL nothing else matched: a mistyped link gets an answer instead of an empty page.
+`element` is the JSX to draw for that path. `Home` gets everything it shows and everything it can do from `App`; `ListPage` needs nothing, because it reads its list from the URL. The `*` route catches every URL nothing else matched: a mistyped link gets an answer instead of an empty page.
 
 A path matches the whole URL. `/lists/:listId` matches `/lists/Xk3v9QaB2c`, and not `/lists/Xk3v9QaB2c/edit`. (Older tutorials write `exact` and `component=`. That is React Router 5; since version 6 neither exists, and matching is exact by default.)
 
@@ -102,7 +114,7 @@ export default function ListPage() {
 
 The three states of remote data again: loading, error, the list. The error state matters more than it looks. Send somebody the link to a list that is not shared with them, and `get()` fails with *Object not found*. **A URL is not a permission**: anyone can type any address, and the ACL still decides what comes back.
 
-> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-routing)). Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live with routes*), `App.jsx` (the home page shows lists by name, each a `Link` to `/lists/:listId`, plus a `*` route for anything else), and the new `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
+> **In [todo-26](https://github.com/itu-tid/todo-26):** `git checkout week-06-routing` ([browse it](https://github.com/itu-tid/todo-26/tree/week-06-routing)). Look at `main.jsx` (`BrowserRouter`, with a `basename`, explained under *Going live with routes*), `App.jsx` (three routes, and the state and handlers it passes to `Home`), the new `Home.jsx` (lists by name, each a `Link` to `/lists/:listId`), and `ListPage.jsx`: `useParams` gives the `listId`, and `new Parse.Query(List).get(listId)` loads it. Open a list that is not yours, and the page shows the server's *Object not found*. A URL is not a permission; the ACL decides.
 
 ### `Link` changes the URL without asking the server; `<a>` reloads everything
 
@@ -128,7 +140,7 @@ async function handleAddList(name) {
 }
 ```
 
-(Not in `todo-26`. A good first thing to try.)
+(Not in `todo-26`. A good first thing to try on your own!)
 
 ### Nested routes share a layout, and `<Outlet>` marks where the child goes
 
