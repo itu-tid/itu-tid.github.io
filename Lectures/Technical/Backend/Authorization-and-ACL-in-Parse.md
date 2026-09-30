@@ -339,7 +339,7 @@ acl.setWriteAccess(otherUser, true);    // other user can write
 
 `otherUser` is a `Parse.User`, and if all you have is their id, `Parse.User.createWithoutData(id)` makes one. How your app learns that id in the first place (an invitation, a share link, a user who accepts a shared list) is a design question for your own app. It gets harder, not easier, once you lock down the `_User` class below.
 
-Sharing a whole list, rather than one object, also needs the database to *know* who it is shared with, which an ACL cannot tell you: [Many-to-many: sharing a list](Relationships-Between-Object-Classes.md#sharing-a-list-is-a-many-to-many-relationship).
+Sharing a whole list, rather than one object, also needs the database to *know* who it is shared with, which an ACL cannot tell you: [Many-to-many: sharing a list](Many-to-Many-Sharing-a-List.md).
 
 ## 2. Class-Level Permissions
 
@@ -404,7 +404,7 @@ Every other class tightens. One class cannot: **`_User` must keep Create public*
 
 What must not stay public on `_User` is everything else. Out of the box, the class lets the public do all of it. The rows are more careful: in a recent Parse Server, a new user's row is readable and writable **only by that user**. So a stranger with the keys from your bundle can ask for every account, and gets back an empty list.
 
-That lasts only until your app needs one user to find another. Sharing a list does, and it makes user rows readable ([Finding the friend](Relationships-Between-Object-Classes.md#ada-finds-armin-by-his-exact-username-if-his-row-lets-her)). So close the class now, before that day. In the `_User` class-level permissions, switch to **Advanced**:
+That lasts only until your app needs one user to find another. Sharing a list does, and it makes user rows readable ([Finding the friend](Many-to-Many-Sharing-a-List.md#ada-finds-armin-by-his-exact-username-if-his-row-lets-her)). So close the class now, before that day. In the `_User` class-level permissions, switch to **Advanced**:
 
 - **Public**: only **Create**.
 - **Authenticated**: everything except *Add field*. The row ACLs still decide which rows: a user's row names only that user as a writer, so nobody can change or delete anybody else's account.
