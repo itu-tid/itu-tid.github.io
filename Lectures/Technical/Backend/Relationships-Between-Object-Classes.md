@@ -264,10 +264,6 @@ user.setACL(acl);
 await user.save();
 ```
 
-Users who signed up earlier need **Public Read** ticked by hand, in the dashboard:
-
-![A user's ACL in the dashboard: Public may read, only the user may write](../images/user-row-acl-public-read.png)
-
 #### The class lets only logged-in users ask
 
 An ACL cannot say "logged-in users", so the class-level permissions do. **Public** keeps only **Create**, because signing up is creating a user, and whoever signs up is not logged in yet. **Authenticated** gets everything except *Add field*.
@@ -296,7 +292,8 @@ The row is the data: it says Armin is on the list. It has an ACL of its own, whi
 const ListMember = Parse.Object.extend("ListMember");
 
 export const shareList = async (list, friend) => {
-	// the data: a row that says Armin is on the list
+
+	// The DATA: a row that says Armin is on the list
 	const member = new ListMember();
 	member.set("list", list);
 	member.set("user", friend);
@@ -305,7 +302,7 @@ export const shareList = async (list, friend) => {
 	memberAcl.setWriteAccess(friend, true);
 	member.setACL(memberAcl);
 
-	// the security: Armin may read the list, and every to-do in it
+	// The SECURITY: Armin may read the list, and every to-do in it
 	const acl = list.getACL();
 	acl.setReadAccess(friend, true);   // may read, not change
 	list.setACL(acl);
