@@ -128,12 +128,10 @@ It is tempting to write `Parse.User.current()` inside `RequireAuth` and save the
 
 ## Exam Questions
 
-### 1. In `todo-26`, a logged-out user opens `/lists/abc`. What do they see, and what do they see right after logging in? Which lines of `App` decide it?
+### 1. One page of your app forgot its login check. Can a visitor now read your users' lists? What does decide that?
 
-### 2. One page of your app forgot its login check. Can a visitor now read your users' lists? What does decide that?
+### 2. When would you protect routes with two sets of routes, and when with a `RequireAuth` wrapper?
 
-### 3. When would you protect routes with two sets of routes, and when with a `RequireAuth` wrapper?
+### 3. Why does `RequireAuth` take `user` as a prop, instead of calling `Parse.User.current()` itself?
 
-### 4. Why does `RequireAuth` take `user` as a prop, instead of calling `Parse.User.current()` itself?
-
-### 5. What does `replace` change in `<Navigate to="/login" replace />`? What goes wrong with the *back* button without it?
+### 4. What does `replace` change in `<Navigate to="/login" replace />`? What goes wrong with the *back* button without it?
