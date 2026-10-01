@@ -152,7 +152,10 @@ function Layout() {
       <header>
         <Link to="/">My lists</Link>
       </header>
+      %%render your sidebar %%
+      
       <Outlet />   {/* the matched child route renders here */}
+      
     </>
   );
 }
@@ -160,7 +163,7 @@ function Layout() {
 
 (Not in `todo-26` either. Worth doing the day you have a third page.)
 
-### Search parameters, like `?show=open`, are read with `useSearchParams`
+### Search parameters, like `?show=open&style=minimal`, are read with `useSearchParams`
 
 Some state belongs in the URL, so that a link carries it: which to-dos a list page shows, say. `/lists/Xk3v9QaB2c?show=open` shows only the open ones:
 

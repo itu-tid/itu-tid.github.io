@@ -245,8 +245,15 @@ if n:
         # listing it printed before, and saying so rather than failing.
         print(f"  mermaid: {js} is missing, diagrams print as source", file=sys.stderr)
         sys.exit(0)
+    # Left to its defaults, mermaid sets 16px text in its own font and the
+    # diagram comes out louder than the prose around it: match print.css, and
+    # size the boxes to their text rather than to mermaid's minimums.
     boot = ("<script>" + js.read_text(encoding="utf-8") + "</script>\n"
-            "<script>mermaid.initialize({startOnLoad:false, theme:\"neutral\"});"
+            "<script>mermaid.initialize({startOnLoad:false, theme:\"neutral\","
+            " fontFamily:\"Inter, system-ui, sans-serif\","
+            " themeVariables:{fontSize:\"12px\"},"
+            " er:{useMaxWidth:false, fontSize:12, minEntityWidth:60,"
+            " minEntityHeight:24, entityPadding:6}});"
             "mermaid.run();</script>\n")
     doc = doc.replace("</body>", boot + "</body>", 1)
     p.write_text(doc, encoding="utf-8")

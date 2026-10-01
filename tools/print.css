@@ -116,6 +116,8 @@ pre:not(.sourceCode){ line-height:1.05; }
 pre.mermaid{ background:none; border:none; padding:0; text-align:center;
   line-height:normal; }
 pre.mermaid svg{ max-width:100%; height:auto; }
+/* mermaid's er font setting reaches the boxes but not the relationship labels. */
+pre.mermaid svg .edgeLabel, pre.mermaid svg .edgeLabel *{ font-size:12px !important; }
 
 /* --- tables ------------------------------------------------------------ */
 table{ border-collapse:collapse; width:100%; margin:1rem 0; font-size:.9rem;

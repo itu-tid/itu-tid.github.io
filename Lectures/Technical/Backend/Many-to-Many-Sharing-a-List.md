@@ -2,7 +2,7 @@
 
 It follows on from [Relationships Between Object Classes](Relationships-Between-Object-Classes.md), where a to-do got an owner and lists got to-dos, and from [Authentication and Authorization](Authorization-and-ACL-in-Parse.md), where ACLs decided who may read what.
 
-Ada is moving, and wants to share *Apartment* with Armin, who is helping her. A list can be shared with many users, and a user can have many lists shared with them. That is a **many-to-many** relationship. Every project in this course has one, because sharing at the list level is part of the required core.
+Ada is moving, and wants to share the *Apartment* list with Armin, who is helping her. A list can be shared with many users, and a user can have many lists shared with them. That is a **many-to-many** relationship. Every project in this course has one, because sharing at the list level is part of the required core.
 
 On a whiteboard it is one line, with *many* at both ends. Read it left to right, a user is a member of many lists, and back, a list has many members:
 
