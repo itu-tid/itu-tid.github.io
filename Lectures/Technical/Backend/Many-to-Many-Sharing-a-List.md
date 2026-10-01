@@ -86,7 +86,7 @@ await user.save();
 
 That only helps users who sign up from now on. If your database already has users, their rows are still private, and sharing with them fails with *No user with that name*, although they exist. Tick **Public Read** on each of them, by hand, in the dashboard:
 
-![A user's ACL in the dashboard: Public may read, only the user may write](../images/user-row-acl-public-read.png)
+<img src="../images/user-row-acl-public-read.png" width="400" alt="A user's ACL in the dashboard: Public may read, only the user may write">
 
 ### The class lets only logged-in users ask
 
@@ -173,7 +173,7 @@ Keeping the two in step needs code with authority over Ada's objects, even when 
 
 ## Keeping `owner` next to `ListMember` is a choice you defend
 
-Once `ListMember` exists, Ada could be a member of her own list too, and the `owner` pointer would go. Or `owner` stays, because *the one who may delete the list and share it* is a different thing from *a member who reads it*. Both are defensible; which one is right depends on what your users do. It is exactly the kind of decision the data-model page of your report asks you to explain.
+Once `ListMember` exists, Ada could be a member of her own list too, and the `owner` pointer would go. Or `owner` stays, because *the one who may delete the list and share it* is a different thing from *a member who reads it*. Both are defensible; which one is right depends on what your users do. One thing tips it: `owner` holds exactly one user, so only one person can ever delete the list. If your app needs several admins, the owner moves into `ListMember`, as a column that says what each member may do. It is exactly the kind of decision the data-model page of your report asks you to explain.
 
 ## A join table, not a `Parse.Relation` or an array
 
@@ -184,6 +184,16 @@ Once `ListMember` exists, Ada could be a member of her own list too, and the `ow
 ### Do not model relationships with arrays
 
 Parse lets you store an array of objects in a field, so a `members` array on the list is tempting. Resist it. An array has no room for information about the relationship. It lives inside the list, so only the list's owner can change it. It has to be rewritten in full to add one element. And it gets slow and awkward as soon as it is not tiny. Pointers for one-to-many, a join table for many-to-many. Those two cover everything you need this semester.
+
+## Notes
+
+### Typing a username is the simplest way to share, not the only one
+
+Ada could also send Armin a link to the list. Opening it asks to join, and Ada gets a request she can accept. A link also fits in a QR code, which is how WhatsApp adds a contact: one person shows their code, the other scans it, and lands on the URL that creates the relationship. Both need a URL per list, which is what [Routing in React](../Routing/Routing-in-React.md) gives you. Typing the username is less code, and enough to start with.
+
+### An invitation deserves a class of its own
+
+If Armin has to accept before he is on the list, the pending state could be a column on `ListMember`, and every query for memberships would have to leave the pending ones out. Or it gets a class of its own: sharing creates an `Invitation`, Armin sees his invitations when he logs in, and accepting one creates the `ListMember` row. Both work. The second gives the concept a name, and a design whose concepts have names is easier to read, for you and for anyone, or any agent, working on your code.
 
 ## Exam Questions
 
