@@ -69,7 +69,9 @@ Log in, and your lists are there: same backend, same data, a different device. F
 
 Once the app has routes, publishing needs two more things: the router has to know about `/<repo>/` too, and a refresh on any page but the first answers 404. Both are in [Routing in React](../Routing/Routing-in-React.md#going-live-with-routes).
 
-## Notes
+## What came up in the lecture
+
+Things that happened while this was coded live, rather than things that were planned.
 
 ### The database stays where it was; the page on GitHub Pages talks to it
 

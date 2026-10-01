@@ -185,7 +185,9 @@ Once `ListMember` exists, Ada could be a member of her own list too, and the `ow
 
 Parse lets you store an array of objects in a field, so a `members` array on the list is tempting. Resist it. An array has no room for information about the relationship. It lives inside the list, so only the list's owner can change it. It has to be rewritten in full to add one element. And it gets slow and awkward as soon as it is not tiny. Pointers for one-to-many, a join table for many-to-many. Those two cover everything you need this semester.
 
-## Notes
+## What came up in the lecture
+
+Things that happened while this was coded live, rather than things that were planned.
 
 ### Typing a username is the simplest way to share, not the only one
 
@@ -194,6 +196,12 @@ Ada could also send Armin a link to the list. Opening it asks to join, and Ada g
 ### An invitation deserves a class of its own
 
 If Armin has to accept before he is on the list, the pending state could be a column on `ListMember`, and every query for memberships would have to leave the pending ones out. Or it gets a class of its own: sharing creates an `Invitation`, Armin sees his invitations when he logs in, and accepting one creates the `ListMember` row. Both work. The second gives the concept a name, and a design whose concepts have names is easier to read, for you and for anyone, or any agent, working on your code.
+
+### Checking out a tag leaves you on no branch, and `git stash` lets you move on
+
+`git checkout week-05-sharing` checks out a tag: one commit, not a branch. Git warns that you are in *detached HEAD* state. It looks scarier than it is. A branch moves forward with every commit you make; a detached HEAD is a snapshot you look at. For reading and running the code from the lecture, that is all you need.
+
+Change a file, then try to check out the next tag, and git refuses: your local changes would be overwritten. It is protecting work you do not care about. `git stash` puts the changes aside, on a stack you can take them back from with `git stash pop`, and the checkout goes through. `git checkout .` throws them away instead. If you do want to keep working on top of a tag, give the work a branch first: `git switch -c my-experiment`.
 
 ## Exam Questions
 
