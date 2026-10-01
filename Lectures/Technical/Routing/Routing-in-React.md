@@ -216,6 +216,10 @@ The fix: make every unknown path load the app anyway, so the router gets to read
 - if you understand the concepts here you will have a much easier time understanding other similar libraries
 - the problems described above are the same
 
+### Keeping the current page in `useState` means writing your own router
+
+A `page` state variable and conditional rendering would switch pages, and it is how a router starts. But `useState` knows nothing about the address bar. The back button, a link that opens one list, a refresh that lands where you were: each would have to be wired by hand. `react-router-dom` has already done that, so we take it.
+
 
 ## Read More
 - [React Router Declarative Mode](https://reactrouter.com/start/declarative/installation) - the official documentation - note that there's also Data Mode and Framework mode that we didn't talk about
