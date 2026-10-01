@@ -69,6 +69,12 @@ Log in, and your lists are there: same backend, same data, a different device. F
 
 Once the app has routes, publishing needs two more things: the router has to know about `/<repo>/` too, and a refresh on any page but the first answers 404. Both are in [Routing in React](../Routing/Routing-in-React.md#going-live-with-routes).
 
+## Notes
+
+### The database stays where it was; the page on GitHub Pages talks to it
+
+Publishing moves only the frontend. On `localhost`, the app sent its requests to Parse; now the same JavaScript, loaded from `github.io`, sends the same requests to the same server, with the same keys. That is why your lists are there on the phone. It also means the app on your laptop and the published one share one database: what you try out locally, your published users see.
+
 ## Exam Questions
 
 ### 1. Your app is built and published, and the page is blank. The browser's Network tab shows the JavaScript file failing with 404. What did you forget, and why does it matter on GitHub Pages?
