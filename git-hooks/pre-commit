@@ -1,10 +1,9 @@
 #!/bin/bash
-# Regenerate the week table in README.md from the vault syllabus before every
-# commit.
+# Rebuild syllabus.html from the vault source before every commit.
 #
 # The markdown lives in the Obsidian vault, not here (see DEVELOPER.md), so
 # there is no GitHub Action that can rebuild it on push. This hook is the
-# replacement: it means the committed table can never be older than the source.
+# replacement: it means the committed page can never be older than the source.
 #
 # Install once per clone:   git config core.hooksPath git-hooks
 #
@@ -25,9 +24,9 @@ if [ ! -f "$TID_VAULT/2026-syllabus.md" ]; then
     exit 1
 fi
 
-before=$(git hash-object README.md)
 python3 build.py > /dev/null
-if [ "$(git hash-object README.md)" != "$before" ]; then
-    git add README.md
-    echo "pre-commit: the README week table was stale; regenerated from the vault and staged."
+
+if ! git diff --quiet -- syllabus.html; then
+    git add syllabus.html
+    echo "pre-commit: syllabus.html was stale; rebuilt from the vault and staged."
 fi

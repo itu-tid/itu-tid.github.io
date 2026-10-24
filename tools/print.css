@@ -1,5 +1,6 @@
 /* Print stylesheet for the lecture notes.
-   Inter for text, Space Grotesk for headings, JetBrains Mono for code. */
+   Palette and typefaces match syllabus.template.html, so a printed chapter and
+   the published syllabus look like the same course. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root{

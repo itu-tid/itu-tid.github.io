@@ -4,7 +4,7 @@
 #   tools/md-to-pdf.sh OUT.pdf "Title" "Subtitle" note.md [note.md ...]
 #
 # pandoc turns the markdown into one HTML document, tools/print.css gives it the
-# its typefaces and palette, and Chrome prints it.
+# same typefaces and palette as the published syllabus, and Chrome prints it.
 # Chrome rather than LaTeX because these notes are full of box-drawing
 # characters, arrows and long lines: pdflatex dies on the first, tectonic drops
 # the second, and both clip the third off the right margin.

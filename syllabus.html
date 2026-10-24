@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- GENERATED FILE — do not edit. Source: syllabus.md · Build: python3 build.py -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Interaction Design — Autumn 2026 · Weekly Syllabus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1F3F0;
+    --card:#FBFCFA;
+    --ink:#1E2A31;
+    --ink-soft:#5C6A70;
+    --ink-faint:#8B979C;
+    --line:#DDE2DD;
+    --line-soft:#E7EBE7;
+    --spine:#C2CBC4;
+
+    --you:#23577A;      /* Mircea — technical */
+    --you-bg:#E9F0F5;
+    --react:#6B4A9E;    /* Konstantina — React */
+    --react-bg:#EDE8F4;
+    --design:#3F7A48;   /* Designer — interaction design */
+    --design-bg:#E7F1E7;
+    --proj:#A85D2B;     /* project throughline / milestone */
+    --proj-bg:#F5EBE1;
+    --break:#96A0A4;
+
+    --radius:13px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.5;
+    padding:44px 20px 72px;
+  }
+  .wrap{max-width:920px;margin:0 auto}
+
+  /* ---- Header ---- */
+  header{margin-bottom:30px}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:11px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;font-size:35px;line-height:1.07;
+    letter-spacing:-.015em;margin-bottom:15px;
+  }
+  h1 .yr{color:var(--ink-faint);font-weight:500}
+  .lede{color:var(--ink-soft);font-size:15.5px;max-width:66ch}
+  .lede + .lede{margin-top:11px}
+  ul.lede{list-style:none;margin:0;padding:0}
+  ul.lede>li{position:relative;padding-left:16px;margin-bottom:5px}
+  ul.lede>li:last-child{margin-bottom:0}
+  ul.lede>li::before{content:'';position:absolute;left:2px;top:.6em;
+    width:4px;height:4px;border-radius:50%;background:var(--ink-faint)}
+  .lede b{color:var(--ink);font-weight:600}
+
+  /* ---- At a glance ---- */
+  .glance{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 4px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px}
+  .stat .n{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px}
+  .stat .l{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-faint);margin-top:1px}
+
+  /* ---- Legend ---- */
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:22px 0 2px;
+    font-size:12.5px;color:var(--ink-soft)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .dot.you{background:var(--you)}
+  .dot.react{background:var(--react)}
+  .dot.design{background:var(--design)}
+  .bar{width:4px;height:14px;border-radius:2px;display:inline-block}
+  .bar.tech{background:var(--you)}
+  .bar.design{background:var(--design)}
+  .away{border:1.5px dashed var(--ink-faint);border-radius:4px;padding:0 6px;
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft)}
+
+  /* ---- Timeline ---- */
+  .timeline{margin-top:30px;position:relative}
+  .row{display:grid;grid-template-columns:82px 1fr;position:relative}
+  .when{position:relative;padding:24px 22px 24px 0;text-align:right}
+  .when::after{content:"";position:absolute;top:0;bottom:0;right:-1px;width:2px;background:var(--spine)}
+  .row:first-child .when::after{top:26px}
+  .row.last .when::after{bottom:auto;height:26px}
+  .wk{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.05em;
+    color:var(--ink-faint);text-transform:uppercase}
+  .date{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13.5px;
+    color:var(--ink);margin-top:3px}
+  .node{position:absolute;right:-6px;top:28px;width:12px;height:12px;border-radius:50%;
+    background:var(--card);border:2.5px solid var(--you);z-index:2}
+  .row.p-react .node{border-color:var(--react)}
+  .row.p-you .node{border-color:var(--you)}
+  .row.away .node{border-style:dashed}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);
+    border-left:3px solid var(--you);
+    border-radius:var(--radius);
+    margin:12px 0 12px 28px;overflow:hidden;
+  }
+  .row.t-tech .card{border-left-color:var(--you)}
+  .row.t-design .card{border-left-color:var(--design)}
+
+  /* lecture header band */
+  .lec{padding:14px 18px 13px}
+  .lec-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:5px}
+  .who{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;
+    text-transform:uppercase;font-weight:600;
+    padding:2px 8px;border-radius:20px;white-space:nowrap;
+  }
+  .who.you{color:var(--you);background:var(--you-bg)}
+  .who.react{color:var(--react);background:var(--react-bg)}
+  .who.design{color:var(--design);background:var(--design-bg)}
+  .lec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint)}
+  .away-tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-faint);
+    border:1px dashed var(--ink-faint);border-radius:4px;padding:1px 6px}
+  .ttl{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;
+    letter-spacing:-.008em;margin-bottom:4px;line-height:1.2}
+  .desc{font-size:13.5px;color:var(--ink-soft)}
+  .desc p + p{margin-top:9px}
+
+  /* keep prose sentence-case AND sans regardless of the preview's font-load timing;
+     only the small mono labels are deliberately uppercased/monospaced */
+  h1,.lede,.ttl,.desc,.split,.mile,.mile .sub,.note p,.stat .n,
+  .res,.m-name,.m-sub,.spine-foot{
+    text-transform:none !important;font-variant:normal !important;
+  }
+  .lede,.desc,.split,.mile,.mile .sub,.note p,.res,.m-sub,.spine-foot{
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;
+  }
+  h1,.ttl,.stat .n,.m-name{
+    font-family:'Space Grotesk','Inter',system-ui,sans-serif !important;
+  }
+
+  /* exercise + project lanes */
+  .lanes{border-top:1px solid var(--line-soft);display:grid;grid-template-columns:1fr 1fr}
+  .lanes.alone{grid-template-columns:1fr}
+  .lane{padding:12px 18px 13px}
+  .lane + .lane{border-left:1px solid var(--line-soft)}
+  .lane-h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px;
+    display:flex;align-items:center;gap:7px}
+  .lane-h .mk{width:8px;height:8px;border-radius:2px;background:var(--ink-faint)}
+  .lane.project .lane-h{color:var(--proj)}
+  .lane.project .lane-h .mk{background:var(--proj)}
+  .split{font-size:13px;color:var(--ink-soft);margin-bottom:6px}
+  .split:last-child{margin-bottom:0}
+  .split .h{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;
+    color:var(--ink);letter-spacing:.02em;margin-right:6px}
+  .split .h.solo{color:var(--you)}
+  .split .h.grp{color:var(--proj)}
+  .mile{font-size:13.5px;color:var(--ink);font-weight:500}
+  .split .key{color:var(--ink);font-weight:500}
+  .mile .sub{display:block;font-weight:400;color:var(--ink-soft);font-size:12.5px;margin-top:3px}
+
+  /* break row */
+  .brk{display:grid;grid-template-columns:82px 1fr;position:relative}
+  .brk .when{padding:14px 22px 14px 0}
+  .brk .when::after{content:"";position:absolute;top:0;bottom:0;right:-1px;width:2px;
+    background:var(--spine);}
+  .brk .node{border-color:var(--break);border-style:dashed}
+  .brk-card{margin:8px 0 8px 28px;padding:11px 18px;border:1px dashed var(--line);
+    border-radius:var(--radius);background:transparent;color:var(--ink-faint);
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.05em;
+    text-transform:uppercase;display:flex;align-items:center;gap:10px}
+
+  /* ---- Footer notes ---- */
+  .notes{margin-top:40px;border-top:2px solid var(--line);padding-top:24px}
+  .notes h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
+    letter-spacing:.01em;margin-bottom:14px}
+  .ngrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+  .note .nt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+  .note p{font-size:13px;color:var(--ink-soft)}
+  .note p b{color:var(--ink);font-weight:600}
+  .foot{margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.04em;color:var(--ink-faint)}
+
+  /* ---- Deliverables spine ---- */
+  .spine-panel{margin:26px 0 4px;background:var(--proj-bg);border:1px solid #E4D3C0;
+    border-radius:var(--radius);padding:15px 18px 15px}
+  .spine-h{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--proj);font-weight:600;margin-bottom:14px;
+    display:flex;align-items:center;gap:8px}
+  .spine-h .mk{width:9px;height:9px;border-radius:2px;background:var(--proj)}
+  .spine-track{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;position:relative}
+  .milestone{position:relative;padding-top:15px}
+  .milestone::before{content:"";position:absolute;top:3px;left:0;width:9px;height:9px;
+    border-radius:50%;background:var(--card);border:2px solid var(--proj);z-index:1}
+  .milestone::after{content:"";position:absolute;top:7px;left:9px;right:-10px;height:2px;
+    background:#E4D3C0;z-index:0}
+  .milestone:last-child::after{display:none}
+  .m-wk{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.03em;
+    color:var(--proj);font-weight:600;margin-bottom:3px}
+  .m-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;
+    color:var(--ink);line-height:1.18;margin-bottom:4px}
+  .m-name a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;
+    text-decoration-color:rgba(168,93,43,.5);text-underline-offset:3px}
+  .m-name a:hover{text-decoration-color:var(--proj)}
+  .m-sub{font-size:11.5px;color:var(--ink-soft);line-height:1.35}
+  .spine-foot{margin-top:13px;font-size:11.5px;color:var(--ink-soft);
+    border-top:1px dashed #E4D3C0;padding-top:10px}
+  .spine-foot b{color:var(--proj);font-weight:600}
+
+  /* Tech-TopUps pre-reading dripped to a week — dashed, to read as student
+     homework rather than as one of the GH/learnIT/New source pills */
+  .prereq{border-top:1px solid var(--line-soft);padding:8px 18px 9px;
+    display:flex;gap:9px;align-items:baseline;
+    font-size:11.5px;color:var(--ink-soft);line-height:1.45}
+  .pq{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:600;color:var(--ink-faint);
+    border:1px dashed var(--ink-faint);border-radius:20px;padding:2px 7px;
+    white-space:nowrap;position:relative;top:-.5px}
+
+  /* a hard deadline falling in this week — the only filled chip on a card */
+  .due{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:600;color:#FFF;background:var(--proj);
+    border-radius:20px;padding:4px 10px}
+
+  /* a deliverable handed out this week — outlined, because nothing is owed yet */
+  .set{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:600;color:var(--proj);background:transparent;
+    border:1px solid var(--proj);border-radius:20px;padding:3px 10px}
+
+  /* learnIT hand-in link on milestone cards */
+  .assign{display:inline-flex;align-items:center;gap:6px;margin:9px 8px 2px 0;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--proj);background:var(--proj-bg);
+    border:1px solid #E7D2BC;border-radius:20px;padding:4px 10px;font-weight:600;
+    text-decoration:none}
+  .assign:hover{border-color:var(--proj)}
+
+  /* feedback check-in chip on milestone cards */
+  .checkin{display:inline-flex;align-items:center;gap:6px;margin:9px 0 2px;
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--you);background:var(--you-bg);
+    border:1px solid #CFE0EC;border-radius:20px;padding:4px 10px;font-weight:600}
+
+  /* per-week resources / provenance strip */
+  .res{border-top:1px solid var(--line-soft);padding:9px 18px 11px;
+    display:flex;flex-direction:column;gap:7px;
+    font-size:11.5px;color:var(--ink-soft);line-height:1.45}
+  .res-grp{display:flex;gap:8px;align-items:flex-start}
+  .ri-body{flex:1;min-width:0}
+  .ri-lead{margin-bottom:2px}
+  .src{font-family:'JetBrains Mono',monospace !important;font-size:8.5px;letter-spacing:.06em;
+    text-transform:uppercase !important;font-weight:600;padding:2px 7px;border-radius:20px;
+    white-space:nowrap;position:relative;top:-.5px}
+  .src.gh{color:var(--you);background:var(--you-bg)}
+  .src.lit{color:var(--design);background:var(--design-bg)}
+  .src.new{color:var(--proj);background:var(--proj-bg)}
+  ul.ri{text-transform:none !important;font-variant:normal !important;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;
+    list-style:none;margin:0;padding:0}
+  ul.ri>li{position:relative;padding-left:11px;margin:0 0 2px}
+  ul.ri>li:last-child{margin-bottom:0}
+  ul.ri>li::before{content:'';position:absolute;left:1px;top:.52em;
+    width:3px;height:3px;border-radius:50%;background:var(--line);opacity:.9}
+  .rl{color:var(--you);text-decoration:underline;text-decoration-thickness:1px;
+    text-decoration-color:rgba(35,87,122,.45);text-underline-offset:2px;
+    text-transform:none !important;font-variant:normal !important;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important}
+  .rl:hover{text-decoration-color:var(--you)}
+  .rl.lit{color:var(--design);text-decoration-color:rgba(63,122,72,.45)}
+  .rl.lit:hover{text-decoration-color:var(--design)}
+
+  /* a link inside a chip takes the chip's colour — the GH/learnIT palette is
+     unreadable on the filled Due chip, and .rl.lit would otherwise win on
+     specificity */
+  .set .rl,.due .rl{color:inherit;text-decoration:underline;
+    text-decoration-color:currentColor;text-decoration-thickness:1px;
+    text-underline-offset:2px}
+
+  @media (max-width:620px){
+    .spine-track{grid-template-columns:1fr 1fr;gap:14px 12px}
+    .milestone::after{display:none}
+    body{padding:30px 14px 56px}
+    h1{font-size:27px}
+    .row,.brk{grid-template-columns:60px 1fr}
+    .when{padding-right:14px}
+    .card,.brk-card{margin-left:20px}
+    .node{right:-6px}
+    .lanes{grid-template-columns:1fr}
+    .lane + .lane{border-left:none;border-top:1px solid var(--line-soft)}
+  }
+  a:focus-visible,.card:focus-within{outline:2px solid var(--you);outline-offset:2px}
+  code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.86em;
+    background:var(--proj-bg);color:var(--proj);padding:1px 5px;border-radius:4px;
+    text-transform:none;white-space:nowrap}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">ITU Copenhagen · Autumn 2026 · Thursdays</div>
+    <h1>Technical Interaction Design <span class="yr">/ Weekly Syllabus</span></h1>
+    <p class="lede">In the first six weeks each of you builds and deploys a working app of your own; the group app starts after the autumn break, on what you have each already built. At the same time, a design track focuses on understanding users, designing for them, and improving the design.</p>
+    <ul class="lede"><li>Every team builds the same basic to-do app, but adds their own feature for a specific group of users.</li><li>Each week includes a lecture, a two-hour exercise, and a project milestone.</li><li>Use the basic app yourself, design the new feature for people different from you, and be able to explain all your code at the exam.</li><li>Hand-ins are due on a Tuesday, at the time learnIT gives for each.</li></ul>
+    <p class="lede">Before week 1, you only need to complete <b>JavaScript, the Language</b>. The other TopUps are introduced later, just before you need them.</p>
+    <p class="lede">In the AI era, the important skill is understanding code, not just writing it. You can use AI as much as you want, but you must understand and explain every line of code at the exam. The course is designed around this idea.</p>
+
+    <div class="glance">
+      <div class="stat"><div class="n">14 weeks</div><div class="l">Aug 27 – Dec 3</div></div>
+      <div class="stat"><div class="n">Group to-do</div><div class="l">one project, one twist</div></div>
+      <div class="stat"><div class="n">2h exercise</div><div class="l">1h solo · 1h project</div></div>
+      <div class="stat"><div class="n">70 / 30</div><div class="l">individual exam · group</div></div>
+    </div>
+    <div class="legend">
+      <span><i class="dot you"></i> Mircea</span>
+      <span><i class="dot react"></i> Konstantina</span>
+      <span><i class="bar tech"></i> technical week</span>
+      <span><i class="bar design"></i> design week</span>
+      <span><i class="away">away</i> covered lecture</span>
+    </div>
+  </header>
+
+  <!-- ---- Deliverables spine ---- -->
+  <div class="spine-panel">
+    <div class="spine-h"><span class="mk"></span>Deliverables — six checkpoints, every one a Tuesday</div>
+    <div class="spine-track">
+      <div class="milestone">
+        <div class="m-wk">Tue 8 Sep</div>
+        <div class="m-name">Teams registered</div>
+        <div class="m-sub">Group of four, registered on learnIT. Due the Tuesday <i>before</i> the user-needs lecture, because that is the first thing in the course that actually needs a team. Weeks 1 and 2 are individual.</div>
+      </div>
+      <div class="milestone">
+        <div class="m-wk">Tue 29 Sep, 09:00</div>
+        <div class="m-name">Interviews → what to build</div>
+        <div class="m-sub">Your population, how you analysed the interviews, what the app has to do — any format, each item traceable to an interview and prioritised — and the feature you will build. Transcripts in an appendix. <i>The brief is on learnIT.</i></div>
+      </div>
+      <div class="milestone">
+        <div class="m-wk">Tue 27 Oct</div>
+        <div class="m-name">Wireframes, tested</div>
+        <div class="m-sub">The screens your population needs, what testing changed, plus the extended ER diagram. Extended from Fri 23 Oct. <i>The brief is on learnIT.</i></div>
+      </div>
+      <div class="milestone">
+        <div class="m-wk">Tue 10 Nov (planned)</div>
+        <div class="m-name">Visual &amp; accessibility pass</div>
+        <div class="m-sub">The a11y audit, and what the visual pass changed. Two weeks after the lecture, and <i>before</i> the last features land, so that everything built after this is built inside the design system rather than restyled at the end. <i>Feedback comes back at the week 12 lecture.</i></div>
+      </div>
+      <div class="milestone">
+        <div class="m-wk">Tue 24 Nov (planned)</div>
+        <div class="m-name">Chosen features working</div>
+        <div class="m-sub">Your feature-menu picks — real-time sync, time-tracking — live in the app. After week 12, which is where time-tracking is taught.</div>
+      </div>
+      <div class="milestone">
+        <div class="m-wk">December</div>
+        <div class="m-name">Final app + thin report</div>
+        <div class="m-sub">Deployed, dogfooded, defensible. Date set by the exam schedule.</div>
+      </div>
+    </div>
+    <div class="spine-foot">Each design deliverable lands about two weeks after the lecture that teaches it, leaving nine days to read it — the feedback then opens the next lecture, in <b>weeks 7 and 12</b>. The user study gets a further week after that to act on what the feedback found, before wireframing starts. Checkpoints you hit and <b>dogfood against</b>, not submissions marked line-by-line. Two sit-down conversations per group, in weeks <b>10</b>: scope and data model, then mid-project.</div>
+  </div>
+
+  <div class="timeline">
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 01</div><div class="date">Aug 27</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · React I + opening</span></div>
+          <div class="ttl">First React app: components and props</div>
+          <div class="desc">After the opening — what the course is, and the deal about AI: use it as much as you like, and own every line at the exam — React, built live on a tiny to-do app: React as a library rather than a framework, everything a component, JSX and its rules (one root, closed tags, <code>className</code>), curly-brace interpolation, props and destructuring, <code>children</code>, rendering a list with <code>map</code> and keys, and <code>onClick</code> — passing a function rather than calling it. State did not fit and moved to week 2.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h solo</div>
+            <div class="split"><span class="h solo">first hour</span>Scaffold your own app with Vite, following the <a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/React-Starter-Kit.md" target="_blank" rel="noopener">starter kit</a> — <code>npm create</code>, <code>npm install</code>, <code>npm run dev</code> — remove Vite's example code, and rebuild the class to-do from your notes: an array of items, a component with props, keys. Then change one thing, and commit it to <code>week-01/</code> in a <b>public</b> exercise repo.</div>
+            <div class="split"><span class="h solo">second hour</span>Keep playing with what you built — another field, a counter, whatever you want to try. Then go and find your group of four.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            
+            <span class="due">Due Tue 8 Sep · the link to your public exercise repo, on learnIT</span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Intro-to-React.md" target="_blank" rel="noopener">Intro to React</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Hooks.md" target="_blank" rel="noopener">Hooks</a></li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/3-Javascript-the-Language.md" target="_blank" rel="noopener">3 · JavaScript, the Language</a> — the one module required before week 1. The rest drip week by week.</span></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 02</div><div class="date">Sep 3</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · React II</span></div>
+          <div class="ttl">State, forms, lists, and local storage</div>
+          <div class="desc">Week 1's leftover first: state. Props are read-only by promise, not by enforcement — pushing onto one worked, live. Then <code>useState</code>, React as a spreadsheet that recomputes, and the two rules that make a re-render happen: call the setter, and pass it a new array rather than the same one changed. Then the to-do became a real app: a controlled form for adding, a callback from the form to the list, items as objects with ids, delete and check-off, and two components pulled out because they were wanted twice — <code>TextInput</code> and <code>TodoItem</code>. It ended with conditional rendering, and <code>useEffect</code> keeping the list in local storage, so it survives a refresh. The class voted to run twenty minutes over rather than lose the end.</div>
+        </div>
+        <div class="lanes alone">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h solo</div>
+            <div class="split"><span class="h solo">first hour</span>Copy the class code into <code>week-02/</code>. Add <code>useState</code> for the to-dos and a controlled form that adds to them; turn the strings into objects with ids; give each a checkbox and a Delete button.</div>
+            <div class="split"><span class="h solo">second hour</span>Still individual: an empty-list message, then save the list to local storage with <code>useEffect</code> and load it back with <code>useState(loadTodos)</code>.</div>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Component-State.md" target="_blank" rel="noopener">Component State</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Forms-and-Controlled-Components.md" target="_blank" rel="noopener">Forms &amp; Controlled Components</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Conditional-Rendering.md" target="_blank" rel="noopener">Conditional Rendering</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/The-useEffect-Hook.md" target="_blank" rel="noopener">The useEffect Hook</a></li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/1-Basics-of-CSS.md" target="_blank" rel="noopener">1 · Basics of CSS</a> — read before week 3's exercise hour.</span></div>
+      </div>
+    </div>
+
+    <div class="row t-design p-react away">
+      <div class="when"><div class="wk">Week 03</div><div class="date">Sep 10</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who react">Guest lecture</span><span class="lec-eyebrow">Lecture · Design I</span><span class="away-tag">Mircea away</span></div>
+          <div class="ttl">Understanding what your users need</div>
+          <div class="desc">A guest lecture on user research, organised by Konstantina: how interviews reveal what people need, what they are trying to do and what gets in their way; analysing interviews by coding them into themes; personas as a summary of users with similar goals; and why qualitative and quantitative methods together give a fuller picture.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>CSS, on the app you already have: how props and callbacks carry information up and down the tree, how styles flow downwards, the browser's inspector, a custom font, a mobile-first layout that stops growing at 600px, and buttons — with specificity and inheritance.</div>
+            <div class="split"><span class="h grp">1h project</span>The user study starts: choose your population, and find people in it to interview.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h solo">starting</span>The user study — at least three interviews with people from your population, analysed into what the app has to do. Due Tue 29 Sep</div>
+            <span class="due">Due Tue 8 Sep · teams registered</span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Interaction-Design/The-Interaction-Design-Process.md" target="_blank" rel="noopener">The Interaction Design Process</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>Lecture slides (User Research Insights in Digital Design)</li><li>CSS exercise slides and a possible solution</li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=230965" target="_blank" rel="noopener">Braun &amp; Clarke 2019</a></li></ul></div></div></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 04</div><div class="date">Sep 17</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Backend I</span></div>
+          <div class="ttl">Replacing local storage with a real database</div>
+          <div class="desc">Parse and Back4App: setting up a backend, and the to-do list you already have re-implemented on top of it — create with <code>save()</code>, read with a <code>Parse.Query</code> and <code>await</code>, update a single field, and delete, all of it in one file to begin with. The <code>objectId</code> became the React key. Answering a question about what an API is took a detour through HTTP and REST, a live <code>curl</code>, and what an SDK adds on top of them. The bugs that came up along the way were fixed in front of the room: a list that was not an array, and fields that need <code>get()</code>.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Set up your <i>own</i> Back4App app and connect your to-do list to it, with a TA in the room: install Parse, put the Parse calls in a <code>services/todoService.js</code>, and switch the list's add, toggle and delete over to it.</div>
+            <div class="split"><span class="h grp">1h project</span>No group code. The user study: interviews.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 22 Sep</span><span class="key">Your own Parse app live, one per person</span></div>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Backends-and-Low-Code-Backends.md" target="_blank" rel="noopener">Backends and Low-Code Backends</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Backends-Low-Code-Backends-and-the-Parse-Platform.md" target="_blank" rel="noopener">Replacing localStorage with a Real Database</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>Video recording</li><li>exercise slides</li><li>a possible solution, which also serves as the start of week 5</li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/6-Async-Programming-and-Promises.md" target="_blank" rel="noopener">6 · Async Programming &amp; Promises</a> — your first real awaits against a backend.</span></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 05</div><div class="date">Sep 24</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Backend II</span></div>
+          <div class="ttl">Authentication, authorization, and the first relationship</div>
+          <div class="desc">Two words that sound alike and mean different things. <b>Authentication</b>: signup and login, <code>Parse.User.current()</code>, and the app gated on it with the conditional rendering from week 2; the session token in local storage, and what someone who steals it can do. <b>Authorization</b>, in layers: an ACL on each object, owner-only and then shared; class-level permissions; and why hiding a button is not security, shown by a <code>curl</code> that walks straight past the UI. Roles were explained but not demonstrated, and Parse has no field-level permissions, so a private field means a separate table. Then the first relationship: every item points to its owner, and then to a List — one-to-many, a pointer as a foreign key.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Add an auth page and conditional rendering to your own app; give each item an owner pointer; lock the class to logged-in users; show only your own items; log out and try another user. Further: real ACLs, an <code>authService.js</code>, a role.</div>
+            <div class="split"><span class="h grp">1h project</span>The user study, written up.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 29 Sep</span><span class="key">Login working in your own app · items belong to their owner</span></div>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Authorization-and-ACL-in-Parse.md" target="_blank" rel="noopener">Authentication &amp; Authorization in Parse</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Relationships-Between-Object-Classes.md" target="_blank" rel="noopener">Relationships Between Object Classes</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>Lecture notes</li><li>video recording</li><li>exercise slides</li><li>a possible solution</li></ul></div></div></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 06</div><div class="date">Oct 1</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Backend III + routing + deploy</span></div>
+          <div class="ttl">Sharing a list, going live, and routing</div>
+          <div class="desc"><p>Week 5's leftover first: sharing a list is a many-to-many relationship between users and lists, so it gets a join table of its own, <code>ListMember</code>, with the ACLs that follow from it — and what leaving a list does and does not undo. Then the app went public: <code>npm run build</code>, GitHub Pages, and the Back4App keys sitting in plain sight in the bundle, which is fine only because the ACLs are doing their job. Then routing: why a single-page app still needs URLs, React Router with a page per list (<code>/lists/:listId</code>), links, and why a URL is not a permission. Refreshing a route on GitHub Pages gives a 404, and copying <code>index.html</code> to <code>404.html</code> fixes it.</p><p>The group app was meant to start this week. It starts after the break instead: every member first builds sharing and routing alone, in their own app.</p></div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>In your own app, load the user's lists, give each its own form and its own to-dos through a pointer, then give each list its own page with React Router and <code>Link</code>.</div>
+            <div class="split"><span class="h grp">1h project</span>Deploy your own app to GitHub Pages and make refresh work.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 6 Oct</span><span class="key">Lists and routing in your own app · your app live</span></div>
+            <span class="due">Due Tue 29 Sep, 09:00 · <a class="rl lit" href="https://learnit.itu.dk/mod/assign/view.php?id=255954" target="_blank" rel="noopener">the user study</a></span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Many-to-Many-Sharing-a-List.md" target="_blank" rel="noopener">Sharing a List Is a Many-to-Many Relationship</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Tooling/Publishing-on-GitHub-Pages.md" target="_blank" rel="noopener">Publishing Your App on GitHub Pages</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Routing/Routing-in-React.md" target="_blank" rel="noopener">Routing in React</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>Video recording</li><li>exercise slides</li><li>possible solutions</li></ul></div></div></div>
+      </div>
+    </div>
+
+    <div class="row t-design p-react away">
+      <div class="when"><div class="wk">Week 07</div><div class="date">Oct 8</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who react">Konstantina</span><span class="lec-eyebrow">Lecture · Design II</span><span class="away-tag">Mircea away</span></div>
+          <div class="ttl">Screens, and judging them: wireframing &amp; usability</div>
+          <div class="desc">Opened with feedback on the user studies: focus on what users have to do, not on features; tie each task to what an interview said; keep the core small; transcripts go in the appendix. Then from a user story to the screens: functional requirements (what the app must do) and non-functional ones (how it should feel: usable, accessible, quick, clear about errors), a user flow, and the wireframe — the structural skeleton, low fidelity on purpose, because a rough sketch is cheap to change and says "this is still open". Wireframes need states, not just the happy path: empty, error, saving, success. And how to test one: a think-aloud, without leading the participant, watching for hesitation, mistakes and wrong expectations, then change and test again.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Figma, with Lea: a team with Education status, frames, auto layout, components, dev mode, and the community files.</div>
+            <div class="split"><span class="h grp">1h project</span>Start on the wireframes: user stories, a flow, the first sketches.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            
+            <span class="set">Set · <a class="rl lit" href="https://learnit.itu.dk/mod/assign/view.php?id=256867" target="_blank" rel="noopener">Wireframes, tested</a> — published on learnIT on Fri 9 Oct, due Tue 27 Oct (extended from Fri 23 Oct)</span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Interaction-Design/Usability-and-Its-Evaluation.md" target="_blank" rel="noopener">Usability and Its Evaluation</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/tree/main/Lectures/Interaction-Design/usability-examples" target="_blank" rel="noopener">10 worked heuristic counterexamples</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>Lecture slides</li><li>Figma exercise outline</li><li><a class="rl lit" href="https://learnit.itu.dk/mod/resource/view.php?id=228522" target="_blank" rel="noopener">Lauesen ch.13</a></li></ul></div></div></div>
+      </div>
+    </div>
+
+    <div class="brk">
+      <div class="when"><div class="wk">&nbsp;</div><div class="date">Oct 15</div><div class="node"></div></div>
+      <div class="brk-card">◆ Autumn break — no lecture</div>
+    </div>
+
+    <div class="row t-tech p-react away">
+      <div class="when"><div class="wk">Week 08</div><div class="date">Oct 22</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who react">Konstantina</span><span class="lec-eyebrow">Lecture · Collaboration + code organisation</span><span class="away-tag">Mircea away</span></div>
+          <div class="ttl">Git-flow, and organising the code</div>
+          <div class="desc">The group app starts now, so the lecture started with git: branches, git-flow, pull requests and reviews, a shared repository the whole team owns (an organisation, not one person's account), and how to work as a team. Then the code, worked on a fork of the course's to-do app: a reusable <code>Button</code>, styled-components, npm packages and when a component library such as MUI is worth it, extracting and organising components, and services passing data down the component tree. The changes went in as a <a class="rl gh" href="https://github.com/itu-tid/todo-26/pull/1" target="_blank" rel="noopener">pull request</a>, described the way the PR guide says.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Make a feature branch from <code>development</code>, move the list query out of <code>ListPage.jsx</code> into <code>loadList(listId)</code> in a service, push it, and open a pull request.</div>
+            <div class="split"><span class="h grp">1h project</span>Set up the group repo: one owner, everyone a collaborator, <code>main</code> and <code>development</code> branches, <code>node_modules/</code> and <code>.env.local</code> ignored. Then review a teammate's pull request and merge it into <code>development</code> — and resolve a conflict if you get one.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 27 Oct</span><span class="key">The group repo set up · everyone has merged one reviewed pull request</span></div>
+            <div class="split"><span class="h solo">starting</span>Group coding, through pull requests — every week from here on</div>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Tooling/Collaboration-with-Git-Flow.md" target="_blank" rel="noopener">Collaboration with Git-Flow</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Pulling-Out-the-Service-Layer.md" target="_blank" rel="noopener">Pulling Out the Service Layer</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Code-Organization.md" target="_blank" rel="noopener">Code Organization</a> + <a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Component-Extraction-Cheatsheet.md" target="_blank" rel="noopener">Component-extraction cheatsheet</a> (the review checklist)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Finding-the-Components.md" target="_blank" rel="noopener">Finding the Components</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>A Guide to Making Good Pull Requests</li><li>the week's notes as a PDF</li><li>exercise slides</li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Prereq</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/5-Coding-Practices.md" target="_blank" rel="noopener">5 · Coding Practices</a></span></div>
+      </div>
+    </div>
+
+    <div class="row t-design p-react">
+      <div class="when"><div class="wk">Week 09</div><div class="date">Oct 29</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who react">Konstantina</span><span class="lec-eyebrow">Lecture · Design III</span></div>
+          <div class="ttl">Making it look right: design systems</div>
+          <div class="desc">Design systems: what they give you — a type scale, a palette and spacing that already work together — and how to customise an existing one to your own brand instead of building one from scratch, and why good UI work in design saves time in development. The exercise hour is about the other side of the same decision: a component library is a dependency, and adding one is a judgment about whether it is alive, trustworthy, and worth what it costs.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>npm, hands-on: scripts in <code>package.json</code>, installing and removing a package, <code>npm outdated</code>, <code>package.json</code> against <code>package-lock.json</code>, judging a package before you install it (emoji-picker-react as the example), and MUI.</div>
+            <div class="split"><span class="h grp">1h project</span>Finish the wireframes and hand them in.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            
+            <span class="due">Due Tue 27 Oct · <a class="rl lit" href="https://learnit.itu.dk/mod/assign/view.php?id=256867" target="_blank" rel="noopener">wireframes, tested</a></span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Tooling/Libraries.md" target="_blank" rel="noopener">Libraries</a></li></ul></div></div><div class="res-grp"><span class="src lit">learnIT</span><div class="ri-body"><ul class="ri"><li>Exercise slides (from 29 Oct)</li></ul></div></div></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 10</div><div class="date">Nov 5</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Code organisation II</span></div>
+          <div class="ttl">Where the state goes: extraction and lifting</div>
+          <div class="desc"><p>The check-in week, so the lecture is a refactor of code you already have rather than a mechanism you have never seen — the exercise slot is spent talking about your own app, which is the wrong place to meet a new API and the right place to meet a new standard.</p><p>Since week 8 the review checklist has said <b>state where it belongs</b> without anything ever saying where that is. This is where. Extracting components first, because extraction is what creates the problem: split one screen into three and two of them need to agree about state that now belongs to neither, which is <b>lifting state up</b>. Then <code>useRef</code>, for the two or three things state cannot do. The worked example is the one that bites in week 12 — stopping a task in one list when another starts in a different one.</p></div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h studio</div>
+            <div class="split"><span class="h solo">at home</span>Extract one overgrown component in your own repo, and lift whatever state the extraction stranded. Do it before Thursday — the slot itself is a studio.</div>
+            <div class="split"><span class="h grp">2h studio</span>Everyone in the room refactoring their own app, while <b>Mircea and a TA each run five 20-minute check-ins</b> on the extended data model and what is actually built. Bring the ER diagram on one page — we have had it since 27 Oct, so the twenty minutes are for the awkward parts, not the summary.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 10 Nov</span><span class="key">At least one component extracted · state living where it belongs</span></div>
+            <span class="set">Set · chosen features working, due Tue 24 Nov</span>
+            <span class="checkin">◆ Mid-project check-in — the extended data model, and what you have actually built</span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Finding-the-Components.md" target="_blank" rel="noopener">Finding the Components</a>, if week 8 did not reach it</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Patterns-of-Component-Communication.md" target="_blank" rel="noopener">Patterns of Component Communication</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Refactoring-by-Extracting-Components.md" target="_blank" rel="noopener">Extracting Components, and Where the State Goes</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/The-useRef-Hook.md" target="_blank" rel="noopener">The useRef Hook</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Component-Extraction-Guide.md" target="_blank" rel="noopener">Component-Extraction Guide</a></li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Optional</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/2-DOM-Manipulation-with-Javascript.md" target="_blank" rel="noopener">2 · DOM Manipulation with JavaScript</a> — background only, for where <code>useRef</code> reaches a real DOM node.</span></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 11</div><div class="date">Nov 12</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Backend III</span></div>
+          <div class="ttl">Talking to the backend well</div>
+          <div class="desc"><p>One subject in three moves, all of it about the wire between your app and Parse. Do less over it: fewer round trips, fetch what you will actually use. Then move work across it, into cloud functions, where it belongs server-side. Then stop asking altogether — <b>live queries</b>, push instead of poll, and the shared list that updates itself while somebody else is typing into it. Two people on one task is where multi-user reality lands on an app you have been using for weeks, and it sets up the collision week 12 has to resolve: if two people track time on the same task, whose time is it?</p><p>Examples stay in JavaScript. TypeScript is permitted if a whole group agrees and already has the experience — never as a second track.</p></div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Write one cloud function and measure the round-trips saved; subscribe to a live query and react to a remote change.</div>
+            <div class="split"><span class="h grp">1h project</span>Move one operation server-side; put live sync on a shared list.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 17 Nov</span><span class="key">Server-side logic where it earns its place · live sync working</span></div>
+            <div class="split"><span class="h solo">starting</span>Dogfooding in earnest — changes now appear for everyone the instant they happen · and the thin report, the two short sections about your population</div>
+            <span class="due">Due Tue 10 Nov · visual &amp; accessibility pass</span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Efficient-Communication-with-the-Backend.md" target="_blank" rel="noopener">Efficient Communication</a> (live queries included)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Web-Service-APIs.md" target="_blank" rel="noopener">Web Service APIs</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Updater-Functions-for-State.md" target="_blank" rel="noopener">Updater Functions for State</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Running-Code-Server-Side.md" target="_blank" rel="noopener">Running Code Server-Side</a></li></ul></div></div></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-react away">
+      <div class="when"><div class="wk">Week 12</div><div class="date">Nov 19</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who react">Konstantina</span><span class="lec-eyebrow">Lecture · Feature depth</span><span class="away-tag">Mircea away</span></div>
+          <div class="ttl">Time-tracking, and the idea of context</div>
+          <div class="desc">Opens with feedback on the accessibility audits and visual passes handed in nine days ago. Then: a simple feature that blooms. You cannot run two timers at once, so starting one must stop another — which means the app has to know what is <i>active</i>. That is a context spanning every list, and it is the first thing in the course that is genuinely awkward to hold in your head. Since Parse ACLs are object-level and not field-level, private timing splits into its own table. This is where AI stops being much help, which is rather the point.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Build a start/stop timer with a single active context.</div>
+            <div class="split"><span class="h grp">1h project</span>Teams who chose it: add time-tracking with context. Everyone else — and everyone, if week 9 ran out of hour: the responsive pass, breakpoints included.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 24 Nov</span><span class="key">Context reified where two timers would collide</span></div>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Field-Level-Permissions.md" target="_blank" rel="noopener">Field-Level Permissions</a> (totalTime / currentSessionStart / TodoTimeTracking)</li></ul></div></div></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you">
+      <div class="when"><div class="wk">Week 13</div><div class="date">Nov 26</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Code quality — culmination</span></div>
+          <div class="ttl">Refactoring &amp; owning the code</div>
+          <div class="desc">The skill you have practised since week 8, at full strength — and now with the whole hour to spend on the thing it was building towards. One of you drives a live review of an AI-generated PR while the class interrogates it. What is wrong, what is subtly wrong, what works but over-reaches — a needless dependency, a component that should have been three — and what you cannot yet explain, because what you cannot defend, you do not own.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Review an AI-generated PR on your own repo; write three comments you would stand behind.</div>
+            <div class="split"><span class="h grp">1h project</span>One member drives a live AI-PR review while the group interrogates it — rehearsal for exam questioning.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 1 Dec</span><span class="key">Codebase cleaned</span></div>
+            <div class="split"><span class="h solo">starting</span>Exam preparation: every member able to explain every part</div>
+            <span class="set">Set · final app + thin report, December</span>
+            <span class="due">Due Tue 24 Nov · chosen features working</span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Component-Extraction-Guide.md" target="_blank" rel="noopener">Component-Extraction Guide</a></li></ul></div></div></div>
+        <div class="prereq"><span class="pq">Revisit</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Component-Extraction-Cheatsheet.md" target="_blank" rel="noopener">the review checklist</a> you have reviewed against since week 8, and <a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/5-Coding-Practices.md" target="_blank" rel="noopener">5 · Coding Practices</a>.</span></div>
+      </div>
+    </div>
+
+    <div class="row t-tech p-you last">
+      <div class="when"><div class="wk">Week 14</div><div class="date">Dec 3</div><div class="node"></div></div>
+      <div class="card">
+        <div class="lec">
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Wrap &amp; exam prep</span></div>
+          <div class="ttl">Own it at the exam</div>
+          <div class="desc">Walk through the exam shape — common-core interrogation of your live app, then defend your own feature-menu choice. Revisit the deal: use AI all you want; own every line when we meet. Final integration and the thin report.</div>
+        </div>
+        <div class="lanes">
+          <div class="lane exercise">
+            <div class="lane-h"><span class="mk"></span>Exercise</div>
+            <div class="split"><span class="h solo">1h solo</span>Mock exam questions on your own app.</div>
+            <div class="split"><span class="h grp">1h project</span>Final integration; deploy the final version; finish the report.</div>
+          </div>
+          <div class="lane project">
+            <div class="lane-h"><span class="mk"></span>Project</div>
+            <div class="split"><span class="h grp">todo by Tue 8 Dec</span><span class="key">Final integration done · mock exam questions answered</span></div>
+            <span class="due">Due December · final app + thin report (date set by the exam schedule)</span>
+          </div>
+        </div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Report-Structure.md" target="_blank" rel="noopener">Report Structure</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Exam-Structure.md" target="_blank" rel="noopener">Exam Structure</a></li><li>every note ends with its own Exam Questions</li></ul></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- Notes ---- -->
+  <div class="notes">
+    <h2>How the pieces fit</h2>
+    <div class="ngrid">
+      <div class="note">
+        <div class="nt">The exercise slot</div>
+        <p><b>1h solo, then 1h project — from week 3 onward.</b> Weeks 1 and 2 are two hours of your own work, because there are no teams yet. Solo drills are <b>required but ungraded</b> — an existence check, not a grading anvil — and they pile up into a personal portfolio that <i>is</i> your exam prep. On the design weeks (3, 7 and 9) the solo hour drills that week's own skill; a couple of times in the back half it swaps "build X" for "review this AI-generated PR on your repo and write three comments you'd defend."</p>
+      </div>
+      <div class="note">
+        <div class="nt">Two repos, two jobs</div>
+        <p>A <b>shared reference to-do</b>, git-tagged per lecture, is the canonical good code, and it is for reading rather than for starting from. Teams build their own repo from empty in week 6. They have the wiring already — each member set up a Parse app alone in weeks 4 and 5 — and their data model is the ER diagram they argued from their own tasks, so what a copy of the reference would give them is a to-do list they would then have to unpick. Starting empty is also what makes the user study decide the app rather than decorate it — after the user study has said what they are building, and after every member has stood up a backend alone. A <b>personal exercise repo</b> — one folder per week, <code>week-01/</code> through <code>week-14/</code>, public — holds the solo drills, checked at a glance rather than by pull request. Both URLs are collected in week 1 and week 6, which is what makes checking at a glance possible at all.</p>
+      </div>
+      <div class="note">
+        <div class="nt">The project constraint</div>
+        <p>Lean required core: owner → lists → items, sharing at the list level. Everything else is an <b>optional feature menu</b> — project grouping, time-tracking with context, two people on one task — that teams pick from and defend. One population, one twist, fully built.</p>
+      </div>
+      <div class="note">
+        <div class="nt">Feedback without pull requests</div>
+        <p>No weekly PR reviews; they never scaled at this size. What replaced them works on <b>six group artefacts rather than twenty-five individual ones</b>, and it is spoken rather than written: ten minutes at the start of a lecture, across all groups at once, so everybody hears what everybody else got wrong. Around it: dogfooding tells you continuously whether the thing works, AI is your always-on first-pass code reviewer, and two sit-down conversations per group land in weeks 10.</p>
+      </div>
+      <div class="note">
+        <div class="nt">A pulse, every week</div>
+        <p>The last two minutes of every lecture: an anonymous single-box form, <b>the same link every week</b>, one question. Read before the next lecture and <b>reported back at the start of it</b> — that second half is what makes students keep filling it in. Fourteen cheap readings beat one end-of-term survey you can no longer act on.</p>
+      </div>
+      <div class="note">
+        <div class="nt">Assessment</div>
+        <p><b>70% individual exam, 30% group project</b>, with a hard floor: bomb the individual and you fail, however strong the group. The project is your exam curriculum — if you used it, you understand it.</p>
+      </div>
+      <div class="note">
+        <div class="nt">Pre-course</div>
+        <p>**<a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/3-Javascript-the-Language.md" target="_blank" rel="noopener">JavaScript, the Language</a><b> is the one module required before week 1, with </b>Scrimba's free tier<b> as the interactive companion (Learn JavaScript, 9.4h, MDN-built; Learn HTML &amp; CSS 5.7h and Learn React 15.1h as bonuses). A </b>Node/npm setup step** runs pre-course. The remaining TopUps arrive on the card of the week they serve.</p>
+      </div>
+      <div class="note">
+        <div class="nt">Where the material comes from</div>
+        <p><span class="src gh">GH</span> this repo — the technical spine, mostly already written. <span class="src lit">learnIT</span> last year's design materials, and every submission box.</p>
+      </div>
+    </div>
+    <div class="foot">Weeks 1–8 as taught · weeks 10–14 being replanned · updated Oct 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
