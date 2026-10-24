@@ -27,7 +27,7 @@ The last two minutes of every lecture are yours: **[one anonymous question](http
 
 ## Deadlines
 
-Every one is a **Tuesday at 23:59**, except the wireframes, which were moved to the Friday. Checkpoints you hit and dogfood against, not submissions marked line by line.
+Every one is a **Tuesday at 23:59**, except the user study, which was due at 09:00. Checkpoints you hit and dogfood against, not submissions marked line by line.
 
 **The project starts with people, not with code.** The first thing you produce is not a repository — it is a handful of interviews, the themes that keep coming up across them, and the tasks those themes turn into. Week 3 teaches how, and the first deliverable below is where you hand it in. What you build afterwards is shaped by what you find there, which is the whole argument of the course.
 
@@ -35,7 +35,7 @@ Every one is a **Tuesday at 23:59**, except the wireframes, which were moved to 
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Tue 8 Sep**  | Teams registered on learnIT. **Four is the size we want**; if that does not work for you, email us before this date. Weeks 1 and 2 are individual.                                                      |
 | **Tue 29 Sep** | Interviews → what to build — your population, how you analysed the interviews, what the app has to do (any format, traceable and prioritised), and the feature you will build. The brief is on learnIT. |
-| **Fri 23 Oct** | Wireframes, tested — the screens your population needs, what testing changed, and the ER diagram of your app                                                                                               |
+| **Tue 27 Oct** | Wireframes, tested — the screens your population needs, what testing changed, and the ER diagram of your app. Extended from Fri 23 Oct.                                                                  |
 | **Tue 10 Nov** | Visual & accessibility pass — the a11y audit, and what the visual pass changed                                                                                                                          |
 | **Tue 24 Nov** | Chosen features working — your feature-menu picks, live in the app                                                                                                                                      |
 | **December**   | Final app + thin report — deployed, dogfooded, defensible. Date set by the exam schedule.                                                                                                               |
