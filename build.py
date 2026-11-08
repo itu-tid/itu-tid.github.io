@@ -557,7 +557,8 @@ def readme_table(doc):
         f = dict(fields(body))
         gh = f.get("GH", "").strip()
         solo = f.get("Solo", "").strip()
-        solo = re.split(r"(?<=[.;])\s", solo)[0] if solo else "—"
+        # from week 10 on there is no Solo row: the hour goes to the group
+        solo = re.split(r"(?<=[.;])\s", solo)[0] if solo else "Solo hour replaced by group work"
         rows.append(f"| **{m.group(1)}** · {m.group(2).strip()} | {gh or '—'} | {solo} |")
     return ("\n".join(["| week | notes | the solo hour |", "|---|---|---|"] + rows))
 
