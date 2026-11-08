@@ -67,7 +67,7 @@ Course order, as the 2026 syllabus runs it — generated from it, so the two can
 | **10** · Nov 5 | No new notes: the session was questions and feedback for each group. | Solo hour replaced by group work |
 | **11** · Nov 12 | [Efficient Communication](Lectures/Technical/Backend/Efficient-Communication-with-the-Backend.md) (live queries included) · [Running Code Server-Side](Lectures/Technical/Backend/Running-Code-Server-Side.md) · [Field-Level Permissions](Lectures/Technical/Backend/Field-Level-Permissions.md) (the exercise: totalTime / currentSessionStart / TodoTimeTracking) | Solo hour replaced by group work |
 | **12** · Nov 19 | [Patterns of Component Communication](Lectures/Technical/React/Patterns-of-Component-Communication.md) · [Extracting Components, and Where the State Goes](Lectures/Technical/Structure/Refactoring-by-Extracting-Components.md) · [Updater Functions for State](Lectures/Technical/React/Updater-Functions-for-State.md) · [The useRef Hook](Lectures/Technical/React/The-useRef-Hook.md) | Solo hour replaced by group work |
-| **13** · Nov 26 | [Component-Extraction Guide](Lectures/Technical/Structure/Component-Extraction-Guide.md) | Solo hour replaced by group work |
+| **13** · Nov 26 | [Component Extraction Cheat Sheet](Lectures/Technical/Structure/Component-Extraction-Cheatsheet.md): the review checklist you have used since week 8, now applied to an AI-generated PR | Solo hour replaced by group work |
 | **14** · Dec 3 | [Report Structure](Report-Structure.md) · [Exam Structure](Exam-Structure.md) · every note ends with its own Exam Questions | Solo hour replaced by group work |
 
 <!-- weeks:end -->

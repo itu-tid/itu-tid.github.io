@@ -12,7 +12,7 @@ From this week on, this is the review checklist. Before you approve a pull reque
 4. **Parse behind a service.** Does only `services/` import Parse?
 5. **No needless dependencies.** Is every new package in `package.json` worth what it costs? (See [Libraries](../Tooling/Libraries.md).)
 
-*State where it belongs* gets its full answer in week 10, with [lifting state up](Refactoring-by-Extracting-Components.md#where-the-state-goes). Until then: if two components need the same state, it lives in their closest common parent.
+*State where it belongs* gets its full answer in week 12, with [lifting state up](Refactoring-by-Extracting-Components.md#where-the-state-goes). Until then: if two components need the same state, it lives in their closest common parent.
 
 ## Extract a block when it repeats, or when you can name it and the page reads better without it
 
@@ -75,6 +75,6 @@ When unsure, leave it. Extracting later takes five minutes; a component nobody n
 
 ## For a deeper dive
 
-- [Component-Extraction Guide](Component-Extraction-Guide.md): a longer worked example, on a different app
+- [React Code Quality](Component-Extraction-Guide.md): a longer worked example, on a different app
 - [Semantic JSX](https://mxb.dev/blog/semantic-jsx/): the argument for naming what a block *is*
 - [Thinking in React](https://react.dev/learn/thinking-in-react)
