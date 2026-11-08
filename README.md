@@ -14,7 +14,9 @@ Notes for **Technical Interaction Design** at the IT University of Copenhagen.
 
 Each Thursday: a lecture, then two hours of exercise — **one hour on your own**, one hour **with your group**. Weeks 1 and 2 are entirely individual, because the teams do not exist yet.
 
-**This course has no mandatory activities**, in the [formal ITU sense](https://itustudent.itu.dk/Study-Administration/Rights-and-Requirements) of something you must pass to be allowed to sit the exam. Nothing here can cost you an exam attempt. The solo hour is not graded and not checked — it is simply where you learn this, and what it piles up into is a personal portfolio that is your exam preparation. The deadlines below are checkpoints you hit and get feedback on, not submissions marked line by line.
+**Every group hand-in below is a mandatory activity**, in the [formal ITU sense](https://itustudent.itu.dk/Study-Administration/Rights-and-Requirements): the course description requires them before you may sit the exam, and they are what it calls your portfolio contributions. They are not graded, only approved or not approved, and each one comes back with feedback. One that is not approved can be resubmitted before the exam hand-in. Every hand-in lists the group members who contributed to it, because the requirement is that each of you takes part. If you have missed a hand-in so far, email us with the reason and we will make it work.
+
+**The solo hour is not mandatory.** It is not graded and not checked: it is where you learn this, and it is your preparation for the individual exam.
 
 **Use your personal GitHub account, not the ITU one.** Two reasons: what you build here is worth having in public under your own name after the course ends, and the ITU enterprise account is more restricted than a personal one.
 
@@ -28,7 +30,7 @@ The last two minutes of every lecture are yours: **[one anonymous question](http
 
 ## Deadlines
 
-Every one is a **Tuesday at 23:59**, except the user study, which was due at 09:00. Checkpoints you hit and dogfood against, not submissions marked line by line.
+Every one is a **Tuesday at 23:59**, except the user study, which was due at 09:00. Each is a mandatory hand-in, approved or not approved, with feedback.
 
 **The project starts with people, not with code.** The first thing you produce is not a repository — it is a handful of interviews, the themes that keep coming up across them, and the tasks those themes turn into. Week 3 teaches how, and the first deliverable below is where you hand it in. What you build afterwards is shaped by what you find there, which is the whole argument of the course.
 
@@ -36,7 +38,7 @@ Every one is a **Tuesday at 23:59**, except the user study, which was due at 09:
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Tue 8 Sep**  | Teams registered on learnIT. **Four is the size we want**; if that does not work for you, email us before this date. Weeks 1 and 2 are individual.                                                      |
 | **Tue 29 Sep** | Interviews → what to build — your population, how you analysed the interviews, what the app has to do (any format, traceable and prioritised), and the feature you will build. The brief is on learnIT. |
-| **Tue 27 Oct** | Wireframes, tested — the screens your population needs, what testing changed, and the ER diagram of your app. Extended from Fri 23 Oct.                                                                  |
+| **Tue 27 Oct** | Wireframes, tested — the screens your population needs, what testing changed, and the ER diagram of your app. Extended from Fri 23 Oct.                                                                 |
 | **Tue 10 Nov** | Visual & accessibility pass — the a11y audit, and what the visual pass changed                                                                                                                          |
 | **Tue 24 Nov** | Chosen features working — your feature-menu picks, live in the app                                                                                                                                      |
 | **December**   | Final app + thin report — deployed, dogfooded, defensible. Date set by the exam schedule.                                                                                                               |
