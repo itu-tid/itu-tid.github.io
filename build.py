@@ -317,6 +317,10 @@ def week_row(heading, body, last, boundary=None):
         lane_head, lines = "Exercise · 2h solo", (
             ("solo", "first hour", f.get("Solo", "")),
             ("solo", "second hour", f["Second hour"]))
+    elif "Project" in f and "Solo" not in f:
+        # from week 10 on there are no individual exercises: both hours are the project
+        lane_head, lines = "Exercise · 2h project", (
+            ("grp", "2h project", f["Project"]),)
     elif "Project" in f:
         lane_head, lines = "Exercise", (
             ("solo", "1h solo", f["Solo"]),

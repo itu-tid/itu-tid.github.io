@@ -368,7 +368,7 @@
         <div class="m-sub">Deployed, dogfooded, defensible. Date set by the exam schedule.</div>
       </div>
     </div>
-    <div class="spine-foot">Each design deliverable lands about two weeks after the lecture that teaches it, leaving nine days to read it — the feedback then opens the next lecture, in <b>weeks 7 and 12</b>. The user study gets a further week after that to act on what the feedback found, before wireframing starts. Checkpoints you hit and <b>dogfood against</b>, not submissions marked line-by-line. Two sit-down conversations per group, in weeks <b>10</b>: scope and data model, then mid-project.</div>
+    <div class="spine-foot">Each design deliverable lands about two weeks after the lecture that teaches it, leaving nine days to read it — the feedback then opens the next lecture, in <b>weeks 7 and 12</b>. The user study gets a further week after that to act on what the feedback found, before wireframing starts. Checkpoints you hit and <b>dogfood against</b>, not submissions marked line-by-line. Two sit-down conversations per group, in weeks <b>none</b>: scope and data model, then mid-project.</div>
   </div>
 
   <div class="timeline">
@@ -594,25 +594,22 @@
       <div class="when"><div class="wk">Week 10</div><div class="date">Nov 5</div><div class="node"></div></div>
       <div class="card">
         <div class="lec">
-          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Code organisation II</span></div>
-          <div class="ttl">Where the state goes: extraction and lifting</div>
-          <div class="desc"><p>The check-in week, so the lecture is a refactor of code you already have rather than a mechanism you have never seen — the exercise slot is spent talking about your own app, which is the wrong place to meet a new API and the right place to meet a new standard.</p><p>Since week 8 the review checklist has said <b>state where it belongs</b> without anything ever saying where that is. This is where. Extracting components first, because extraction is what creates the problem: split one screen into three and two of them need to agree about state that now belongs to neither, which is <b>lifting state up</b>. Then <code>useRef</code>, for the two or three things state cannot do. The worked example is the one that bites in week 12 — stopping a task in one list when another starts in a different one.</p></div>
+          <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Q&amp;A · Project feedback</span></div>
+          <div class="ttl">Check-ins with every group</div>
+          <div class="desc">No new material. The session opened with questions from the class: how the rest of the semester runs (design first, then implementation, a first working version around 24 Nov, and a second sprint after it), how design and code weigh at the exam, a component library or a custom design, mobile first, and <code>development</code> against <code>main</code>. Then the groups came up one at a time for feedback on their requirements, their ER diagram and the code they have so far.</div>
         </div>
         <div class="lanes">
           <div class="lane exercise">
-            <div class="lane-h"><span class="mk"></span>Exercise · 2h studio</div>
-            <div class="split"><span class="h solo">at home</span>Extract one overgrown component in your own repo, and lift whatever state the extraction stranded. Do it before Thursday — the slot itself is a studio.</div>
-            <div class="split"><span class="h grp">2h studio</span>Everyone in the room refactoring their own app, while <b>Mircea and a TA each run five 20-minute check-ins</b> on the extended data model and what is actually built. Bring the ER diagram on one page — we have had it since 27 Oct, so the twenty minutes are for the awkward parts, not the summary.</div>
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h project</div>
+            <div class="split"><span class="h grp">2h project</span>Feedback for each group on its requirements, data model and code so far.</div>
           </div>
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project</div>
-            <div class="split"><span class="h grp">todo by Tue 10 Nov</span><span class="key">At least one component extracted · state living where it belongs</span></div>
+            
             <span class="set">Set · chosen features working, due Tue 24 Nov</span>
-            <span class="checkin">◆ Mid-project check-in — the extended data model, and what you have actually built</span>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Finding-the-Components.md" target="_blank" rel="noopener">Finding the Components</a>, if week 8 did not reach it</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Patterns-of-Component-Communication.md" target="_blank" rel="noopener">Patterns of Component Communication</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Refactoring-by-Extracting-Components.md" target="_blank" rel="noopener">Extracting Components, and Where the State Goes</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/The-useRef-Hook.md" target="_blank" rel="noopener">The useRef Hook</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Component-Extraction-Guide.md" target="_blank" rel="noopener">Component-Extraction Guide</a></li></ul></div></div></div>
-        <div class="prereq"><span class="pq">Optional</span><span><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/TopUps/2-DOM-Manipulation-with-Javascript.md" target="_blank" rel="noopener">2 · DOM Manipulation with JavaScript</a> — background only, for where <code>useRef</code> reaches a real DOM node.</span></div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><div class="ri-lead">No new notes:</div><ul class="ri"><li>the session was questions and feedback for each group.</li></ul></div></div></div>
       </div>
     </div>
 
@@ -626,9 +623,8 @@
         </div>
         <div class="lanes">
           <div class="lane exercise">
-            <div class="lane-h"><span class="mk"></span>Exercise</div>
-            <div class="split"><span class="h solo">1h solo</span>Write one cloud function and measure the round-trips saved; subscribe to a live query and react to a remote change.</div>
-            <div class="split"><span class="h grp">1h project</span>Move one operation server-side; put live sync on a shared list.</div>
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h project</div>
+            <div class="split"><span class="h grp">2h project</span>Move one operation server-side; put live sync on a shared list.</div>
           </div>
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project</div>
@@ -637,7 +633,7 @@
             <span class="due">Due Tue 10 Nov · visual &amp; accessibility pass</span>
           </div>
         </div>
-        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Efficient-Communication-with-the-Backend.md" target="_blank" rel="noopener">Efficient Communication</a> (live queries included)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Web-Service-APIs.md" target="_blank" rel="noopener">Web Service APIs</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Updater-Functions-for-State.md" target="_blank" rel="noopener">Updater Functions for State</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Running-Code-Server-Side.md" target="_blank" rel="noopener">Running Code Server-Side</a></li></ul></div></div></div>
+        <div class="res"><div class="res-grp"><span class="src gh">GH</span><div class="ri-body"><ul class="ri"><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Patterns-of-Component-Communication.md" target="_blank" rel="noopener">Patterns of Component Communication</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Refactoring-by-Extracting-Components.md" target="_blank" rel="noopener">Extracting Components, and Where the State Goes</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/The-useRef-Hook.md" target="_blank" rel="noopener">The useRef Hook</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Structure/Component-Extraction-Guide.md" target="_blank" rel="noopener">Component-Extraction Guide</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Efficient-Communication-with-the-Backend.md" target="_blank" rel="noopener">Efficient Communication</a> (live queries included)</li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Web-Service-APIs.md" target="_blank" rel="noopener">Web Service APIs</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/React/Updater-Functions-for-State.md" target="_blank" rel="noopener">Updater Functions for State</a></li><li><a class="rl gh" href="https://github.com/itu-tid/itu-tid.github.io/blob/main/Lectures/Technical/Backend/Running-Code-Server-Side.md" target="_blank" rel="noopener">Running Code Server-Side</a></li></ul></div></div></div>
       </div>
     </div>
 
@@ -651,9 +647,8 @@
         </div>
         <div class="lanes">
           <div class="lane exercise">
-            <div class="lane-h"><span class="mk"></span>Exercise</div>
-            <div class="split"><span class="h solo">1h solo</span>Build a start/stop timer with a single active context.</div>
-            <div class="split"><span class="h grp">1h project</span>Teams who chose it: add time-tracking with context. Everyone else — and everyone, if week 9 ran out of hour: the responsive pass, breakpoints included.</div>
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h project</div>
+            <div class="split"><span class="h grp">2h project</span>Teams who chose it: add time-tracking with context. Everyone else — and everyone, if week 9 ran out of hour: the responsive pass, breakpoints included.</div>
           </div>
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project</div>
@@ -674,9 +669,8 @@
         </div>
         <div class="lanes">
           <div class="lane exercise">
-            <div class="lane-h"><span class="mk"></span>Exercise</div>
-            <div class="split"><span class="h solo">1h solo</span>Review an AI-generated PR on your own repo; write three comments you would stand behind.</div>
-            <div class="split"><span class="h grp">1h project</span>One member drives a live AI-PR review while the group interrogates it — rehearsal for exam questioning.</div>
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h project</div>
+            <div class="split"><span class="h grp">2h project</span>One member drives a live AI-PR review while the group interrogates it — rehearsal for exam questioning.</div>
           </div>
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project</div>
@@ -701,9 +695,8 @@
         </div>
         <div class="lanes">
           <div class="lane exercise">
-            <div class="lane-h"><span class="mk"></span>Exercise</div>
-            <div class="split"><span class="h solo">1h solo</span>Mock exam questions on your own app.</div>
-            <div class="split"><span class="h grp">1h project</span>Final integration; deploy the final version; finish the report.</div>
+            <div class="lane-h"><span class="mk"></span>Exercise · 2h project</div>
+            <div class="split"><span class="h grp">2h project</span>Final integration; deploy the final version; finish the report.</div>
           </div>
           <div class="lane project">
             <div class="lane-h"><span class="mk"></span>Project</div>
@@ -734,7 +727,7 @@
       </div>
       <div class="note">
         <div class="nt">Feedback without pull requests</div>
-        <p>No weekly PR reviews; they never scaled at this size. What replaced them works on <b>six group artefacts rather than twenty-five individual ones</b>, and it is spoken rather than written: ten minutes at the start of a lecture, across all groups at once, so everybody hears what everybody else got wrong. Around it: dogfooding tells you continuously whether the thing works, AI is your always-on first-pass code reviewer, and two sit-down conversations per group land in weeks 10.</p>
+        <p>No weekly PR reviews; they never scaled at this size. What replaced them works on <b>six group artefacts rather than twenty-five individual ones</b>, and it is spoken rather than written: ten minutes at the start of a lecture, across all groups at once, so everybody hears what everybody else got wrong. Around it: dogfooding tells you continuously whether the thing works, AI is your always-on first-pass code reviewer, and two sit-down conversations per group land in weeks none.</p>
       </div>
       <div class="note">
         <div class="nt">A pulse, every week</div>
