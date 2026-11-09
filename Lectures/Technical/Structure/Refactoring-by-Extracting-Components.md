@@ -76,6 +76,7 @@ The details did not go away. They moved to [`SharedListRow`](Finding-the-Compone
 #### Advice 2: first make it work. then refactor it and make it nice
 - you never get it right from the first time
 
+<!-- TODO: This could be a good place for some fast-paced exercises that ask "which one do you prefer?", in the style of the UI style exercises. They could even use the students' own projects: by this point in the course, they all have enough examples. -->
 
 ## Where the State Goes
 
