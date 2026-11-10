@@ -8,7 +8,7 @@ You have been writing both since week 2, without the names. The to-do list hands
 
 The parent hands the child what it needs to draw itself: for a row, the `todo` it should display. Data goes down.
 
-## Events come back up, as callbacks
+## Events come back up, via callbacks
 
 The child does not know who its parent is — and should not. Imagine a button: it has no idea who put it there, and it would be a worse button if it did.
 
