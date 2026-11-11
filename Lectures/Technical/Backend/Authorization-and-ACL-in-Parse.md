@@ -431,7 +431,7 @@ Most classes should not be public. When some data really should be readable by e
 
 ## Field-level permissions
 
-An ACL covers a whole object, so it cannot make one field public and another private. When you need that — a to-do whose text is shared but whose time-tracking is not — the data has to be split across two classes. That is week 12's subject: [Field-Level Permissions, and the Two-Table Workaround](Field-Level-Permissions.md).
+An ACL covers a whole object, so it cannot make one field public and another private. When you need that — a to-do whose text is shared but whose time-tracking is not — the data has to be split across two classes. How, and why it works, is in [Field-Level Permissions, and the Two-Table Workaround](Field-Level-Permissions.md), for when your project needs it.
 
 ## Advanced: roles, for groups of users you reuse
 

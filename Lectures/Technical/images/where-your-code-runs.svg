@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" width="900" height="540" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b42318"/>
+    </marker>
+  </defs>
+  <rect width="900" height="540" fill="#ffffff"/>
+
+  <!-- Laptop -->
+  <rect x="20" y="40" width="240" height="180" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="140" y="68" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Your laptop</text>
+  <text x="140" y="96" text-anchor="middle" font-size="14" fill="#3f3f46">src/  (the code you write)</text>
+  <text x="140" y="122" text-anchor="middle" font-size="13" fill="#71717a">npm run build</text>
+  <line x1="140" y1="128" x2="140" y2="146" stroke="#3a3a3a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="140" y="166" text-anchor="middle" font-size="14" fill="#3f3f46">dist/  (plain files:</text>
+  <text x="140" y="186" text-anchor="middle" font-size="14" fill="#3f3f46">HTML, JS, CSS, icons)</text>
+  <text x="140" y="208" text-anchor="middle" font-size="12" fill="#71717a">nobody else can reach it</text>
+
+  <!-- Static host -->
+  <rect x="330" y="40" width="240" height="180" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="450" y="68" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Static host</text>
+  <text x="450" y="90" text-anchor="middle" font-size="13" fill="#71717a">e.g. GitHub Pages</text>
+  <text x="450" y="124" text-anchor="middle" font-size="14" fill="#3f3f46">hands out the files</text>
+  <text x="450" y="146" text-anchor="middle" font-size="14" fill="#3f3f46">in dist/ to anyone</text>
+  <text x="450" y="178" text-anchor="middle" font-size="14" font-weight="700" fill="#3f3f46">none of your code</text>
+  <text x="450" y="198" text-anchor="middle" font-size="14" font-weight="700" fill="#3f3f46">runs here</text>
+
+  <!-- Phone -->
+  <rect x="640" y="40" width="240" height="180" rx="10" fill="#fff4e5" stroke="#d97706" stroke-width="2"/>
+  <text x="760" y="68" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">The user's phone</text>
+  <text x="760" y="90" text-anchor="middle" font-size="13" fill="#92400e">browser, or the installed app</text>
+  <text x="760" y="124" text-anchor="middle" font-size="14" fill="#3f3f46">your React code runs here</text>
+  <text x="760" y="160" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">the user controls it:</text>
+  <text x="760" y="180" text-anchor="middle" font-size="14" fill="#92400e">can read it, change it,</text>
+  <text x="760" y="200" text-anchor="middle" font-size="14" fill="#92400e">or skip it altogether</text>
+
+  <!-- Backend -->
+  <rect x="640" y="320" width="240" height="180" rx="10" fill="#e8f0fe" stroke="#2563eb" stroke-width="2"/>
+  <text x="760" y="348" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Your backend</text>
+  <text x="760" y="370" text-anchor="middle" font-size="13" fill="#1e40af">e.g. Parse on Back4App</text>
+  <text x="760" y="404" text-anchor="middle" font-size="14" fill="#3f3f46">the database</text>
+  <text x="760" y="426" text-anchor="middle" font-size="14" fill="#3f3f46">+ code you deploy there</text>
+  <text x="760" y="460" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">only you control it:</text>
+  <text x="760" y="480" text-anchor="middle" font-size="14" fill="#1e40af">rules, limits, secrets</text>
+
+  <!-- Third party -->
+  <rect x="330" y="320" width="240" height="180" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="450" y="348" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Third-party API</text>
+  <text x="450" y="370" text-anchor="middle" font-size="13" fill="#71717a">translation, maps, AI, payment</text>
+  <text x="450" y="410" text-anchor="middle" font-size="14" fill="#3f3f46">answers whoever</text>
+  <text x="450" y="432" text-anchor="middle" font-size="14" fill="#3f3f46">holds the secret key,</text>
+  <text x="450" y="454" text-anchor="middle" font-size="14" fill="#3f3f46">and bills its owner</text>
+
+  <!-- Arrows -->
+  <line x1="262" y1="130" x2="326" y2="130" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="294" y="118" text-anchor="middle" font-size="12" fill="#3f3f46">deploy</text>
+
+  <line x1="572" y1="130" x2="636" y2="130" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="604" y="112" text-anchor="middle" font-size="12" fill="#3f3f46">the app's</text>
+  <text x="604" y="150" text-anchor="middle" font-size="12" fill="#3f3f46">files</text>
+
+  <line x1="745" y1="224" x2="745" y2="316" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)" marker-start="url(#arr)"/>
+  <text x="755" y="266" font-size="12" fill="#3f3f46">data: queries,</text>
+  <text x="755" y="282" font-size="12" fill="#3f3f46">saves, function calls</text>
+
+  <line x1="636" y1="420" x2="574" y2="420" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="605" y="408" text-anchor="middle" font-size="12" fill="#3f3f46">with</text>
+  <text x="605" y="440" text-anchor="middle" font-size="12" fill="#3f3f46">the key</text>
+
+  <path d="M 655 224 L 568 316" fill="none" stroke="#b42318" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-red)"/>
+  <text x="470" y="256" text-anchor="middle" font-size="12" font-weight="700" fill="#b42318">✗ never directly:</text>
+  <text x="470" y="272" text-anchor="middle" font-size="12" fill="#b42318">the key would ship</text>
+  <text x="470" y="288" text-anchor="middle" font-size="12" fill="#b42318">inside the app</text>
+
+  <text x="20" y="530" font-size="13" fill="#52525b">The orange box belongs to the user; the blue box belongs to you. A rule that must hold goes in the blue box.</text>
+</svg>

@@ -2,7 +2,7 @@
 
 In [Authentication and Authorization (in Parse)](Authorization-and-ACL-in-Parse.md) every permission we set applied to a whole object. That is the only granularity Parse offers, and sooner or later you want less than that.
 
-## ACL does not work at the field level
+## An ACL protects a whole row, never a single field
 
 In Parse, **ACLs work at the object level, not at the field/column level**. You cannot make some fields public and other fields private within the same object.
 
@@ -13,7 +13,7 @@ The example that forces the issue:
 
 One object, two audiences. There is no ACL that expresses it.
 
-### Problem: you cannot set some fields private and some public
+### Opening a row to the public opens every field in it
 
 ```js
 // This does NOT work - you can't set different permissions per field
@@ -30,7 +30,7 @@ todo.setACL(acl);
 
 The ACL is a property of the row, not of any column in it. `setPublicReadAccess(true)` opens every field at once, `totalTime` along with `text`.
 
-### Solution: split the data into two tables with a 1-to-1 relationship
+### Fields with a different audience go into a second table, one row for each row of the first
 
 If the permissions differ, the objects differ. Put the public fields in one class and the private ones in another, and point the second at the first.
 

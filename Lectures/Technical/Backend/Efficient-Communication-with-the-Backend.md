@@ -1,311 +1,80 @@
-
 # Efficient Communication With the Backend
 
-The separation between front-end and back-end is new: one used to do web development, and they did everything.
+Your app talks to its backend over the network, and every conversation costs something: time for the user, and requests, bandwidth and money for you. This note is about having fewer, smaller conversations, and about how an app hears that something changed. None of it is specific to Parse; the [appendix](#appendix-in-parse) shows the Parse spelling.
 
-Today we talk about being a *full stack* developer if you can do both the backend and the front-end.
+## Every request costs time, and on a hosted backend it also costs money
 
-It is more satisfying to be full stack. And it's not much harder. This is because front-end is by definition event-driven, concurrent programming. Back-end is usually modeling and querying the DB.
+A backend-as-a-service like Back4App is a computer someone else runs for you, and they charge for it. The free tier you use limits:
 
-This is why, it's worth for you, as naturally front-enders to have at least basic knowledge of backend. In this chapter we'll look at a few issues that are relevant for Parse Platform backends, but often will generalize to any kind of backend.
+- the number of requests,
+- the data transferred,
+- the data stored.
 
+![Back4App's plans and their limits](../images/parse-server-plans.png)
 
-## Being Aware of Costs
+So the way your app talks to the backend is a design decision with two prices. Too many requests make the app slower *and* use up the quota faster. Usually fixing one fixes the other.
 
-Back4App, the hosted service of Parse costs money. You are using a free tier, but you must realize that this is a cloud-based solution. For cloud-based solutions one has to pay.
+Here is the Network tab of a student app, MathsCamp, loading one screen:
 
-Consequently, a free tier will have limitations. The limitations of the Back4App server ensure that you do not put too much pressure on the server.
+![Many requests in the Network tab, for one screen](../images/maths-camp-lots-of-requests.png)
 
-### Parse Server Pricing and Limitations
+**Discussion:** Why might we want to improve this? To save money, or to have a faster app? Which of the two would a user notice?
 
-The image below shows the prices and limitations of the Back4App various plans.
+## One query, then one more for each result: the N+1 problem wastes the most requests
 
-![](../images/parse-server-plans.png)
+The most common way to waste requests: you ask for a list of N things, and then, for each of them, you ask for one more thing. One request becomes N+1. With ten lists it is eleven requests; with a hundred, it is a hundred and one, each one a round trip the user waits for.
 
-In particular for the free tier, you have limited:
-- number of requests
-- data transfer
-- data storage
+**You have written one already, and you have already fixed one.** In week 5, [Loading the page, the simple way](Relationships-Between-Object-Classes.md#loading-the-page-the-simple-way) queried the lists, and then ran one more query *inside each list's block* for its to-dos. In week 6, [the sharing queries](Many-to-Many-Sharing-a-List.md#armins-lists-and-adas-members-are-ordinary-queries) asked for the memberships *together with* their lists and the lists' owners, so that "shared by ada" did not cost one extra request per list. That was the fix; this section gives the problem its name.
 
-### Impact on Design Decisions
+## Related objects can come back in the same request, as in a SQL join
 
-Using a backend-as-a-service impacts how you design communication between your front-end and back-end. You have to be economical about resource usage because otherwise you:
-- will spend more money than needed
-- will have a slower application than necessary
+The fix is always the same: tell the backend, in the first request, what else you are going to need. A query for to-dos that will be shown with their list's name asks for the to-dos *including* their lists. The backend follows the references on its side, where it is fast, and sends everything back in one answer.
 
-### Case Study: MathsCamp
+In SQL this is a `JOIN`. Every backend has a way to say it; in Parse it is `include` (see the appendix).
 
-Looking at the networking tab in the screenshot below, we can see many requests being made:
+## Fields the screen does not show are bandwidth wasted
 
-![](../images/maths-camp-lots-of-requests.png)
+The opposite waste: one request, but far more data than the screen needs. A list of to-do titles does not need each to-do's long description, its attached photos, or its history. Ask for the fields you will show, and the answer gets smaller and faster.
 
-**Discussion:** Why might we need to improve this interaction? Is it to save money or is it to have a faster application?
+In SQL this is the difference between `SELECT *` and `SELECT title, done`. In Parse it is `select` and `exclude`.
 
-## Querying the Backend Efficiently
+## Shared data changes while the user looks at it
 
-If you have *limited requests* it makes sense to get as much data from the DB in one go, as opposed to run multiple queries.
+For most screens, nobody else changes the data while it is shown: you are editing your own list. But when a screen shows data that *other people* change (the shared grocery list your flatmate is ticking off in the shop, the household's meal plan, a chat), the screen goes stale. There are two ways to keep it fresh.
 
-This is not a problem only for backends-as-a-service - this is a general problem. If you are not smart about querying your backend you will end up with a slow application.
+### Polling asks again every few seconds, and is usually enough
 
-### The N+1 Select Problem
+The simple way: set a timer, and when it fires, load the data again and show it. Nothing changes on the server; it is just the same query, repeated.
 
-This is **one of the most popular ways** of using a DB sub-optimally.
+Every poll is a request, so poll only on screens that show shared data, only while they are open, and every few seconds rather than every few milliseconds. Cheaper still: reload when the user comes back to the app, which needs no timer at all.
 
-You send a query, get n objects back, and then for every one of those objects, you send another query to get more information.
-
-**Why is this a problem?**
-- It's slower than it needs to be
-- In the particular case of cloud-hosted Parse, you're running out of requests faster
-
-**How to solve it:** Get all the data at once by *joining* the corresponding tables. This is, retrieving data from two tables at once.
-
-### Retrieving Data from Related Tables
-
-By default, when you create a `Parse.Query` object you create it for a given table and you get back objects from that particular table. Pointers are retrieved only as the `objectID` of the actual object in the remote table. So normally, you'd have to send another query to bring also the object.
-
-**Solution:** Use the `include` method of the `Parse.Query` object to specify that you want to include also the objects in the table pointed at by the pointers.
-
-#### Example: Using `include` to fetch related objects
-
-```javascript
-// Fetch all todos with their associated user information
-let query = new Parse.Query('Todo');
-query.equalTo('completed', false);
-query.include('createdBy');  // createdBy is a pointer to a User object
-let queryResult = await query.find();
-
-// Now you can access the full user object
-console.log(queryResult[0].get('createdBy').get('username'));
-```
-
-In this example:
-- Without `include`: `createdBy` would only be a pointer (just the objectID)
-- With `include('createdBy')`: The full `User` object is populated and you can access properties like username, email, etc.
-- This avoids making separate queries for each user (N+1 problem)
-
-**Note:** The corresponding SQL statement is `join`.
-
-### Field Selection: Retrieving Only Necessary Data
-
-Just as sending too many queries is a problem, transferring from the server too much data that is not needed is also a problem. For example, if you need to display a simple list of todo titles, it would be a waste of *bandwidth* to transfer large description fields or attached files.
-
-**Solution:** Use `exclude` and `select` methods to retrieve only the necessary fields from a table.
-
-#### Example: Using `select` to get specific fields
-
-```javascript
-// Fetch only title and completed status for a todo list view
-let query = new Parse.Query('Todo');
-query.select('title', 'completed');
-let queryResult = await query.find();
-
-console.log(queryResult[0].get('title'));        // Available
-console.log(queryResult[0].get('completed'));    // Available
-console.log(queryResult[0].get('description') === undefined);  // true - not fetched
-```
-
-#### Example: Using `exclude` to omit large fields
-
-```javascript
-// Fetch all fields except the large description and attachments
-let query = new Parse.Query('Todo');
-query.exclude('description', 'attachments');
-let queryResult = await query.find();
-
-console.log(queryResult[0].get('title'));        // Available
-console.log(queryResult[0].get('description') === undefined);  // true - excluded
-```
-
-**When to use each:**
-- Use `select` when you need only a few specific fields (most common)
-- Use `exclude` when you need most fields except a few large ones
-
-**Note:** The corresponding SQL statement is `select title, completed from todos` instead of saying `select * from todos`.
-
-## Real-Time Data Updates
-
-For most situations, we don't have to update our UIs when the data in the DB changes, because most of the time, a user is editing their own data and nobody else is changing it in the background.
-
-**When do we need real-time updates?** One notable exception are situations when a screen is showing information that's created by other users that needs to appear in real time (e.g. messages in a chat application, or comments in a social media platform).
-
-### Polling: The Low-Tech Approach
-
-How polling works:
-- Set an [interval](https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval) (note that an interval is different than a [timeout](https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout))
-- When the interval expires, request the data again from the server
-- Redisplay if needed
-	- make sure to specify the key for every of the items when rendering
-	- update the list with the new data from the server (if the data has changed)
-
-#### Important: Cleanup When Using Intervals in React
-
-Make sure to use the special syntax of `useEffect` to **cleanup** the timer when the component is not visible anymore.
-
-**Wrong way:**
+In React, a timer started in an effect must be stopped when the component goes away, or every visit to the page starts one more timer that never stops:
 
 ```js
 useEffect(() => {
-
   const interval = setInterval(() => {
-	   // check for new messages
-  }, 1000);
+    // load the data again
+  }, 10000);
 
+  return () => clearInterval(interval); // the page is closed: stop asking
 }, []);
 ```
 
-**Right way:**
+Because that cleanup is so easy to forget, next week [Custom Hooks](../React/Custom-Hooks.md#a-polling-timer-belongs-in-a-hook-because-its-cleanup-is-easy-to-forget) writes it once, as `useInterval`.
 
-```js
-useEffect(() => {
-  // called with [] means on component load
+### Push lets the server announce a change, and is worth it only when seconds matter
 
-  const interval = setInterval(() => {
-	   // check for new messages
-  }, 1000);
+The other way round: the app keeps a connection to the server open and **subscribes** to a query, and the server sends a message the moment something matching it is created, changed or deleted. Nothing is asked twice; the update arrives as soon as it happens.
 
-  // on component unload
-  return () => {
-    clearInterval(interval);
-  };
-}, []);
-```
+It is the [observer pattern](https://refactoring.guru/design-patterns/observer) across the network, and most backends offer it under their own name: Parse calls it *LiveQuery*, Firebase has `onSnapshot`, Supabase calls it *Realtime*. Underneath it is usually a **WebSocket**, a connection that stays open so that either side can send at any time, unlike an ordinary request, which the client always starts.
 
-### Event-Driven Approaches: The Advanced Way
-
-How event-driven updates work:
-- Allow the server to send you events when something in your query has changed
-- Update only when something has actually changed
-
-#### Parse LiveQuery
-
-Parse provides LiveQuery to enable real-time updates in your application. Instead of repeatedly asking the server "has anything changed?", the server notifies you automatically when data matching your query changes.
-
-#### Example: Real-time todo updates
-
-```javascript
-// Step 1: Create a query for todos you want to monitor
-let query = new Parse.Query('Todo');
-query.equalTo('assignedTo', Parse.User.current());
-
-// Step 2: Subscribe to the query
-let subscription = await query.subscribe();
-
-// Step 3: Handle different events
-
-// When a new todo is created that matches the query
-subscription.on('create', (todo) => {
-  console.log('New todo created:', todo.get('title'));
-  // Update your UI to show the new todo
-});
-
-// When an existing todo is updated
-subscription.on('update', (todo) => {
-  console.log('Todo updated:', todo.get('title'));
-  // Update the specific todo in your UI
-});
-
-// When a todo is deleted
-subscription.on('delete', (todo) => {
-  console.log('Todo deleted:', todo.id);
-  // Remove the todo from your UI
-});
-
-// When a todo enters the query results (e.g., assigned to you)
-subscription.on('enter', (todo) => {
-  console.log('Todo now matches query:', todo.get('title'));
-  // Add the todo to your UI
-});
-
-// When a todo leaves the query results (e.g., reassigned to someone else)
-subscription.on('leave', (todo) => {
-  console.log('Todo no longer matches query:', todo.get('title'));
-  // Remove the todo from your UI
-});
-```
-
-#### Important: Cleanup in React
-
-When using LiveQuery in React, make sure to unsubscribe when the component unmounts:
-
-```javascript
-useEffect(() => {
-  let subscription;
-
-  const setupLiveQuery = async () => {
-    const query = new Parse.Query('Todo');
-    query.equalTo('assignedTo', Parse.User.current());
-    subscription = await query.subscribe();
-
-    subscription.on('create', (todo) => {
-      // Handle new todo
-    });
-
-    subscription.on('update', (todo) => {
-      // Handle update
-    });
-  };
-
-  setupLiveQuery();
-
-  // Cleanup: unsubscribe when component unmounts
-  return () => {
-    if (subscription) {
-      subscription.unsubscribe();
-    }
-  };
-}, []);
-```
-
-**Benefits of LiveQuery over Polling:**
-- Real-time updates without constant querying
-- Reduced server load (fewer requests)
-- Lower latency (instant updates)
-- More efficient bandwidth usage
-
-#### How It Works: WebSockets (Optional Deep Dive)
-
-**Traditional HTTP requests** work like sending letters:
-- Client asks a question → waits for response → connection closes
-- To get updates, must keep asking "anything new?" over and over
-- Each request has overhead (connection setup, headers, etc.)
-
-**WebSocket connections** work like a phone call:
-- Client establishes a connection that stays open
-- Server can send messages anytime without being asked
-- Two-way communication channel remains active
-- Much more efficient for real-time updates
-
-LiveQuery uses WebSocket connections under the hood. This is why it can push updates to your client instantly without polling.
-
-**Comparison:**
-
-Using LiveQuery (what you actually use):
-```javascript
-let subscription = await query.subscribe();
-subscription.on('create', (todo) => {
-  // Handle new todo
-});
-```
-
-Using raw WebSockets (what LiveQuery does under the hood):
-```javascript
-// You would need to manually:
-// - Connect to the WebSocket server
-// - Send properly formatted messages
-// - Parse incoming JSON responses
-// - Handle reconnection on disconnect
-// - Manage subscriptions and unsubscriptions
-// Thankfully, Parse LiveQuery handles all of this for you!
-```
-
-Parse implements this through the LiveQuery [protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification), but you don't need to understand the low-level protocol details to use it effectively.
-
+Push is the right tool when a few seconds of delay is visible: a chat, a multiplayer game, a cursor in a shared document. It is also more to set up, more to clean up, and more to debug. For a grocery list, nobody notices whether an item appears now or ten seconds from now. **Start with polling; move to push when a user can tell the difference.**
 
 ## Exam Questions
 
-### 1. What is the N+1 select problem and why is it important?
+### 1. What is the N+1 problem? Where did you write one, and how did you fix it?
 
-### 2. How do you solve the N+1 problem in Parse? What is wrong with this query pattern, and which single line fixes it?
+### 2. What is wrong with this code, and which single line fixes it?
 ```js
 const query = new Parse.Query("TodoItem");
 const todos = await query.find();
@@ -317,20 +86,49 @@ for (let todo of todos) {
 }
 ```
 
-### 3. What is the difference between polling and event-driven (LiveQuery) approaches for real-time updates?
+### 3. What is the difference between polling and push? Why is polling usually enough for a shared grocery list, and when is it not?
 
-### 4. What do `select` and `exclude` do in Parse queries?
+### 4. Why ask for only some fields of an object, when one request brings the whole object anyway?
+
+### 5. A page polls every ten seconds with `setInterval` in a `useEffect`, without a cleanup function. What happens after the user has opened and left that page five times?
+
+## Appendix: in Parse
+
+**Related objects: `include`.** A pointer comes back as just an id. `include` asks Parse to send the object it points at too:
+
 ```js
-query.select('title', 'completed');
-// vs
-query.exclude('description', 'attachments');
+const query = new Parse.Query("TodoItem");
+query.equalTo("done", false);
+query.include("list");            // the list each to-do points at, in the same answer
+const todos = await query.find();
+
+todos[0].get("list").get("name"); // no second request
 ```
 
-### 5. Explain this LiveQuery subscription:
+Pointers of pointers work with a dot: `include("list.owner")`.
+
+**Only some fields: `select` and `exclude`.**
+
 ```js
-subscription.on('enter', (todo) => {
-  console.log('Todo entered query:', todo.get('title'));
-});
+query.select("text", "done");     // only these fields
+query.exclude("notes", "photo");  // everything except these
 ```
 
-### 6. What are WebSockets and why does LiveQuery use them?
+Use `select` when you need a few fields, `exclude` when you need all but a few large ones.
+
+**Push: LiveQuery.** It has to be switched on for each class in the server settings, and then:
+
+```js
+const subscription = await new Parse.Query("TodoItem")
+  .equalTo("list", list)
+  .subscribe();
+
+subscription.on("create", (todo) => { /* add it to the screen */ });
+subscription.on("update", (todo) => { /* replace it */ });
+subscription.on("delete", (todo) => { /* remove it */ });
+
+// and when the page closes:
+subscription.unsubscribe();
+```
+
+See [Live Queries](https://docs.parseplatform.org/js/guide/#live-queries) in the Parse guide.
