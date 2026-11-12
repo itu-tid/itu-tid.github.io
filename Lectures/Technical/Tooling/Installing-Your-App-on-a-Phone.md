@@ -41,8 +41,8 @@ The manifest is a JSON file, served next to your page. todo-26's:
 
 ```json
 {
-  "name": "To-do lists",
-  "short_name": "To-do",
+  "name": "ToDo26",
+  "short_name": "ToDo26",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
