@@ -33,8 +33,6 @@ When the iPhone launched in 2007, it had no App Store: web apps in Safari were *
 
 The idea came back in 2015, when Alex Russell, an engineer on Chrome, and the designer Frances Berriman named it *Progressive Web Apps*, and Google pushed it in Chrome and Android. The pieces it rests on, the manifest and the service worker, are W3C standards, written together by the browser makers. Apple followed slowly: service workers reached Safari in 2018, push notifications for installed web apps only in 2023.
 
-That history is why installing works slightly differently on every phone, and why your app still carries one Apple-specific line next to the standard manifest.
-
 ## The manifest tells the phone the app's name, its icon, where it starts, and how it opens
 
 The manifest is a JSON file, served next to your page. todo-26's:
