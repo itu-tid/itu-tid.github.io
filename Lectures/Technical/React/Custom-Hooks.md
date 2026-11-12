@@ -184,9 +184,9 @@ The component still writes `useInterval(reload, 10_000)`. All of this is inside 
 
 ## A hook can wrap a browser event just as well as a fetch
 
-Hooks are not only for remote data. Anything a component has to *subscribe to and clean up after* is a candidate: a timer, the window's width, whether the browser is online. todo-26 has one more since week 11: `src/hooks/useInstallPrompt.js` listens for the browser's "this app can be installed" event and returns `{ canInstall, install }`, so that the home page can show an Install button without knowing how installing works (see [Installing Your App on a Phone](../Tooling/Installing-Your-App-on-a-Phone.md#notes)).
+Hooks are not only for remote data. Anything a component has to *subscribe to and clean up after* is a candidate: a timer, the window's width, whether the browser is online.
 
-Once a project has a `src/hooks/` folder, the hook names read like a list of what the app does: `useList`, `useInterval`, `useInstallPrompt`. Each one names a single behavior, which is the same test you apply to a component name.
+Once a project has a `src/hooks/` folder, the hook names read like a list of what the app does: `useList`, `useInterval`. Each one names a single behavior, which is the same test you apply to a component name.
 
 ## Exam Questions
 

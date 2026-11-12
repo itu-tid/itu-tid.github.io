@@ -125,7 +125,6 @@ Even then, the app would start and show **no data**: your data lives on the back
 
 ## Notes
 
-- **Android lets your app offer its own Install button.** Chrome on Android fires a `beforeinstallprompt` event when a site is installable; an app can keep it and show the install dialog when the user taps a button of its own. Safari never fires it. todo-26 does this in `src/hooks/useInstallPrompt.js` (see the appendix); it is a nicety, not a requirement.
 - **The favicon is not the app icon.** The small icon in the browser tab comes from `<link rel="icon">` in `index.html`. Vite's starter template puts its own logo there, which is why so many student apps show a purple lightning bolt. Replace it with your app's icon.
 
 ## Exam Questions
@@ -146,7 +145,7 @@ Even then, the app would start and show **no data**: your data lives on the back
 
 **Every path in the manifest is relative.** todo-26 is served at `https://itu-tid.github.io/todo-26/`, not at the root of the domain. A manifest saying `"start_url": "/"` would open the installed app on GitHub's root page. Paths in a manifest are resolved relative to the manifest itself, so `"."` means "the folder I am in", and the same file works on `localhost`, on GitHub Pages, and on a domain of your own. It is the same reason as `base` in week 6.
 
-The pull request changes five things:
+The pull request changes three things:
 
 1. **`public/manifest.webmanifest`**, the manifest above. Vite copies everything in `public/` into the build unchanged, which is what a manifest and its icons need.
 2. **`public/icons/icon-192.png` and `icon-512.png`**, exported as square PNGs.
@@ -159,8 +158,6 @@ The pull request changes five things:
    ```
 
    These paths start with `/`, because Vite rewrites the links in `index.html` with `base` when it builds: `dist/index.html` says `/todo-26/manifest.webmanifest`. The `apple-touch-icon` line is optional: Safari has read the manifest's icons since iOS 15.4, and the line only matters for older iPhones or a different icon on iOS.
-4. **`src/hooks/useInstallPrompt.js`**, which keeps Chrome's `beforeinstallprompt` event and returns `{ canInstall, install }`.
-5. **An Install button in `Home.jsx`**, shown only when `canInstall` is true, so it never appears on an iPhone.
 
 For a service worker, the usual route with Vite is the [`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/) package (read [Libraries](Libraries.md) before adding it).
 
