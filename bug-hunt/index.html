@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bug Hunt</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 <main>
@@ -33,6 +33,7 @@
   <section id="done" hidden>
     <h2>Recorded</h2>
     <p id="done-text"></p>
+    <p id="send-status" class="sub"></p>
     <p>Keep it to yourself for now. The answer comes on the projector.</p>
   </section>
 
@@ -60,7 +61,7 @@
 <script>window.Prism = { manual: true };</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
-<script src="sheets.js"></script>
+<script src="sheets.js?v=3"></script>
 <script>
 const run = currentRun();
 const storeKey = "bughunt:" + run;
@@ -72,11 +73,14 @@ function save(state) {
   try { localStorage.setItem(storeKey, JSON.stringify(state)); } catch {}
 }
 
-// the sheet is drawn once per person and run, so a reload does not redraw it
+// One answer per browser and run. Everything that decides the attempt (the
+// sheet, when the clock started, the answer) is saved the moment it happens,
+// so a reload resumes the same attempt instead of starting a new one.
 const state = load();
-// ?sheet=A or ?sheet=B forces a version, for trying both while testing
+// ?sheet=A or ?sheet=B forces a version, for trying both while testing,
+// but only before the clock has started
 const forced = new URLSearchParams(location.search).get("sheet");
-if (forced in SHEETS && !state.done) state.sheet = forced;
+if (forced in SHEETS && !state.startedAt) state.sheet = forced;
 if (!state.sheet) state.sheet = Math.random() < 0.5 ? "A" : "B";
 if (!state.client) state.client = Math.random().toString(36).slice(2, 10);
 save(state);
@@ -86,9 +90,9 @@ const tpl = $("props-template");
 $("props-intro").append(tpl.content.cloneNode(true));
 $("props-hunt").append(tpl.content.cloneNode(true));
 
-let startedAt = 0;
 let ticker = 0;
 let picked = 0;
+let finishing = false;
 
 function show(id) {
   for (const s of ["intro", "hunt", "done"]) $(s).hidden = s !== id;
@@ -120,56 +124,73 @@ $("change").addEventListener("click", () => {
   $("confirm").hidden = true;
 });
 
-$("start").addEventListener("click", () => {
+// wall-clock time, so the clock keeps running across a reload
+function elapsed() {
+  return (Date.now() - state.startedAt) / 1000;
+}
+
+function hunt() {
   renderCode();
   show("hunt");
-  startedAt = performance.now();
-  ticker = setInterval(() => {
-    $("clock").textContent = Math.floor((performance.now() - startedAt) / 1000) + " s";
-  }, 250);
+  const tick = () => { $("clock").textContent = Math.floor(elapsed()) + " s"; };
+  tick();
+  ticker = setInterval(tick, 250);
+}
+
+$("start").addEventListener("click", () => {
+  state.startedAt = Date.now();
+  save(state);
+  hunt();
 });
 
 $("submit").addEventListener("click", () => finish(picked));
 $("giveup").addEventListener("click", () => finish(0));
 
-async function finish(line) {
+function finish(line) {
+  if (finishing || state.done) return; // a double tap sends nothing twice
+  finishing = true;
   clearInterval(ticker);
-  const seconds = Math.round((performance.now() - startedAt) / 100) / 10;
   $("confirm").hidden = true;
-  const answer = {
+  state.done = {
     run,
     sheet: state.sheet,
     client: state.client,
-    seconds,
+    seconds: Math.round(elapsed() * 10) / 10,
     line,
     found: line === bugLine(state.sheet),
   };
-  state.done = answer;
   save(state);
-  showDone(answer);
-  await send(answer);
+  showDone();
+  send();
 }
 
-async function send(answer) {
-  if (!ENDPOINT) { console.log("no ENDPOINT set; would send", answer); return; }
+// The answer stays saved even when sending fails: the next load sends the
+// same answer again, and the results page keeps one answer per client.
+async function send() {
+  if (state.sent) return;
+  if (!ENDPOINT) { console.log("no ENDPOINT set; would send", state.done); return; }
+  $("send-status").textContent = "Sending…";
   try {
     // text/plain keeps this a simple request, so the browser sends no preflight
-    await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(answer) });
-  } catch (err) {
-    $("done-text").textContent += " (Sending failed. Check your connection and reload the page to try again.)";
-    state.done = null;
+    await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(state.done) });
+    state.sent = true;
     save(state);
+    $("send-status").textContent = "";
+  } catch (err) {
+    $("send-status").textContent = "Not sent yet: check your connection, then reload this page. Your answer is kept.";
   }
 }
 
-function showDone(answer) {
+function showDone() {
   show("done");
-  $("done-text").textContent = answer.line
-    ? `You picked line ${answer.line}, after ${answer.seconds} seconds.`
-    : `You stopped after ${answer.seconds} seconds.`;
+  const a = state.done;
+  $("done-text").textContent = a.line
+    ? `You picked line ${a.line}, after ${a.seconds} seconds.`
+    : `You stopped after ${a.seconds} seconds.`;
 }
 
-if (state.done) showDone(state.done);
+if (state.done) { showDone(); send(); }
+else if (state.startedAt) hunt();
 </script>
 </body>
 </html>
