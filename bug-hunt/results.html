@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bug Hunt Results</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  main { max-width: 1400px; }
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .join { display: flex; gap: 16px; align-items: center; }
+  .join .url { font: 600 20px var(--mono); }
+  #qr { background: #fff; padding: 8px; border-radius: 6px; line-height: 0; }
+  .controls { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+  .controls button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+  .col { min-width: 0; }
+  .col h2 { margin: 0; font-size: 20px; }
+  .col .what { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .stats { display: flex; gap: 24px; margin: 8px 0 4px; font-variant-numeric: tabular-nums; }
+  .stats div { display: flex; flex-direction: column; }
+  .stats b { font-size: 28px; line-height: 1.1; }
+  .stats span { color: var(--muted); font-size: 13px; }
+  .strip { width: 100%; height: 56px; display: block; margin-bottom: 12px; }
+  .strip text { fill: var(--muted); font: 11px var(--sans); }
+  .strip .axis { stroke: var(--line); }
+  .strip .hit { fill: var(--accent); }
+  .strip .miss { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+  div.line { position: relative; }
+  .line .count {
+    margin-left: auto; padding-left: 16px; color: var(--accent);
+    font-weight: 700; font-family: var(--sans); font-size: 12px;
+  }
+  .line.bug { box-shadow: inset 3px 0 0 var(--bug); }
+  .line.bug .n { color: var(--bug); font-weight: 700; }
+  .status { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <header>
+      <h1>Bug Hunt</h1>
+      <p class="sub">Round <code id="run"></code> · <span id="status" class="status">loading…</span></p>
+    </header>
+    <div class="join">
+      <div id="qr"></div>
+      <div>
+        <div class="status">Open on your phone</div>
+        <div class="url" id="url"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="toggle-picks" class="quiet" aria-pressed="false">Show where people tapped</button>
+    <button id="toggle-bug" class="quiet" aria-pressed="false">Show the bug</button>
+    <button id="toggle-qr" class="quiet" aria-pressed="true">Hide the link</button>
+  </div>
+
+  <div class="cols">
+    <section class="col" id="col-A"></section>
+    <section class="col" id="col-B"></section>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="sheets.js"></script>
+<script>
+const run = currentRun();
+const demo = new URLSearchParams(location.search).has("demo");
+const $ = (id) => document.getElementById(id);
+
+const studentUrl = new URL("./", location.href);
+studentUrl.searchParams.set("run", run);
+$("run").textContent = run;
+$("url").textContent = studentUrl.host + studentUrl.pathname + studentUrl.search;
+if (window.QRCode) new QRCode($("qr"), { text: studentUrl.href, width: 140, height: 140 });
+
+const view = { picks: false, bug: false };
+function toggle(button, key, labelOn, labelOff) {
+  button.addEventListener("click", () => {
+    view[key] = !view[key];
+    button.setAttribute("aria-pressed", view[key]);
+    button.textContent = view[key] ? labelOn : labelOff;
+    render();
+  });
+}
+toggle($("toggle-picks"), "picks", "Hide where people tapped", "Show where people tapped");
+toggle($("toggle-bug"), "bug", "Hide the bug", "Show the bug");
+$("toggle-qr").addEventListener("click", (e) => {
+  const hidden = $("qr").parentElement.hidden = !$("qr").parentElement.hidden;
+  e.target.textContent = hidden ? "Show the link" : "Hide the link";
+});
+
+const what = {
+  A: "Everything inline (week-08-service-layer)",
+  B: "Rows extracted into components (week-08-components)",
+};
+
+let answers = [];
+
+function median(xs) {
+  if (!xs.length) return null;
+  const s = [...xs].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
+
+// one dot per person, on a shared time axis so the two sheets compare
+function strip(rows, maxSeconds) {
+  const w = 600, h = 56, pad = 14;
+  const x = (s) => pad + (s / maxSeconds) * (w - 2 * pad);
+  const ticks = [];
+  const step = maxSeconds > 120 ? 30 : maxSeconds > 40 ? 10 : 5;
+  for (let t = 0; t <= maxSeconds; t += step) {
+    ticks.push(`<text x="${x(t)}" y="${h - 2}" text-anchor="middle">${t}s</text>`);
+  }
+  const dots = rows.map((r, i) => {
+    const y = 12 + (i % 4) * 7; // stagger so equal times stay visible
+    return `<circle class="${r.found ? "hit" : "miss"}" cx="${x(r.seconds)}" cy="${y}" r="4.5"/>`;
+  });
+  return `<svg class="strip" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <line class="axis" x1="${pad}" x2="${w - pad}" y1="40" y2="40"/>
+    ${dots.join("")}${ticks.join("")}</svg>`;
+}
+
+function render() {
+  const maxSeconds = Math.max(30, ...answers.map((a) => a.seconds));
+  for (const sheet of ["A", "B"]) {
+    const rows = answers.filter((a) => a.sheet === sheet);
+    const found = rows.filter((a) => a.found);
+    const med = median(found.map((a) => a.seconds));
+    const counts = {};
+    rows.forEach((a) => { if (a.line) counts[a.line] = (counts[a.line] || 0) + 1; });
+    const most = Math.max(1, ...Object.values(counts));
+    const bug = bugLine(sheet);
+
+    const lines = linesOf(sheet).map((text, i) => {
+      const n = i + 1;
+      const c = counts[n] || 0;
+      const heat = view.picks && c ? `style="background: rgba(var(--heat), ${0.12 + 0.6 * (c / most)})"` : "";
+      const cls = "line" + (view.bug && n === bug ? " bug" : "");
+      const esc = (text || " ").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+      const count = view.picks && c ? `<span class="count">${c}</span>` : "";
+      return `<div class="${cls}" ${heat}><span class="n">${n}</span><span class="t">${esc}</span>${count}</div>`;
+    });
+
+    $("col-" + sheet).innerHTML = `
+      <h2>Sheet ${sheet}</h2>
+      <p class="what">${what[sheet]}</p>
+      <div class="stats">
+        <div><b>${rows.length}</b><span>answered</span></div>
+        <div><b>${view.bug ? found.length : "–"}</b><span>found the bug</span></div>
+        <div><b>${view.bug && med !== null ? med.toFixed(1) + "s" : "–"}</b><span>median time to find it</span></div>
+      </div>
+      ${strip(view.bug ? rows : rows.map((r) => ({ ...r, found: true })), maxSeconds)}
+      <div class="code">${lines.join("")}</div>`;
+  }
+}
+
+// keep each person's first answer only
+function dedupe(rows) {
+  const seen = new Set();
+  return rows.filter((r) => !seen.has(r.client) && seen.add(r.client));
+}
+
+function demoAnswers() {
+  const out = [];
+  for (let i = 0; i < 46; i++) {
+    const sheet = i % 2 ? "A" : "B";
+    const bug = bugLine(sheet);
+    const finds = Math.random() < (sheet === "B" ? 0.75 : 0.4);
+    const n = linesOf(sheet).length;
+    out.push({
+      client: "d" + i, sheet, found: finds,
+      line: finds ? bug : Math.random() < 0.15 ? 0 : 1 + Math.floor(Math.random() * n),
+      seconds: Math.round((sheet === "B" ? 12 : 30) + Math.random() * (sheet === "B" ? 40 : 90)),
+    });
+  }
+  return out;
+}
+
+async function refresh() {
+  if (demo) {
+    answers = answers.length ? answers : demoAnswers();
+    $("status").textContent = "demo data";
+    render();
+    return;
+  }
+  if (!ENDPOINT) {
+    $("status").textContent = "no endpoint configured";
+    render();
+    return;
+  }
+  try {
+    const res = await fetch(ENDPOINT + "?run=" + encodeURIComponent(run));
+    answers = dedupe(await res.json());
+    $("status").textContent = "updated " + new Date().toLocaleTimeString();
+  } catch (err) {
+    $("status").textContent = "could not load answers, retrying";
+  }
+  render();
+}
+
+refresh();
+if (!demo) setInterval(refresh, 4000);
+</script>
+</body>
+</html>

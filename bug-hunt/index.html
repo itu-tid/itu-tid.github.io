@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bug Hunt</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Bug Hunt</h1>
+    <p class="sub">todo-26 · <code>Home.jsx</code></p>
+  </header>
+
+  <section id="intro">
+    <p>This is the home page of todo-26. <strong>It has one bug.</strong> Find it as fast as you can, on your own, and tap the line it is on.</p>
+    <p>The clock starts when you press Start. You get one answer.</p>
+    <div class="props" id="props-intro"></div>
+    <button id="start" class="primary">Start</button>
+  </section>
+
+  <section id="hunt" hidden>
+    <div class="props" id="props-hunt"></div>
+    <div class="bar">
+      <span>Tap the line with the bug</span>
+      <span id="clock" class="clock">0 s</span>
+    </div>
+    <div class="code" id="code"></div>
+    <button id="giveup" class="quiet">I can't find it</button>
+  </section>
+
+  <section id="done" hidden>
+    <h2>Recorded</h2>
+    <p id="done-text"></p>
+    <p>Keep it to yourself for now. The answer comes on the projector.</p>
+  </section>
+
+  <div id="confirm" class="confirm" hidden>
+    <span id="confirm-text"></span>
+    <div class="confirm-actions">
+      <button id="change" class="quiet">Change</button>
+      <button id="submit" class="primary">Submit</button>
+    </div>
+  </div>
+</main>
+
+<template id="props-template">
+  <p class="props-title"><code>Home</code> receives these props from <code>App</code>:</p>
+  <dl>
+    <dt>lists</dt><dd>your own lists: Parse <code>List</code> objects (name, owner)</dd>
+    <dt>memberships</dt><dd>the lists others shared with you: one <code>ListMember</code> row per list, each with a pointer to the list (and, through it, the owner)</dd>
+    <dt>onAddList(name)</dt><dd>creates a new list</dd>
+    <dt>onShare(list, username)</dt><dd>shares one of your lists with another user</dd>
+    <dt>onLeave(membership)</dt><dd>removes you from a list shared with you</dd>
+    <dt>onLogout()</dt><dd>logs out</dd>
+  </dl>
+</template>
+
+<script src="sheets.js"></script>
+<script>
+const run = currentRun();
+const storeKey = "bughunt:" + run;
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(storeKey)) || {}; } catch { return {}; }
+}
+function save(state) {
+  try { localStorage.setItem(storeKey, JSON.stringify(state)); } catch {}
+}
+
+// the sheet is drawn once per person and run, so a reload does not redraw it
+const state = load();
+// ?sheet=A or ?sheet=B forces a version, for trying both while testing
+const forced = new URLSearchParams(location.search).get("sheet");
+if (forced in SHEETS && !state.done) state.sheet = forced;
+if (!state.sheet) state.sheet = Math.random() < 0.5 ? "A" : "B";
+if (!state.client) state.client = Math.random().toString(36).slice(2, 10);
+save(state);
+
+const $ = (id) => document.getElementById(id);
+const tpl = $("props-template");
+$("props-intro").append(tpl.content.cloneNode(true));
+$("props-hunt").append(tpl.content.cloneNode(true));
+
+let startedAt = 0;
+let ticker = 0;
+let picked = 0;
+
+function show(id) {
+  for (const s of ["intro", "hunt", "done"]) $(s).hidden = s !== id;
+}
+
+function renderCode() {
+  const box = $("code");
+  linesOf(state.sheet).forEach((text, i) => {
+    const row = document.createElement("button");
+    row.className = "line";
+    row.dataset.n = i + 1;
+    row.innerHTML = `<span class="n">${i + 1}</span><span class="t"></span>`;
+    row.querySelector(".t").textContent = text || " ";
+    row.addEventListener("click", () => pick(i + 1));
+    box.append(row);
+  });
+}
+
+function pick(n) {
+  picked = n;
+  document.querySelectorAll(".line").forEach((r) =>
+    r.classList.toggle("picked", Number(r.dataset.n) === n));
+  $("confirm-text").textContent = `Line ${n}?`;
+  $("confirm").hidden = false;
+}
+
+$("change").addEventListener("click", () => {
+  picked = 0;
+  document.querySelectorAll(".line.picked").forEach((r) => r.classList.remove("picked"));
+  $("confirm").hidden = true;
+});
+
+$("start").addEventListener("click", () => {
+  renderCode();
+  show("hunt");
+  startedAt = performance.now();
+  ticker = setInterval(() => {
+    $("clock").textContent = Math.floor((performance.now() - startedAt) / 1000) + " s";
+  }, 250);
+});
+
+$("submit").addEventListener("click", () => finish(picked));
+$("giveup").addEventListener("click", () => finish(0));
+
+async function finish(line) {
+  clearInterval(ticker);
+  const seconds = Math.round((performance.now() - startedAt) / 100) / 10;
+  $("confirm").hidden = true;
+  const answer = {
+    run,
+    sheet: state.sheet,
+    client: state.client,
+    seconds,
+    line,
+    found: line === bugLine(state.sheet),
+  };
+  state.done = answer;
+  save(state);
+  showDone(answer);
+  await send(answer);
+}
+
+async function send(answer) {
+  if (!ENDPOINT) { console.log("no ENDPOINT set; would send", answer); return; }
+  try {
+    // text/plain keeps this a simple request, so the browser sends no preflight
+    await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(answer) });
+  } catch (err) {
+    $("done-text").textContent += " (Sending failed. Check your connection and reload the page to try again.)";
+    state.done = null;
+    save(state);
+  }
+}
+
+function showDone(answer) {
+  show("done");
+  $("done-text").textContent = answer.line
+    ? `You picked line ${answer.line}, after ${answer.seconds} seconds.`
+    : `You stopped after ${answer.seconds} seconds.`;
+}
+
+if (state.done) showDone(state.done);
+</script>
+</body>
+</html>
