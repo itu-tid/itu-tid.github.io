@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extract Hunt Results</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  main { max-width: 1400px; }
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .join { display: flex; gap: 16px; align-items: center; }
+  .join .url { font: 600 20px var(--mono); }
+  #qr { background: #fff; padding: 8px; border-radius: 6px; line-height: 0; }
+  .controls { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+  .controls button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .cols { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+  .side h2 { font-size: 18px; margin: 20px 0 8px; }
+  .side h2:first-child { margin-top: 0; }
+  .stats { display: flex; gap: 24px; margin: 0 0 8px; font-variant-numeric: tabular-nums; }
+  .stats div { display: flex; flex-direction: column; }
+  .stats b { font-size: 28px; line-height: 1.1; }
+  .stats span { color: var(--muted); font-size: 13px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  td { padding: 4px 8px 4px 0; vertical-align: top; border-bottom: 1px solid var(--line); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); width: 3em; }
+  td .also { color: var(--muted); font-size: 13px; }
+  .bar-cell { width: 35%; }
+  .bar-fill { height: 10px; border-radius: 3px; background: rgba(var(--heat), 0.6); }
+  div.line { position: relative; }
+  .line .count {
+    margin-left: auto; padding-left: 16px; color: var(--accent);
+    font-weight: 700; font-family: var(--sans); font-size: 12px;
+  }
+  .line.ours { box-shadow: inset 4px 0 0 var(--bug); }
+  .line .ours-tag {
+    font: 700 12px var(--sans); color: var(--bug); margin-left: 12px;
+  }
+  .status { color: var(--muted); font-size: 13px; }
+  .empty { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <header>
+      <h1>Extract Hunt</h1>
+      <p class="sub"><code id="file"></code> · round <code id="run"></code> · <span id="status" class="status">loading…</span></p>
+    </header>
+    <div class="join">
+      <div id="qr"></div>
+      <div>
+        <div class="status">Open on your phone</div>
+        <div class="url" id="url"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="toggle-picks" class="quiet" aria-pressed="false">Show what people marked</button>
+    <button id="toggle-ours" class="quiet" aria-pressed="false">Show our components</button>
+    <button id="toggle-qr" class="quiet" aria-pressed="true">Hide the link</button>
+  </div>
+
+  <div class="cols">
+    <section class="code" id="code"></section>
+    <section class="side" id="side"></section>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>window.Prism = { manual: true };</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+<script src="sheets.js"></script>
+<script>
+const run = currentRun();
+const key = currentSnippet();
+const snippet = SNIPPETS[key];
+const demo = new URLSearchParams(location.search).has("demo");
+const $ = (id) => document.getElementById(id);
+
+const studentUrl = new URL("./", location.href);
+studentUrl.searchParams.set("run", run);
+studentUrl.searchParams.set("code", key);
+$("run").textContent = run;
+$("file").textContent = snippet.file;
+$("url").textContent = studentUrl.host + studentUrl.pathname + studentUrl.search;
+if (window.QRCode) new QRCode($("qr"), { text: studentUrl.href, width: 140, height: 140 });
+
+const view = { picks: false, ours: false };
+function toggle(button, k, labelOn, labelOff) {
+  button.addEventListener("click", () => {
+    view[k] = !view[k];
+    button.setAttribute("aria-pressed", view[k]);
+    button.textContent = view[k] ? labelOn : labelOff;
+    render();
+  });
+}
+toggle($("toggle-picks"), "picks", "Hide what people marked", "Show what people marked");
+toggle($("toggle-ours"), "ours", "Hide our components", "Show our components");
+$("toggle-qr").addEventListener("click", (e) => {
+  const hidden = $("qr").parentElement.hidden = !$("qr").parentElement.hidden;
+  e.target.textContent = hidden ? "Show the link" : "Hide the link";
+});
+
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+let answers = [];
+
+// names that differ only in case or punctuation count as one; show the commonest spelling
+function names(picks) {
+  const groups = {};
+  for (const p of picks) {
+    const k = normalize(p.name);
+    if (!k) continue;
+    const g = (groups[k] ??= { count: 0, spellings: {} });
+    g.count++;
+    g.spellings[p.name] = (g.spellings[p.name] || 0) + 1;
+  }
+  return Object.values(groups)
+    .map((g) => ({ count: g.count, name: Object.entries(g.spellings).sort((a, b) => b[1] - a[1])[0][0] }))
+    .sort((a, b) => b.count - a.count);
+}
+
+// the same lines, marked by several people, with the names they gave them
+function ranges(picks) {
+  const groups = {};
+  for (const p of picks) {
+    const g = (groups[p.from + "-" + p.to] ??= { from: p.from, to: p.to, picks: [] });
+    g.picks.push(p);
+  }
+  return Object.values(groups).sort((a, b) => b.picks.length - a.picks.length || a.from - b.from);
+}
+
+function render() {
+  const all = answers.flatMap((a) => a.picks);
+  const nothing = answers.filter((a) => !a.picks.length).length;
+
+  // how many people put each line in some component
+  const counts = {};
+  for (const a of answers) {
+    const covered = new Set();
+    a.picks.forEach((p) => { for (let n = p.from; n <= p.to; n++) covered.add(n); });
+    covered.forEach((n) => { counts[n] = (counts[n] || 0) + 1; });
+  }
+  const most = Math.max(1, ...Object.values(counts));
+
+  $("code").innerHTML = highlightedLinesOf(key).map((html, i) => {
+    const n = i + 1;
+    const c = counts[n] || 0;
+    const heat = view.picks && c ? `style="background: rgba(var(--heat), ${0.08 + 0.6 * (c / most)})"` : "";
+    const inOurs = view.ours && snippet.ours.some((o) => n >= o.from && n <= o.to);
+    const tags = view.ours
+      ? snippet.ours.filter((o) => o.from === n).map((o) => `<span class="ours-tag">${o.name}</span>`).join("")
+      : "";
+    const count = view.picks && c ? `<span class="count">${c}</span>` : "";
+    return `<div class="line${inOurs ? " ours" : ""}" ${heat}><span class="n">${n}</span><span class="t">${html || " "}</span>${tags}${count}</div>`;
+  }).join("");
+
+  const avg = answers.length ? (all.length / answers.length).toFixed(1) : "–";
+  let side = `
+    <div class="stats">
+      <div><b>${answers.length}</b><span>answered</span></div>
+      <div><b>${avg}</b><span>components per person</span></div>
+      <div><b>${nothing}</b><span>would extract nothing</span></div>
+    </div>`;
+
+  if (view.picks) {
+    const ns = names(all).slice(0, 12);
+    const top = ns[0]?.count || 1;
+    side += `<h2>The names they gave</h2>` + (ns.length
+      ? `<table>${ns.map((x) => `<tr><td><code>${esc(x.name)}</code></td>
+          <td class="bar-cell"><div class="bar-fill" style="width:${(100 * x.count) / top}%"></div></td>
+          <td class="num">${x.count}</td></tr>`).join("")}</table>`
+      : `<p class="empty">No components yet.</p>`);
+
+    const rs = ranges(all).slice(0, 8);
+    side += `<h2>The same lines, marked by several people</h2>` + (rs.length
+      ? `<table>${rs.map((r) => {
+          const n = names(r.picks).slice(0, 3).map((x) => esc(x.name)).join(", ");
+          return `<tr><td>lines ${r.from}–${r.to}<br><span class="also">${n}</span></td><td class="num">${r.picks.length}</td></tr>`;
+        }).join("")}</table>`
+      : `<p class="empty">No components yet.</p>`);
+  }
+
+  if (view.ours) {
+    side += `<h2>Our components</h2><table>${snippet.ours.map((o) =>
+      `<tr><td><code>${o.name}</code></td><td>lines ${o.from}–${o.to}</td></tr>`).join("")}</table>`;
+  }
+
+  $("side").innerHTML = side;
+}
+
+// keep each person's first answer only
+function dedupe(rows) {
+  const seen = new Set();
+  return rows.filter((r) => !seen.has(r.client) && seen.add(r.client));
+}
+
+// around our components, with the boundaries off by a line or two, and some noise
+function demoAnswers() {
+  const pool = {
+    PlannedDish: ["PlannedDish", "plannedDish", "DishRow", "MealEntry", "PlanItem"],
+    SuggestedDish: ["SuggestedDish", "SuggestionRow", "Suggestion", "suggestedDish"],
+    ChoiceGroup: ["ToggleGroup", "ViewToggle", "FilterButtons", "ChoiceGroup", "SegmentedControl"],
+    DayButton: ["DayButton", "WeekDay", "DayPicker", "dayButton"],
+    TaskDots: ["TaskDots", "Dots", "TaskIndicator"],
+    TimeSlot: ["TimeSlot", "TaskSlot", "DayTask"],
+  };
+  const n = linesOf(key).length;
+  const jitter = () => Math.round((Math.random() - 0.5) * 3);
+  const out = [];
+  for (let i = 0; i < 40; i++) {
+    const picks = [];
+    if (Math.random() < 0.08) { out.push({ client: "d" + i, picks }); continue; }
+    for (const o of snippet.ours) {
+      if (Math.random() < 0.55) {
+        const names = pool[o.name];
+        const from = Math.max(1, o.from + (Math.random() < 0.6 ? 0 : jitter()));
+        const to = Math.min(n, Math.max(from, o.to + (Math.random() < 0.6 ? 0 : jitter())));
+        picks.push({ from, to, name: names[Math.floor(Math.random() * names.length)] });
+      }
+    }
+    if (Math.random() < 0.2) {
+      const from = 1 + Math.floor(Math.random() * (n - 10));
+      picks.push({ from, to: from + 3 + Math.floor(Math.random() * 8), name: "Section" });
+    }
+    out.push({ client: "d" + i, picks });
+  }
+  return out;
+}
+
+async function refresh() {
+  if (demo) {
+    answers = answers.length ? answers : demoAnswers();
+    $("status").textContent = "demo data";
+    render();
+    return;
+  }
+  if (!ENDPOINT) {
+    $("status").textContent = "no endpoint configured";
+    render();
+    return;
+  }
+  try {
+    const res = await fetch(ENDPOINT + "?run=" + encodeURIComponent(run) + "&code=" + key);
+    answers = dedupe(await res.json());
+    $("status").textContent = "updated " + new Date().toLocaleTimeString();
+  } catch (err) {
+    $("status").textContent = "could not load answers, retrying";
+  }
+  render();
+}
+
+refresh();
+if (!demo) setInterval(refresh, 4000);
+</script>
+</body>
+</html>

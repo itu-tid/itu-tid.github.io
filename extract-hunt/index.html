@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extract Hunt</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Extract Hunt</h1>
+    <p class="sub">from a project in this course · <code id="file"></code></p>
+  </header>
+
+  <section id="intro">
+    <p id="about"></p>
+    <p><strong>Which components would you extract from it?</strong> Mark each one: tap its first line, then its last line, and give it a name. Mark as many as you think are worth it, or none.</p>
+    <p>On your own, and no rush: there is no single right answer.</p>
+    <div class="props" id="scope-intro"></div>
+    <button id="start" class="primary">Start</button>
+  </section>
+
+  <section id="hunt" hidden>
+    <details class="props" id="scope-hunt"><summary>What is in scope</summary></details>
+    <p class="hint" id="hint">Tap the first line of a component.</p>
+    <ul class="mine" id="mine"></ul>
+    <div class="code" id="code"></div>
+  </section>
+
+  <section id="done" hidden>
+    <h2>Recorded</h2>
+    <ul class="mine" id="done-list"></ul>
+    <p id="done-text"></p>
+    <p>Keep it to yourself for now. We look at everyone's answers together on the projector.</p>
+  </section>
+
+  <!-- shown while marking: submit, or give up on extracting -->
+  <div id="finish" class="confirm" hidden>
+    <span id="finish-text"></span>
+    <div class="confirm-actions">
+      <button id="nothing" class="quiet">Nothing to extract</button>
+      <button id="submit" class="primary" disabled>Done</button>
+    </div>
+  </div>
+
+  <!-- shown after the second tap: name the component -->
+  <div id="naming" class="confirm stack" hidden>
+    <form id="name-form" class="namebox">
+      <label for="name">Name the component for <span id="naming-range"></span></label>
+      <input id="name" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. TaskRow" maxlength="40" required>
+      <div class="row">
+        <button type="button" id="cancel" class="quiet">Cancel</button>
+        <button type="submit" class="primary">Add</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script>window.Prism = { manual: true };</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+<script src="sheets.js"></script>
+<script>
+const run = currentRun();
+const key = currentSnippet();
+const snippet = SNIPPETS[key];
+const storeKey = "extracthunt:" + run + ":" + key;
+const MAX = 5;
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(storeKey)) || {}; } catch { return {}; }
+}
+function save(state) {
+  try { localStorage.setItem(storeKey, JSON.stringify(state)); } catch {}
+}
+
+const state = load();
+if (!state.client) {
+  state.client = Math.random().toString(36).slice(2, 10);
+  save(state);
+}
+
+const $ = (id) => document.getElementById(id);
+$("file").textContent = snippet.file;
+$("about").textContent = snippet.about + (snippet.cut ? " " + snippet.cut : "");
+
+function scopeBox() {
+  const box = document.createElement("div");
+  box.innerHTML = `<p class="props-title">In scope in this code:</p><dl></dl>`;
+  for (const [name, what] of snippet.scope) {
+    const dt = document.createElement("dt");
+    const dd = document.createElement("dd");
+    dt.textContent = name;
+    dd.textContent = what;
+    box.querySelector("dl").append(dt, dd);
+  }
+  return box;
+}
+$("scope-intro").append(scopeBox());
+$("scope-hunt").append(scopeBox());
+
+let startedAt = 0;
+let anchor = 0;          // first tapped line, waiting for the second
+let pending = null;      // {from, to} waiting for a name
+const picks = [];        // {from, to, name}
+
+function show(id) {
+  for (const s of ["intro", "hunt", "done"]) $(s).hidden = s !== id;
+  $("finish").hidden = id !== "hunt";
+}
+
+// each component gets its own color, in the code and in the list
+const color = (i) => `var(--c${i % 5})`;
+
+function renderCode() {
+  const box = $("code");
+  highlightedLinesOf(key).forEach((html, i) => {
+    const row = document.createElement("button");
+    row.className = "line";
+    row.dataset.n = i + 1;
+    row.innerHTML = `<span class="n">${i + 1}</span><span class="t">${html || " "}</span>`;
+    row.addEventListener("click", () => tap(i + 1));
+    box.append(row);
+  });
+}
+
+function paint() {
+  document.querySelectorAll("#code .line").forEach((row) => {
+    const n = Number(row.dataset.n);
+    // the innermost component wins when two overlap
+    let mark = -1;
+    picks.forEach((p, i) => {
+      if (n >= p.from && n <= p.to && (mark < 0 || p.to - p.from <= picks[mark].to - picks[mark].from)) mark = i;
+    });
+    const inPending = pending && n >= pending.from && n <= pending.to;
+    row.classList.toggle("marked", mark >= 0 && !inPending);
+    row.style.setProperty("--mark", mark >= 0 ? color(mark) : "");
+    row.classList.toggle("anchor", n === anchor || inPending);
+  });
+
+  renderList($("mine"), true);
+  $("submit").disabled = picks.length === 0;
+  $("finish-text").textContent = picks.length ? `${picks.length} marked` : "";
+  $("hint").textContent =
+    picks.length >= MAX ? `That's ${MAX}, the most you can mark. Remove one to mark another.`
+    : anchor ? `Now tap the last line of the component (line ${anchor} or below).`
+    : pending ? `Name the component for lines ${pending.from}–${pending.to}.`
+    : picks.length ? "Tap the first line of another component, or press Done."
+    : "Tap the first line of a component.";
+}
+
+function renderList(ul, removable) {
+  ul.innerHTML = "";
+  picks.forEach((p, i) => {
+    const li = document.createElement("li");
+    li.style.setProperty("--mark", color(i));
+    li.innerHTML = `<code></code><span class="range">lines ${p.from}–${p.to}</span>`;
+    li.querySelector("code").textContent = p.name;
+    if (removable) {
+      const x = document.createElement("button");
+      x.className = "quiet remove";
+      x.textContent = "Remove";
+      x.setAttribute("aria-label", `Remove ${p.name}`);
+      x.addEventListener("click", () => { picks.splice(i, 1); paint(); });
+      li.append(x);
+    }
+    ul.append(li);
+  });
+}
+
+function tap(n) {
+  if (pending || picks.length >= MAX) return;
+  if (!anchor) { anchor = n; paint(); return; }
+  if (n < anchor) { anchor = n; paint(); return; } // tapped above: that's the new first line
+  pending = { from: anchor, to: n };
+  anchor = 0;
+  paint();
+  $("naming-range").textContent = `lines ${pending.from}–${pending.to}`;
+  $("finish").hidden = true;
+  $("naming").hidden = false;
+  $("name").value = "";
+  $("name").focus();
+}
+
+function closeNaming() {
+  pending = null;
+  $("naming").hidden = true;
+  $("finish").hidden = false;
+  paint();
+}
+
+$("name-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = $("name").value.trim();
+  if (!name) return;
+  picks.push({ ...pending, name });
+  closeNaming();
+});
+$("cancel").addEventListener("click", closeNaming);
+
+$("start").addEventListener("click", () => {
+  renderCode();
+  show("hunt");
+  paint();
+  startedAt = performance.now();
+});
+
+$("submit").addEventListener("click", () => finish(picks));
+$("nothing").addEventListener("click", () => finish([]));
+
+async function finish(chosen) {
+  const seconds = Math.round((performance.now() - startedAt) / 1000);
+  const answer = { run, code: key, client: state.client, seconds, picks: chosen };
+  state.done = answer;
+  save(state);
+  showDone(answer);
+  await send(answer);
+}
+
+async function send(answer) {
+  if (!ENDPOINT) { console.log("no ENDPOINT set; would send", answer); return; }
+  try {
+    // text/plain keeps this a simple request, so the browser sends no preflight
+    await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(answer) });
+  } catch (err) {
+    $("done-text").textContent = "Sending failed. Check your connection and reload the page to try again.";
+    state.done = null;
+    save(state);
+  }
+}
+
+function showDone(answer) {
+  show("done");
+  picks.splice(0, picks.length, ...answer.picks);
+  renderList($("done-list"), false);
+  if (!answer.picks.length) $("done-text").textContent = "You would not extract anything.";
+}
+
+if (state.done) showDone(state.done);
+</script>
+</body>
+</html>
