@@ -7,6 +7,13 @@
   --accent: #2557d6;
   --heat: 37, 87, 214;      /* rgb of the heatmap, alpha set per line */
   --bug: #c2410c;
+  --syn-keyword: #cf222e;
+  --syn-tag: #116329;
+  --syn-attr: #0550ae;
+  --syn-string: #0a3069;
+  --syn-func: #8250df;
+  --syn-comment: #6e7781;
+  --syn-punct: #57606a;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --sans: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   color-scheme: light;
@@ -21,6 +28,13 @@
     --accent: #7ea2ff;
     --heat: 126, 162, 255;
     --bug: #fb923c;
+    --syn-keyword: #ff7b72;
+    --syn-tag: #7ee787;
+    --syn-attr: #79c0ff;
+    --syn-string: #a5d6ff;
+    --syn-func: #d2a8ff;
+    --syn-comment: #8b949e;
+    --syn-punct: #8b949e;
     color-scheme: dark;
   }
 }
@@ -97,5 +111,15 @@ button.line:hover { background: var(--panel); }
   font-weight: 600;
 }
 .confirm-actions { display: flex; gap: 8px; }
+
+/* syntax highlighting: Prism's token classes */
+.token.keyword, .token.boolean { color: var(--syn-keyword); }
+.token.tag, .token.class-name { color: var(--syn-tag); }
+.token.attr-name { color: var(--syn-attr); }
+.token.string, .token.attr-value, .token.template-string { color: var(--syn-string); }
+.token.function { color: var(--syn-func); }
+.token.comment { color: var(--syn-comment); font-style: italic; }
+.token.punctuation, .token.operator { color: var(--syn-punct); }
+.token.script, .token.interpolation, .token.spread { color: var(--fg); }
 
 [hidden] { display: none !important; }

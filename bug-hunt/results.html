@@ -66,6 +66,9 @@
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>window.Prism = { manual: true };</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
 <script src="sheets.js"></script>
 <script>
 const run = currentRun();
@@ -137,14 +140,13 @@ function render() {
     const most = Math.max(1, ...Object.values(counts));
     const bug = bugLine(sheet);
 
-    const lines = linesOf(sheet).map((text, i) => {
+    const lines = highlightedLinesOf(sheet).map((html, i) => {
       const n = i + 1;
       const c = counts[n] || 0;
       const heat = view.picks && c ? `style="background: rgba(var(--heat), ${0.12 + 0.6 * (c / most)})"` : "";
       const cls = "line" + (view.bug && n === bug ? " bug" : "");
-      const esc = (text || " ").replace(/&/g, "&amp;").replace(/</g, "&lt;");
       const count = view.picks && c ? `<span class="count">${c}</span>` : "";
-      return `<div class="${cls}" ${heat}><span class="n">${n}</span><span class="t">${esc}</span>${count}</div>`;
+      return `<div class="${cls}" ${heat}><span class="n">${n}</span><span class="t">${html || " "}</span>${count}</div>`;
     });
 
     $("col-" + sheet).innerHTML = `

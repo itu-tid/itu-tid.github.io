@@ -109,6 +109,40 @@ function linesOf(sheet) {
   return SHEETS[sheet].code.split("\n");
 }
 
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Highlighted HTML, one string per line. The whole file is tokenized at once,
+// because a JSX tag spans several lines, then the tokens are cut at each newline.
+// Without Prism (the CDN did not load), the lines come back as plain text.
+function highlightedLinesOf(sheet) {
+  const code = SHEETS[sheet].code;
+  if (!window.Prism || !Prism.languages.jsx) return code.split("\n").map(escapeHtml);
+
+  const lines = [[]];
+  function walk(token, classes) {
+    if (typeof token === "string") {
+      token.split("\n").forEach((part, i) => {
+        if (i > 0) lines.push([]);
+        if (!part) return;
+        const html = escapeHtml(part);
+        lines[lines.length - 1].push(
+          classes.length ? `<span class="${classes.join(" ")}">${html}</span>` : html);
+      });
+      return;
+    }
+    // Prism reads JSX text as JavaScript, so "with" in "Shared with me" would
+    // come out as a red keyword and draw the eye to the wrong line
+    if (token.type === "keyword" && token.content === "with") return walk("with", classes);
+    // the innermost token decides the color, as it would in nested spans
+    const cls = ["token", token.type, ...[].concat(token.alias || [])];
+    [].concat(token.content).forEach((child) => walk(child, cls));
+  }
+  Prism.tokenize(code, Prism.languages.jsx).forEach((t) => walk(t, []));
+  return lines.map((parts) => parts.join(""));
+}
+
 // one round of the exercise: ?run=<label>, or today's date
 function currentRun() {
   const fromUrl = new URLSearchParams(location.search).get("run");

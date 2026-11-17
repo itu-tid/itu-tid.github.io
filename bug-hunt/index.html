@@ -57,6 +57,9 @@
   </dl>
 </template>
 
+<script>window.Prism = { manual: true };</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
 <script src="sheets.js"></script>
 <script>
 const run = currentRun();
@@ -93,12 +96,11 @@ function show(id) {
 
 function renderCode() {
   const box = $("code");
-  linesOf(state.sheet).forEach((text, i) => {
+  highlightedLinesOf(state.sheet).forEach((html, i) => {
     const row = document.createElement("button");
     row.className = "line";
     row.dataset.n = i + 1;
-    row.innerHTML = `<span class="n">${i + 1}</span><span class="t"></span>`;
-    row.querySelector(".t").textContent = text || " ";
+    row.innerHTML = `<span class="n">${i + 1}</span><span class="t">${html || " "}</span>`;
     row.addEventListener("click", () => pick(i + 1));
     box.append(row);
   });
