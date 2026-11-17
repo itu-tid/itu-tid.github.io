@@ -1,4 +1,4 @@
-# Installing Your App on a Phone
+# Progressive Web Applications
 
 Since week 6 your app has a public address, and you can open it on your phone (see [Publishing Your App on GitHub Pages](Publishing-on-GitHub-Pages.md#open-it-on-your-phone)). It works, but it is still a web page in a browser tab: an address bar on top, browser buttons at the bottom, and to find it again you have to find the tab.
 
@@ -18,12 +18,12 @@ That is enough for Chrome on Android and for Safari on iOS. The rest of this not
 
 A PWA is not a different kind of app. It is your website, with layers added on top:
 
-| layer | what it adds | what it takes |
-|---|---|---|
-| website | runs in a browser tab | what you have |
-| **installable** | home-screen icon, own window | a manifest and icons |
-| works offline | starts without a network | a service worker |
-| app-like features | push notifications, badges | more APIs, and permission from the user |
+| layer             | what it adds                 | what it takes                           |
+| ----------------- | ---------------------------- | --------------------------------------- |
+| website           | runs in a browser tab        | what you have                           |
+| **installable**   | home-screen icon, own window | a manifest and icons                    |
+| works offline     | starts without a network     | a service worker                        |
+| app-like features | push notifications, badges   | more APIs, and permission from the user |
 
 A browser that does not support a layer still shows the website underneath, so nothing breaks. That is the *progressive* part: you go as far up as your app needs. For your projects, the second row is the one that matters.
 
