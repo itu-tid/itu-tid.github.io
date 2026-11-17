@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 350" width="520" height="350" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97706"/>
+    </marker>
+  </defs>
+  <rect width="520" height="350" fill="#ffffff"/>
+
+  <!-- Parent -->
+  <rect x="60" y="20" width="400" height="96" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="260" y="48" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">TodoList</text>
+  <text x="260" y="74" text-anchor="middle" font-size="14" fill="#3f3f46">owns the state: todos</text>
+  <text x="260" y="96" text-anchor="middle" font-size="14" fill="#3f3f46">decides what removing means: handleRemove(id)</text>
+
+  <!-- Children -->
+  <rect x="30" y="210" width="200" height="86" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="130" y="238" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">TodoItem</text>
+  <text x="130" y="262" text-anchor="middle" font-size="14" fill="#3f3f46">draws todo.text</text>
+  <text x="130" y="282" text-anchor="middle" font-size="14" fill="#3f3f46">× calls onRemove(id)</text>
+
+  <rect x="290" y="210" width="200" height="86" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="390" y="238" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">TodoItem</text>
+  <text x="390" y="262" text-anchor="middle" font-size="14" fill="#3f3f46">draws todo.text</text>
+  <text x="390" y="282" text-anchor="middle" font-size="14" fill="#3f3f46">× calls onRemove(id)</text>
+
+  <!-- Left child arrows -->
+  <line x1="95" y1="118" x2="95" y2="206" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="88" y="167" text-anchor="end" font-size="13" font-weight="700" fill="#1e40af">todo</text>
+  <line x1="160" y1="208" x2="160" y2="120" stroke="#d97706" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+  <text x="167" y="167" font-size="13" font-weight="700" fill="#92400e">onRemove(id)</text>
+
+  <!-- Right child arrows -->
+  <line x1="355" y1="118" x2="355" y2="206" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="348" y="167" text-anchor="end" font-size="13" font-weight="700" fill="#1e40af">todo</text>
+  <line x1="420" y1="208" x2="420" y2="120" stroke="#d97706" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+  <text x="427" y="167" font-size="13" font-weight="700" fill="#92400e">onRemove(id)</text>
+
+  <!-- Legend -->
+  <text x="30" y="328" font-size="13" fill="#1e40af"><tspan font-weight="700">Down, as props:</tspan> the data the row draws.</text>
+  <text x="290" y="328" font-size="13" fill="#92400e"><tspan font-weight="700">Up, via a callback:</tspan> "I was clicked."</text>
+</svg>

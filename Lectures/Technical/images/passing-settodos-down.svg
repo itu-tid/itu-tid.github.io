@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 370" width="560" height="370" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b42318"/>
+    </marker>
+  </defs>
+  <rect width="560" height="370" fill="#ffffff"/>
+
+  <!-- Parent -->
+  <rect x="60" y="20" width="400" height="96" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="260" y="48" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">TodoList</text>
+  <text x="260" y="74" text-anchor="middle" font-size="14" fill="#3f3f46">owns the state: todos</text>
+  <text x="260" y="96" text-anchor="middle" font-size="14" fill="#b42318">… but no longer decides what removing means</text>
+
+  <!-- Children -->
+  <rect x="30" y="210" width="200" height="86" rx="10" fill="#fef3f2" stroke="#b42318" stroke-width="1.5"/>
+  <text x="130" y="238" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">TodoItem</text>
+  <text x="130" y="262" text-anchor="middle" font-size="14" fill="#3f3f46">knows the whole list,</text>
+  <text x="130" y="282" text-anchor="middle" font-size="14" fill="#3f3f46">and rewrites it itself</text>
+
+  <rect x="290" y="210" width="200" height="86" rx="10" fill="#fef3f2" stroke="#b42318" stroke-width="1.5"/>
+  <text x="390" y="238" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">TodoItem</text>
+  <text x="390" y="262" text-anchor="middle" font-size="14" fill="#3f3f46">knows the whole list,</text>
+  <text x="390" y="282" text-anchor="middle" font-size="14" fill="#3f3f46">and rewrites it itself</text>
+
+  <!-- Left child arrows -->
+  <line x1="95" y1="118" x2="95" y2="206" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr-grey)"/>
+  <text x="88" y="158" text-anchor="end" font-size="12" fill="#3f3f46">todo,</text>
+  <text x="88" y="174" text-anchor="end" font-size="12" fill="#3f3f46">todos,</text>
+  <text x="88" y="190" text-anchor="end" font-size="12" fill="#3f3f46">setTodos</text>
+  <line x1="160" y1="208" x2="160" y2="120" stroke="#b42318" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arr-red)"/>
+  <text x="167" y="160" font-size="12" font-weight="700" fill="#b42318">setTodos(</text>
+  <text x="167" y="176" font-size="12" font-weight="700" fill="#b42318">  todos.filter(…))</text>
+
+  <!-- Right child arrows -->
+  <line x1="355" y1="118" x2="355" y2="206" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr-grey)"/>
+  <text x="348" y="158" text-anchor="end" font-size="12" fill="#3f3f46">todo,</text>
+  <text x="348" y="174" text-anchor="end" font-size="12" fill="#3f3f46">todos,</text>
+  <text x="348" y="190" text-anchor="end" font-size="12" fill="#3f3f46">setTodos</text>
+  <line x1="420" y1="208" x2="420" y2="120" stroke="#b42318" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arr-red)"/>
+  <text x="427" y="160" font-size="12" font-weight="700" fill="#b42318">setTodos(</text>
+  <text x="427" y="176" font-size="12" font-weight="700" fill="#b42318">  todos.filter(…))</text>
+
+  <!-- Legend -->
+  <text x="30" y="328" font-size="13" fill="#b42318">Every row can now rewrite every other row.</text>
+  <text x="30" y="348" font-size="13" fill="#b42318">Change how deletion works, and you have to change the row.</text>
+</svg>

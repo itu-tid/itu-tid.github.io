@@ -4,6 +4,8 @@ Components are arranged in a tree, and information has to travel along it. There
 
 You have been writing both since week 2, without the names. The to-do list hands each row a `todo` and an `onRemove`; the row calls `onRemove` and knows nothing about what happens next. This note is that arrangement, named, and the shortcut that looks easier and is not.
 
+![TodoList owns the todos and decides what removing means. It hands each TodoItem its todo, going down as a prop, and each TodoItem reports a click by calling onRemove(id), going back up as a callback](../images/props-down-callbacks-up.svg)
+
 ## Data goes down, as props
 
 The parent hands the child what it needs to draw itself: for a row, the `todo` it should display. Data goes down.
@@ -61,6 +63,8 @@ The tempting shortcut is to pass `setTodos` down and let the row remove itself:
 ```
 
 It works. It also means every row now knows the whole list, and the shape of it, and how deletion is implemented — so changing any of those means changing the row too. You have swapped one small prop for three, and gained a component that only works in this app.
+
+![The same tree with setTodos passed down: each TodoItem receives todo, todos and setTodos, and calls setTodos(todos.filter(…)) itself, so every row knows the whole list and TodoList no longer decides what removing means](../images/passing-settodos-down.svg)
 
 **Hand down what the child needs to know, and a way to tell you something happened. Nothing else.**
 
