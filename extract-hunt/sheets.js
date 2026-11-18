@@ -1,5 +1,6 @@
 // The code of the Extract Hunt: real components from this year's group projects,
-// shown as they were in the repo (the Tasks page is cut to its first 130 lines of JSX).
+// shown as they were in the repo (the Tasks page is cut to its first 130 lines of JSX),
+// under a comment of ours that says what the code is and what is in scope.
 // Students mark the lines they would extract into a component and name it.
 // "ours" is the extraction we discuss afterwards, revealed on the results page.
 
@@ -9,21 +10,18 @@ const ENDPOINT = "https://script.google.com/macros/s/AKfycbwEvCRHOBFM1uPiVI2hw4g
 const SNIPPETS = {
   meal: {
     file: "MealPlanDay.jsx",
-    cut: "",
-    about: "One day of a family's weekly meal plan. Parents add dishes to the plan; children can only suggest them.",
-    scope: [
-      ["day", "the date this section shows"],
-      ["entries", "the dishes planned for that day"],
-      ["suggestions", "the dishes the children suggested for that day"],
-      ["dishes", "every dish the family knows, for the dropdown"],
-      ["isParent", "true when the logged-in user is a parent"],
-      ["onAdd, onSuggest, onRemove, onAcceptSuggestion, onDismiss", "callbacks to the page"],
-    ],
     ours: [
-      { from: 32, to: 37, name: "PlannedDish" },
-      { from: 46, to: 58, name: "SuggestedDish" },
+      { from: 39, to: 44, name: "PlannedDish" },
+      { from: 53, to: 65, name: "SuggestedDish" },
     ],
-    code: `import ChooseDishForm from "./ChooseDishForm.jsx";
+    code: `// One day of a family's weekly meal plan.
+// Parents add dishes to the plan; children can only suggest them.
+//   entries      the dishes planned for this day
+//   suggestions  the dishes the children suggested for this day
+//   dishes       every dish the family knows, for the dropdown
+//   isParent     true when the logged-in user is a parent
+
+import ChooseDishForm from "./ChooseDishForm.jsx";
 import DishCard from "./DishCard.jsx";
 
 export default function MealPlanDay({
@@ -91,25 +89,26 @@ export default function MealPlanDay({
   },
   tasks: {
     file: "TasksPage.jsx",
-    cut: "The page is 691 lines long. This is the first part of what it returns.",
-    about: "The Tasks page of a chores app for a household of two. A List view and a Week view; in the Week view, seven day buttons, each with one dot per task in the color of the person who does it.",
-    scope: [
-      ["view, showList, showWeek", "which view is on, and how to switch"],
-      ["weekDays, shownDay, setPickedDay", "the seven dates, the one picked, and how to pick"],
-      ["tasksOn(date), dayTasks", "the tasks of a date; the tasks of the picked day"],
-      ["household", "the two people: household.owner and household.partner"],
-      ["other", "the other person in the household"],
-      ["filter, showEveryone, showMine, showPartner", "whose tasks the List shows, and how to switch"],
-      ["slotTimeOf(task), renderTask(task)", "helpers defined earlier in the page"],
-    ],
     ours: [
-      { from: 6, to: 25, name: "ChoiceGroup" },
-      { from: 39, to: 61, name: "DayButton" },
-      { from: 51, to: 60, name: "TaskDots" },
-      { from: 83, to: 88, name: "TimeSlot" },
-      { from: 99, to: 128, name: "ChoiceGroup" },
+      { from: 18, to: 37, name: "ChoiceGroup" },
+      { from: 51, to: 73, name: "DayButton" },
+      { from: 63, to: 72, name: "TaskDots" },
+      { from: 95, to: 100, name: "TimeSlot" },
+      { from: 111, to: 140, name: "ChoiceGroup" },
     ],
-    code: `  return (
+    code: `// The Tasks page of a chores app for a household of two.
+// The page is 691 lines long; this is the first part of what it returns.
+// Defined earlier in the page:
+//   view, showList, showWeek          List or Week view, and how to switch
+//   weekDays, shownDay, setPickedDay  the 7 days, the one picked, how to pick
+//   tasksOn(date), dayTasks           the tasks of a date; of the picked day
+//   household                         the two people: .owner and .partner
+//   other                             the other person in the household
+//   filter, showEveryone, showMine,   whose tasks the List shows,
+//     showPartner                     and how to switch
+//   slotTimeOf(task), renderTask(task)  helpers
+
+  return (
     <>
       <h1 className="t-screen-title">Tasks</h1>
 

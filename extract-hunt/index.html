@@ -13,16 +13,9 @@
     <p class="sub">from a project in this course · <code id="file"></code></p>
   </header>
 
-  <section id="intro">
-    <p id="about"></p>
-    <p><strong>Which components would you extract from it?</strong> Mark each one: tap its first line, then its last line, and give it a name. Mark as many as you think are worth it, or none.</p>
-    <p>On your own, and no rush: there is no single right answer.</p>
-    <div class="props" id="scope-intro"></div>
-    <button id="start" class="primary">Start</button>
-  </section>
-
-  <section id="hunt" hidden>
-    <details class="props" id="scope-hunt"><summary>What is in scope</summary></details>
+  <section id="hunt">
+    <p><strong>Read the code below. Decide what could be extracted as a component.</strong></p>
+    <p>Mark each component: tap its first line, then its last line, and give it a name. Mark as many as you think are worth it, or none. On your own; there is no single right answer.</p>
     <p class="hint" id="hint">Tap the first line of a component.</p>
     <ul class="mine" id="mine"></ul>
     <div class="code" id="code"></div>
@@ -83,30 +76,14 @@ if (!state.client) {
 
 const $ = (id) => document.getElementById(id);
 $("file").textContent = snippet.file;
-$("about").textContent = snippet.about + (snippet.cut ? " " + snippet.cut : "");
 
-function scopeBox() {
-  const box = document.createElement("div");
-  box.innerHTML = `<p class="props-title">In scope in this code:</p><dl></dl>`;
-  for (const [name, what] of snippet.scope) {
-    const dt = document.createElement("dt");
-    const dd = document.createElement("dd");
-    dt.textContent = name;
-    dd.textContent = what;
-    box.querySelector("dl").append(dt, dd);
-  }
-  return box;
-}
-$("scope-intro").append(scopeBox());
-$("scope-hunt").append(scopeBox());
-
-let startedAt = 0;
+const startedAt = performance.now();
 let anchor = 0;          // first tapped line, waiting for the second
 let pending = null;      // {from, to} waiting for a name
 const picks = [];        // {from, to, name}
 
 function show(id) {
-  for (const s of ["intro", "hunt", "done"]) $(s).hidden = s !== id;
+  for (const s of ["hunt", "done"]) $(s).hidden = s !== id;
   $("finish").hidden = id !== "hunt";
 }
 
@@ -199,12 +176,7 @@ $("name-form").addEventListener("submit", (e) => {
 });
 $("cancel").addEventListener("click", closeNaming);
 
-$("start").addEventListener("click", () => {
-  renderCode();
-  show("hunt");
-  paint();
-  startedAt = performance.now();
-});
+renderCode();
 
 $("submit").addEventListener("click", () => finish(picks));
 $("nothing").addEventListener("click", () => finish([]));
@@ -238,6 +210,7 @@ function showDone(answer) {
 }
 
 if (state.done) showDone(state.done);
+else { show("hunt"); paint(); }
 </script>
 </body>
 </html>
