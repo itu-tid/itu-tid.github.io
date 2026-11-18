@@ -137,7 +137,7 @@ function render() {
   const all = answers.flatMap((a) => a.picks);
   const nothing = answers.filter((a) => !a.picks.length).length;
 
-  // how many people put each line in some component
+  // how many groups put each line in some component
   const counts = {};
   for (const a of answers) {
     const covered = new Set();
@@ -161,8 +161,8 @@ function render() {
   const avg = answers.length ? (all.length / answers.length).toFixed(1) : "–";
   let side = `
     <div class="stats">
-      <div><b>${answers.length}</b><span>answered</span></div>
-      <div><b>${avg}</b><span>components per person</span></div>
+      <div><b>${answers.length}</b><span>groups answered</span></div>
+      <div><b>${avg}</b><span>components per group</span></div>
       <div><b>${nothing}</b><span>would extract nothing</span></div>
     </div>`;
 
@@ -176,7 +176,7 @@ function render() {
       : `<p class="empty">No components yet.</p>`);
 
     const rs = ranges(all).slice(0, 8);
-    side += `<h2>The same lines, marked by several people</h2>` + (rs.length
+    side += `<h2>The same lines, marked by several groups</h2>` + (rs.length
       ? `<table>${rs.map((r) => {
           const n = names(r.picks).slice(0, 3).map((x) => esc(x.name)).join(", ");
           return `<tr><td>lines ${r.from}–${r.to}<br><span class="also">${n}</span></td><td class="num">${r.picks.length}</td></tr>`;
@@ -192,7 +192,7 @@ function render() {
   $("side").innerHTML = side;
 }
 
-// keep each person's first answer only
+// keep each phone's first answer only
 function dedupe(rows) {
   const seen = new Set();
   return rows.filter((r) => !seen.has(r.client) && seen.add(r.client));

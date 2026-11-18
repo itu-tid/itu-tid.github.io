@@ -15,7 +15,7 @@
 
   <section id="hunt">
     <p><strong>Read the code below. Decide what could be extracted as a component.</strong></p>
-    <p>Mark each component: tap its first line, then its last line, and give it a name. Mark as many as you think are worth it, or none. On your own; there is no single right answer.</p>
+    <p>Mark each component: tap its first line, then its last line, and give it a name. Mark as many as you think are worth it, or none. Work in groups of two or three, on one phone, and agree on each one. There is no single right answer.</p>
     <p class="hint" id="hint">Tap the first line of a component.</p>
     <ul class="mine" id="mine"></ul>
     <div class="code" id="code"></div>
@@ -25,7 +25,8 @@
     <h2>Recorded</h2>
     <ul class="mine" id="done-list"></ul>
     <p id="done-text"></p>
-    <p>Keep it to yourself for now. We look at everyone's answers together on the projector.</p>
+    <p id="send-status" class="hint"></p>
+    <p>Keep it within your group for now. We look at everyone's answers together on the projector.</p>
   </section>
 
   <!-- shown while marking: submit, or give up on extracting -->
@@ -185,20 +186,29 @@ async function finish(chosen) {
   const seconds = Math.round((performance.now() - startedAt) / 1000);
   const answer = { run, code: key, client: state.client, seconds, picks: chosen };
   state.done = answer;
+  state.sent = false;
   save(state);
   showDone(answer);
   await send(answer);
 }
 
+// the answer is kept until it is sent; a reload sends one that did not go out
 async function send(answer) {
-  if (!ENDPOINT) { console.log("no ENDPOINT set; would send", answer); return; }
+  $("send-status").textContent = "Sending…";
+  if (!ENDPOINT) {
+    console.log("no ENDPOINT set; would send", answer);
+    $("send-status").textContent = "Not sent: this page has no endpoint configured.";
+    return;
+  }
   try {
     // text/plain keeps this a simple request, so the browser sends no preflight
-    await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(answer) });
-  } catch (err) {
-    $("done-text").textContent = "Sending failed. Check your connection and reload the page to try again.";
-    state.done = null;
+    const res = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(answer) });
+    if (!res.ok) throw new Error(res.status);
+    state.sent = true;
     save(state);
+    $("send-status").textContent = "Sent.";
+  } catch (err) {
+    $("send-status").textContent = "Sending failed. Check your connection and reload the page to try again.";
   }
 }
 
@@ -206,10 +216,13 @@ function showDone(answer) {
   show("done");
   picks.splice(0, picks.length, ...answer.picks);
   renderList($("done-list"), false);
-  if (!answer.picks.length) $("done-text").textContent = "You would not extract anything.";
+  if (!answer.picks.length) $("done-text").textContent = "Your group would not extract anything.";
 }
 
-if (state.done) showDone(state.done);
+if (state.done) {
+  showDone(state.done);
+  if (!state.sent) send(state.done);
+}
 else { show("hunt"); paint(); }
 </script>
 </body>
