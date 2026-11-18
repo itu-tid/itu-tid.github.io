@@ -4,7 +4,7 @@
 // "ours" is the extraction we discuss afterwards, revealed on the results page.
 
 // Set after deploying apps-script.gs as a web app.
-const ENDPOINT = "";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwEvCRHOBFM1uPiVI2hw4gox8-RzrOo5KpuDeAf-Npv_7smpTneaswX8r192E7v_e9GnQ/exec";
 
 const SNIPPETS = {
   meal: {
