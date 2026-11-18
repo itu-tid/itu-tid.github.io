@@ -66,11 +66,14 @@ And the page shrinks to what it is actually about:
 
 ```jsx
 export default function ListPage() {
+
   const { listId } = useParams();
   const { list, error } = useList(listId);
 
   if (error) return <p>{error}</p>;
+  
   if (!list) return <p>Loading…</p>;
+  
   return <ToDoList list={list} />;
 }
 ```
@@ -81,7 +84,7 @@ The `use` prefix is not decoration. It tells the [rules of hooks](Hooks.md) lint
 
 Reuse is the reason that is easiest to see, and not the most important one. Two others hold even for a hook with a single caller:
 
-- **Decomposition.** A component that loads a list, polls it, tracks whether the app is online and handles the install prompt does four things, and reads like it. Each hook pulled out of it takes one of those things away and gives it a name. What is left reads like a description of the screen: `useList(listId)`, `useInterval(reload, 10_000)`. The same instinct that splits a big component into smaller components ([Extracting Components](../Structure/Refactoring-by-Extracting-Components.md)) applies to the logic inside one.
+- **Decomposition.** A component that loads a list, polls it and tracks whether the app is online does three things, and reads like it. Each hook pulled out of it takes one of those things away and gives it a name. What is left reads like a description of the screen: `useList(listId)`, `useInterval(reload, 10_000)`. The same instinct that splits a big component into smaller components ([Refactoring by Extracting Components](../Structure/Refactoring-by-Extracting-Components.md)) applies to the logic inside one.
 - **Encapsulation.** `ListPage` no longer knows that the list comes from Parse, that a stale answer has to be ignored, or that loading can fail in two ways. If you later replace polling with push, or Parse with something else, you change `useList` and no screen notices. A hook is a wall around a decision you might want to change.
 
 So the question is not only "will I need this twice?" but "would this component be easier to read if this part had a name?"
