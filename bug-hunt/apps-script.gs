@@ -25,7 +25,10 @@ function doPost(e) {
 function doGet(e) {
   const run = e.parameter.run;
   const rows = sheet_().getDataRange().getValues().slice(1)
-    .filter((r) => String(r[1]) === run)
+    // Sheets may have turned "2026-11-19" into a date; compare it as written
+    .filter((r) => (r[1] instanceof Date
+      ? Utilities.formatDate(r[1], Session.getScriptTimeZone(), "yyyy-MM-dd")
+      : String(r[1])) === run)
     .map((r) => ({ sheet: r[2], client: r[3], seconds: r[4], line: r[5], found: r[6] === true }));
   return ContentService.createTextOutput(JSON.stringify(rows))
     .setMimeType(ContentService.MimeType.JSON);
