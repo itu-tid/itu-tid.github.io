@@ -88,11 +88,7 @@ export default function Home({
         />
       ))}
 
-      <br />
-      <br />
-      <h3>List Manager</h3>
       <AddForm onAdd={onAddList} buttonLabel="New list" />
-      <h3>Account</h3>
       <button onClick={onLogout}>Logout</button>
     </>
   );
