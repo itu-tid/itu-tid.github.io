@@ -267,11 +267,11 @@ The lecture started with a Bug Hunt: half the room got a page written as one lon
 
 ### `useLoadingFromDB` was written because a TA pushed for it
 
-The plan was to stop at `useList`. Constantina asked for the general version, and we wrote it live. While I typed, it was pointed out that the hook no longer knew when to load again, which is how `dbObjectId` became its second parameter. One person types and the other sees the bugs: that is the argument for pair programming.
+The plan was to stop at `useList`. Konstantina asked for the general version, and we wrote it live. While I typed, it was pointed out that the hook no longer knew when to load again, which is how `dbObjectId` became its second parameter. One person types and the other sees the bugs: that is the argument for pair programming.
 
 ### A hook gets its own file, even when it is five lines long
 
-A student asked why each hook gets a file in `src/hooks/`. For the same reason components and services have their folders: when you need one, you know where to look, and you can see whether it exists already. A five-line file next to a 300-line component is fine; the file does not care how long it is, only that what is in it belongs together. One `databaseHooks.js` with all of them in it is also fine. Keeping a codebase in order is less like architecture than like cleaning your room.
+One of you asked why each hook gets a file in `src/hooks/`. For the same reason components and services have their folders: when you need one, you know where to look, and you can see whether it exists already. A five-line file next to a 300-line component is fine; the file does not care how long it is, only that what is in it belongs together. One `databaseHooks.js` with all of them in it is also fine. Keeping a codebase in order is less like architecture than like cleaning your room.
 
 ## Exam Questions
 

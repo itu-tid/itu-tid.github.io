@@ -176,7 +176,7 @@ So you will not find this bug by trying the app the way you normally do. You fin
 
 ### These fixes keep one screen right; two people on the same list is a different problem
 
-After class, a student asked whether the fixes work across devices. They do not: everything in this note happens inside one app, in one browser tab. `todos` is that tab's copy of the list, and the updater function, the pending state and the ignore flag only keep that copy honest about what *this* tab did.
+After class, one of you asked whether the fixes work across devices. They do not: everything in this note happens inside one app, in one browser tab. `todos` is that tab's copy of the list, and the updater function, the pending state and the ignore flag only keep that copy honest about what *this* tab did.
 
 Share a list, and your partner's phone has its own copy. When they delete a to-do, nothing in your tab changes until it asks the server again: on a reload, on the next poll, or when a live query pushes the change ([Efficient Communication](../Backend/Efficient-Communication-with-the-Backend.md)). And if you both edit the same to-do at once, the server keeps whichever write arrives last. We come back to this next week.
 
