@@ -1,91 +1,114 @@
-// The two versions of todo-26's Home.jsx, with the same bug planted in each:
-// the Leave button calls onShare instead of onLeave.
-//   A: week-08-service-layer (everything inline)
-//   B: week-08-components (rows extracted into MyListRow and SharedListRow)
+// The two versions of todo-26's ToDoList.jsx, with the same bug planted in each:
+// the Delete button is wired to toggle, so it checks the to-do off.
+//   A: everything inline (loading and the three handlers)
+//   B: loading and the handlers extracted into a useTodos(list) hook
 
 // Set after deploying apps-script.gs as a web app.
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbx5Vrq3TH5NX16CVWBL_6YkYnrLy2JtjrQPFY52wZpfJsAy7z9TkoceS3PtdMPWIFCP0w/exec";
 
 const SHEETS = {
   A: {
-    bugText: "onShare(membership)",
-    code: `import { Link } from "react-router-dom";
-import AddForm from "./AddForm.jsx";
+    bugText: "onDelete={handleToggle}",
+    code: `import { useEffect, useState } from "react";
+import AddForm from "../UI/AddForm.jsx";
+import ToDoItem from "./ToDoItem.jsx";
+import {
+  loadTodos,
+  addTodo,
+  deleteTodo,
+  setDone,
+  canWrite,
+} from "../../services/todoService.js";
 
-// the home page: every list, by name, each one a link to its own page
-export default function Home({
-  lists,
-  memberships,
-  onAddList,
-  onShare,
-  onLeave,
-  onLogout,
-}) {
+// one list's to-dos: load them, add, delete, check off
+export default function ToDoList({ list }) {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    loadTodos(list)
+      .then(setTodos)
+      .catch((error) => alert(error.message));
+  }, [list]);
+
+  async function handleAdd(text) {
+    try {
+      const todo = await addTodo(list, text);
+      setTodos([...todos, todo]);
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async function handleDelete(id) {
+    try {
+      await deleteTodo(id);
+      setTodos(todos.filter((each) => each.id !== id));
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async function handleToggle(id) {
+    const todo = todos.find((each) => each.id === id);
+    try {
+      await setDone(id, !todo.done);
+      setTodos(todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   return (
     <>
-      <h2>My lists</h2>
-      {lists.map((item) => (
-        <div key={item.id}>
-          <Link to={\`/lists/\${item.id}\`}>{item.get("name")}</Link>
-          <AddForm
-            onAdd={(username) => onShare(item, username)}
-            buttonLabel="Share with (username)"
-          />
-        </div>
-      ))}
-
-      {memberships.length > 0 && <h2>Shared with me</h2>}
-      {memberships.map((membership) => (
-        <p key={membership.id}>
-          <Link to={\`/lists/\${membership.get("list").id}\`}>
-            {membership.get("list").get("name")}
-          </Link>{" "}
-          {/* include() leaves the owner out if I may not read that user's row */}
-          shared by{" "}
-          {membership.get("list").get("owner")?.get("username") ?? "someone"}{" "}
-          <button onClick={() => onShare(membership)}>Leave</button>
-        </p>
-      ))}
-
-      <AddForm onAdd={onAddList} buttonLabel="New list" />
-      <button onClick={onLogout}>Logout</button>
+      <h1>{list.get("name")}</h1>
+      {todos.length === 0 ? (
+        <p>Nothing to do</p>
+      ) : (
+        <ul>
+          {todos.map((todo) => (
+            <ToDoItem
+              key={todo.id}
+              todo={todo}
+              onDelete={handleToggle}
+              onChange={handleToggle}
+            />
+          ))}
+        </ul>
+      )}
+      {canWrite(list) && <AddForm onAdd={handleAdd} buttonLabel="Add" />}
     </>
   );
 }`,
   },
   B: {
-    bugText: "onLeave={onShare}",
-    code: `import AddForm from "./AddForm.jsx";
-import MyListRow from "./MyListRow.jsx";
-import SharedListRow from "./SharedListRow.jsx";
+    bugText: "onDelete={toggle}",
+    code: `import AddForm from "../UI/AddForm.jsx";
+import ToDoItem from "./ToDoItem.jsx";
+import { useTodos } from "../../hooks/useTodos.js";
+import { canWrite } from "../../services/todoService.js";
 
-// the home page: every list, by name, each one a link to its own page
-export default function Home({
-  lists,
-  memberships,
-  onAddList,
-  onShare,
-  onLeave,
-  onLogout,
-}) {
+// one list's to-dos: load them, add, delete, check off
+export default function ToDoList({ list }) {
+  const { todos, add, remove, toggle } = useTodos(list);
+
   return (
     <>
-      <h2>My lists</h2>
-      {lists.map((list) => (
-        <MyListRow key={list.id} list={list} onShare={onShare} />
-      ))}
-
-      {memberships.length > 0 && <h2>Shared with me</h2>}
-      {memberships.map((membership) => (
-        <SharedListRow
-          key={membership.id}
-          membership={membership}
-          onLeave={onShare}
-        />
-      ))}
-
-      <AddForm onAdd={onAddList} buttonLabel="New list" />
-      <button onClick={onLogout}>Logout</button>
+      <h1>{list.get("name")}</h1>
+      {todos.length === 0 ? (
+        <p>Nothing to do</p>
+      ) : (
+        <ul>
+          {todos.map((todo) => (
+            <ToDoItem
+              key={todo.id}
+              todo={todo}
+              onDelete={toggle}
+              onChange={toggle}
+            />
+          ))}
+        </ul>
+      )}
+      {canWrite(list) && <AddForm onAdd={add} buttonLabel="Add" />}
     </>
   );
 }`,

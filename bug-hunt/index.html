@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bug Hunt</title>
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <main>
   <header>
     <h1>Bug Hunt</h1>
-    <p class="sub">todo-26 · <code>Home.jsx</code></p>
+    <p class="sub">todo-26 · <code>ToDoList.jsx</code></p>
   </header>
 
   <section id="intro">
-    <p>This is the home page of todo-26. <strong>It has one bug.</strong> Find it as fast as you can, on your own, and tap the line it is on.</p>
+    <p>This is the component that shows one list in todo-26. <strong>It has one bug.</strong> Find it as fast as you can, on your own, and tap the line it is on.</p>
     <p>The clock starts when you press Start. You get one answer.</p>
     <div class="props" id="props-intro"></div>
     <button id="start" class="primary">Start</button>
@@ -47,21 +47,17 @@
 </main>
 
 <template id="props-template">
-  <p class="props-title"><code>Home</code> receives these props from <code>App</code>:</p>
+  <p class="props-title"><code>ToDoList</code> receives one prop: <code>list</code>, a Parse <code>List</code>. Each row is a <code>ToDoItem</code>:</p>
   <dl>
-    <dt>lists</dt><dd>your own lists: Parse <code>List</code> objects (name, owner)</dd>
-    <dt>memberships</dt><dd>the lists others shared with you: one <code>ListMember</code> row per list, each with a pointer to the list (and, through it, the owner)</dd>
-    <dt>onAddList(name)</dt><dd>creates a new list</dd>
-    <dt>onShare(list, username)</dt><dd>shares one of your lists with another user</dd>
-    <dt>onLeave(membership)</dt><dd>removes you from a list shared with you</dd>
-    <dt>onLogout()</dt><dd>logs out</dd>
+    <dt>onChange(id)</dt><dd>called by its checkbox: checks the to-do off, or on again</dd>
+    <dt>onDelete(id)</dt><dd>called by its Delete button: deletes the to-do</dd>
   </dl>
 </template>
 
 <script>window.Prism = { manual: true };</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
-<script src="sheets.js?v=5"></script>
+<script src="sheets.js?v=6"></script>
 <script>
 const run = currentRun();
 const storeKey = "bughunt:" + run;
