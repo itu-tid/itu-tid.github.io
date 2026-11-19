@@ -257,6 +257,8 @@ useInterval(reload, 10_000);
 
 `reload`, not `reload()`: the timer gets the function, and calls it every ten seconds.
 
+This version is good enough to start with, but it restarts the timer on every render, because `reload` is a new function each time. [The useRef Hook](The-useRef-Hook.md#a-ref-keeps-the-latest-callback-without-restarting-the-timer) fixes that.
+
 ## What came up in the lecture
 
 *Things that happened while this was coded live, rather than things that were planned.*
@@ -283,9 +285,7 @@ One of you asked why each hook gets a file in `src/hooks/`. For the same reason 
 
 ### 4. Give two reasons to extract a custom hook that only one component uses.
 
-### 5. Why does `useInterval` keep the callback in a ref instead of putting it in the effect's dependency array?
-
-### 6. Why is `useLoadingFromDB(loadList(listId), listId)` wrong, and why does `useLoadingFromDB(loadMyLists)` work without `() =>`?
+### 5. Why is `useLoadingFromDB(loadList(listId), listId)` wrong, and why does `useLoadingFromDB(loadMyLists)` work without `() =>`?
 
 ## References
 
