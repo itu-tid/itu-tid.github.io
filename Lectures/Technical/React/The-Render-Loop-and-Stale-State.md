@@ -166,7 +166,9 @@ An updater function would not help here. Nothing is stale in what the handler ke
 
 The double delete needs only one thing: the second click before the first answer. On your laptop, on fast wifi, an answer takes a tenth of a second, and you will never see it. On a phone on a train, an answer takes two seconds, and a user tidying a list taps three deletes in a row. Then it happens, to somebody else, and not while you are testing.
 
-So you cannot find this bug by trying the app. You find it by reading your own code and asking, wherever time passes between reading state and writing it: **what if something else happens in between?**
+You can bring the train to your laptop. In Chrome's DevTools, the Network tab has a throttling menu: set it to *3G*, delete two to-dos quickly, and the first one comes back. That is how it was shown in class.
+
+So you will not find this bug by trying the app the way you normally do. You find it by reading your own code and asking, wherever time passes between reading state and writing it: **what if something else happens in between?**
 
 ## Exam Questions
 

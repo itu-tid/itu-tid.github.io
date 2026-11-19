@@ -642,7 +642,7 @@
       <div class="card">
         <div class="lec">
           <div class="lec-top"><span class="who you">Mircea</span><span class="lec-eyebrow">Lecture · Code organisation II</span></div>
-          <div class="ttl">Where the state goes: extraction and lifting</div>
+          <div class="ttl">Custom hooks, and state that goes stale</div>
           <div class="desc">Opens with the <b>bug hunt</b>: every student gets one of two versions of todo-26's home page, at random, with the same bug in both — everything inline, or rows extracted into components — and the projector shows who found it, how fast, and where everybody tapped. The extraction itself is not new: the component-extraction cheat sheet and Finding the Components came with the week 8 notes. What the reveal adds is the name for what the bug breaks: data goes down as props, events come back up as callbacks. Then the debt from week 8: the review checklist has said <b>state where it belongs</b> since then, and promised lifting state up for week 10, which became Q&amp;A. Two components that need the same state keep it in their closest common parent: <b>lifting state up</b>. Then the groups' own code as case studies. The main new topic is <b>custom hooks</b>, starting from the service layer they already have: <code>useTodos(list)</code> wraps the service together with its state, and the loading states every screen repeats get written once. Updater functions and <code>useRef</code> if there is time.</div>
         </div>
         <div class="lanes">
