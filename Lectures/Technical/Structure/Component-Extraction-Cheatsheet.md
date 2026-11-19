@@ -12,7 +12,7 @@ From this week on, this is the review checklist. Before you approve a pull reque
 4. **Parse behind a service.** Does only `services/` import Parse?
 5. **No needless dependencies.** Is every new package in `package.json` worth what it costs? (See [Libraries](../Tooling/Libraries.md).)
 
-*State where it belongs* gets its full answer in week 12, with [lifting state up](Refactoring-by-Extracting-Components.md#where-the-state-goes). Until then: if two components need the same state, it lives in their closest common parent.
+*State where it belongs* gets its full answer in week 13, with lifting state up, in [Extracting Components and Where the State Goes](../React/Extracting-Components-and-Where-the-State-Goes.md). Until then: if two components need the same state, it lives in their closest common parent.
 
 ## Extract a block when it repeats, or when you can name it and the page reads better without it
 
@@ -43,7 +43,7 @@ When unsure, leave it. Extracting later takes five minutes; a component nobody n
 2. **List** everything it used and did not define itself: variables from a `map`, the parent's props, handlers. Each one becomes a prop.
 3. **Leave the state** where it was, unless only the new component uses it.
 4. **Leave the `key`** on the call site, in the `map`; it belongs to the list, not the row.
-5. **Click through** the app. The behaviour must not change.
+5. **Click through** the app. The behavior must not change.
 
 ```jsx
 // before, in Home
@@ -60,18 +60,22 @@ When unsure, leave it. Extracting later takes five minutes; a component nobody n
 ))}
 ```
 
+## Make it work first, then make it read well, and expect several passes
+
+Nobody writes simple code on the first try. Get the feature working, then refactor it while the behavior stays the same, and expect to go around more than once: each extraction makes the next one visible. A pull request that only refactors is a normal pull request.
+
 ## The same mistakes show up in every review
 
-| Mistake | Why it hurts | Instead |
-|---|---|---|
-| A component named for an action: `ShareList` | It names the button's job, not the thing on the screen | `MyListRow`, with `handleShare` inside |
-| A name that stopped fitting: `NewTodoForm` used to share lists | The name lies to the next reader | Rename it when its job grows: `AddForm` |
-| `useState` moved into an input wrapper | The parent can no longer read or clear the value | The parent keeps the state; the wrapper takes `value` and `onChange` |
-| `onChange={onChange}` on a wrapped `<input>` | The parent gets an event where it expected text | `onChange={(event) => onChange(event.target.value)}` |
-| A query in a click handler | The component knows how the database works | A function in `services/`, named in the app's words |
-| `alert` in a service | The service decides how the UI reports errors | The service throws; the component catches and tells the user |
-| The page's heading inside `ToDoList` | The list cannot be drawn without the title, nor the title with anything else | The page draws the heading; `ToDoList` draws the list |
-| A component for every `<div>` | Clutter, for nothing | The [stopping rule](Finding-the-Components.md#start-by-drawing-boxes-on-the-app-you-can-already-see): extract when it repeats |
+| Mistake                                                        | Why it hurts                                                                 | Instead                                                                                                                       |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| A component named for an action: `ShareList`                   | It names the button's job, not the thing on the screen                       | `MyListRow`, with `handleShare` inside                                                                                        |
+| A name that stopped fitting: `NewTodoForm` used to share lists | The name lies to the next reader                                             | Rename it when its job grows: `AddForm`                                                                                       |
+| `useState` moved into an input wrapper                         | The parent can no longer read or clear the value                             | The parent keeps the state; the wrapper takes `value` and `onChange`                                                          |
+| `onChange={onChange}` on a wrapped `<input>`                   | The parent gets an event where it expected text                              | `onChange={(event) => onChange(event.target.value)}`                                                                          |
+| A query in a click handler                                     | The component knows how the database works                                   | A function in `services/`, named in the app's words                                                                           |
+| `alert` in a service                                           | The service decides how the UI reports errors                                | The service throws; the component catches and tells the user                                                                  |
+| The page's heading inside `ToDoList`                           | The list cannot be drawn without the title, nor the title with anything else | The page draws the heading; `ToDoList` draws the list                                                                         |
+| A component for every `<div>`                                  | Clutter, for nothing                                                         | The [stopping rule](Finding-the-Components.md#start-by-drawing-boxes-on-the-app-you-can-already-see): extract when it repeats |
 
 ## For a deeper dive
 

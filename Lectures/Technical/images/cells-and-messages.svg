@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 300" width="560" height="300" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- a cell: membrane, cytoplasm, nucleus -->
+    <g id="cell">
+      <ellipse cx="0" cy="0" rx="78" ry="58" fill="#fde9c8" stroke="#c2873a" stroke-width="5"/>
+      <ellipse cx="0" cy="0" rx="69" ry="49" fill="#fbf6ee"/>
+      <circle cx="-8" cy="4" r="17" fill="#c9b8e8" stroke="#8b74c4" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5" fill="#8b74c4"/>
+      <ellipse cx="34" cy="-18" rx="10" ry="6" fill="#f4b183"/>
+      <ellipse cx="30" cy="24" rx="8" ry="5" fill="#9fd3c7"/>
+    </g>
+    <!-- a signal molecule -->
+    <g id="molecule">
+      <circle cx="0" cy="0" r="4.5" fill="#d97706"/>
+      <circle cx="7" cy="-3" r="3.5" fill="#f59e0b"/>
+    </g>
+  </defs>
+  <rect width="560" height="300" fill="#ffffff"/>
+
+  <use href="#cell" x="110" y="190"/>
+  <use href="#cell" x="280" y="78"/>
+  <use href="#cell" x="450" y="190"/>
+
+  <!-- signals travelling between the cells, through the membranes -->
+  <path d="M170,150 Q205,105 215,100" fill="none" stroke="#e5c27a" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <use href="#molecule" x="182" y="132"/>
+  <use href="#molecule" x="200" y="114"/>
+
+  <path d="M345,110 Q380,130 392,150" fill="none" stroke="#e5c27a" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <use href="#molecule" x="360" y="120"/>
+  <use href="#molecule" x="378" y="136"/>
+
+  <path d="M190,200 Q280,230 372,200" fill="none" stroke="#e5c27a" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <use href="#molecule" x="236" y="214"/>
+  <use href="#molecule" x="280" y="219"/>
+  <use href="#molecule" x="324" y="214"/>
+
+  <text x="280" y="288" text-anchor="middle" font-size="13" fill="#3f3f46">Each cell keeps its insides to itself. They work together only through the messages they send.</text>
+</svg>

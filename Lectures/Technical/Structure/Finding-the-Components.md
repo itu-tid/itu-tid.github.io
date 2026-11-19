@@ -219,4 +219,4 @@ And look at the shape of it: `TextInput` takes the value it should show, and a w
 - [Thinking in React](https://react.dev/learn/thinking-in-react) — the five steps, of which the first is the one worth keeping
 - [Importing and Exporting Components](https://react.dev/learn/importing-and-exporting-components) — once a component has its own name it usually wants its own file
 
-**Next**: deciding *where the state lives* once you have pulled components out is its own problem, and extraction is what creates it: [Refactoring by Extracting Components](Refactoring-by-Extracting-Components.md).
+**Next**: deciding *where the state lives* once you have pulled components out is its own problem, and extraction is what creates it: lifting state up, in [Extracting Components and Where the State Goes](../React/Extracting-Components-and-Where-the-State-Goes.md#siblings-share-state-through-a-parent-of-both).

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 360" width="620" height="360" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/>
+    </marker>
+  </defs>
+  <rect width="620" height="360" fill="#ffffff"/>
+
+  <!-- left: a value -->
+  <text x="155" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#18181b">A value</text>
+  <rect x="45" y="42" width="220" height="34" rx="6" fill="#f4f4f5" stroke="#a1a1aa"/>
+  <text x="155" y="64" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="14" fill="#18181b">setCount(3)</text>
+  <text x="155" y="98" text-anchor="middle" font-size="13" fill="#3f3f46">“make it 3”</text>
+  <text x="155" y="114" text-anchor="middle" font-size="12" fill="#b42318">3 was worked out from 2,</text>
+  <text x="155" y="129" text-anchor="middle" font-size="12" fill="#b42318">the last value this handler saw</text>
+  <line x1="155" y1="136" x2="155" y2="166" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="45" y="170" width="220" height="56" rx="8" fill="#fef3f2" stroke="#b42318" stroke-width="1.5"/>
+  <text x="155" y="192" text-anchor="middle" font-size="13" fill="#3f3f46">state React holds</text>
+  <text x="155" y="215" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="16" font-weight="700" fill="#b42318">5 → 3</text>
+  <line x1="155" y1="228" x2="155" y2="258" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="45" y="262" width="220" height="40" rx="8" fill="#e8f0fe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="155" y="287" text-anchor="middle" font-size="13" fill="#18181b">new render, count is 3</text>
+
+  <!-- right: an updater function -->
+  <text x="465" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#18181b">An updater function</text>
+  <rect x="355" y="42" width="220" height="34" rx="6" fill="#f4f4f5" stroke="#a1a1aa"/>
+  <text x="465" y="64" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="14" fill="#18181b">setCount((n) =&gt; n + 1)</text>
+  <text x="465" y="98" text-anchor="middle" font-size="13" fill="#3f3f46">“add one to whatever you have”</text>
+  <text x="465" y="114" text-anchor="middle" font-size="12" fill="#15803d">React works it out now,</text>
+  <text x="465" y="129" text-anchor="middle" font-size="12" fill="#15803d">from the latest value</text>
+  <line x1="465" y1="136" x2="465" y2="166" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="355" y="170" width="220" height="56" rx="8" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+  <text x="465" y="192" text-anchor="middle" font-size="13" fill="#3f3f46">state React holds</text>
+  <text x="465" y="215" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="16" font-weight="700" fill="#15803d">5 → 6</text>
+  <line x1="465" y1="228" x2="465" y2="258" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="355" y="262" width="220" height="40" rx="8" fill="#e8f0fe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="465" y="287" text-anchor="middle" font-size="13" fill="#18181b">new render, count is 6</text>
+
+  <!-- divider and caption -->
+  <line x1="310" y1="20" x2="310" y2="305" stroke="#e4e4e7" stroke-width="1.5"/>
+  <text x="310" y="340" text-anchor="middle" font-size="13" fill="#3f3f46">Both ask for a new render. They differ in who computes the new value, and from what.</text>
+</svg>

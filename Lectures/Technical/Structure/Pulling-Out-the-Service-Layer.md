@@ -49,7 +49,7 @@ Nothing is broken. It worked when each of you wrote it alone. It stops working w
 
 ## A component says *what* should happen; a service says *how*
 
-This is the principle from [Refactoring by Extracting Components](Refactoring-by-Extracting-Components.md), one level up: **code in a component should be at the same abstraction level.** A click handler that reads "share this list with this user, then tell the user it worked" is at one level. One that builds queries and ACLs between those two steps is at three.
+This is the principle from the [Component Extraction Cheat Sheet](Component-Extraction-Cheatsheet.md), one level up: **code in a component should be at the same abstraction level.** A click handler that reads "share this list with this user, then tell the user it worked" is at one level. One that builds queries and ACLs between those two steps is at three.
 
 So the *how* goes into a **service**: a plain JavaScript module of `async` functions, named in the language of the app rather than the language of the database. `shareList(list, username)`, not `saveAllWithAcl(...)`. The component calls it and handles the outcome.
 

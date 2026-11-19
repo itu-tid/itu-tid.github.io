@@ -82,6 +82,9 @@ p,li{ orphans:2; widows:2; }
    listing overleaf. break-after:avoid does nothing in Chrome's print path, so
    md-to-pdf wraps the pair and this keeps the wrapper whole. */
 .keep-together{ break-inside:avoid; page-break-inside:avoid; }
+/* a note can start one of its sections on a fresh page: <div class="page-break"></div>
+   just before the heading. GitHub renders the empty div as nothing. */
+.page-break{ break-before:page; page-break-before:always; }
 p{ margin:.65rem 0; }
 ul{ margin:.6rem 0; padding-left:1.35rem; }
 ol{ margin:.6rem 0; padding-left:1.9rem; }  /* room for a two-digit marker */
@@ -94,7 +97,9 @@ blockquote{ margin:1rem 0; padding:.55rem 0 .55rem 1rem;
 hr{ border:0; border-top:1px solid var(--line); margin:1.8rem 0; }
 
 /* --- code: the thing LaTeX got wrong ----------------------------------- */
+/* no ligatures: JetBrains Mono would draw => as ⇒ and === as ≡, which nobody can type */
 code,kbd{ font-family:'JetBrains Mono',ui-monospace,monospace; font-size:.86em;
+  font-variant-ligatures:none; font-feature-settings:'liga' 0, 'calt' 0;
   background:var(--code-bg); padding:.1em .34em; border-radius:4px; }
 pre{ background:var(--code-bg); border:1px solid var(--line-soft); border-radius:7px;
   padding:.75rem .9rem; margin:.85rem 0; overflow:visible;

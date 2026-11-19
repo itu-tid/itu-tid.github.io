@@ -52,9 +52,10 @@ In React, a timer started in an effect must be stopped when the component goes a
 
 ```js
 useEffect(() => {
+
   const interval = setInterval(() => {
     // load the data again
-  }, 10000);
+  }, 1000);
 
   return () => clearInterval(interval); // the page is closed: stop asking
 }, []);
@@ -66,7 +67,7 @@ Because that cleanup is so easy to forget, next week [Custom Hooks](../React/Cus
 
 The other way round: the app keeps a connection to the server open and **subscribes** to a query, and the server sends a message the moment something matching it is created, changed or deleted. Nothing is asked twice; the update arrives as soon as it happens.
 
-It is the [observer pattern](https://refactoring.guru/design-patterns/observer) across the network, and most backends offer it under their own name: Parse calls it *LiveQuery*, Firebase has `onSnapshot`, Supabase calls it *Realtime*. Underneath it is usually a **WebSocket**, a connection that stays open so that either side can send at any time, unlike an ordinary request, which the client always starts.
+It is the [observer pattern](https://refactoring.guru/design-patterns/observer) across the network, and most backends offer it under their own name: Parse calls it *LiveQuery* (the [appendix](#appendix-in-parse) connects it to the to-do list), Firebase has `onSnapshot`, Supabase calls it *Realtime*. Underneath it is usually a **WebSocket**, a connection that stays open so that either side can send at any time, unlike an ordinary request, which the client always starts.
 
 Push is the right tool when a few seconds of delay is visible: a chat, a multiplayer game, a cursor in a shared document. It is also more to set up, more to clean up, and more to debug. For a grocery list, nobody notices whether an item appears now or ten seconds from now. **Start with polling; move to push when a user can tell the difference.**
 
@@ -116,19 +117,50 @@ query.exclude("notes", "photo");  // everything except these
 
 Use `select` when you need a few fields, `exclude` when you need all but a few large ones.
 
-**Push: LiveQuery.** It has to be switched on for each class in the server settings, and then:
+**Push: LiveQuery.** First, two switches in Back4App: in *App Settings → Server Settings → Server URL and Live Query*, turn on the Back4App subdomain and Live Query, and tick the classes to watch (here `TodoItem`). Then, next to `Parse.serverURL` in `parse.js`, tell the client where the LiveQuery server is:
 
 ```js
-const subscription = await new Parse.Query("TodoItem")
-  .equalTo("list", list)
-  .subscribe();
-
-subscription.on("create", (todo) => { /* add it to the screen */ });
-subscription.on("update", (todo) => { /* replace it */ });
-subscription.on("delete", (todo) => { /* remove it */ });
-
-// and when the page closes:
-subscription.unsubscribe();
+Parse.liveQueryServerURL = "wss://<your-subdomain>.b4a.io";
 ```
+
+The subscription goes in the service, next to `loadTodos`, and gives the components the same plain to-dos that `toTodo` makes:
+
+```js
+// todoService.js
+export async function subscribeToTodos(list, { onAdd, onChange, onRemove }) {
+  const subscription = await new Parse.Query(TodoItem)
+    .equalTo("list", list)
+    .subscribe();
+
+  subscription.on("create", (item) => onAdd(toTodo(item)));
+  subscription.on("update", (item) => onChange(toTodo(item)));
+  subscription.on("delete", (item) => onRemove(item.id));
+
+  return subscription;
+}
+```
+
+The component subscribes in an effect and unsubscribes in its cleanup:
+
+```js
+// ToDoList.jsx
+useEffect(() => {
+  const subscribing = subscribeToTodos(list, {
+    onAdd: (todo) => setTodos((todos) => [...todos, todo]),
+    onChange: (todo) =>
+      setTodos((todos) => todos.map((t) => (t.id === todo.id ? todo : t))),
+    onRemove: (id) => setTodos((todos) => todos.filter((t) => t.id !== id)),
+  });
+
+  // subscribing is a promise: unsubscribe once it has resolved
+  return () => subscribing.then((subscription) => subscription.unsubscribe());
+}, [list]);
+```
+
+Three details:
+
+- The callbacks use [updater functions](../React/The-Render-Loop-and-Stale-State.md): they run long after the effect, when the `todos` it captured are out of date.
+- The server also sends you your *own* changes. Once the list is subscribed, `handleAdd`, `handleDelete` and `handleToggle` should only talk to the server and leave `setTodos` to the subscription, or each new to-do shows up twice.
+- LiveQuery follows the ACLs: a friend who cannot read a list gets no events for it.
 
 See [Live Queries](https://docs.parseplatform.org/js/guide/#live-queries) in the Parse guide.

@@ -1,8 +1,8 @@
 # The `useRef` hook
 
-Allows you to get hold of a DOM element and manipulate it
+A ref is a box that keeps a value across renders, without causing a render when it changes. The most common thing to keep in it is a DOM element, so that you can focus it, scroll to it or measure it. It can also hold a timer's id, or the latest version of a callback, as `useInterval` does in [Custom Hooks](Custom-Hooks.md#a-ref-keeps-the-latest-callback-without-restarting-the-timer).
 
-### Example: Automatically focusing a given element on first render
+## A ref hands you the real DOM element, for what React does not do: focus, scroll, measure
 
 ```js
 import {useRef, useEffect} from 'react'
@@ -27,33 +27,27 @@ const InputRefExample = () => {
 	
 export default inputRefExample
 ```
-### Canonical use of the `useRef` hook
+### `ref={inputRef}` attaches the element, and `inputRef.current` is the element
 1. Import `useRef`
 2. Declare a ref object (i.e. `inputRef`) - initialize it with null, it's fine
 3. Pass your object as the `ref` attribute to the desired DOM element
 4. Refer to the DOM object by using the `current` property
 
 
-### Other Examples of  manipulating the DOM 
+### Scrolling to an element and measuring it work the same way
 - scrolling to a given node
 - getting the dimensions of a given DOM node
 - keeping track of a timer (see the TODO list application)
 
-### Notes
-
-#### Optional chaining to prevent errors
+### `?.` guards against a ref whose element is not on screen yet
 
 The optional chaining (`?.`) prevents errors if the element isn't mounted yet.
 
 ```js
-	  useEffect(() => {
-	    inputRef.current?.focus()
-	  }, [])
+useEffect(() => {
+  inputRef.current?.focus();
+}, []);
 ```
-
-##### The reference is persisted between renders
-
-##### State changes of the referenced element are not observed by React
 
 ## Read More
 

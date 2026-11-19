@@ -94,7 +94,7 @@ Parse.Cloud.beforeSave("TodoItem", async (request) => {
 
 Choose the number the way [When Users Break Your App](../Tooling/When-Users-Break-Your-App.md#choose-the-limit-from-what-the-data-is-for) chose it: from what the data is for. A shopping list with 500 items is no longer a shopping list.
 
-### A limit on sign-ups counts by network address
+### A limit on sign-ups 
 
 The second question: a million accounts. A new user is a save too, of the special class `_User`, and the request knows the IP address it came from:
 
@@ -269,7 +269,7 @@ Parse.Cloud.beforeSave("TodoItem", (request) => {
 
 ## Appendix: the Parse mechanics
 
-**Where the code goes.** On Back4App: **Dashboard → Cloud Code**, edit `cloud/main.js`, and press **Deploy** (see [Back4App's guide](https://www.back4app.com/docs/get-started/cloud-functions)). The code then lives in the dashboard, not in your repository, so nobody reviews it in a pull request. Keep a copy of `cloud/main.js` in your repository and paste from there, or deploy from the command line with Back4App's CLI.
+**Where the code goes.** On Back4App: **Dashboard → Cloud Code**, edit `cloud/main.js`, and press **Deploy** (see [Back4App's guide](https://www.back4app.com/docs/get-started/cloud-functions)). The code then lives in the dashboard, not in your repository, so nobody reviews it in a pull request. Keep a copy of `cloud/main.js` in your repository and paste from there, or deploy from the command line with Back4App's CLI ([Deploying Cloud Code from the Command Line](../Tooling/Deploying-Cloud-Code-from-the-Command-Line.md)).
 
 **One trigger per class and event.** Parse keeps one `beforeSave` per class: registering a second replaces the first. In your project, the validation and the limit for `TodoItem` go in the same function.
 

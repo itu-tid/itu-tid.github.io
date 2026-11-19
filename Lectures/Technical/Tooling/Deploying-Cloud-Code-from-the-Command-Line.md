@@ -232,8 +232,9 @@ async function translateToDanish(text) {
   if (!DEEPL_KEY) {
     throw new Error("DEEPL_KEY is not set in the server's environment variables");
   }
-  // the free plan's own host: free keys (ending in ":fx") only work here
-  const response = await fetch("https://api-free.deepl.com/v2/translate", {
+  // free keys end in ":fx" and only work on the free host; paid keys on the other
+  const host = DEEPL_KEY.endsWith(":fx") ? "api-free.deepl.com" : "api.deepl.com";
+  const response = await fetch(`https://${host}/v2/translate`, {
     method: "POST",
     headers: {
       Authorization: `DeepL-Auth-Key ${DEEPL_KEY}`,

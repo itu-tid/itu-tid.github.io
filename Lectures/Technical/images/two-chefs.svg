@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 300" width="690" height="300" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- a chef: hat, head, jacket -->
+    <g id="chef">
+      <ellipse cx="0" cy="-58" rx="13" ry="9" fill="#ffffff" stroke="#3f3f46" stroke-width="1.5"/>
+      <ellipse cx="-9" cy="-54" rx="8" ry="7" fill="#ffffff" stroke="#3f3f46" stroke-width="1.5"/>
+      <ellipse cx="9" cy="-54" rx="8" ry="7" fill="#ffffff" stroke="#3f3f46" stroke-width="1.5"/>
+      <rect x="-11" y="-52" width="22" height="10" fill="#ffffff" stroke="#3f3f46" stroke-width="1.5"/>
+      <circle cx="0" cy="-30" r="13" fill="#fde7d4" stroke="#3f3f46" stroke-width="1.5"/>
+      <circle cx="-4" cy="-32" r="1.5" fill="#3f3f46"/>
+      <circle cx="4" cy="-32" r="1.5" fill="#3f3f46"/>
+      <path d="M-16,-12 Q0,-20 16,-12 L18,30 L-18,30 Z" fill="#ffffff" stroke="#3f3f46" stroke-width="1.5"/>
+      <circle cx="-4" cy="0" r="1.6" fill="#3f3f46"/>
+      <circle cx="-4" cy="10" r="1.6" fill="#3f3f46"/>
+    </g>
+    <!-- the pot -->
+    <g id="pot">
+      <path d="M-34,0 L34,0 L30,34 Q0,42 -30,34 Z" fill="#a1a1aa" stroke="#3f3f46" stroke-width="1.5"/>
+      <ellipse cx="0" cy="0" rx="34" ry="7" fill="#e7c08a" stroke="#3f3f46" stroke-width="1.5"/>
+      <rect x="-42" y="4" width="8" height="5" rx="2" fill="#71717a"/>
+      <rect x="34" y="4" width="8" height="5" rx="2" fill="#71717a"/>
+    </g>
+    <!-- a salt shaker -->
+    <g id="salt">
+      <rect x="-6" y="-14" width="12" height="18" rx="3" fill="#ffffff" stroke="#3f3f46" stroke-width="1.5"/>
+      <rect x="-6" y="-18" width="12" height="6" rx="2" fill="#d4d4d8" stroke="#3f3f46" stroke-width="1.2"/>
+      <circle cx="-2" cy="8" r="1.2" fill="#71717a"/>
+      <circle cx="2" cy="12" r="1.2" fill="#71717a"/>
+      <circle cx="-1" cy="16" r="1.2" fill="#71717a"/>
+    </g>
+  </defs>
+  <rect width="690" height="300" fill="#ffffff"/>
+
+  <!-- panel 1: both taste -->
+  <rect x="10" y="10" width="216" height="240" rx="10" fill="#f8fafc" stroke="#d4d4d8"/>
+  <text x="118" y="34" text-anchor="middle" font-size="14" font-weight="700" fill="#18181b">1. Both taste it</text>
+  <use href="#chef" x="50" y="170"/>
+  <use href="#chef" x="186" y="170"/>
+  <use href="#pot" x="118" y="190"/>
+  <rect x="22" y="64" width="56" height="24" rx="12" fill="#ffffff" stroke="#a1a1aa"/>
+  <text x="50" y="81" text-anchor="middle" font-size="13" fill="#3f3f46">bland</text>
+  <rect x="158" y="64" width="56" height="24" rx="12" fill="#ffffff" stroke="#a1a1aa"/>
+  <text x="186" y="81" text-anchor="middle" font-size="13" fill="#3f3f46">bland</text>
+
+  <!-- panel 2: both salt -->
+  <rect x="237" y="10" width="216" height="240" rx="10" fill="#f8fafc" stroke="#d4d4d8"/>
+  <text x="345" y="34" text-anchor="middle" font-size="14" font-weight="700" fill="#18181b">2. Both add salt</text>
+  <use href="#chef" x="277" y="170"/>
+  <use href="#chef" x="413" y="170"/>
+  <use href="#pot" x="345" y="190"/>
+  <use href="#salt" x="322" y="160"/>
+  <use href="#salt" x="368" y="160"/>
+  <rect x="243" y="64" width="68" height="24" rx="12" fill="#ffffff" stroke="#d97706"/>
+  <text x="277" y="81" text-anchor="middle" font-size="12" fill="#92400e">I’ll fix it</text>
+  <rect x="379" y="64" width="68" height="24" rx="12" fill="#ffffff" stroke="#d97706"/>
+  <text x="413" y="81" text-anchor="middle" font-size="12" fill="#92400e">I’ll fix it</text>
+
+  <!-- panel 3: too salty -->
+  <rect x="464" y="10" width="216" height="240" rx="10" fill="#fef3f2" stroke="#b42318"/>
+  <text x="572" y="34" text-anchor="middle" font-size="14" font-weight="700" fill="#b42318">3. Too salty</text>
+  <use href="#chef" x="504" y="170"/>
+  <use href="#chef" x="640" y="170"/>
+  <use href="#pot" x="572" y="190"/>
+  <path d="M560,176 q-6,-10 0,-20 q6,-10 0,-20" fill="none" stroke="#a1a1aa" stroke-width="1.5"/>
+  <path d="M584,176 q-6,-10 0,-20 q6,-10 0,-20" fill="none" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="572" y="98" text-anchor="middle" font-size="18" font-weight="700" fill="#b42318">?!</text>
+
+  <!-- caption -->
+  <text x="345" y="280" text-anchor="middle" font-size="13" fill="#3f3f46">Each acted on a taste from before the other one salted: a decision made on a stale reading.</text>
+</svg>

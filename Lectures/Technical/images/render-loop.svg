@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 380" width="620" height="380" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="620" height="380" fill="#ffffff"/>
+
+  <!-- start -->
+  <text x="40" y="34" font-size="13" font-weight="700" fill="#1e40af">the page opens</text>
+  <line x1="90" y1="42" x2="90" y2="78" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+
+  <!-- 1. render -->
+  <rect x="20" y="82" width="250" height="96" rx="10" fill="#e8f0fe" stroke="#2563eb" stroke-width="2"/>
+  <text x="36" y="106" font-size="15" font-weight="700" fill="#18181b">React calls your component</text>
+  <text x="36" y="130" font-size="13" fill="#3f3f46">first time: useState returns the</text>
+  <text x="36" y="148" font-size="13" fill="#3f3f46">starting value; after that, the latest</text>
+  <text x="36" y="166" font-size="13" fill="#3f3f46">value a setter gave it</text>
+
+  <!-- 2. screen -->
+  <rect x="350" y="82" width="250" height="96" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="366" y="106" font-size="15" font-weight="700" fill="#18181b">React updates the screen</text>
+  <text x="366" y="130" font-size="13" fill="#3f3f46">compares the JSX it got back</text>
+  <text x="366" y="148" font-size="13" fill="#3f3f46">with what is shown, and changes</text>
+  <text x="366" y="166" font-size="13" fill="#3f3f46">only what differs</text>
+
+  <!-- 3. wait -->
+  <rect x="350" y="250" width="250" height="96" rx="10" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="366" y="274" font-size="15" font-weight="700" fill="#18181b">Nothing happens until…</text>
+  <text x="366" y="298" font-size="13" fill="#3f3f46">a click, a key, an answer from</text>
+  <text x="366" y="316" font-size="13" fill="#3f3f46">the server, a timer: a handler</text>
+  <text x="366" y="334" font-size="13" fill="#3f3f46">of yours runs</text>
+
+  <!-- 4. setter -->
+  <rect x="20" y="250" width="250" height="96" rx="10" fill="#fff4e5" stroke="#d97706" stroke-width="2"/>
+  <text x="36" y="274" font-size="15" font-weight="700" fill="#18181b">The handler calls a setter</text>
+  <text x="36" y="298" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" fill="#92400e">setTodos(newList)</text>
+  <text x="36" y="318" font-size="13" fill="#3f3f46">tells React the state changed,</text>
+  <text x="36" y="336" font-size="13" fill="#3f3f46">and asks for a new render</text>
+
+  <!-- the loop -->
+  <line x1="272" y1="130" x2="346" y2="130" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="475" y1="180" x2="475" y2="246" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="348" y1="298" x2="274" y2="298" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="145" y1="248" x2="145" y2="182" stroke="#3a3a3a" stroke-width="2" marker-end="url(#arr)"/>
+
+  <text x="310" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="#71717a">every turn of the loop</text>
+  <text x="310" y="240" text-anchor="middle" font-size="13" font-weight="700" fill="#71717a">is one render</text>
+</svg>

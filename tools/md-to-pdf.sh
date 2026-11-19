@@ -191,7 +191,12 @@ for el in els:
     m_h = re.match(r'\s*<(h[12])\b[^>]*>(.*?)</\1>', el, flags=re.S)
     if m_h:
         if section and section.lower() not in SKIP:
-            out2.append(issue_link(note, section))
+            # the link closes the section before: if that section ends in a
+            # page break meant for this heading, the link goes above the break
+            at = len(out2)
+            if out2 and 'class="page-break"' in out2[-1]:
+                at -= 1
+            out2.insert(at, issue_link(note, section))
         text = re.sub(r"<[^>]+>", "", m_h.group(2))
         section = re.sub(r"\s+", " ", text).strip() if m_h.group(1) == "h2" else ""
     out2.append(el)

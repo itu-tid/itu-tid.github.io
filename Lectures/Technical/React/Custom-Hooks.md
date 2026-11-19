@@ -1,8 +1,56 @@
 # Custom Hooks
 
+![Three cells, each behind its own membrane, with signal molecules travelling between them](../images/cells-and-messages.svg)
+
+Alan Kay studied molecular biology before he turned to computers, and he coined the term *object-oriented*. He imagined software built like a body: out of cells. Each cell keeps its insides behind a membrane, and cells work together only by sending each other messages. Nobody reaches into another cell.
+
+A component, a service and a custom hook are such cells. A row that calls `onRemove` sends a message; a row holding `setTodos` is a hole in the membrane.
+
 [The Three States of Remote Data](The-Three-States-of-Remote-Data.md) ended with a promise: every screen that fetches needs the same `useState` pair and the same `useEffect`, and "later in the course we come back and do something about this one." This is that note.
 
-## Every page that loads something repeats the same twelve lines
+## A custom hook is the third way to pull out a part and give it a name
+
+You have done this twice already. Each time, you found a part of a component that did its own job, moved it out, gave it a name, and hid a decision behind that name:
+
+| what you pull out | where it goes | what it hides |
+|---|---|---|
+| repeated JSX | a component ([week 8](../Structure/Finding-the-Components.md)) | how a row is drawn |
+| talking to the backend | a service ([week 8](../Structure/Pulling-Out-the-Service-Layer.md)) | that the data comes from Parse |
+| state and effects | a custom hook (this note) | how loading, errors and stale answers work |
+
+The principle is the same in all three, and older than React.
+
+### Decomposition: cut the whole into parts you can name
+
+Each part does one job and has a name in a word or two: `MyListRow`, `listService`, `useList`. The whole then reads as its names: `Home` is two headings, two kinds of row and a form.
+
+### Encapsulation: each part hides a decision
+
+`listService` hides that the data comes from Parse. `useList` hides how the page keeps track of loading, the result and the error. Nothing outside depends on what is hidden.
+
+### Cut where a decision is likely to change
+
+Parnas, 1972: put each decision that may change inside one part. When it changes (Parse for another backend, polling for push), only that part changes.
+
+### The cut buys reading first, changing second, reuse last
+
+- **Reading:** a part makes sense without the rest.
+- **Changing:** one decision, one place.
+- **Reuse:** a bonus. Most parts are worth it even when used once.
+
+### Every part costs a name and a jump
+
+Too few parts, and one component does everything. Too many, and following one click means opening five files.
+
+### Three questions decide every cut
+
+1. **Can you name it?** If not, it is not one thing yet.
+2. **What does it hide?** If nothing, it is only indirection.
+3. **Would a change of that decision stay inside it?** If not, the cut is in the wrong place.
+
+Custom hooks are how React applies this to state. Another framework names the third row differently; the questions stay the same.
+
+## Every page that loads something repeats the same lines
 
 Here is `ListPage` from todo-26, once its query has moved into `loadList(listId)` in a service, as in the week 8 exercise:
 
@@ -11,32 +59,39 @@ export default function ListPage() {
   const { listId } = useParams();
 
   const [list, setList] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function load() {
+      setLoading(true);
+      setError(null);
       try {
         setList(await loadList(listId));
       } catch (err) {
         setError(err.message);
       }
+      setLoading(false);
     }
     load();
   }, [listId]);
 
+  if (loading) return <p>Loading…</p>;
   if (error) return <p>{error}</p>;
-  if (!list) return <p>Loading…</p>;
   return <ToDoList list={list} />;
 }
 ```
 
-The home page that loads your lists has the same two `useState` calls, the same `useEffect`, and the same `try`/`catch`. So does every page in your group project that shows something from Parse. Only two things change from one copy to the next: *which* service function is called, and *what* the page renders.
+The home page that loads your lists has the same three `useState` calls, the same `useEffect`, and the same `try`/`catch`. So does every page in your group project that shows something from Parse. Only two things change from one copy to the next: *which* service function is called, and *what* the page renders.
 
 The service layer could not remove this duplication, because it is not about talking to Parse. It is about **React state**: something is loading, then it is there or it failed. Moving state out of a component needs a hook.
 
-## A custom hook is a function whose name starts with `use` and that calls other hooks
+## A custom hook is a function whose name starts with `use`, that calls other hooks, and that follows the rules of hooks
 
-That is all it is. There is no API to register it and nothing to import from React to make one:
+There is no API to register it and nothing to import from React to make one. But because it calls hooks, the [rules of hooks](Hooks.md#the-rules-top-level-always-unconditionally) from week 1 apply to it, on both sides:
+
+- **Inside it**, every hook is called at the top level, in the same order on every render: never inside an `if`, a loop or a nested function. An `if` around *other* code is fine; `useList` below has a `try`/`catch` inside its effect.
+- **Its callers** call it only from a component or from another hook, again at the top level: never from an event handler or a plain function.
 
 ```jsx
 // src/hooks/useList.js
@@ -45,20 +100,24 @@ import { loadList } from "../services/listService.js";
 
 export function useList(listId) {
   const [list, setList] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function load() {
+      setLoading(true);
+      setError(null);
       try {
         setList(await loadList(listId));
       } catch (err) {
         setError(err.message);
       }
+      setLoading(false);
     }
     load();
   }, [listId]);
 
-  return { list, error };
+  return { list, loading, error };
 }
 ```
 
@@ -68,72 +127,21 @@ And the page shrinks to what it is actually about:
 export default function ListPage() {
 
   const { listId } = useParams();
-  const { list, error } = useList(listId);
+  const { list, loading, error } = useList(listId);
 
+  if (loading) return <p>Loading…</p>;
   if (error) return <p>{error}</p>;
-  
-  if (!list) return <p>Loading…</p>;
-  
   return <ToDoList list={list} />;
 }
 ```
 
-The `use` prefix is not decoration. It tells the [rules of hooks](Hooks.md) linter that this function calls hooks, so it checks the callers too: no `useList` inside an `if`, a loop, or an event handler. Name it `getList` and the linter goes quiet, but the rules still apply, and breaking them still breaks your component.
+The `use` prefix is not decoration. It is how the rules-of-hooks linter knows that this function calls hooks, so it checks both sides. Name it `getList` and the linter goes quiet, but the rules still apply, and breaking them still breaks your component.
 
-## A hook is worth writing even when only one component uses it
+## A hook returns data, never JSX
 
-Reuse is the reason that is easiest to see, and not the most important one. Two others hold even for a hook with a single caller:
-
-- **Decomposition.** A component that loads a list, polls it and tracks whether the app is online does three things, and reads like it. Each hook pulled out of it takes one of those things away and gives it a name. What is left reads like a description of the screen: `useList(listId)`, `useInterval(reload, 10_000)`. The same instinct that splits a big component into smaller components ([Refactoring by Extracting Components](../Structure/Refactoring-by-Extracting-Components.md)) applies to the logic inside one.
-- **Encapsulation.** `ListPage` no longer knows that the list comes from Parse, that a stale answer has to be ignored, or that loading can fail in two ways. If you later replace polling with push, or Parse with something else, you change `useList` and no screen notices. A hook is a wall around a decision you might want to change.
-
-So the question is not only "will I need this twice?" but "would this component be easier to read if this part had a name?"
-
-## The hook returns data, and the component decides what it looks like
-
-A custom hook returns values (state, and functions that change it), never JSX. `useList` does not know whether the list ends up in a `<ul>`, a MUI `Card`, or a count in the navigation bar. That is the same split as the service layer, one level up:
-
-| layer | knows about | does not know about |
-|---|---|---|
-| service (`loadList`) | Parse, class names, field names | React, the screen |
-| hook (`useList`) | React state, loading and failing | Parse, the screen |
-| component (`ListPage`) | what the user sees | Parse, how loading works |
+A custom hook returns values (state, and functions that change it), never JSX. `useList` does not know whether the list ends up in a `<ul>`, a MUI `Card`, or a count in the navigation bar; `ListPage` decides. That keeps the hook usable by any screen, the same way a service is usable by any hook.
 
 When a hook starts returning `<p>Loading…</p>`, it has turned into a component with an odd name. Turn it into a component.
-
-## Each call gets its own state; a hook shares code, not data
-
-If the home page and the navigation bar both call `useCurrentUser()`, each gets its **own** `useState`, inside its own component, and each runs its own `useEffect`. Two components, two requests, two copies of the user that can drift apart.
-
-This is the most common misunderstanding about custom hooks. A hook is a way of reusing *logic*. When two components need the *same value*, that value lives in one place, in their common parent or in a context, and travels down as props. That is the topic of [Patterns of Component Communication](Patterns-of-Component-Communication.md).
-
-## A fix made in the hook is made on every screen
-
-There is a bug in the `useEffect` above, and in every copy of it in your project. Open list A, then quickly click to list B. Two requests are now on their way. If A's answer arrives *after* B's, the page shows list A under list B's URL.
-
-The fix is to ignore an answer that arrives after the effect has been cleaned up:
-
-```jsx
-useEffect(() => {
-  let ignore = false;
-
-  async function load() {
-    try {
-      const result = await loadList(listId);
-      if (!ignore) setList(result);
-    } catch (err) {
-      if (!ignore) setError(err.message);
-    }
-  }
-  load();
-
-  return () => {
-    ignore = true;   // listId changed, or the page closed: this answer is stale
-  };
-}, [listId]);
-```
-
-Written into twelve components, that fix gets forgotten in at least one of them. Written into `useList`, it is made once and every screen has it. This, more than the lines saved, is why you extract a hook: the tricky part of the pattern gets one home.
 
 ## A polling timer belongs in a hook, because its cleanup is easy to forget
 
@@ -195,19 +203,15 @@ Once a project has a `src/hooks/` folder, the hook names read like a list of wha
 
 ### 1. What makes a function a custom hook? What changes if you rename `useList` to `getList`?
 
-### 2. Two components both call `useCurrentUser()`. How many requests go to the backend, and how many copies of the user exist? What would you do if they must always show the same user?
+### 2. Why should a custom hook return data rather than JSX?
 
-### 3. Why should a custom hook return data rather than JSX?
+### 3. Write `useInterval(callback, milliseconds)`. What happens if you leave out the function that `useEffect` returns?
 
-### 4. Explain the bug that the `ignore` flag fixes. Why is a custom hook a better place for that fix than each component?
+### 4. Give two reasons to extract a custom hook that only one component uses.
 
-### 5. Write `useInterval(callback, milliseconds)`. What happens if you leave out the function that `useEffect` returns?
-
-### 6. Give two reasons to extract a custom hook that only one component uses.
-
-### 7. Why does `useInterval` keep the callback in a ref instead of putting it in the effect's dependency array?
+### 5. Why does `useInterval` keep the callback in a ref instead of putting it in the effect's dependency array?
 
 ## References
 
 - [Reusing Logic with Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks), react.dev
-- [Fetching data](https://react.dev/reference/react/useEffect#fetching-data-with-effects), react.dev: the `ignore` flag
+- David L. Parnas, [On the Criteria To Be Used in Decomposing Systems into Modules](https://dl.acm.org/doi/10.1145/361598.361623), *Communications of the ACM*, 1972: the paper behind "hide each decision likely to change"
