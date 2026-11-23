@@ -63,9 +63,35 @@ There are three ways out, each with a cost.
 
 ## Fix 1: an updater function works on the state as it is now
 
-A setter accepts either a new value or a function. A function handed to a setter is an **updater function**: React calls it with the newest state, not the copy your handler kept, and uses what it returns as the new state.
+A setter accepts either a new value or a function. We've seen how to call a setter with a value: 
 
-![Two columns. A value: setCount(3) means make it 3; 3 was worked out from 2, the last value this handler saw; React's state goes from 5 to 3, and the new render shows 3. An updater function: setCount((n) => n + 1) means add one to whatever you have; React works it out now from the latest value; the state goes from 5 to 6, and the new render shows 6. Both ask for a new render; they differ in who computes the new value, and from what](../images/value-vs-updater.svg)
+```jsx
+const [count, setCount] = useState(2);
+
+async function handleLike() {
+  await saveLike();
+  setCount(count + 1);
+}
+```
+
+To call it with an **updater function**: we pass a function that is to be run relative to the current version of the state: 
+
+```jsx
+const [count, setCount] = useState(2);
+
+async function handleLike() {
+  await saveLike();
+  setCount((n) => n + 1);
+}
+```
+
+React calls it with the newest state, not the copy your handler kept, and uses what it returns as the new state.
+
+With a value, you click twice, quickly and both handlers come from the same render, and both keep `count` as 2. The first answer sets 3. The second sets 2 + 1, which is 3 again, and one click is lost.
+
+With an updater, `setCount((n) => n + 1)`, the second answer adds one to whatever it finds when it finally runs, not to whatever the value was when it was created. The count becomes 4. Here is a comparison diagram: 
+
+![The second click's answer, two ways. A value: setCount(count + 1), called with count = 2, means make it count + 1; count is read when the handler was created, so it is 2; the latest state in React is 3, and the new render shows it still at 3. An updater function: setCount((n) => n + 1), called with n = 3, means add one to whatever you have; n is read when React applies the update, so it is 3; the latest state in React is 3, and the new render shows 4. Both ask for a new render; they differ in who computes the new value, and from what](../images/value-vs-updater.svg)
 
 For the double delete:
 
